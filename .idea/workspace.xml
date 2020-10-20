@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="" />
+    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -123,7 +128,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CWEBcodeB" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -136,10 +141,33 @@
       <option name="presentableId" value="Default" />
       <updated>1602621732311</updated>
       <workItem from="1602621733337" duration="344000" />
+      <workItem from="1603222543376" duration="3616000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="552" y="178" width="816" height="729" key="#Intentions" timestamp="1603224320194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" width="816" height="729" key="#Intentions/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603224320194" />
+    <state x="753" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1603226779638">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="753" y="229" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603226779638" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1603224055804">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603224055804" />
+    <state x="790" y="243" key="NewPhpClassDialog" timestamp="1603226536619">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="790" y="243" key="NewPhpClassDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603226536619" />
+    <state x="794" y="443" key="NewPhpFileDialog" timestamp="1603225071898">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="794" y="443" key="NewPhpFileDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603225071898" />
   </component>
 </project>
