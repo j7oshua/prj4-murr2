@@ -2,10 +2,10 @@
 
 
 namespace App\Tests;
-
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class Story23Tests
 {
-    pulbic function testFirstNameField()
+    public function testFirstNameField()
     {
         return "Not Implemented";
     }
