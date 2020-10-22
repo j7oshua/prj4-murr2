@@ -128,7 +128,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CWEBcodeB" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -141,12 +141,26 @@
       <option name="presentableId" value="Default" />
       <updated>1602621732311</updated>
       <workItem from="1602621733337" duration="344000" />
-      <workItem from="1603222543376" duration="3616000" />
+      <workItem from="1603222543376" duration="4359000" />
+      <workItem from="1603306869805" duration="113000" />
+      <workItem from="1603393254041" duration="424000" />
     </task>
+    <task id="LOCAL-00001" summary="Wrote the code stubs for the tests and copied the resident entity that Josh made. -JT">
+      <created>1603227046271</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603227046271</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Wrote the code stubs for the tests and copied the resident entity that Josh made. -JT" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wrote the code stubs for the tests and copied the resident entity that Josh made. -JT" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" width="816" height="729" key="#Intentions" timestamp="1603224320194">
@@ -157,10 +171,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="753" y="229" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603226779638" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1603224055804">
+    <state x="585" y="88" key="CommitChangelistDialog2" timestamp="1603227044790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603224055804" />
+    <state x="585" y="88" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603227044790" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1603306981238">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603306981238" />
     <state x="790" y="243" key="NewPhpClassDialog" timestamp="1603226536619">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -169,5 +187,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="794" y="443" key="NewPhpFileDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603225071898" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603227058328">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603227058328" />
   </component>
 </project>
