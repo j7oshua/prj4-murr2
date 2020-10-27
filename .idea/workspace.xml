@@ -19,13 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/API/residentapi.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PointSystemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PointSystemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/PointSystemControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/PointSystemControllerTest.php" afterDir="false" />
-    </list>
+    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -175,7 +169,7 @@
       <workItem from="1603680619254" duration="6454000" />
       <workItem from="1603738954282" duration="10000" />
       <workItem from="1603770949646" duration="56000" />
-      <workItem from="1603824964566" duration="6213000" />
+      <workItem from="1603824964566" duration="6515000" />
     </task>
     <servers />
   </component>
