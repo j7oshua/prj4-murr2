@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="" />
+    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="">
+      <changelist_data name="Lucas_Tom" email="" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -136,10 +142,40 @@
       <option name="presentableId" value="Default" />
       <updated>1602621732311</updated>
       <workItem from="1602621733337" duration="344000" />
+      <workItem from="1603399951593" duration="623000" />
+      <workItem from="1603469752359" duration="259000" />
+      <workItem from="1603765911794" duration="5837000" />
+      <workItem from="1603825642328" duration="823000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Wrote Some Code stubs and entities like Driver and RecycleContainer. -LT" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wrote Some Code stubs and entities like Driver and RecycleContainer. -LT" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2052" y="444" key="#Deployment" timestamp="1603825858555">
+      <screen x="1920" y="-154" width="1080" height="1880" />
+    </state>
+    <state x="2052" y="444" key="#Deployment/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603825858555" />
+    <state x="2253" y="495" key="#com.intellij.ide.util.MemberChooser" timestamp="1603766956154">
+      <screen x="1920" y="-154" width="1080" height="1880" />
+    </state>
+    <state x="2253" y="495" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603766956154" />
+    <state x="2240" y="541" key="FileChooserDialogImpl" timestamp="1603470009433">
+      <screen x="1920" y="-154" width="1080" height="1880" />
+    </state>
+    <state x="2240" y="541" key="FileChooserDialogImpl/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603470009433" />
+    <state x="2290" y="509" key="NewPhpClassDialog" timestamp="1603768888552">
+      <screen x="1920" y="-154" width="1080" height="1880" />
+    </state>
+    <state x="2290" y="509" key="NewPhpClassDialog/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603768888552" />
+    <state x="2294" y="709" key="NewPhpFileDialog" timestamp="1603770914369">
+      <screen x="1920" y="-154" width="1080" height="1880" />
+    </state>
+    <state x="2294" y="709" key="NewPhpFileDialog/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603770914369" />
   </component>
 </project>
