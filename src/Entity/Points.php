@@ -21,9 +21,9 @@ class Points
     /**
      * @ORM\Column(type="bigint", length=7)
      */
-    private $int;
+    private $points;
 
-    
+
     public function getEmail()
     {
         return $this->email;
@@ -44,13 +44,13 @@ class Points
         $this->phone = $phone;
     }
 
-    public function getInt()
+    public function getPoints()
     {
-        return $this->int;
+        return $this->points;
     }
 
-    public function setInt($int): void
+    public function setPoints($int): void
     {
-        $this->int = $int;
+        $this->points = points;
     }
 }
