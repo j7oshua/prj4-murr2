@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="" />
+    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/ContainerControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution />
+    <execution>
+      <executable path="composer" />
+    </execution>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
@@ -116,6 +142,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1iq4LZOME1dqzphVt3UdUNXnzo4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -124,8 +151,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="phpunit.xml.dist" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="XML" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -136,10 +176,73 @@
       <option name="presentableId" value="Default" />
       <updated>1602621732311</updated>
       <workItem from="1602621733337" duration="344000" />
+      <workItem from="1603399407309" duration="605000" />
+      <workItem from="1603400029300" duration="1646000" />
+      <workItem from="1603461685753" duration="71000" />
+      <workItem from="1603685437527" duration="2343000" />
+      <workItem from="1603720844537" duration="4000" />
+      <workItem from="1603724552354" duration="3000" />
+      <workItem from="1603755423095" duration="3850000" />
+      <workItem from="1603761188553" duration="5787000" />
+      <workItem from="1603821338918" duration="7529000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="432" y="163" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603760939392">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="432" y="163" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603760939392" />
+    <state x="1026" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1603830176464">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="1026" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603830176464" />
+    <state x="616" y="417" width="447" height="265" key="ComposerInitDialogKey" timestamp="1603400540817">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="616" y="417" width="447" height="265" key="ComposerInitDialogKey/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603400540817" />
+    <state width="796" height="272" key="GridCell.Tab.0.bottom" timestamp="1603770556762">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="796" height="272" key="GridCell.Tab.0.bottom/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603770556762" />
+    <state width="796" height="272" key="GridCell.Tab.0.center" timestamp="1603770556762">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="796" height="272" key="GridCell.Tab.0.center/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603770556762" />
+    <state width="796" height="272" key="GridCell.Tab.0.left" timestamp="1603770556761">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="796" height="272" key="GridCell.Tab.0.left/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603770556761" />
+    <state width="796" height="272" key="GridCell.Tab.0.right" timestamp="1603770556762">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="796" height="272" key="GridCell.Tab.0.right/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603770556762" />
+    <state x="658" y="228" key="NewPhpClassDialog" timestamp="1603686540710">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="658" y="228" key="NewPhpClassDialog/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603686540710" />
+    <state x="674" y="428" key="NewPhpFileDialog" timestamp="1603686408703">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="674" y="428" key="NewPhpFileDialog/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603686408703" />
+    <state x="341" y="150" key="SettingsEditor" timestamp="1603761021633">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="341" y="150" key="SettingsEditor/-1680.38.1680.1010/0.0.1680.1010@0.0.1680.1010" timestamp="1603761021633" />
   </component>
 </project>
