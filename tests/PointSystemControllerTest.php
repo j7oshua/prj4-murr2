@@ -14,7 +14,7 @@ class PointSystemControllerTest extends WebTestCase
                 'lastName'=>'Doe', 'phoneNumber'=>'333-333-3333', 'email'=>'hello@test.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithNoFirstName()
@@ -25,7 +25,7 @@ class PointSystemControllerTest extends WebTestCase
                 'lastName'=>'Doe', 'phoneNumber'=>'333-333-3333', 'email'=>'hello@test.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithFirstNameAt20Chars()
@@ -36,7 +36,7 @@ class PointSystemControllerTest extends WebTestCase
                 'lastName'=>'Doe', 'phoneNumber'=>'333-333-3333', 'email'=>'hello@test.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithFirstNameWithOver20Chars()
@@ -58,7 +58,7 @@ class PointSystemControllerTest extends WebTestCase
                 'email'=>'hello@test.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithLastNameAt20Chars()
@@ -69,7 +69,7 @@ class PointSystemControllerTest extends WebTestCase
                 'lastName'=>'aaaaaaaaaaaaaaaaaaaa', 'phoneNumber'=>'333-333-3333', 'email'=>'hello@test.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithLastNameOver20Chars()
@@ -114,7 +114,7 @@ class PointSystemControllerTest extends WebTestCase
                 'email'=>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@email.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithEmailOver50Chars()
@@ -161,7 +161,7 @@ class PointSystemControllerTest extends WebTestCase
                 'lastName'=>'Doe', 'phoneNumber'=>'333-333-3333', 'email'=>'hello@test.com', 'points'=>0]
         ]);
 
-        $this->assertSame(200, $response);
+        $this->assertSame(201, $response);
     }
 
     public function testAddingUserToPointSystemWithPasswordOver50Chars()
