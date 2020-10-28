@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DriverReportController extends AbstractController
 {
-    public static function isPickedUp(RecycleContainer $container1) :bool
+    public static function isPickedUp(bool $status) :bool
     {
         header('HTTP/1.1 501 Not Implemented');
     }
@@ -45,7 +45,7 @@ class DriverReportController extends AbstractController
     {
         header('HTTP/1.1 501 Not Implemented');
     }
-    public static function SubmitReport(RecycleContainer $container1, bool $status) :bool
+    public static function SubmitReport(RecycleContainer $container1, string $status) :bool
     {
         header('HTTP/1.1 501 Not Implemented');
     }
