@@ -27,19 +27,19 @@ class RecycleContainer
      */
     private $collectionHistory;
     /**
-     * @ORM\Column(type="bool", nullable=true)
+     * @ORM\Column(type="bool")
      */
     private $contaminated;
     /**
-     * @ORM\Column(type="bool", nullable=true)
+     * @ORM\Column(type="bool")
      */
     private $construction;
     /**
-     * @ORM\Column(type="bool", nullable=true)
+     * @ORM\Column(type="bool")
      */
     private $accessible;
     /**
-     * @ORM\Column(type="string",length=30, nullable=true)
+     * @ORM\Column(type="string",length=30)
     */
     private $other;
 

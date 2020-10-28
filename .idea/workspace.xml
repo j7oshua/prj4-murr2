@@ -19,12 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="Testing if Ive made proper changes to my account">
+    <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="Added more texting code -LT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Driver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Driver.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/RecycleContainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/RecycleContainer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Story15Tests.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Story15Tests.php" afterDir="false" />
     </list>
+    <list id="80d327f4-6fd5-48ec-8098-f4a891cd71e2" name="Added more testing code -LT" comment="Added more testing code -LT" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -163,6 +163,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="" />
+      <changelist id="80d327f4-6fd5-48ec-8098-f4a891cd71e2" name="Added more testing code -LT" comment="" />
       <created>1602621732311</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -171,7 +172,8 @@
       <workItem from="1603399951593" duration="623000" />
       <workItem from="1603469752359" duration="259000" />
       <workItem from="1603765911794" duration="5837000" />
-      <workItem from="1603825642328" duration="5345000" />
+      <workItem from="1603825642328" duration="6770000" />
+      <workItem from="1603900246170" duration="596000" />
     </task>
     <task id="LOCAL-00001" summary="Wrote Some Code stubs and entities like Driver and RecycleContainer. -LT">
       <created>1603826910653</created>
@@ -187,7 +189,21 @@
       <option name="project" value="LOCAL" />
       <updated>1603828220773</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added more texting code -LT">
+      <created>1603831887147</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603831887147</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added more testing code -LT">
+      <created>1603831986409</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1603831986409</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,11 +219,14 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Wrote Some Code stubs and entities like Driver and RecycleContainer. -LT" />
     <MESSAGE value="Testing if Ive made proper changes to my account" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing if Ive made proper changes to my account" />
+    <MESSAGE value="Added more texting code -LT" />
+    <MESSAGE value="Added more testing code -LT" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more testing code -LT" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2052" y="444" key="#Deployment" timestamp="1603825858555">
@@ -222,17 +241,21 @@
       <screen x="1920" y="-154" width="1080" height="1880" />
     </state>
     <state x="2240" y="541" key="FileChooserDialogImpl/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603470009433" />
-    <state x="2290" y="509" key="NewPhpClassDialog" timestamp="1603768888552">
+    <state x="2290" y="509" key="NewPhpClassDialog" timestamp="1603900347832">
       <screen x="1920" y="-154" width="1080" height="1880" />
     </state>
-    <state x="2290" y="509" key="NewPhpClassDialog/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603768888552" />
-    <state x="2294" y="709" key="NewPhpFileDialog" timestamp="1603770914369">
+    <state x="2290" y="509" key="NewPhpClassDialog/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603900347832" />
+    <state x="2294" y="709" key="NewPhpFileDialog" timestamp="1603900371265">
       <screen x="1920" y="-154" width="1080" height="1880" />
     </state>
-    <state x="2294" y="709" key="NewPhpFileDialog/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603770914369" />
-    <state x="2052" y="519" key="Vcs.Push.Dialog.v2" timestamp="1603828239122">
+    <state x="2294" y="709" key="NewPhpFileDialog/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603900371265" />
+    <state x="2307" y="699" key="VCS.ChangelistChooser" timestamp="1603831970087">
       <screen x="1920" y="-154" width="1080" height="1880" />
     </state>
-    <state x="2052" y="519" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603828239122" />
+    <state x="2307" y="699" key="VCS.ChangelistChooser/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603831970087" />
+    <state x="2052" y="519" key="Vcs.Push.Dialog.v2" timestamp="1603832026069">
+      <screen x="1920" y="-154" width="1080" height="1880" />
+    </state>
+    <state x="2052" y="519" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.-154.1080.1880@1920.-154.1080.1880" timestamp="1603832026069" />
   </component>
 </project>
