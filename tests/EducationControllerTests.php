@@ -6,17 +6,9 @@ namespace App\Tests;
 
 use App\Controller\EducationController;
 
-class EducationTests extends EducationController
+class EducationControllerTests extends EducationController
 {
-    public function testSaveEducationInfo() {
 
-    }
-    public function testAddEducationInfo() {
-
-    }
-    public function testEditEducationInfo() {
-
-    }
     public function testDeleteEducationInfo() {
 
     }

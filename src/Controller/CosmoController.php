@@ -16,5 +16,4 @@ class CosmoController
         throw NotImplementedException::class("Not Implemented");
     }
 
-
 }

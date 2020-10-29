@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="df1deed1-58b1-4399-835d-6978ae5125e6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prj_murr.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prj_murr.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CosmoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CosmoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/EducationTests.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/EducationControllerTests.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,18 +178,34 @@
       <workItem from="1602621733337" duration="344000" />
       <workItem from="1603399045937" duration="2011000" />
       <workItem from="1603812828796" duration="9149000" />
-      <workItem from="1603997048401" duration="1109000" />
+      <workItem from="1603997048401" duration="3310000" />
+      <workItem from="1604000824579" duration="123000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
     <state x="331" y="354" key="#PHP" timestamp="1603813207847">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="331" y="354" key="#PHP/0.0.2560.1400/-3840.5.2560.1400/3840.0.1920.1040@0.0.2560.1400" timestamp="1603813207847" />
+    <state x="393" y="35" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604000852889">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="393" y="35" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400/-3840.5.2560.1400/3840.0.1920.1040@0.0.2560.1400" timestamp="1604000852889" />
     <state x="354" y="466" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603813013367">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -182,10 +214,14 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="369" y="638" key="ComposerInitDialogKey/0.0.2560.1400/-3840.5.2560.1400/3840.0.1920.1040@0.0.2560.1400" timestamp="1603400597956" />
-    <state x="389" y="434" key="NewPhpClassDialog" timestamp="1603813469979">
+    <state x="536" y="459" key="FileChooserDialogImpl" timestamp="1603999275888">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="389" y="434" key="NewPhpClassDialog/0.0.2560.1400/-3840.5.2560.1400/3840.0.1920.1040@0.0.2560.1400" timestamp="1603813469979" />
+    <state x="536" y="459" key="FileChooserDialogImpl/0.0.2560.1400/-3840.5.2560.1400/3840.0.1920.1040@0.0.2560.1400" timestamp="1603999275888" />
+    <state x="389" y="434" key="NewPhpClassDialog" timestamp="1604000865452">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="389" y="434" key="NewPhpClassDialog/0.0.2560.1400/-3840.5.2560.1400/3840.0.1920.1040@0.0.2560.1400" timestamp="1604000865452" />
     <state x="459" y="635" key="NewPhpFileDialog" timestamp="1603813070285">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
