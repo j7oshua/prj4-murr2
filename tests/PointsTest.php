@@ -8,7 +8,13 @@ use App\Controller\PointSystemController;
 
 class PointsTest extends PointSystemController
 {
-    public function testViewPoints() {
+    public function testViewPoints()
+    {
+
+    }
+
+    public static function testViewPointsError()
+    {
 
     }
 }
