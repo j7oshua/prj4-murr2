@@ -13,7 +13,7 @@ class RecycleContainerController extends AbstractController
         header('HTTP/1.1 501 Not Implemented');
     }
 
-    public static function AddContainer(RecycleContainer $container1) :bool
+    public function AddContainer(array $container1) :bool
     {
         header('HTTP/1.1 501 Not Implemented');
     }

@@ -9,39 +9,39 @@ class RecycleContainer
     /**
      * @ORM\Column(type="string")
      */
-    public string $SiteID;
+    public $SiteID;
     /**
      * @ORM\Column(type="string")
      */
-    private string $serialNumber;
+    private  $serialNumber;
     /**
      * @ORM\Column(type="string")
      */
-    private string $containerType;
+    private $containerType;
     /**
      * @ORM\Column(type="string")
      */
-    public string $location;
+    public  $location;
     /**
      * @ORM\Column(type="ArrayList", nullable = true)
      */
-    private array|null $collectionHistory;
+    private  $collectionHistory;
     /**
      * @ORM\Column(type="bool")
      */
-    private bool $contaminated;
+    private  $contaminated;
     /**
      * @ORM\Column(type="bool")
      */
-    private bool $construction;
+    private  $construction;
     /**
      * @ORM\Column(type="bool")
      */
-    private bool $accessible;
+    private $accessible;
     /**
      * @ORM\Column(type="string",length=30)
     */
-    private bool $other;
+    private  $other;
 
     /**
      * RecycleContainer constructor.
@@ -68,6 +68,127 @@ class RecycleContainer
         $this->accessible = $accessible;
         $this->other = $other;
     }
+
+    /**
+     * @return s|string
+     */
+    public function getSiteID()
+    {
+        return $this->SiteID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSerialNumber(): string
+    {
+        return $this->serialNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerType(): string
+    {
+        return $this->containerType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCollectionHistory(): ?array
+    {
+        return $this->collectionHistory;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isContaminated(): bool
+    {
+        return $this->contaminated;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConstruction(): bool
+    {
+        return $this->construction;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAccessible(): bool
+    {
+        return $this->accessible;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOther(): ?string
+    {
+        return $this->other;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation(string $location): void
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @param array|null $collectionHistory
+     */
+    public function setCollectionHistory(?array $collectionHistory): void
+    {
+        $this->collectionHistory = $collectionHistory;
+    }
+
+    /**
+     * @param bool $contaminated
+     */
+    public function setContaminated(bool $contaminated): void
+    {
+        $this->contaminated = $contaminated;
+    }
+
+    /**
+     * @param bool $construction
+     */
+    public function setConstruction(bool $construction): void
+    {
+        $this->construction = $construction;
+    }
+
+    /**
+     * @param bool $accessible
+     */
+    public function setAccessible(bool $accessible): void
+    {
+        $this->accessible = $accessible;
+    }
+
+    /**
+     * @param string|null $other
+     */
+    public function setOther(?string $other): void
+    {
+        $this->other = $other;
+    }
+
 
 
 }
