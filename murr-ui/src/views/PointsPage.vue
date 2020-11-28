@@ -1,4 +1,4 @@
-//incomplete
+//incomplete but close
 <template>
   <h3>Points</h3>
   <div class="row">

@@ -1,4 +1,4 @@
-
+//incomplete
 <template>
   <vue-ellipse-progress :progress="PointValueTemp" :half="true" color="green" emptyColor="white" >
   <p slot="legend-caption">{{tempMsg}}</p>
