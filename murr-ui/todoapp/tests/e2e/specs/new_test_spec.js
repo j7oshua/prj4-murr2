@@ -2,49 +2,38 @@ const TODO_ITEM_ONE = "Learn some Vue JS";
 let TODO_ITEM_TWO = "Create tests with cypress.io";
 let TODO_ITEM_THREE = "Apply applitools visual testing";
 
-describe("Todo App Test Suite", () => {
-  // before each test, make sure to visit the home page of the app
+describe("Profile Completion Test", () => {
   beforeEach(() => {
-    cy.visit("/"); // "baseUrl" is defined in cypress.json file
+    fn.visit("/Profile_details");
+    ln.visit("/Profile_details");
+    sa.visit("/Profile_details");
+    ci.visit("/Profile_details");
+    pv.visit("/Profile_details");
+    po.visit("/Profile_details");
   });
 
-  context("Add todos", () => {
-    it.only("should allow me to add todo items", () => {
+  context("Profile Completion Screen", () => {
+    it.only("should allow me to insert data into each field", () => {
       // create one todo item
-      cy.get("[data-cy=todo-input]") // grab the input textbox
-        .type(TODO_ITEM_ONE) // type the title of the todo
-        .type("{enter}"); // press enter
-
-      // verify the item was added
-      cy.get("[data-cy=todo-list] li")
-        .eq(0) // first li
-        .find("label")
-        .should("contain", TODO_ITEM_ONE);
-
-      // create one todo item
-      cy.get("[data-cy=todo-input]")
-        .type(TODO_ITEM_TWO)
+      fn.get("[data-fn=todo-input]")
+        .type(TODO_ITEM_ONE)
+        .type("{enter}");
+      ln.get("[data-ln=todo-input]")
+        .type(TODO_ITEM_ONE)
+        .type("{enter}");
+      sa.get("[data-sa=todo-input]")
+        .type(TODO_ITEM_ONE)
+        .type("{enter}");
+      ci.get("[data-ci=todo-input]")
+        .type(TODO_ITEM_ONE)
+        .type("{enter}");
+      pv.get("[data-pv=todo-input]")
+        .type(TODO_ITEM_ONE)
+        .type("{enter}");
+      po.get("[data-po=todo-input]")
+        .type(TODO_ITEM_ONE)
         .type("{enter}");
 
-      // verify the item was added
-      cy.get("[data-cy=todo-list] li")
-        .eq(1) // second li
-        .find("label")
-        .should("contain", TODO_ITEM_TWO);
-
-      // create one todo item
-      cy.get("[data-cy=todo-input]")
-        .type(TODO_ITEM_THREE)
-        .type("{enter}");
-
-      // verify the item was added
-      cy.get("[data-cy=todo-list] li")
-        .eq(2) // third li
-        .find("label")
-        .should("contain", TODO_ITEM_THREE);
-
-      // verify the count is correct
-      cy.get("[data-cy=todo-count]").contains("3");
     });
 
   });
