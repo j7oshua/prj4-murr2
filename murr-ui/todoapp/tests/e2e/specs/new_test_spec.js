@@ -1,6 +1,3 @@
-/// <reference types="cypress" />
-
-// constants
 const TODO_ITEM_ONE = "Learn some Vue JS";
 let TODO_ITEM_TWO = "Create tests with cypress.io";
 let TODO_ITEM_THREE = "Apply applitools visual testing";
