@@ -137,7 +137,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function TestCreateResidentAccountInvalidPhoneUnder10Characters(): void
+    public function TestCreateResidentAccountInvalidPhoneUnder10Digits(): void
     {
         $this->dataArray['phone'] = '333333333';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
@@ -155,7 +155,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function TestCreateResidentAccountInvalidPhoneOver10Characters(): void
+    public function TestCreateResidentAccountInvalidPhoneOver10Digits(): void
     {
         $this->dataArray['phone'] = '33333333333';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
