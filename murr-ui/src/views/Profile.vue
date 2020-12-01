@@ -1,13 +1,13 @@
 <template>
-  <div class="home">
-    <delete-me msg="j"/>
+  <div class="Home">
+    <ProfileCompletion />
   </div>
 </template>
 
 <script>
-import DeleteMe from '@/components/DeleteMe'
+import ProfileCompletion from '../components/ProfileCompletion'
 export default {
-  name: 'Home',
-  components: { DeleteMe }
+  name: 'Profile',
+  components: { ProfileCompletion }
 }
 </script>

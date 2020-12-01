@@ -7,12 +7,11 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: () => import(/* webpackChunkName: "home" */ '@/views/Profile.vue')
+    component: () => import(/* webpackChunkName: "home" */ '../views/Profile.vue')
   }
 ]
 
 const router = new VueRouter({
   routes
 })
-
 export default router
