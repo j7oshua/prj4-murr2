@@ -1,11 +1,18 @@
 <template>
-  
+  <div>
+
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'EducationalInformation'
-}
+  import RecyclingInformation from "../components/RecyclingInformation";
+
+  export default {
+    name: 'EducationalInformation',
+    components: {
+      RecyclingInformation
+    }
+  }
 </script>
 
 <style scoped>
