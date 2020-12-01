@@ -10,9 +10,7 @@ describe('ProgressPoints.vue', () => {
     })
     expect(wrapper.text()).to.include(msg)
   })
-})
 
-describe('ProgressPoints.vue', () => {
   it('renders props.value when passed', () => {
     const PointValue = 1
     const wrapper = shallowMount(Progress, {
