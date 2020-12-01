@@ -24,16 +24,16 @@ class ResidentTest extends ApiTestCase
     /**
      * @beforeClass
      */
-    public static function setUpBeforeClass()
+    public static function SetupBeforeClass()
     {
         self::$client = static::createClient();
-        self::$repo = static::$container->get('doctrine')->getRepository(Resident::class);
+        self::$repo = static::$container->get('murr')->getRepository(Resident::class);
     }
 
     /**
      * @before
      */
-    public function setUp(): void
+    public function Setup(): void
     {
         $this->dataArray = [
           'email' => 'test@hello.com',
@@ -45,7 +45,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount(): void
+    public function TestCreateResidentAccount(): void
     {
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
@@ -63,7 +63,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Success_No_Email(): void
+    public function TestCreateResidentAccountSuccessNoEmail(): void
     {
         unset($this->dataArray['email']);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
@@ -82,7 +82,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Email_Format(): void
+    public function TestCreateResidentAccountInvalidEmailFormat(): void
     {
         $this->dataArray['email'] = 'hellotestcom';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
@@ -100,7 +100,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Email_Over_150Characters(): void
+    public function TestCreateResidentAccountInvalidEmailOver150Characters(): void
     {
         $this->dataArray['email'] = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.com';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
@@ -118,7 +118,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Success_No_phoneNumber(): void
+    public function TestCreateResidentAccountSuccessNoPhoneNumber(): void
     {
         unset($this->dataArray['phone']);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
@@ -137,7 +137,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Phone_Under_10Characters(): void
+    public function TestCreateResidentAccountInvalidPhoneUnder10Characters(): void
     {
         $this->dataArray['phone'] = '333333333';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
@@ -155,7 +155,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Phone_Over_10Characters(): void
+    public function TestCreateResidentAccountInvalidPhoneOver10Characters(): void
     {
         $this->dataArray['phone'] = '33333333333';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
@@ -173,7 +173,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Password_Over_30Characters(): void
+    public function TestCreateResidentAccountInvalidPasswordOver30Characters(): void
     {
         $this->dataArray['password'] = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
@@ -191,7 +191,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Email_Phone_Empty(): void
+    public function TestCreateResidentAccountInvalidEmailPhoneEmpty(): void
     {
         //***Need to create a custom validator for this test***
         unset($this->dataArray['email']);
@@ -210,7 +210,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreateResidentAccount_Invalid_Password_Empty(): void
+    public function TestCreateResidentAccountInvalidPasswordEmpty(): void
     {
 
         unset($this->dataArray['password']);
