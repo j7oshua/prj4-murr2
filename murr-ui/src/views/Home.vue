@@ -6,9 +6,5 @@
 </template>
 
 <script>
-import DeleteMe from '@/components/DeleteMe'
-export default {
-  name: 'Home',
-  components: { DeleteMe }
-}
+
 </script>
