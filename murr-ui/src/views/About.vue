@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>DELETE this about page</h1>
+    <h1>About Recycling</h1>
   </div>
 </template>
