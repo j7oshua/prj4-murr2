@@ -3,7 +3,7 @@ import { shallowMount } from '@vue/test-utils'
 import CreateLogin from '../../../src/components/CreateLogin'
 
 describe('CreateLogin.vue', () => {
-  it('Successfully created login with all required fields', () => {
+  it('Resident enters valid email, and valid phone number and valid password', () => {
     const msg = 'Successfully created a Resident account.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -13,7 +13,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Successfully created login with minimum required fields, just email', () => {
+  it('Resident enters valid email and valid password', () => {
     const msg = 'Successfully created a Resident account.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -23,7 +23,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Successfully created login with minimum required fields, just phone', () => {
+  it('Resident enters valid phone number and valid password', () => {
     const msg = 'Successfully created a Resident account.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -33,7 +33,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('No email or phone entered', () => {
+  it('Resident enters just a password', () => {
     const msg = 'Must enter an email and/or phone number'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -43,7 +43,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Improper email format entered', () => {
+  it('Resident enters invalid email format and valid password', () => {
     const msg = 'Invalid email entered, please try again.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -53,7 +53,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Improper phone entered with more than 10 characters', () => {
+  it('Resident enters invalid phone containing more than 10 digits and valid password', () => {
     const msg = 'Phone number must be 10 digits.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -64,7 +64,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Improper phone entered with characters instead of numbers', () => {
+  it('Resident enters invalid phone with characters and valid password', () => {
     const msg = 'Invalid phone number entered, cannot contain letters'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -75,7 +75,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Improper phone entered with less than 10 characters', () => {
+  it('Resident enters invalid phone containing more than 10 digits and valid password', () => {
     const msg = 'Phone number must be 10 digits.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -86,7 +86,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Improper password entered, must contain at least one capital', () => {
+  it('Resident enters valid email and incorrect password, no capital letters', () => {
     const msg = 'Password must be at least 7 characters, containing at least one capital letter and a number, and less than 30 characters'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -96,7 +96,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Improper password entered, must contain at least one number', () => {
+  it('Resident enters valid email and incorrect password, shorter than 7 characters', () => {
     const msg = 'Password must be at least 7 characters, containing at least one capital letter and a number, and less than 30 characters'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -106,7 +106,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Enters email too long over 150 characters', () => {
+  it('Resident enters invalid email over 150 characters and valid password', () => {
     const msg = 'Invalid email entered, email must be less than 150 characters, please try again.'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -117,7 +117,7 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Enters password too long over 30 characters', () => {
+  it('Resident enters valid email and incorrect password, longer than 30 characters', () => {
     const msg = 'Password must be at least 7 characters, containing at least one capital letter and a number, and less than 30 characters'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
@@ -128,12 +128,32 @@ describe('CreateLogin.vue', () => {
   })
 })
 describe('CreateLogin.vue', () => {
-  it('Enters password too short, must be over 7 characters', () => {
+  it('Resident enters valid email and incorrect password, shorter than 7 characters', () => {
     const msg = 'Password must be at least 7 characters, containing at least one capital letter and a number, and less than 30 characters'
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
     })
     wrapper.setData( {email: 'email@email.com', password: 'pass'})
+    expect(wrapper.text()).to.include(msg)
+  })
+})
+describe('CreateLogin.vue', () => {
+  it('Resident enters only email and/or phone number and no password', () => {
+    const msg = 'Must enter a password.'
+    const wrapper = shallowMount(CreateLogin, {
+      propsData: { msg }
+    })
+    wrapper.setData( {email: 'email@email.com', password: ''})
+    expect(wrapper.text()).to.include(msg)
+  })
+})
+describe('CreateLogin.vue', () => {
+  it('Resident enters no information', () => {
+    const msg = 'Must enter an email and/or phone number'
+    const wrapper = shallowMount(CreateLogin, {
+      propsData: { msg }
+    })
+    wrapper.setData( {phone: '', email: '', password: ''})
     expect(wrapper.text()).to.include(msg)
   })
 })

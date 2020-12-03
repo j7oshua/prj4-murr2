@@ -6,12 +6,15 @@
 <script>
   import CreateLogin from '../components/CreateLogin'
   export default {
-    name: 'CreateLoginForm',
+    name: 'CreateLogin',
     components: {
       loginform: CreateLogin
     },
     methods: {
       handleCreated(){
+        throw new Error('Not Implemented')
+      },
+      callAPI (){
         throw new Error('Not Implemented')
       }
     }
