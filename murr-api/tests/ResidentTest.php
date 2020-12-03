@@ -112,7 +112,7 @@ class ResidentTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'email: The email has too many characters.'
+            'hydra:description' => 'email: Email has more than 150 characters.'
         ]);
 
         $this->dataArray['email'] = 'hello@test.com';
@@ -150,7 +150,7 @@ class ResidentTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'phone: Phone Number has less than 10 digits.'
+            'hydra:description' => 'phone: Phone needs to be 10 digits.'
         ]);
 
     }
@@ -168,7 +168,7 @@ class ResidentTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'phone: Phone Number has more than 10 digits.'
+            'hydra:description' => 'phone: Phone needs to be 10 digits.'
         ]);
 
         $this->dataArray['phone'] = str_repeat('3',10);
@@ -226,7 +226,7 @@ class ResidentTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'password: Password should not be blank.'
+            'hydra:description' => 'password: Password should not be null.'
         ]);
     }
 
