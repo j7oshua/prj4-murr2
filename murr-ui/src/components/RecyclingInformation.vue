@@ -5,8 +5,12 @@
 </template>
 
 <script>
+
   export default {
-    name: "EducationalInformation"
+    name: "EducationalInformation",
+    props: {
+      msg: String
+    }
 
   }
 </script>
