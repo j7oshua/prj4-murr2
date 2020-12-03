@@ -11,13 +11,13 @@ class ResidentTest extends ApiTestCase
     use RefreshDatabaseTrait;
 
     private static $client;
-    private static $repo;
     private $dataArray;
     const VIOLATION_ARRAY=[
         '@context' => '/contexts/ConstraintViolationList',
         '@type' => 'ConstraintViolationList',
         'hydra:title' => 'An error occurred'
     ];
+
 
     const API_URL = '127.0.0.1:8000/api/residents';
 
@@ -26,8 +26,8 @@ class ResidentTest extends ApiTestCase
      */
     public static function SetupBeforeClass()
     {
+        //Setup client for the the requests to the API
         self::$client = static::createClient();
-        self::$repo = static::$container->get('murr')->getRepository(Resident::class);
     }
 
     /**
@@ -35,6 +35,7 @@ class ResidentTest extends ApiTestCase
      */
     public function Setup(): void
     {
+        //Setup an array that contains information to create a resident account.
         $this->dataArray = [
           'email' => 'test@hello.com',
           'phone' => '3333333333',
@@ -77,6 +78,7 @@ class ResidentTest extends ApiTestCase
         ]);
         $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
+
     }
 
     /**
@@ -102,7 +104,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountInvalidEmailOver150Characters(): void
     {
-        $this->dataArray['email'] = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.com';
+        $this->dataArray['email'] = str_repeat('a', 142) . '@test.com';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(400);
@@ -113,6 +115,7 @@ class ResidentTest extends ApiTestCase
             'hydra:description' => 'email: The email has too many characters.'
         ]);
 
+        $this->dataArray['email'] = 'hello@test.com';
     }
 
     /**
@@ -139,7 +142,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountInvalidPhoneUnder10Digits(): void
     {
-        $this->dataArray['phone'] = '333333333';
+        $this->dataArray['phone'] = str_repeat('3', 9);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(400);
@@ -157,7 +160,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountInvalidPhoneOver10Digits(): void
     {
-        $this->dataArray['phone'] = '33333333333';
+        $this->dataArray['phone'] = str_repeat('3',11);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(400);
@@ -168,6 +171,8 @@ class ResidentTest extends ApiTestCase
             'hydra:description' => 'phone: Phone Number has more than 10 digits.'
         ]);
 
+        $this->dataArray['phone'] = str_repeat('3',10);
+
     }
 
     /**
@@ -175,7 +180,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountInvalidPasswordOver30Characters(): void
     {
-        $this->dataArray['password'] = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        $this->dataArray['password'] = str_repeat('a', 31);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(400);
