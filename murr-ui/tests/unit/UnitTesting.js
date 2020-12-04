@@ -1,4 +1,4 @@
-import ProfileCompletion from '/components/ProfileDetails.vue'
+import ProfileForm from '/components/ProfileForm'
 import {shallowMount} from "@vue/test-utils";
 
 // describe('ProfileDetails.vue', () => {
@@ -9,38 +9,32 @@ import {shallowMount} from "@vue/test-utils";
 //     });
 //     expect(wrapper.text()).to.include(msg)
 //   })
-//
-//   it('renders props.msg when failed', () => {
-//     const msg = 'Failed';
-//     const wrapper = shallowMount(ProfileCompletion, {
-//       propsData: { msg }
-//     });
-//     expect(wrapper.text()).to.include(msg)
-//   })
 
 
-// });
 
-
-describe('ProfileCompletion', () => {
-  it('renders a profileCompletion Screen and responds correctly to user input', () => {
-    const wrapper = shallowMount(Foo, {
+describe('ProfileForm', () => {
+  it('renders a profile form Screen and responds correctly to user input', () => {
+    const wrapper = shallowMount(ProfileForm, {
       data() {
         return {
-          message: 'Hello World',
-          username: ''
+          firstName: 'Lane',
+          lastName: 'Lockhart',
+          address: '222 seventh st west',
+          city: 'Warman',
+          province: 'SK',
+          postalCode: 'S0K4S0'
         }
       }
-    })
+    });
 
     // see if the message renders
-    expect(wrapper.find('.message').text()).toEqual('Hello World')
+    expect(wrapper.find('.firstName').text()).toEqual('Lane');
 
     // assert the error is rendered
-    expect(wrapper.find('.error').exists()).toBeTruthy()
+    expect(wrapper.find('.error').exists()).toBeTruthy();
 
     // update the `username` and assert error is no longer rendered
-    wrapper.setData({ username: 'Lachlan' })
-    expect(wrapper.find('.error').exists()).toBeFalsy()
+    wrapper.setData({ firstName: '' });
+    expect(wrapper.find('.error').exists()).toBeFalsy();
   })
-})
+});

@@ -15,12 +15,12 @@
     Vue.use(Vuelidate);
     Vue.use(vuelidateErrorExtractor, {
         template: templates.multiErrorExtractor.foundation6, // you can also pass your own custom template
-        messages: { firstname: "First Name must not exceed 20 characters",
-                    lastname: "Last Name must not exceed 20 characters",
+        messages: { firstName: "First Name must not exceed 20 characters",
+                    lastName: "Last Name must not exceed 20 characters",
                     address: "Address must not exceed 50 characters",
                     city: "City must not exceed 30 characters",
                     province: "Province must not exceed 2 characters",
-                    postalcode: "Postal Code must follow the format ‘L#L#L#’"
+                    postalCode: "Postal Code must follow the format ‘L#L#L#’"
                   }
     });
 
@@ -37,12 +37,12 @@
         },
         validations: {
             tempProfile: {
-                firstname: {maxLength: maxLength(20)},
-                lastname: {maxLength: maxLength(20)},
+                firstName: {maxLength: maxLength(20)},
+                lastName: {maxLength: maxLength(20)},
                 address: {maxLength: maxLength(50)},
                 city: {maxLength: maxLength(30)},
                 province: {maxLength: maxLength(2)},
-                postalcode: {postal: postal}
+                postalCode: {postal: postal}
             }
         },
         methods: {
@@ -53,6 +53,11 @@
                     throw new Error("Not Implemented")
                 },
             },
+        computed: {
+            error () {
+                return this.error != null;
+            }
+        }
 
     }
 </script>
