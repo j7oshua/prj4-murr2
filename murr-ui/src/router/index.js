@@ -5,9 +5,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/profile',
+    path: '/profile/:id',
     name: 'profile',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Profile.vue')
+    component: () => import('../views/Profile.vue')
   }
 ]
 

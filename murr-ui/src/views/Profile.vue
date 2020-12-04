@@ -1,40 +1,24 @@
 <template>
   <div>
-    <ProfileCompletion />
+    <profileForm/>
   </div>
 </template>
 
 <script>
-import ProfileCompletion from '../components/ProfileCompletion'
+import ProfileForm from '../components/ProfileForm'
 export default {
   name: 'Profile',
-  components: { ProfileCompletion },
-  props: {
-      firstname: String,
-      lastname: String,
-      address: String,
-      city: String,
-      province: String,
-      postalcode: String,
-  },
+  components: { ProfileForm },
     data () {
       return {
-        tempfirstname: null,
-        templastname: null,
-        tempaddress: null,
-        tempcity: null,
-        tempprovince: null,
-        temppostalcode: null
+          profile: {}
       }
     },
     methods: {
-      isValid () {
+      handleSaveProfile (profile) {
           throw new Error("Not Implemented")
       },
-      callAPI () {
-          throw new Error("Not Implemented")
-      },
-      handleSaveProfile () {
+      handleCancel (profile) {
           throw new Error("Not Implemented")
       }
     }
