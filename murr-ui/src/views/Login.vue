@@ -1,6 +1,5 @@
 <template>
-  <div>Create Login Page</div>
-  <loginform></loginform>
+  <loginform>Create Login Page</loginform>
 </template>
 
 <script>

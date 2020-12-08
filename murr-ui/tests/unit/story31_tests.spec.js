@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
-import CreateLogin from '../../../src/components/CreateLogin'
+import CreateLogin from '../../src/components/CreateLogin'
 
 describe('CreateLogin.vue', () => {
   it('Resident enters valid email, and valid phone number and valid password', () => {
@@ -58,7 +58,7 @@ describe('CreateLogin.vue', () => {
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
     })
-    const wrong_phone = 111-111-11111;
+    const wrong_phone = '111-111-11111';
     wrapper.setData( {phone: wrong_phone, password: 'Passw0rd'})
     expect(wrapper.text()).to.include(msg)
   })
@@ -80,7 +80,7 @@ describe('CreateLogin.vue', () => {
     const wrapper = shallowMount(CreateLogin, {
       propsData: { msg }
     })
-    const wrong_phone = 111-111;
+    const wrong_phone = '111-111';
     wrapper.setData( {phone: wrong_phone, password: 'Passw0rd'})
     expect(wrapper.text()).to.include(msg)
   })

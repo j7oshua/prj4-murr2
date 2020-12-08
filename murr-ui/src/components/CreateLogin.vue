@@ -1,9 +1,12 @@
 <template>
-  <div>Login Form</div>
+  <create-login>
+    Login Form
+  </create-login>
 </template>
 
 <script>
   import CreateLogin from '../components/CreateLogin'
+
   export default {
     name: 'CreateLogin',
     components: { CreateLogin },
@@ -15,15 +18,12 @@
     },
     data () {
       return {
-        dt:{
+        dt: {
           em: 'Email',
           pn: 'Phone Number',
           pw: 'Password'
         },
-        tempResident:{},
-        tempEmail: null,
-        tempPhone: null,
-        tempPassword: null
+        tempResident: {},
       }
     },
     validations: {
@@ -52,25 +52,25 @@
       }
     },
     methods: {
-      postLogin (){
+      postLogin () {
         throw new Error('Not Implemented')
       },
-      isValidPhone (){
+      isValidPhone () {
         throw new Error('Not Implemented')
       },
-      isValidEmail (){
+      isValidEmail () {
         throw new Error('Not Implemented')
       },
-      isValidPassword (){
+      isValidPassword () {
         throw new Error('Not Implemented')
       },
       isValidCreatedLogin () {
         throw new Error('Not Implemented')
       },
-      hashPassword (){
+      hashPassword () {
         throw new Error('Not Implemented')
       },
-      errorMessage (){
+      errorMessage () {
         throw new Error('Not Implemented')
       }
     }
