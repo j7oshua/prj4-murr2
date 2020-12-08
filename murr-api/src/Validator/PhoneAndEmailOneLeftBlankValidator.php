@@ -9,6 +9,7 @@ class PhoneAndEmailOneLeftBlankValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
+        /*THIS STILL NEEDS TO BE WORKED ON. THIS IS JUST DEFAULT CODE*/
         /* @var $constraint \App\Validator\PhoneAndEmailOneLeftBlank */
 
         if (null === $value || '' === $value) {
