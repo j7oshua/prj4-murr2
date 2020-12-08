@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PointRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +31,10 @@ class Point
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
      */
     private ArrayCollection $resident;
+
+
+
+
 
     public function __construct()
     {

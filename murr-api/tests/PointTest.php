@@ -28,7 +28,7 @@ class PointTest extends ApiTestCase
     const API_URL_RES1 = '127.0.0.1:800/api/points';
     const API_URL_RES2 = '127.0.0.1:800/api/points';
     const API_URL_RES3 = '127.0.0.1:800/api/points';
-
+    const API_URL_RES4 = '127.0.0.1:800/api/points';
     /**
      * @beforeClass
      */
@@ -49,7 +49,7 @@ class PointTest extends ApiTestCase
         //fill the data array with all valid data
         $this->dataArray = [
             'resident_id' => '1',
-            'point' => '0'
+            'numPoint' => '0'
         ];
     }
 
@@ -59,11 +59,18 @@ class PointTest extends ApiTestCase
     public function testUserWithZeroPoints(): void
     {
         //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL, ['json' => $this->dataArray]);
+        $response = self::$client->request('GET', self::API_URL_RES1, ['json' => $this->dataArray]);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            '@context' => '/contexts/Point',
+            '@type' => 'Point',
+            ...$this->dataArray,
+            'resident_id' => '1',
+            'numPoint' => '0'
+        ]);
 
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
@@ -74,16 +81,9 @@ class PointTest extends ApiTestCase
      */
     public function testUserWithThreePoints()
     {
-        //clear the values for the variables of the dataArray
-        unset($this->dataArray['resident_id']);
-        unset($this->dataArray['point']);
-
-        //set new values
-        $this->dataArray['resident_id'] = '2';
-        $this->dataArray['point'] = '3';
 
         //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL, ['json' => $this->dataArray]);
+        $response = self::$client->request('GET', self::API_URL_RES2, ['json' => $this->dataArray]);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(200);
@@ -93,7 +93,8 @@ class PointTest extends ApiTestCase
             '@context' => '/contexts/Point',
             '@type' => 'Point',
             ...$this->dataArray,
-            'reviews' => [],
+            'resident_id' => '2',
+            'numPoint' => '3'
         ]);
 
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
@@ -105,16 +106,10 @@ class PointTest extends ApiTestCase
      */
     public function testUserWithEightyPoints()
     {
-        //clear the values for the variables of the dataArray
-        unset($this->dataArray['resident_id']);
-        unset($this->dataArray['point']);
 
-        //set new values
-        $this->dataArray['resident_id'] = '3';
-        $this->dataArray['point'] = '80';
 
         //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL, ['json' => $this->dataArray]);
+        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(200);
@@ -124,8 +119,25 @@ class PointTest extends ApiTestCase
             '@context' => '/contexts/Point',
             '@type' => 'Point',
             ...$this->dataArray,
-            'reviews' => [],
+            'resident_id' => '3',
+            'numPoint' => '80'
         ]);
+
+        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Point::class);
+    }
+
+    public function testUserWithNoResidentID()
+    {
+
+
+        //call client to do a get request and get the json from dataArray
+        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
+
+        //Validate the Get request
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
 
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
