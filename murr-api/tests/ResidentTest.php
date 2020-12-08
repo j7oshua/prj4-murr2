@@ -226,7 +226,7 @@ class ResidentTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'password: Password should not be null.'
+            'hydra:description' => 'password: Password should not be left blank.'
         ]);
     }
 
