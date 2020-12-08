@@ -19,17 +19,17 @@ class Point
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected ?int $id;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $point;
+    private ?int $numPoint;
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
      */
-    private $resident;
+    private ArrayCollection $resident;
 
     public function __construct()
     {
@@ -43,12 +43,12 @@ class Point
 
     public function getPoint(): ?int
     {
-        return $this->point;
+        return $this->numPoint;
     }
 
-    public function setPoint(?int $point): self
+    public function setPoint(?int $numPoint): self
     {
-        $this->point = $point;
+        $this->numPoint = $numPoint;
 
         return $this;
     }

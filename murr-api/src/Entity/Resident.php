@@ -62,4 +62,10 @@ class Resident
 
         return $this;
     }
+
+    public function setId(int $i): self
+    {
+        $this->id = $i;
+        return $this;
+    }
 }

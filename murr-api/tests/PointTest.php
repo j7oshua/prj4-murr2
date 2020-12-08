@@ -9,7 +9,7 @@ use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Point;
 class PointTest extends ApiTestCase
 {
-   //refreshes the database with each test
+   //refreshes the database with each test.. this will load my fixtures
     use RefreshDatabaseTrait;
 
     //Declare Variables
@@ -25,7 +25,9 @@ class PointTest extends ApiTestCase
     ];
 
     //calls API URL
-    const API_URL = '127.0.0.1:800/api/points';
+    const API_URL_RES1 = '127.0.0.1:800/api/points';
+    const API_URL_RES2 = '127.0.0.1:800/api/points';
+    const API_URL_RES3 = '127.0.0.1:800/api/points';
 
     /**
      * @beforeClass
@@ -62,11 +64,7 @@ class PointTest extends ApiTestCase
         //Validate the Get request
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/contexts/Point',
-            '@type' => 'Point',
-            ...$this->dataArray
-        ]);
+
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
