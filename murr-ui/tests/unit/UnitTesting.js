@@ -10,62 +10,165 @@ import {shallowMount} from "@vue/test-utils";
 //     expect(wrapper.text()).to.include(msg)
 //   })
 
-
-
-describe('ProfileForm', () => {
-  it('renders a profile form Screen and responds correctly to user input', () => {
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for all fields', () => {
+    const msg = 'Profile Successfully created';
     const wrapper = shallowMount(ProfileForm, {
-          firstName: 'Lane',
-          lastName: 'Lockhart',
-          address: '222 seventh st west',
-          city: 'Warman',
-          province: 'SK',
-          postalCode: 'S0K4S0'
+      propsData: {msg}
     });
-
-    // see if the message renders
-    expect(wrapper.find('.firstName').text()).to.include('Lane');
-    expect(wrapper.find('.lastName').text()).to.include('Lockhart');
-    expect(wrapper.find('.address').text()).to.include('222 seventh st west');
-    expect(wrapper.find('.city').text()).to.include('Warman');
-    expect(wrapper.find('.province').text()).to.include('SK');
-    expect(wrapper.find('.postalCode').text()).to.include('S0K4S0');
-
-    expect(wrapper.find('.error').isEmpty());
-
-
-
-
-    // update the `firstName` and error should exist
-    wrapper.setData({ firstName: 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss' });
-    // assert the error is rendered
-    expect(wrapper.find('.error').exists());
-
-    wrapper.setData({ firstName: 'Lane' });
-    wrapper.setData({lastName: 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'});
-    // assert the error is rendered
-    expect(wrapper.find('.error').exists());
-
-    wrapper.setData({ lastName: 'Lockhart' });
-    wrapper.setData({address: 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'});
-    // assert the error is rendered
-    expect(wrapper.find('.error').exists());
-
-    wrapper.setData({ address: '222 seventh st west' });
-    wrapper.setData({ city: 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'});
-    // assert the error is rendered
-    expect(wrapper.find('.error').exists());
-
-    wrapper.setData({ city: 'Warman' });
-    wrapper.setData({province: 's'});
-    // assert the error is rendered
-    expect(wrapper.find('.error').exists());
-
-    wrapper.setData({ province: 'SK' });
-    wrapper.setData({postalCode: 's'});
-    // assert the error is rendered
-    expect(wrapper.find('.error').exists());
+    wrapper.setData({firstName: 'Lane', lastName: 'Lockhart', address: '222 seventh st west', city: 'Warman', province: 'SK', postalCode: 'S0K4S0'});
+    expect(wrapper.text()).to.include(msg)
   })
+});
 
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for all fields', () => {
+    const msg = 'Profile Unsuccessfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({firstName: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
+                    lastName: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
+                    address: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
+                    city: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
+                    province: 'S',
+                    postalCode: 'ss'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for first name field', () => {
+    const msg = 'Profile Successfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({firstName: 'Lane'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for last name field', () => {
+    const msg = 'Profile Successfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({lastName: 'Lockhart'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for address field', () => {
+    const msg = 'Profile Successfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({address: '222 seventh st west'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for city field', () => {
+    const msg = 'Profile Successfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({city: 'Warman'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for province field', () => {
+    const msg = 'Profile Successfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({province: 'SK'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters valid information for city field', () => {
+    const msg = 'Profile Successfully created';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({postalCode: 'S0K4S0'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+// --------------------------
+
+
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for first name field', () => {
+    const msg = 'Profile created unsuccessfully';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({firstName: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for last name field', () => {
+    const msg = 'Profile created unsuccessfully';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({lastName: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for address field', () => {
+    const msg = 'Profile created unsuccessfully';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({address: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for city field', () => {
+    const msg = 'Profile created unsuccessfully';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({city: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for province field', () => {
+    const msg = 'Profile created unsuccessfully';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({province: 'S'});
+    expect(wrapper.text()).to.include(msg)
+  })
+});
+
+describe('ProfileForm.vue', () => {
+  it('user enters invalid information for city field', () => {
+    const msg = 'Profile created unsuccessfully';
+    const wrapper = shallowMount(ProfileForm, {
+      propsData: {msg}
+    });
+    wrapper.setData({postalCode: 'S'});
+    expect(wrapper.text()).to.include(msg)
+  })
 });
 

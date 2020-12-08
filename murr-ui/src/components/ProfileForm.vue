@@ -10,19 +10,19 @@
     import Vuelidate from 'vuelidate';
     import maxLength from "vuelidate/src/validators/maxLength";
     import postal from "vuelidate/src/validators/postal";
-    // import vuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
+    import vuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
 
     Vue.use(Vuelidate);
-    // Vue.use(vuelidateErrorExtractor, {
-    //     template: templates.multiErrorExtractor.foundation6, // you can also pass your own custom template
-    //     messages: { firstName: "First Name must not exceed 20 characters",
-    //                 lastName: "Last Name must not exceed 20 characters",
-    //                 address: "Address must not exceed 50 characters",
-    //                 city: "City must not exceed 30 characters",
-    //                 province: "Province must not exceed 2 characters",
-    //                 postalCode: "Postal Code must follow the format ‘L#L#L#’"
-    //               }
-    // });
+    Vue.use(vuelidateErrorExtractor, {
+        template: templates.multiErrorExtractor.foundation6, // you can also pass your own custom template
+        messages: { firstName: "First Name must not exceed 20 characters",
+                    lastName: "Last Name must not exceed 20 characters",
+                    address: "Address must not exceed 50 characters",
+                    city: "City must not exceed 30 characters",
+                    province: "Province must not exceed 2 characters",
+                    postalCode: "Postal Code must follow the format ‘L#L#L#’"
+                  }
+    });
 
     export default {
         name: "profileForm",
@@ -37,12 +37,12 @@
         },
         validations: {
             tempProfile: {
-                firstName: {maxLength: maxLength(20), maxMessage: "First Name must not exceed 20 characters"},
-                lastName: {maxLength: maxLength(20),  maxMessage: "Last Name must not exceed 20 characters"},
-                address: {maxLength: maxLength(50), maxMessage: "Address must not exceed 50 characters"},
-                city: {maxLength: maxLength(30), maxMessage: "City must not exceed 30 characters"},
-                province: {maxLength: maxLength(2), maxMessage: "Province must not exceed 2 characters"},
-                postalCode: {postal: postal, maxMessage: "Postal Code must follow the format ‘L#L#L#’"}
+                firstName: {maxLength: maxLength(20)},
+                lastName: {maxLength: maxLength(20)},
+                address: {maxLength: maxLength(50)},
+                city: {maxLength: maxLength(30)},
+                province: {maxLength: maxLength(2)},
+                postalCode: {postal: postal}
             }
         },
         methods: {
