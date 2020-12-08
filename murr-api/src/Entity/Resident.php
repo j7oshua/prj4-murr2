@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass=ResidentRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  */
 class Resident
 {
