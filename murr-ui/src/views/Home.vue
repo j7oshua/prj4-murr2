@@ -14,17 +14,15 @@
     data () {
       return {
         id: Number,
-        PointValue: Number
-      }
-    },
-    computed: {
-      refreshpage () {
-        return 'Not Implemented'
+        residentid: Number,
+        points: Number
       }
     },
     methods: {
-      GETPoints (idparams) {
+      CallPoints () { //send current resident id
         throw new Error('Not Implemented')
+
+        //if null returned or 404 error then display 0
       }
     }
   }
