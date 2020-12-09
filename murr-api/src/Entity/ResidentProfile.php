@@ -48,12 +48,12 @@ class ResidentProfile
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
-     * @Assert\Length(max="30", maxMessage="First name must not exceed 30 characters.")
+     * @Assert\Length(max="30", maxMessage="Province must not exceed 30 characters.")
      */
     private $province;
 
     /**
-     * @ORM\Column(type="string", length=7, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\Regex(
      *     pattern ="/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/",
      *     match=true,

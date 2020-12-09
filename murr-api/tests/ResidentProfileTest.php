@@ -192,7 +192,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'city: City must not exceed 50 characters'
+            'hydra:description' => 'city: City must not exceed 30 characters'
         ]);
     }
 
@@ -229,7 +229,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'city: City must not exceed 50 characters'
+            'hydra:description' => 'province: Province must not exceed 30 characters'
         ]);
     }
 
@@ -255,7 +255,7 @@ class ResidentProfileTest extends ApiTestCase
 
     /**
      * @test
-     * Testing postalCode pattern (L#L#L# or L#L #L#).
+     * Testing postalCode pattern (L#L#L#).
      */
     public  function testCreateResidentProfile_Invalid_postalCode_Format():void
     {
@@ -266,13 +266,13 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'city: City must not exceed 50 characters'
+            'hydra:description' => 'postalCode: Postal code must follow the format L#L#L#'
         ]);
     }
 
     /**
      * @test
-     * Testing postalCode pattern (L#L#L# or L#L #L#).
+     * Testing postalCode pattern (L#L#L#).
      */
     public  function testCreateResidentProfile_Success_postalCode_No_Space():void
     {
@@ -308,6 +308,30 @@ class ResidentProfileTest extends ApiTestCase
         ]);
         $this->assertRegExp('~^/resident_profiles/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(ResidentProfile::class);
+    }
+
+    public function testCreateResidentProfile_All_Invalid():void
+    {
+        $this->dataArray['firstName'] = str_repeat('a', 21);
+        $this->dataArray['lastName'] = str_repeat('a', 21);
+        $this->dataArray['streetAddress'] = str_repeat('a', 51);
+        $this->dataArray['city'] = str_repeat('a', 31);
+        $this->dataArray['province'] = str_repeat('a', 31);
+        $this->dataArray['postalCode'] = 'S0K 222';
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            ...self::VIOLATION_ARRAY,
+            'hydra:description' => 'firstName: First name must not exceed 20 characters',
+            'lastName: Last name must not exceed 20 characters',
+            'streetAddress: Street address must not exceed 50 characters',
+            'city: City must not exceed 50 characters',
+            'province: Province must not exceed 30 characters',
+            'postalCode: Postal code must follow the format L#L#L#'
+
+        ]);
     }
 
 
