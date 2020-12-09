@@ -321,7 +321,7 @@ class ResidentProfileTest extends ApiTestCase
         $this->dataArray['streetAddress'] = str_repeat('a', 51);
         $this->dataArray['city'] = str_repeat('a', 31);
         $this->dataArray['province'] = str_repeat('a', 3);
-        $this->dataArray['postalCode'] = 'S0K 222';
+        $this->dataArray['postalCode'] = 'SLN2WD';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
