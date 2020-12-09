@@ -47,8 +47,8 @@ class ResidentProfile
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     * @Assert\Length(max="30", maxMessage="Province must not exceed 30 characters.")
+     * @ORM\Column(type="string", length=2, nullable=true)
+     * @Assert\Length(max="2", maxMessage="Province Initials must not exceed 2 characters.")
      */
     private $province;
 

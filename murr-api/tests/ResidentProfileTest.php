@@ -41,7 +41,7 @@ class ResidentProfileTest extends ApiTestCase
             'lastName' => 'Doe',
             'streetAddress' => '123 Street Street',
             'city' => 'Saskatoon',
-            'province' => 'Saskatchewan',
+            'province' => 'SK',
             'postalCode' => 'S0K 2W7',
             'resident' => 2
         ];
@@ -222,14 +222,14 @@ class ResidentProfileTest extends ApiTestCase
      */
     public  function testCreateResidentProfile_Invalid_province_Length():void
     {
-        $this->dataArray['province'] = str_repeat('a', 31);
+        $this->dataArray['province'] = str_repeat('a', 3);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'province: Province must not exceed 30 characters'
+            'hydra:description' => 'province: Province Initials must not exceed 2 characters'
         ]);
     }
 
@@ -239,7 +239,7 @@ class ResidentProfileTest extends ApiTestCase
      */
     public  function testCreateResidentProfile_Success_province_Max_Length():void
     {
-        $this->dataArray['province'] = str_repeat('a', 30);
+        $this->dataArray['province'] = str_repeat('a', 2);
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -259,7 +259,7 @@ class ResidentProfileTest extends ApiTestCase
      */
     public  function testCreateResidentProfile_Invalid_postalCode_Format():void
     {
-        $this->dataArray['postalCode'] = 'S0K 222';
+        $this->dataArray['postalCode'] = 'SLN2WD';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -310,13 +310,17 @@ class ResidentProfileTest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(ResidentProfile::class);
     }
 
+    /**
+     * @test
+     * Test for everything invalid
+     */
     public function testCreateResidentProfile_All_Invalid():void
     {
         $this->dataArray['firstName'] = str_repeat('a', 21);
         $this->dataArray['lastName'] = str_repeat('a', 21);
         $this->dataArray['streetAddress'] = str_repeat('a', 51);
         $this->dataArray['city'] = str_repeat('a', 31);
-        $this->dataArray['province'] = str_repeat('a', 31);
+        $this->dataArray['province'] = str_repeat('a', 3);
         $this->dataArray['postalCode'] = 'S0K 222';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
         $this->assertResponseStatusCodeSame(400);
