@@ -108,51 +108,51 @@ describe('ProfileForm.vue', () => {
 
 describe('ProfileForm.vue', () => {
   it('user enters invalid information for first name field', () => {
-    const msg = 'Profile created unsuccessfully';
+    const msg = "First Name must not exceed 20 characters";
     const wrapper = shallowMount(ProfileForm, {
       propsData: {msg}
     });
-    wrapper.setData({firstName: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    wrapper.setData({firstName: "w".repeat(21)});
     expect(wrapper.text()).to.include(msg)
   })
 });
 
 describe('ProfileForm.vue', () => {
   it('user enters invalid information for last name field', () => {
-    const msg = 'Profile created unsuccessfully';
+    const msg =  "Last Name must not exceed 20 characters";
     const wrapper = shallowMount(ProfileForm, {
       propsData: {msg}
     });
-    wrapper.setData({lastName: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    wrapper.setData({lastName: "w".repeat(21)});
     expect(wrapper.text()).to.include(msg)
   })
 });
 
 describe('ProfileForm.vue', () => {
   it('user enters invalid information for address field', () => {
-    const msg = 'Profile created unsuccessfully';
+    const msg = "Address must not exceed 50 characters";
     const wrapper = shallowMount(ProfileForm, {
       propsData: {msg}
     });
-    wrapper.setData({address: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    wrapper.setData({address: "w".repeat(51)});
     expect(wrapper.text()).to.include(msg)
   })
 });
 
 describe('ProfileForm.vue', () => {
   it('user enters invalid information for city field', () => {
-    const msg = 'Profile created unsuccessfully';
+    const msg = "City must not exceed 30 characters";
     const wrapper = shallowMount(ProfileForm, {
       propsData: {msg}
     });
-    wrapper.setData({city: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'});
+    wrapper.setData({city: "w".repeat(31)});
     expect(wrapper.text()).to.include(msg)
   })
 });
 
 describe('ProfileForm.vue', () => {
   it('user enters invalid information for province field', () => {
-    const msg = 'Profile created unsuccessfully';
+    const msg =  "Province must not exceed 2 characters";
     const wrapper = shallowMount(ProfileForm, {
       propsData: {msg}
     });
@@ -162,8 +162,8 @@ describe('ProfileForm.vue', () => {
 });
 
 describe('ProfileForm.vue', () => {
-  it('user enters invalid information for city field', () => {
-    const msg = 'Profile created unsuccessfully';
+  it('user enters invalid information for postal code', () => {
+    const msg = "Postal Code must follow the format ‘L#L#L#’";
     const wrapper = shallowMount(ProfileForm, {
       propsData: {msg}
     });
