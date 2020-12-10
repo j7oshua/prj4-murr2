@@ -1,72 +1,19 @@
-
-describe('Resident views image', () => {
+describe('Resident acceptable items', () => {
   it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
+    cy.visit('localhost:8080/recyclables/acceptable')
+    cy.contains('Acceptable Items')
       .click()
-    cy.contains('img', '../assets/recycling.png')
+    cy.contains('li', 'acceptable item')
   })
 })
 
-describe('Resident views header', () => {
+describe('Resident unacceptable items', () => {
   it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
+    cy.visit('localhost:8080/recyclables/unacceptable')
+    cy.contains('Unacceptable Items')
       .click()
-    cy.contains('h1', 'Why Recycle?')
+    cy.contains('li', 'unacceptable item')
   })
 })
 
-describe('Resident views paragraph', () => {
-  it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
-      .click()
-    cy.contains('p', 'Some information on why to recycle')
-  })
-})
 
-describe('Resident views Acceptable Button', () => {
-  it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
-      .click()
-    cy.contains('b-button', 'Acceptable Items')
-  })
-})
-
-describe('Resident views Unacceptable Button', () => {
-  it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
-      .click()
-    cy.contains('b-button', 'Unacceptable Items')
-  })
-})
-
-describe('Resident views collapse', () => {
-  it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
-      .click()
-    cy.contains('b-collapse')
-  })
-})
-
-describe('Resident views unordered list', () => {
-  it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
-      .click()
-    cy.contains('ul')
-  })
-})
-
-describe('Resident views list items', () => {
-  it('Visits the educational information page', () => {
-    cy.visit('/')
-    cy.contains('Educational Information')
-      .click()
-    cy.contains('li', 'Acceptable Item')
-  })
-})

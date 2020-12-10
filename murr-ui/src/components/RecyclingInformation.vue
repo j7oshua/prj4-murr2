@@ -8,8 +8,16 @@
 
   export default {
     name: "EducationalInformation",
-    props: {
-      msg: String
+    methods: {
+      getReycleInfo() {
+
+      },
+      getAccRecycle() {
+
+      },
+      getUnaccRecycle() {
+
+      }
     }
 
   }
