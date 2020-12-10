@@ -6,6 +6,22 @@
 
 <script>
   import CreateLogin from '../components/CreateLogin'
+  import Vuelidate from "vuelidate";
+  import VuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
+
+  Vue.use(Vuelidate);
+  Vue.use(VuelidateErrorExtractor, {
+    attributes: {
+      email: "Email",
+      phone: "Phone",
+      password: "Password"
+    },
+    messages: {
+      required: "{attribute} is required.",
+      maxLength: "{attribute} must be shorter than {limit} characters.",
+      minLength: "{attribute} must be longer than {limit} characters.",
+    }
+  })
 
   export default {
     name: 'CreateLogin',
@@ -31,23 +47,16 @@
         email: {
           required: this.phone === '' || this.phone === null,
           maxLength: maxLength(150),
-          maxMessage: 'Invalid email entered, email must be less than 150 characters, please try again.',
-          email: 'Invalid email entered, please try again.'
         },
         phone: {
           required: this.email === '' || this.email === null,
           minLength: minLength(10),
-          minMessage: 'Phone number must be 10 digits.',
           maxLength: maxLength(10),
-          maxMessage: 'Phone number must be 10 digits.'
         },
         password: {
           required: true,
-          requiredMessage: 'Must enter a password.',
           minLength: minLength(7),
-          minMessage: 'Password must be at least 7 characters, containing at least one capital letter and a number, and less than 30 characters',
           maxLength: maxLength(30),
-          maxMessage: 'Password must be at least 7 characters, containing at least one capital letter and a number, and less than 30 characters'
         }
       }
     },
@@ -55,16 +64,16 @@
       postLogin () {
         throw new Error('Not Implemented')
       },
-      isValidPhone () {
+      checkPhone () {
         throw new Error('Not Implemented')
       },
-      isValidEmail () {
+      checkEmail () {
         throw new Error('Not Implemented')
       },
-      isValidPassword () {
+      checkPassword () {
         throw new Error('Not Implemented')
       },
-      isValidCreatedLogin () {
+      checkCreatedLogin () {
         throw new Error('Not Implemented')
       },
       hashPassword () {
