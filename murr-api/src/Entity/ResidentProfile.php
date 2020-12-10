@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ResidentProfile
 {
+    const PROV_INITIALS = ['NL','PE','NS','NS','QC','ON','MB','SK','AB','BC','YT','NT','NU'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -36,7 +37,7 @@ class ResidentProfile
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Length(max="250", maxMessage="Street address must not exceed 50 characters.")
+     * @Assert\Length(max="50", maxMessage="Street address must not exceed 50 characters.")
      */
     private $streetAddress;
 
@@ -47,17 +48,20 @@ class ResidentProfile
     private $city;
 
     /**
+     * @Assert\Choice(choices=ResidentProfile::PROV_INITIALS, message="Province Initials must be one of these choices: ['NL','PE','NS','NB','QC','ON','MB','SK','AB','BC','YT','NT','NU'].")
      * @ORM\Column(type="string", length=2, nullable=true)
      * @Assert\Length(max="2", maxMessage="Province Initials must not exceed 2 characters.")
      */
     private $province;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=7, nullable=true)
+     * @Assert\Length (max="7", maxMessage="Postal code must not exceed 7 characters.")
      * @Assert\Regex(
-     *     pattern ="/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/",
+     *     pattern ="/^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/",
      *     match=true,
-     *     message="Postal code must follow the format 'L#L#L#'")
+     *     message="Postal code must follow the format 'L#L#L#'.")
+     *
      */
     private $postalCode;
 
@@ -67,32 +71,23 @@ class ResidentProfile
     */
     private $resident;
 
-    public function _construct()
-    {
-        $this->resident = new ArrayCollection();
-    }
-
     /**
-     * @return Collection
+     * @return mixed
      */
-    public function getResident(): Collection
+    public function getResident()
     {
         return $this->resident;
     }
 
-    public function addResident(Resident $resident):self
+    /**
+     * @param mixed $resident
+     */
+    public function setResident($resident): void
     {
-        if(!$this->resident->contains($resident)) {
-            $this->resident[] = $resident;
-        }
-        return $this;
+        $this->resident = $resident;
     }
 
-    public function removeResident(Resident $resident):self
-    {
-        $this->resident->removeElement($resident);
-        return $this;
-    }
+
 
     public function getId(): ?int
     {

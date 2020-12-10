@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use App\Entity\Resident;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 use App\Entity\ResidentProfile;
@@ -20,7 +21,9 @@ class ResidentProfileTest extends ApiTestCase
         'hydra:title' => 'An error occurred'
     ];
 
-    const API_URL = 'http://127.0.0.1:8000/api/resident_profiles';
+    private $fixtures = ['residents.yaml',];
+
+    const API_URL = 'api/resident_profiles';
 
     /**
      * @beforeClass
@@ -43,7 +46,7 @@ class ResidentProfileTest extends ApiTestCase
             'city' => 'Saskatoon',
             'province' => 'SK',
             'postalCode' => 'S0K 2W7',
-            'resident' => 2
+            'resident' => $this->findIriBy(Resident::class, ['id'=> 2])
         ];
     }
 
@@ -66,6 +69,31 @@ class ResidentProfileTest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(ResidentProfile::class);
     }
 
+    /**
+     * @test
+     *
+     */
+    public function testCreateResidentProfile_Everything_null():void
+    {
+       $this->dataArray['firstName'] = null;
+        $this->dataArray['lastName'] = null;
+        $this->dataArray['streetAddress'] = null;
+        $this->dataArray['city'] = null;
+        $this->dataArray['province'] = null;
+        $this->dataArray['postalCode'] = null;
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            '@context' => '/contexts/ResidentProfile',
+            '@type' => 'ResidentProfile',
+            ...$this->dataArray,
+        ]);
+        $this->assertRegExp('~^/resident_profiles/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(ResidentProfile::class);
+
+    }
+
    /**
     * @test
     * Boundary test for firstName length by repeating 'a' 21 times
@@ -80,7 +108,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'firstName: First name must not exceed 20 characters'
+            'hydra:description' => 'firstName: First name must not exceed 20 characters.'
         ]);
     }
 
@@ -118,7 +146,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'lastName: Last name must not exceed 20 characters'
+            'hydra:description' => 'lastName: Last name must not exceed 20 characters.'
         ]);
     }
 
@@ -155,7 +183,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'streetAddress: Street address must not exceed 50 characters'
+            'hydra:description' => 'streetAddress: Street address must not exceed 50 characters.'
         ]);
     }
 
@@ -192,7 +220,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'city: City must not exceed 30 characters'
+            'hydra:description' => 'city: City must not exceed 30 characters.'
         ]);
     }
 
@@ -229,7 +257,7 @@ class ResidentProfileTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'province: Province Initials must not exceed 2 characters'
+            'hydra:description' => 'province: Province Initials must not exceed 2 characters.'
         ]);
     }
 
@@ -251,6 +279,23 @@ class ResidentProfileTest extends ApiTestCase
         ]);
         $this->assertRegExp('~^/resident_profiles/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(ResidentProfile::class);
+    }
+
+    /**
+     * @test
+     * Testing invalid province. province is set to a value that is not in the choices.
+     */
+    public function testCreateResidentProfile_Invalid_province():void
+    {
+        $this->dataArray['province'] = 'SB';
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            ...self::VIOLATION_ARRAY,
+            'hydra:description' => 'province: Province Initials must be one these choices: ["NL","PE","NS","NB","QC","ON","MB","SK","AB","BC","YT","NT","NU"].'
+        ]);
     }
 
     /**
@@ -312,31 +357,21 @@ class ResidentProfileTest extends ApiTestCase
 
     /**
      * @test
-     * Test for everything invalid
+     * Testing postalCode pattern (L#L#L#).
      */
-    public function testCreateResidentProfile_All_Invalid():void
+    public  function testCreateResidentProfile_Invalid_postalCode_Length():void
     {
-        $this->dataArray['firstName'] = str_repeat('a', 21);
-        $this->dataArray['lastName'] = str_repeat('a', 21);
-        $this->dataArray['streetAddress'] = str_repeat('a', 51);
-        $this->dataArray['city'] = str_repeat('a', 31);
-        $this->dataArray['province'] = str_repeat('a', 3);
-        $this->dataArray['postalCode'] = 'SLN2WD';
+        $this->dataArray['postalCode'] = 'SLN  2WD';
         $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'firstName: First name must not exceed 20 characters',
-            'lastName: Last name must not exceed 20 characters',
-            'streetAddress: Street address must not exceed 50 characters',
-            'city: City must not exceed 50 characters',
-            'province: Province must not exceed 30 characters',
-            'postalCode: Postal code must follow the format L#L#L#'
-
+            'hydra:description' => 'postalCode: Postal code must not exceed 7 characters.'
         ]);
     }
+
 
 
 
