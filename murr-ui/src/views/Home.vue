@@ -19,10 +19,8 @@
       }
     },
     methods: {
-      CallPoints () { //send current resident id
+      CallPoints () { //send current resident id to component or call component to refresh get from database
         throw new Error('Not Implemented')
-
-        //if null returned or 404 error then display 0
       }
     }
   }

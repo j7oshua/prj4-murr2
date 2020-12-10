@@ -1,6 +1,7 @@
 
 
 //story 32 below
+/*
 describe('User sees his points empty.', () => {
   it('HomeUI successfully gets points information zero', () => {
     cy.visit('/1')
@@ -8,7 +9,7 @@ describe('User sees his points empty.', () => {
       .click()
     cy.contains('h2', 'Points:0')
   })
-})
+});
 
 describe('User sees his points.', () => {
   it('HomeUI successfully gets points information', () => {
@@ -17,7 +18,7 @@ describe('User sees his points.', () => {
       .click()
     cy.contains('h2', 'Points:3')
   })
-})
+});
 
 describe('User sees his points.', () => {
   it('HomeUI successfully gets points information large', () => {
@@ -26,7 +27,7 @@ describe('User sees his points.', () => {
       .click()
     cy.contains('h2', 'Points:80')
   })
-})
+});
 
 describe('Error', () => {
   it('HomeUI failed gets points information return zero', () => {
@@ -35,4 +36,5 @@ describe('Error', () => {
       .click()
     cy.contains('h2', 'Points:0')
   })
-})
+});
+*/
