@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Points: Number</h2>
+    <h2>Points: {{ tempNum }}</h2>
   </div>
 </template>
 
@@ -8,13 +8,13 @@
 export default {
   name: 'ProgressPoints',
   props: {
-    id: Number,
     residentid: Number,
     points: Number
   },
   data () {
     return {
-      tempNum: null
+      tempNum: null,
+      tempResId: null
     }
   },
   methods: {

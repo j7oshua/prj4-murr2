@@ -9,25 +9,19 @@ describe('ProgressPoints.vue', () => {
     const residentid = 1
     const msgpoints = 0
     const wrapper = shallowMount(Progress, {
-      propsData: {
-        residentid: residentid,
-        points: 0
-      }
+      propsData: { msgpoints }
     })
-    expect(wrapper.text()).to.include(msgpoints) // should return 0
+    wrapper.setData({ tempResId: residentid, tempNum: msgpoints })
+    expect(wrapper.vm.$data.tempNum).contain(msgpoints)
   })
 
   it('renders props.value when passed residentid 2', () => {
     const residentid = 2
     const msgpoints = null
     const wrapper = shallowMount(Progress, {
-      propsData: {
-        residentid: residentid,
-        points: null
-      }
+      propsData: { msgpoints }
     })
+    wrapper.setData({ tempResId: residentid, tempNum: msgpoints })
     expect(wrapper.text()).to.include(msgpoints) // should return null
   })
 })
-
-
