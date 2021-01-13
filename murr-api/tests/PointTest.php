@@ -29,9 +29,10 @@ class PointTest extends ApiTestCase
 
     //calls API URL
     const API_URL_RES1 = '127.0.0.1:800/api/points';
-    const API_URL_RES2 = '127.0.0.1:800/api/points';
-    const API_URL_RES3 = '127.0.0.1:800/api/points';
-    const API_URL_RES4 = '127.0.0.1:800/api/points';
+    //const API_URL_RES2 = '127.0.0.1:800/api/points'; //this needs to index the second resident id
+    const API_URL_RES2 = 'http://localhost:8003/point/2'; //second resident index through url
+    const API_URL_RES3 = '127.0.0.1:800/api/points'; //this needs to index the third resident id
+    const API_URL_RES4 = '127.0.0.1:800/api/points'; //this needs to index the fourth resident id
     /**
      * @beforeClass
      */
@@ -54,9 +55,11 @@ class PointTest extends ApiTestCase
             'resident_id' => '1',
             'numPoint' => '0'
         ];
+        //does this need to be filled with all data not just one fixture.
     }
 
     /**
+     * this should work
      * this test will test will display resident_id =1 with point=0
      */
     public function testUserWithZeroPoints(): void
@@ -75,11 +78,14 @@ class PointTest extends ApiTestCase
             'numPoint' => '0'
         ]);
 
+        //it says assertRegExp does not exist
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        //we need to build the schema but how?
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
     /**
+     * this needs a fixture
      * this test will test will display resident_id =2 with point=3
      */
     public function testUserWithThreePoints()
@@ -105,6 +111,7 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * this needs a fixture
      * this test will test will display resident_id =2 with point=80
      */
     public function testUserWithEightyPoints()
