@@ -23,18 +23,18 @@ export default {
         params: { residentid: this.residentid }
       })
         .then(resp => {
-          this.tempNum = resp.data;
+          this.tempNum = resp.data
           this.$emit('refreshed', this.tempNum)
         })
         .catch(err => {
-          if (err.response.status == 404) { //not found
-            this.tempNum = 0;
+          if (err.response.status === 404) { //  not found
+            this.tempNum = 0
           }
         })
         .finally(() => {
 
-        });
-    },
+        })
+    }
   }
 }
 </script>

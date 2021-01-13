@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div>
-    <PointsComponent></PointsComponent>
+      <PointsComponent></PointsComponent>
     </div>
   </div>
 </template>
