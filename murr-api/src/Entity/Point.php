@@ -4,10 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PointRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * @ApiResource()
@@ -20,62 +19,45 @@ class Point
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected ?int $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private ?int $numPoint;
+    private $numPoints;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
-     * @ORM\JoinColumn (name="reference_id", referencedColumnName="id")
+     * @ORM\Column(type="integer")
+     * @ManyToOne(targetEntity="Resident")
+     * @JoinColumn(name="resident_id", referencedColumnName="id")
      */
-    private Collection $resident;
-
-    
-    public function __construct()
-    {
-        $this->resident = new ArrayCollection();
-    }
+    private $resident_id;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPoint(): ?int
+    public function getNumPoints(): ?int
     {
-        return $this->numPoint;
+        return $this->numPoints;
     }
 
-    public function setPoint(?int $numPoint): self
+    public function setNumPoints(int $numPoints): self
     {
-        $this->numPoint = $numPoint;
+        $this->numPoints = $numPoints;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Resident[]
-     */
-    public function getResident(): Collection
+    public function getResidentId(): ?int
     {
-        return $this->resident;
+        return $this->resident_id;
     }
 
-    public function addResident(Resident $resident): self
+    public function setResidentId(int $resident_id): self
     {
-        if (!$this->resident->contains($resident)) {
-            $this->resident[] = $resident;
-        }
-
-        return $this;
-    }
-
-    public function removeResident(Resident $resident): self
-    {
-        $this->resident->removeElement($resident);
+        $this->resident_id = $resident_id;
 
         return $this;
     }
