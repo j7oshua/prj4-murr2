@@ -19,7 +19,7 @@ class ResidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Resident::class);
     }
 
-    //possible function for grabing the points?
+    //possible function for grabbing the points?
     /**
      * @param $value
      * @return int|mixed|string

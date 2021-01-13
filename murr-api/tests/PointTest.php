@@ -28,15 +28,21 @@ class PointTest extends ApiTestCase
     ];
 
     //calls API URL
-    const API_URL_RES1 = '127.0.0.1:800/api/points';
-    //const API_URL_RES2 = '127.0.0.1:800/api/points'; //this needs to index the second resident id
-    const API_URL_RES2 = 'http://localhost:8003/point/2'; //second resident index through url
-    const API_URL_RES3 = '127.0.0.1:800/api/points'; //this needs to index the third resident id
-    const API_URL_RES4 = '127.0.0.1:800/api/points'; //this needs to index the fourth resident id
+    //const API_URL_RES1 = '127.0.0.1:800/api/points';
+    //this needs to index the second resident id
+    //const API_URL_RES2 = 'http://localhost:8003/point/2'; //second resident index through url
+    //const API_URL_RES3 = '127.0.0.1:800/api/points'; //this needs to index the third resident id
+    //const API_URL_RES4 = '127.0.0.1:800/api/points'; //this needs to index the fourth resident id
+
+    const API_URL_RES1 = 'http://localhost:8003/point/1';
+    const API_URL_RES2 = 'http://localhost:8003/point/2';
+    const API_URL_RES3 = 'http://localhost:8003/point/3';
+    const API_URL_RES4 = 'http://localhost:8003/point/4';
+
     /**
      * @beforeClass
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         // creates client
         self::$client = static::createClient();
@@ -129,7 +135,7 @@ class PointTest extends ApiTestCase
             '@context' => '/contexts/Point',
             '@type' => 'Point',
             ...$this->dataArray,
-            'resident_id' => '3',
+            'resident_id' => '2',
             'numPoint' => '80'
         ]);
 

@@ -33,10 +33,7 @@ class Point
      */
     private Collection $resident;
 
-
-
-
-
+    
     public function __construct()
     {
         $this->resident = new ArrayCollection();
