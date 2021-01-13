@@ -1,5 +1,6 @@
 <?php
-
+//PHPUnit is missing a text printer? wonder if something got updated when it shouldn't.
+//trying POSTMAN to see if i could test.
 namespace App\Tests;
 
 

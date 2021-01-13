@@ -19,6 +19,25 @@ class ResidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Resident::class);
     }
 
+    //possible function for grabing the points?
+    /**
+     * @param $value
+     * @return int|mixed|string
+     */
+    public function FindResidentsPoints($value)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.id = :val')
+            ->setParameter('val', $value)
+            //need to find a way to access the point collection from resident class.
+            ->getQuery()
+            ->getResult();
+
+
+
+
+    }
+
     // /**
     //  * @return Resident[] Returns an array of Resident objects
     //  */
