@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     getPoints: function () {
-      this.axios.get(this.API_LOGIN_URL + '/post.php', {
+      this.axios.get('http://localhost:3000/residentPoints', {
         params: { residentid: this.residentid }
       })
         .then(resp => {
