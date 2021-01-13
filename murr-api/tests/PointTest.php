@@ -1,5 +1,7 @@
 <?php
-//PHPUnit is missing a text printer? wonder if something got updated when it shouldn't.
+//PHP Fatal error:  Uncaught Error: Class 'PHPUnit_TextUI_ResultPrinter' not found in C:\Users\dattw\AppData\Local\Temp\ide-phpunit.php:231
+//Attempting to figure why the tests do not run properly
+//wonder if something got updated when it shouldn't.
 //trying POSTMAN to see if i could test.
 namespace App\Tests;
 

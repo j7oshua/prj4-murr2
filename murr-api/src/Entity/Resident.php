@@ -20,12 +20,14 @@ class Resident
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident")
+     * @ORM\JoinColumn (name="point_id", referencedColumnName="id")
      */
-    private $points;
+    private Collection $points;
+
 
     public function __construct()
     {

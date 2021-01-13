@@ -29,8 +29,9 @@ class Point
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
+     * @ORM\JoinColumn (name="reference_id", referencedColumnName="id")
      */
-    private ArrayCollection $resident;
+    private Collection $resident;
 
 
 
