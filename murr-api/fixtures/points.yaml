@@ -1,19 +1,15 @@
 App\Entity\Point:
-  point1:
-    resident: ['@resident1']
-    numPoint: 1
-  point2:
-    resident: ['@resident2']
-    numPoint: 30
-  point3:
-    resident: ['@resident3']
-    numPoint: 20
-  point4:
-    resident: [ '@resident3' ]
-    numPoint: 20
-  point5:
-    resident: [ '@resident3' ]
-    numPoint: 20
-  point6:
-    resident: [ '@resident3' ]
-    numPoint: 20
+  point:
+    numPoints: 1
+#  point1:
+#    resident: ['@resident1']
+#  point2:
+#    resident: ['@resident2']
+#  point3:
+#    resident: ['@resident3']
+#  point4:
+#    resident: [ '@resident3' ]
+#  point5:
+#    resident: [ '@resident3' ]
+#  point6:
+#    resident: [ '@resident3' ]

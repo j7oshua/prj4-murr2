@@ -10,44 +10,32 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 use App\Entity\Point;
+
 class PointTest extends ApiTestCase
 {
-   //refreshes the database with each test.. this will load my fixtures
+    // This trait provided by HautelookAliceBundle will take care of refreshing the database content to a known state before each test
     use RefreshDatabaseTrait;
 
-    //Declare Variables
     private static $client;
     private static $repo;
     private $dataArray;
-
-   //Display Constraints
     const VIOLATION_ARRAY=[
         '@context' => '/contexts/ConstraintViolationList',
         '@type' => 'ConstraintViolationList',
         'hydra:title' => 'An error occurred'
     ];
 
-    //calls API URL
-    //const API_URL_RES1 = '127.0.0.1:800/api/points';
-    //this needs to index the second resident id
-    //const API_URL_RES2 = 'http://localhost:8003/point/2'; //second resident index through url
-    //const API_URL_RES3 = '127.0.0.1:800/api/points'; //this needs to index the third resident id
-    //const API_URL_RES4 = '127.0.0.1:800/api/points'; //this needs to index the fourth resident id
-
-    const API_URL_RES1 = 'http://localhost:8003/point/1';
-    const API_URL_RES2 = 'http://localhost:8003/point/2';
-    const API_URL_RES3 = 'http://localhost:8003/point/3';
-    const API_URL_RES4 = 'http://localhost:8003/point/4';
+    const API_URL_RESIDENT_ONE = 'api/points/0';
+    const API_URL_RESIDENT_TWO = 'api/points/1';
+    const API_URL_RESIDENT_THREE = 'api/points/2';
+    const API_URL_RESIDENT_FOUR = 'api/points/3';
 
     /**
      * @beforeClass
      */
     public static function setUpBeforeClass() : void
     {
-        // creates client
         self::$client = static::createClient();
-
-        //creates repository
         self::$repo = static::$container->get('doctrine')->getRepository(Point::class);
     }
 
@@ -56,106 +44,97 @@ class PointTest extends ApiTestCase
      */
     public function setUp(): void
     {
-        //fill the data array with all valid data
+
         $this->dataArray = [
-            'resident_id' => '1',
-            'numPoint' => '0'
+            'numPoints' => 1,
         ];
-        //does this need to be filled with all data not just one fixture.
     }
 
     /**
-     * this should work
-     * this test will test will display resident_id =1 with point=0
+     * @test
      */
-    public function testUserWithZeroPoints(): void
+    public function testCreatePointForResidentOne(): void
     {
-        //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL_RES1, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
-        //Validate the Get request
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             '@context' => '/contexts/Point',
             '@type' => 'Point',
             ...$this->dataArray,
-            'resident_id' => '1',
-            'numPoint' => '0'
+            'numPoints' => 1,
         ]);
-
-        //it says assertRegExp does not exist
-        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
-        //we need to build the schema but how?
-        $this->assertMatchesResourceItemJsonSchema(Point::class);
-    }
-
-    /**
-     * this needs a fixture
-     * this test will test will display resident_id =2 with point=3
-     */
-    public function testUserWithThreePoints()
-    {
-
-        //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL_RES2, ['json' => $this->dataArray]);
-
-        //Validate the Get request
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/contexts/Point',
-            '@type' => 'Point',
-            ...$this->dataArray,
-            'resident_id' => '2',
-            'numPoint' => '3'
-        ]);
-
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
-    /**
-     * this needs a fixture
-     * this test will test will display resident_id =2 with point=80
-     */
-    public function testUserWithEightyPoints()
-    {
-
-
-        //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
-
-        //Validate the Get request
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/contexts/Point',
-            '@type' => 'Point',
-            ...$this->dataArray,
-            'resident_id' => '2',
-            'numPoint' => '80'
-        ]);
-
-        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Point::class);
-    }
-
-    public function testUserWithNoResidentID()
-    {
-
-
-        //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
-
-        //Validate the Get request
-        $this->assertResponseStatusCodeSame(404);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-
-        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Point::class);
-    }
+//    /**
+//     * this needs a fixture
+//     * this test will test will display resident_id =2 with point=3
+//     */
+//    public function testUserWithThreePoints()
+//    {
+//
+//        //call client to do a get request and get the json from dataArray
+//        $response = self::$client->request('GET', self::API_URL_RES2, ['json' => $this->dataArray]);
+//
+//        //Validate the Get request
+//        $this->assertResponseStatusCodeSame(200);
+//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+//
+//        $this->assertJsonContains([
+//            '@context' => '/contexts/Point',
+//            '@type' => 'Point',
+//            ...$this->dataArray,
+//            'resident_id' => '2',
+//            'numPoint' => '3'
+//        ]);
+//
+//        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+//        $this->assertMatchesResourceItemJsonSchema(Point::class);
+//    }
+//
+//    /**
+//     * this needs a fixture
+//     * this test will test will display resident_id =2 with point=80
+//     */
+//    public function testUserWithEightyPoints()
+//    {
+//
+//
+//        //call client to do a get request and get the json from dataArray
+//        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
+//
+//        //Validate the Get request
+//        $this->assertResponseStatusCodeSame(200);
+//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+//
+//        $this->assertJsonContains([
+//            '@context' => '/contexts/Point',
+//            '@type' => 'Point',
+//            ...$this->dataArray,
+//            'resident_id' => '2',
+//            'numPoint' => '80'
+//        ]);
+//
+//        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+//        $this->assertMatchesResourceItemJsonSchema(Point::class);
+//    }
+//
+//    public function testUserWithNoResidentID()
+//    {
+//
+//
+//        //call client to do a get request and get the json from dataArray
+//        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
+//
+//        //Validate the Get request
+//        $this->assertResponseStatusCodeSame(404);
+//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+//
+//
+//        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+//        $this->assertMatchesResourceItemJsonSchema(Point::class);
+//    }
 }
