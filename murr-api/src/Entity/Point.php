@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PointRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -18,20 +19,27 @@ class Point
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive(message = "The points has to be greater than zero")
+     * @Assert\NotNull(message = "Points cannot be left null")
+     *
      */
     private $numPoints;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ManyToOne(targetEntity="Resident")
-     * @JoinColumn(name="resident_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
      */
-    private $resident_id;
+    private $resident;
+
+    public function __construct()
+    {
+        $this->resident = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -50,14 +58,26 @@ class Point
         return $this;
     }
 
-    public function getResidentId(): ?int
+    /**
+     * @return Collection|Resident[]
+     */
+    public function getResident(): Collection
     {
-        return $this->resident_id;
+        return $this->resident;
     }
 
-    public function setResidentId(int $resident_id): self
+    public function addResident(Resident $resident): self
     {
-        $this->resident_id = $resident_id;
+        if (!$this->resident->contains($resident)) {
+            $this->resident[] = $resident;
+        }
+
+        return $this;
+    }
+
+    public function removeResident(Resident $resident): self
+    {
+        $this->resident->removeElement($resident);
 
         return $this;
     }
