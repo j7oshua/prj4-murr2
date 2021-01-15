@@ -9,7 +9,7 @@ use App\Entity\Point;
 
 class PointTest extends ApiTestCase
 {
-    // This trait provided by HautelookAliceBundle will take care of refreshing the database content to a known state before each test
+
     use RefreshDatabaseTrait;
 
     private static $client;
@@ -21,13 +21,13 @@ class PointTest extends ApiTestCase
         'hydra:title' => 'An error occurred'
     ];
 
-    const API_URL_RESIDENT_ONE = 'api/points/1';
-    const API_URL_RESIDENT_TWO = 'api/points/2';
-    const API_URL_RESIDENT_NO_ID = 'api/points/-1';
-    const API_URL_RESIDENT_THREE = 'api/points/3';
-    const API_URL_RESIDENT_FOUR = 'api/points/4';
-    const API_URL_RESIDENT_NINETYNINE = 'api/points/99';
-    const API_URL_RESIDENT_FIVE = 'api/points/5';
+    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/1';
+    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/2';
+    const API_URL_RESIDENT_NO_ID = '127.0.0.1:8000/api/points/-1';
+    const API_URL_RESIDENT_THREE = '127.0.0.1:8000/api/points/3';
+    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/4';
+    const API_URL_RESIDENT_NINETYNINE = '127.0.0.1:8000/api/points/99';
+    const API_URL_RESIDENT_FIVE = '127.0.0.1:8000/api/points/5';
 
     /**
      * @beforeClass
@@ -52,7 +52,7 @@ class PointTest extends ApiTestCase
     /**
      * @test
      */
-    public function testAddOnePointUserWithThreePoints(): void
+    public function TestAddOnePointUserWithThreePoints(): void
     {
         $response = self::$client->request('POST', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
@@ -71,7 +71,7 @@ class PointTest extends ApiTestCase
     /**
      * @test
      */
-    public function testAddOnePointUserWithNoPoints(): void
+    public function TestAddOnePointUserWithNoPoints(): void
     {
 
         $response = self::$client->request('POST', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray]);
@@ -92,9 +92,8 @@ class PointTest extends ApiTestCase
     /**
      * @test
      */
-    public function testAddOnePointUserWithNoID(): void
+    public function TestAddOnePointUserWithNoID(): void
     {
-        //set one value as invalid
 
         $response = self::$client->request('POST', self::API_URL_RESIDENT_NO_ID, ['json' => $this->dataArray]);
 
@@ -104,20 +103,19 @@ class PointTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'ResidentID has not been created.'
+            'hydra:description' => 'residentID: ResidentID has not been created.'
         ]);
     }
 
-        /**
-         * @test
-         */
-        public
-        function testAddZeroPointUserWithPoints(): void
-        {
-            //set one value as Zero
+    /**
+     * @test
+     */
+    public
+    function TestAddZeroPointUserWithPoints(): void
+    {
+            //set numPoints as Zero
             $this->dataArray['numPoints'] = 0;
 
-            unset($this->dataArray['description']);
             $response = self::$client->request('POST', self::API_URL_RESIDENT_THREE, ['json' => $this->dataArray]);
 
             $this->assertResponseStatusCodeSame(404);
@@ -125,39 +123,39 @@ class PointTest extends ApiTestCase
 
             $this->assertJsonContains([
                 ...self::VIOLATION_ARRAY,
-                'hydra:description' => 'The points has to be greater than zero.'
+                'hydra:description' => 'numPoints: The points has to be greater than zero.'
             ]);
-        }
+    }
 
     /**
      * @test
      */
     public
-    function testAddZeroPointUserWithNoPoints(): void
+    function TestAddZeroPointUserWithNoPoints(): void
     {
-        //set one value as Zero
+        //set numPoints as Zero
         $this->dataArray['numPoints'] = 0;
 
-        unset($this->dataArray['description']);
-        $respongitse = self::$client->request('POST', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'The points has to be greater than zero.'
+            'hydra:description' => 'numPoints: The points has to be greater than zero.'
         ]);
     }
 
-
-        public
-        function testAddOnePointUserIDNinetyNineDoesNotExist(): void
-        {
-            //set one value as One
+    /**
+     * @test
+     */
+    public
+    function TestAddOnePointUserIDNinetyNineDoesNotExist(): void
+    {
+            //set numPoints as One
             $this->dataArray['numPoints'] = 1;
 
-            unset($this->dataArray['description']);
             $response = self::$client->request('POST', self::API_URL_RESIDENT_NINETYNINE, ['json' => $this->dataArray]);
 
             $this->assertResponseStatusCodeSame(400);
@@ -165,13 +163,17 @@ class PointTest extends ApiTestCase
 
             $this->assertJsonContains([
                 ...self::VIOLATION_ARRAY,
-                'hydra:description' => 'description: This value should not be blank.'
+                'hydra:description' => 'residentID: ResidentID has not been created.'
             ]);
-        }
+    }
+
+    /**
+     * @test
+     */
     public
     function testLeavePointsBlank(): void
     {
-        //set one value as Null
+        //set numPoints as Null
         unset($this->dataArray['numPoints']);
 
         $response = self::$client->request('POST', self::API_URL_RESIDENT_FIVE, ['json' => $this->dataArray]);
@@ -181,8 +183,8 @@ class PointTest extends ApiTestCase
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'description: This value should not be blank.'
+            'hydra:description' => 'numPoints: Points cannot be left null'
         ]);
     }
 
-    }
+}

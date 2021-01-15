@@ -1,0 +1,11 @@
+App\Entity\Point:
+  point:
+    numPoints: 1
+  pointone:
+    resident: [ '@residentone' ]
+  pointtwo:
+    resident: [ '@residentone' ]
+  pointthree:
+    resident: [ '@residentone' ]
+  pointfour:
+    resident: [ '@residentthree' ]
