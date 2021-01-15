@@ -15,16 +15,19 @@ class PointTest extends ApiTestCase
     private static $client;
     private static $repo;
     private $dataArray;
-    const VIOLATION_ARRAY=[
+    const VIOLATION_ARRAY = [
         '@context' => '/contexts/ConstraintViolationList',
         '@type' => 'ConstraintViolationList',
         'hydra:title' => 'An error occurred'
     ];
 
-    const API_URL_RESIDENT_ONE = 'api/points/0';
-    const API_URL_RESIDENT_TWO = 'api/points/1';
-    const API_URL_RESIDENT_THREE = 'api/points/2';
-    const API_URL_RESIDENT_FOUR = 'api/points/3';
+    const API_URL_RESIDENT_ONE = 'api/points/1';
+    const API_URL_RESIDENT_TWO = 'api/points/2';
+    const API_URL_RESIDENT_NO_ID = 'api/points/-1';
+    const API_URL_RESIDENT_THREE = 'api/points/3';
+    const API_URL_RESIDENT_FOUR = 'api/points/4';
+    const API_URL_RESIDENT_NINETYNINE = 'api/points/99';
+    const API_URL_RESIDENT_FIVE = 'api/points/5';
 
     /**
      * @beforeClass
@@ -49,7 +52,7 @@ class PointTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreatePointForResidentOne(): void
+    public function testAddOnePointUserWithThreePoints(): void
     {
         $response = self::$client->request('POST', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
@@ -68,46 +71,110 @@ class PointTest extends ApiTestCase
     /**
      * @test
      */
-    public function testCreatePointForResidentTwoInvalidPoint(): void
+    public function testAddOnePointUserWithNoPoints(): void
     {
-        $this->dataArray['numPoints'] = -1;
-        $response = self::$client->request('POST', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $response = self::$client->request('POST', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray]);
+        $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
         $this->assertJsonContains([
-            ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'isbn: This value is neither a valid ISBN-10 nor a valid ISBN-13.'
+            '@context' => '/contexts/Point',
+            '@type' => 'Point',
+            ...$this->dataArray,
+            'numPoints' => 1,
         ]);
+
+        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Point::class);
 
     }
 
     /**
      * @test
      */
-    public function testCreateBook_Invalid_Title_Empty(): void
+    public function testAddOnePointUserWithNoID(): void
     {
         //set one value as invalid
-        unset($this->dataArray['title']);
-        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $response = self::$client->request('POST', self::API_URL_RESIDENT_NO_ID, ['json' => $this->dataArray]);
+
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+
+        $this->assertJsonContains([
+            ...self::VIOLATION_ARRAY,
+            'hydra:description' => 'ResidentID has not been created.'
+        ]);
+    }
+
+        /**
+         * @test
+         */
+        public
+        function testAddZeroPointUserWithPoints(): void
+        {
+            //set one value as Zero
+            $this->dataArray['numPoints'] = 0;
+
+            unset($this->dataArray['description']);
+            $response = self::$client->request('POST', self::API_URL_RESIDENT_THREE, ['json' => $this->dataArray]);
+
+            $this->assertResponseStatusCodeSame(404);
+            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+            $this->assertJsonContains([
+                ...self::VIOLATION_ARRAY,
+                'hydra:description' => 'The points has to be greater than zero.'
+            ]);
+        }
+
+    /**
+     * @test
+     */
+    public
+    function testAddZeroPointUserWithNoPoints(): void
+    {
+        //set one value as Zero
+        $this->dataArray['numPoints'] = 0;
+
+        unset($this->dataArray['description']);
+        $respongitse = self::$client->request('POST', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
+
+        $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
             ...self::VIOLATION_ARRAY,
-            'hydra:description' => 'title: This value should not be blank.'
+            'hydra:description' => 'The points has to be greater than zero.'
         ]);
     }
-    /**
-     * @test
-     */
-    public function testCreateBook_Invalid_Description_Empty(): void
+
+
+        public
+        function testAddOnePointUserIDNinetyNineDoesNotExist(): void
+        {
+            //set one value as One
+            $this->dataArray['numPoints'] = 1;
+
+            unset($this->dataArray['description']);
+            $response = self::$client->request('POST', self::API_URL_RESIDENT_NINETYNINE, ['json' => $this->dataArray]);
+
+            $this->assertResponseStatusCodeSame(400);
+            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+            $this->assertJsonContains([
+                ...self::VIOLATION_ARRAY,
+                'hydra:description' => 'description: This value should not be blank.'
+            ]);
+        }
+    public
+    function testLeavePointsBlank(): void
     {
-        //set one value as invalid
-        unset($this->dataArray['description'] );
-        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        //set one value as Null
+        unset($this->dataArray['numPoints']);
+
+        $response = self::$client->request('POST', self::API_URL_RESIDENT_FIVE, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -118,43 +185,4 @@ class PointTest extends ApiTestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function testUpdateBook(): void
-    {
-
-        // findIriBy allows to retrieve the IRI of an item by searching for some of its properties.
-        // ISBN 9786644879585 has been generated by Alice when loading test fixtures.
-        // Because Alice use a seeded pseudo-random number generator, we're sure that this ISBN will always be generated.
-        $iri = $this->findIriBy(Book::class, ['isbn' => '9781344037075']);
-
-        $response = self::$client->request('PUT', $iri, ['json' => ['title' => 'updated title']]);
-
-        $this->assertResponseIsSuccessful();
-        $this->assertJsonContains([
-            '@id' => $iri,
-            'isbn' => '9781344037075',
-            'title' => 'updated title',
-        ]);
     }
-
-    /**
-     * @test
-     */
-    public function testDeleteBook(): void
-    {
-        // findIriBy allows to retrieve the IRI of an item by searching for some of its properties.
-        // ISBN 9786644879585 has been generated by Alice when loading test fixtures.
-        // Because Alice use a seeded pseudo-random number generator, we're sure that this ISBN will always be generated.
-        $iri = $this->findIriBy(Book::class, ['isbn' => '9781344037075']);
-
-        $response = self::$client->request('DELETE', $iri);
-
-        $this->assertResponseStatusCodeSame(204);
-
-        //query the database for the book we just deleted
-        $this->assertNull( self::$repo->findOneBy(['isbn' => '9781344037075']) );
-    }
-
-}
