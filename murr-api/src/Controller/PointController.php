@@ -23,5 +23,34 @@ class PointController
         return count($result);
     }
 
+    public static function getPointSum(EntityManager $em, array $reqData)
+{
+    return $qb = $em->createQueryBuilder('pr')
+        //need to go into selected point tables.
+        ->select('SUM(fc.numPoint)')
+        ->andWhere("pr.resident_id = '" . $reqData['resident_id'] . "'")
+        ->groupBy('pr.resident_id')
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+//https://gist.github.com/roukmoute/d8b7473da78fc9d8b867
+    public static function getPointSum2(EntityManager $em, array $reqData)
+    {
+        //return $qb = $em->createQueryBuilder('pr')
+            //->where(
+               // $queryBuilder->expr()->in( //may work?
+                    //'pr.pointid',
+                 //   $this
+                   //     ->createQueryBuilder('subquery_repository')
+                     //   ->select('SUM(point.num_point)')
+                       // ->from('EntityBundle:Point', 'point')
+                        //->where('Point.id = :pointid')
+                        //->getDQL()
+                //)
+            //)
+            //->setParameter(':user', $user);
+
+    }
 
 }

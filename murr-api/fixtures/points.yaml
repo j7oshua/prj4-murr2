@@ -1,10 +1,14 @@
 App\Entity\Point:
   point:
     numPoints: 1
-#  point1:
-#    resident: ['@resident1']
-#  point2:
-#    resident: ['@resident2']
+  point1:
+    numPoints: 1
+    resident: ['@resident1']
+  #point2:
+   #numPoints: 3
+   #resident: ['@resident2']
+
+
 #  point3:
 #    resident: ['@resident3']
 #  point4:
