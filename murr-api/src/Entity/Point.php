@@ -10,7 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     itemOperations={
+ *      "post"={
+ *          "path"="/points/{Resident::}"
+ *      }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=PointRepository::class)
  */
 class Point
