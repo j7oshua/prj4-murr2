@@ -6,29 +6,29 @@ import Progress from '@/components/ProgressPoints.vue'
 describe('ProgressPoints.vue', () => {
   it('renders props.value when passed residentid 1', () => {
     const residentid = 1
-    const msgpoints = 0
+    const points = 0
     const wrapper = shallowMount(Progress, {
-      propsData: { residentid: residentid }
+      propsData: { residentid: residentid, points: points }
     })
-    wrapper.setData({ residentid: residentid })
-    expect(wrapper.text()).to.include(msgpoints) // should return 0
+    wrapper.setData({ points: points })
+    expect(wrapper.text()).to.include(points) // should return 0
   })
   it('renders props.value when passed residentid 1', () => {
     const residentid = 1
-    const msgpoints = 1000
+    const points = 1000
     const wrapper = shallowMount(Progress, {
-      propsData: { residentid: residentid }
+      propsData: { residentid: residentid, points: points }
     })
-    wrapper.setData({ residentid: residentid })
-    expect(wrapper.text()).to.include(msgpoints) // should return 1000
+    wrapper.setData({ points: points })
+    expect(wrapper.text()).to.include(points) // should return 1000
   })
   it('renders props.value when passed residentid 2', () => {
     const residentid = 2
-    const msgpoints = NaN
+    const points = NaN
     const wrapper = shallowMount(Progress, {
-      propsData: { residentid: residentid }
+      propsData: { residentid: residentid, points: points }
     })
-    wrapper.setData({ residentid: residentid })
-    expect(wrapper.text()).to.include(msgpoints) // should return null
+    wrapper.setData({ points: points })
+    expect(wrapper.text()).to.include(points) // should return null
   })
 })

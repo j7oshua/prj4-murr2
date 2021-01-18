@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Points: {{ tempNum }}</h2>
+    <h2>Points: {{ points }}</h2>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: 'ProgressPoints',
   data () {
     return {
-      tempNum: null,
+      tempPoints: null,
       tempResId: null
     }
   },
@@ -23,11 +23,11 @@ export default {
         params: { residentid: this.residentid }
       })
         .then(resp => {
-          this.tempNum = resp.data.points
+          this.tempPoints = resp.data.points
         })
         .catch(err => {
           if (err.response.status === 404) { //  not found
-            this.tempNum = 0
+            this.tempPoints = 0
           }
         })
     }
