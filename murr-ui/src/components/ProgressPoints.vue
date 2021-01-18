@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Points: {{ points }}</h2>
+    <h2>Points: {{ tempNum }}</h2>
   </div>
 </template>
 
@@ -23,18 +23,17 @@ export default {
         params: { residentid: this.residentid }
       })
         .then(resp => {
-          this.tempNum = resp.data
-          this.$emit('refreshed', this.tempNum)
+          this.tempNum = resp.data.points
         })
         .catch(err => {
           if (err.response.status === 404) { //  not found
             this.tempNum = 0
           }
         })
-        .finally(() => {
-
-        })
     }
+  },
+  mounted () {
+    // this.getPoints()
   }
 }
 </script>

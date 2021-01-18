@@ -19,7 +19,7 @@ const routes = [
   },
   {
     name: 'ProgressPoints',
-    component: () => import(/* webpackChunkName: "home" */ '@/componets/ProgressPoints.vue')
+    component: () => import(/* webpackChunkName: "home" */ '@/components/ProgressPoints.vue')
   }
 ]
 

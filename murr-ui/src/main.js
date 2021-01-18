@@ -15,7 +15,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
-Vue.use(VueEllipseProgress);
+Vue.use(VueEllipseProgress)
 Vue.config.productionTip = false
 new Vue({
   router,
