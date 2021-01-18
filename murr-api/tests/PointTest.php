@@ -32,12 +32,12 @@ class PointTest extends ApiTestCase
 
     //const API_URL_RESIDENT_ONE = 'api/points/0';
     //const API_URL_RESIDENT_ONE = 'localhost:8080/api/points/44'; //for testing with created schema data
-    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/67'; //for testing with created schema data
-    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/51'; //for testing with created schema data
+    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/9'; //for testing with created schema data
+    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/10'; //for testing with created schema data
     //const API_URL_RESIDENT_TWO = 'api/points/1';
-    const API_URL_RESIDENT_THREE = 'api/points/2';
+    const API_URL_RESIDENT_THREE = '127.0.0.1:8000/api/points/3';
     const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/100';
-const API_URL_RESIDENTS = '127.0.0.1:8000/api/points';
+    const API_URL_RESIDENTS = '127.0.0.1:8000/api/points';
 
     /**
      * @beforeClass
@@ -74,7 +74,7 @@ const API_URL_RESIDENTS = '127.0.0.1:8000/api/points';
         //$response = self::$client->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
         //maybe generating it will pass?
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(404); //this needs to be the code for success with finding it
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -88,40 +88,38 @@ const API_URL_RESIDENTS = '127.0.0.1:8000/api/points';
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
-
     public function testgetAll(): void {
         $response = static::createClient()->request('GET', self::API_URL_RESIDENTS, ['json' => $this->dataArray]);
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         //needs more testing
-        var_dump($response);
+        //var_dump($response);
     }
 
-//    //there is some thing wrong when i uncomment resident2
-//    /**
-//     * this test will test will display resident_id = id1+1 with point=3
-//     */
-//    public function testUserWithThreePoints()
-//    {
-//
-//        //call client to do a get request and get the json from dataArray
-//        $response = self::$client->request('GET', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray]);
-//
-//        //Validate the Get request
-//        $this->assertResponseStatusCodeSame(200);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            '@context' => '/contexts/Point',
-//            '@type' => 'Point',
-//            ...$this->dataArray,
-//            //'resident_id' => '2', //this will move cause it is generated.
-//            'numPoint' => '3',
-//        ]);
-//
-//        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
-//        $this->assertMatchesResourceItemJsonSchema(Point::class);
-//    }
+    //there is some thing wrong when i uncomment resident2
+    /**
+     * this test will test will display resident_id = id1+1 with point=3
+     */
+    public function testUserWithThreePoints()
+    {
+        //call client to do a get request and get the json from dataArray
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray]);
+
+        //Validate the Get request
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/contexts/Point',
+            '@type' => 'Point',
+            ...$this->dataArray,
+            'resident_id' => '2', //this will move cause it is generated.
+            'numPoints' => '3',
+        ]);
+
+        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Point::class);
+    }
 //
 //    /**
 //     * this needs a fixture
