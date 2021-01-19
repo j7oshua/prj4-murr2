@@ -61,6 +61,29 @@ class ResidentTest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
 
+    public function TestCreateResidentAccount2(): void
+    {
+        $response = self::$client->request('POST', '/resident', ['json' => [
+            'id' => '1',
+            'phone' => '1234567890',
+            'email' => 'email@email.com',
+            'password' => 'password'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            '@context' => '/contexts/Resident',
+            '@type' => 'Resident',
+            'id' => '1',
+            'phone' => '1234567890',
+            'email' => 'email@email.com',
+            'password' => 'password'
+        ]);
+        $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Resident::class);
+    }
+
     /**
      * @test
      */
