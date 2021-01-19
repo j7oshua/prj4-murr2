@@ -25,19 +25,11 @@ class PointTest extends ApiTestCase
         'hydra:title' => 'An error occurred'
     ];
 
-    //why will this return nothing??? idk
-    //schema is generating new residents and points cause the id keeps going up and i keep indexing up.
-    //some thing is wrong with the link request
-
-
-    //const API_URL_RESIDENT_ONE = 'api/points/0';
-    //const API_URL_RESIDENT_ONE = 'localhost:8080/api/points/44'; //for testing with created schema data
-    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/9'; //for testing with created schema data
-    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/10'; //for testing with created schema data
-    //const API_URL_RESIDENT_TWO = 'api/points/1';
+    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/1';
+    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/2';
     const API_URL_RESIDENT_THREE = '127.0.0.1:8000/api/points/3';
-    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/100';
-    const API_URL_RESIDENTS = '127.0.0.1:8000/api/points';
+    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/4';
+    const API_URL_RESIDENT_NO_ID = '127.0.0.1:8000/api/points/-1';
 
     /**
      * @beforeClass
@@ -71,10 +63,9 @@ class PointTest extends ApiTestCase
      */
     public function testPointForResidentOne(): void
     {
-        //$response = self::$client->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
+        $response = self::$client->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
-        //maybe generating it will pass?
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
+        //$response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(404); //this needs to be the code for success with finding it
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');

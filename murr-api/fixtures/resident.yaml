@@ -1,6 +1,7 @@
 App\Entity\Resident:
   resident1:
-
+    id: 1
   resident2:
-
- # resident3:
+    id: 2
+  resident3:
+    id: 3
