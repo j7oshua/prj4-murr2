@@ -27,7 +27,7 @@ class PointController
 {
     return $qb = $em->createQueryBuilder('pr')
         //need to go into selected point tables.
-        ->select('SUM(fc.numPoint)')
+        ->select('SUM(pr.numPoint)')
         ->andWhere("pr.resident_id = '" . $reqData['resident_id'] . "'")
         ->groupBy('pr.resident_id')
         ->getQuery()

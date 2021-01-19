@@ -21,7 +21,7 @@ class Resident
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident")

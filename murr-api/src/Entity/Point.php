@@ -21,7 +21,8 @@ class Point
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
      */
-    private $id;
+    public $id;
+    //tried changing private to public
 
     /**
      * @ORM\Column(type="integer")
@@ -29,7 +30,7 @@ class Point
      * @Assert\NotNull(message = "Points cannot be left null")
      *
      */
-    private $numPoints;
+    public $numPoints;
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")

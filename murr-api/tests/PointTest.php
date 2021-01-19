@@ -1,8 +1,7 @@
 <?php
 //PHP Fatal error:  Uncaught Error: Class 'PHPUnit_TextUI_ResultPrinter' not found in C:\Users\dattw\AppData\Local\Temp\ide-phpunit.php:231
 //Attempting to figure why the tests do not run properly
-//wonder if something got updated when it shouldn't.
-//trying POSTMAN to see if i could test.
+
 namespace App\Tests;
 
 
@@ -65,9 +64,7 @@ class PointTest extends ApiTestCase
     {
         $response = self::$client->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
-        //$response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
-
-        $this->assertResponseStatusCodeSame(404); //this needs to be the code for success with finding it
+        $this->assertResponseStatusCodeSame(200); //this needs to be the code for success with finding it
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             '@context' => '/contexts/Point',
@@ -75,19 +72,11 @@ class PointTest extends ApiTestCase
             ...$this->dataArray,
             'numPoints' => 1,
         ]);
-        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
-    public function testgetAll(): void {
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENTS, ['json' => $this->dataArray]);
 
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        //needs more testing
-        //var_dump($response);
-    }
-
-    //there is some thing wrong when i uncomment resident2
     /**
      * this test will test will display resident_id = id1+1 with point=3
      */
@@ -111,34 +100,34 @@ class PointTest extends ApiTestCase
         $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
-//
-//    /**
-//     * this needs a fixture
-//     * this test will test will display resident_id =2 with point=80
-//     */
-//    public function testUserWithEightyPoints()
-//    {
-//
-//
-//        //call client to do a get request and get the json from dataArray
-//        $response = self::$client->request('GET', self::API_URL_RES3, ['json' => $this->dataArray]);
-//
-//        //Validate the Get request
-//        $this->assertResponseStatusCodeSame(200);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            '@context' => '/contexts/Point',
-//            '@type' => 'Point',
-//            ...$this->dataArray,
-//            'resident_id' => '2',
-//            'numPoint' => '80'
-//        ]);
-//
-//        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
-//        $this->assertMatchesResourceItemJsonSchema(Point::class);
-//    }
-//
+
+    /**
+     * this needs a fixture
+     * this test will test will display resident_id =2 with point=80
+     */
+    public function testUserWithEightyPoints()
+    {
+
+
+        //call client to do a get request and get the json from dataArray
+        $response = self::$client->request('GET', self::API_URL_RESIDENT_THREE, ['json' => $this->dataArray]);
+
+        //Validate the Get request
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/contexts/Point',
+            '@type' => 'Point',
+            ...$this->dataArray,
+            'resident_id' => '3',
+            'numPoint' => '80'
+        ]);
+
+        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Point::class);
+    }
+
     /**
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * not sure how to handle this type of error exception
