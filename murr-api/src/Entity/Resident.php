@@ -23,12 +23,14 @@ class Resident
      * @ORM\Column(type="string", length=150)
      * @Assert\Email(message = "The email is not a valid email.")
      * @Assert\Length(max = 150, maxMessage = "Email has more than {{ limit }} characters.")
+     * @Assert\NotBlank(message="not blank")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=10)
      * @Assert\Length(min = 10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.")
+     * @Assert\NotBlank(message="not blank")
      */
     private $phone;
 

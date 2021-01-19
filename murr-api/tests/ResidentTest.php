@@ -61,10 +61,12 @@ class ResidentTest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
 
+    /**
+     * @test
+     */
     public function TestCreateResidentAccount2(): void
     {
         $response = self::$client->request('POST', '/resident', ['json' => [
-            'id' => '1',
             'phone' => '1234567890',
             'email' => 'email@email.com',
             'password' => 'password'
@@ -75,7 +77,7 @@ class ResidentTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/contexts/Resident',
             '@type' => 'Resident',
-            'id' => '1',
+            'id' => 1,
             'phone' => '1234567890',
             'email' => 'email@email.com',
             'password' => 'password'
