@@ -39,7 +39,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray = [
           'email' => 'test@hello.com',
           'phone' => '3333333333',
-          'password' => 'password@1'
+          'password' => 'password@1',
         ];
     }
 
@@ -48,25 +48,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccount(): void
     {
-        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/contexts/Resident',
-            '@type' => 'Resident',
-            ...$this->dataArray,
-        ]);
-        $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Resident::class);
-    }
-
-    /**
-     * @test
-     */
-    public function TestCreateResidentAccount2(): void
-    {
-        $response = self::$client->request('POST', '/resident', ['json' => [
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'phone' => '1234567890',
             'email' => 'email@email.com',
             'password' => 'password'
@@ -77,7 +59,6 @@ class ResidentTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/contexts/Resident',
             '@type' => 'Resident',
-            'id' => 1,
             'phone' => '1234567890',
             'email' => 'email@email.com',
             'password' => 'password'
@@ -85,6 +66,7 @@ class ResidentTest extends ApiTestCase
         $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
+
 
     /**
      * @test
