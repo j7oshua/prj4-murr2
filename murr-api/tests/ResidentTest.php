@@ -56,8 +56,8 @@ class ResidentTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/contexts/Resident',
+        $this->assertJsonEquals([
+            '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
             'email' => 'test@email.com',
             'phone' => '1231231231',

@@ -29,7 +29,7 @@ class Resident
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\Length(min = 10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.")
+     * @Assert\Length(max = 10, exactMessage = "Phone needs to be {{ limit }} digits.")
      */
     private $phone;
 
