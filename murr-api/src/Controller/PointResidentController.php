@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PointResidentController extends AbstractController
 {
     /**
-     * @Route("/point/resident", name="point_resident")
+     * @Route("/point/resident/{id}", name="point_resident")
      */
     public function index(int $id, PointRepository $pr): Response
     {
