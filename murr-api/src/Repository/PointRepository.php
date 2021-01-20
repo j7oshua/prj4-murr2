@@ -20,6 +20,7 @@ class PointRepository extends ServiceEntityRepository
     }
     public function getPointByResident(int $id)
     {
+        $qb = $this->createQueryBuilder();
 
     }
 
