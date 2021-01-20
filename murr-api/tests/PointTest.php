@@ -40,21 +40,21 @@ class PointTest extends ApiTestCase
         self::$repo = static::$container->get('doctrine')->getRepository(Point::class);
     }
 
-    /**
-     * @before
-     */
-    public function setUp(): void
-    {
-
-        $this->dataArray = [
-            'numPoints' => 1,
-        ];
-    }
+//    /**
+//     * @before
+//     */
+//    public function setUp(): void
+//    {
+//
+//        $this->dataArray = [
+//            'numPoints' => 1,
+//        ];
+//    }
 
     //well i got a basic thing to pass
-    public function testworks(): void {
-        $this->assertTrue(true);
-    }
+//    public function testworks(): void {
+//        $this->assertTrue(true);
+//    }
 
     /**
      * @test
@@ -62,17 +62,20 @@ class PointTest extends ApiTestCase
      */
     public function testPointForResidentOne(): void
     {
-        $response = self::$client->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
+        $response = self::$client->request('GET', self::API_URL_RESIDENT_ONE);
+
+        //$response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(200); //this needs to be the code for success with finding it
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
-            '@context' => '/contexts/Point',
+            '@context' => '/api/contexts/Point',
+            '@id'=>'/api/points/1',
             '@type' => 'Point',
-            ...$this->dataArray,
-            'numPoints' => 1,
+            'id'=> 1,
+            'numPoints' => 1
         ]);
-        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
@@ -139,7 +142,7 @@ class PointTest extends ApiTestCase
         //$response = self::$client->request('GET', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
 
         //why do i need to generate it to pass?
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_NO_ID);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(404);
