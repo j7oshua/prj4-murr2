@@ -48,14 +48,20 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccount(): void
     {
-        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        $response = self::$client->request('POST', self::API_URL, ['json' => [
+            'email' => 'test@email.com',
+            'phone' => '1231231231',
+            'password' => 'password1',
+            ]]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             '@context' => '/contexts/Resident',
             '@type' => 'Resident',
-            ...$this->dataArray,
+            'email' => 'test@email.com',
+            'phone' => '1231231231',
+            'password' => 'password1',
         ]);
         $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
