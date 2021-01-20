@@ -33,6 +33,15 @@ class Point
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
+     * @ORM\JoinTable(
+     *     name="points_resident",
+     *     joinColumns={
+     *      @ORM\JoinColumn(name="point_id", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *      @ORM\JoinColumn(name="resident_id", referencedColumnName="id")
+     *     }
+     * )
      */
     private $resident;
 
