@@ -65,9 +65,9 @@ class ResidentPointTest extends ApiTestCase
      */
     public function testPointForResidentOne(): void
     {
-        $response = self::$client->request('GET', self::API_URL_RESIDENT_ONE);
+        //$response = self::$client->request('GET', self::API_URL_RESIDENT_ONE);
 
-        //$response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
 
         $this->assertResponseStatusCodeSame(200); //this needs to be the code for success with finding it
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -78,7 +78,7 @@ class ResidentPointTest extends ApiTestCase
             'id'=> 1,
             'numPoints' => 1
         ]);
-        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
@@ -103,7 +103,7 @@ class ResidentPointTest extends ApiTestCase
             'numPoints' => 3
         ]);
 
-        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
@@ -132,7 +132,7 @@ class ResidentPointTest extends ApiTestCase
             'numPoints' => 80
         ]);
 
-        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
@@ -143,8 +143,6 @@ class ResidentPointTest extends ApiTestCase
      */
     public function testUserWithNoResidentID(): void //this one if for default but test anyways
     {
-        //call client to do a get request and get the json from dataArray
-        //$response = self::$client->request('GET', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
 
         //why do i need to generate it to pass?
         $response = static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);

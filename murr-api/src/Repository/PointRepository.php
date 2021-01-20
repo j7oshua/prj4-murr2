@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Point;
+use App\Entity\Resident;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,22 @@ class PointRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Point::class);
+    }
+
+    public function getPointByResident(int $id)
+    {
+        $qb = $this->createQueryBuilder();
+
+        $qb->select('p.numPoint')
+            ->from(Resident::class, 'r')
+            ->innerJoin(Point::class, 'p', Join::WITH, 'r.id = p.resident')
+            //Join is not identified
+            ->where( 'r.id == $id'); //not sure if this works
+        $qb->getArrayResult(); //this may or may not exist
+        $numpoint = array_sum((array)$qb);
+        return $numpoint;
+
+
     }
 
     // /**
