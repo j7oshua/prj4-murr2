@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ * )
  * @ORM\Entity(repositoryClass=PointRepository::class)
  */
 class Point
@@ -27,7 +28,6 @@ class Point
      * @ORM\Column(type="integer")
      * @Assert\Positive(message = "The points has to be greater than zero")
      * @Assert\NotNull(message = "Points cannot be left null")
-     *
      */
     private $numPoints;
 
