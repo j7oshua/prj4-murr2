@@ -10,7 +10,7 @@ use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 use App\Entity\Point;
 
-class PointTest extends ApiTestCase
+class ResidentPointTest extends ApiTestCase
 {
     // This trait provided by HautelookAliceBundle will take care of refreshing the database content to a known state before each test
     use RefreshDatabaseTrait;
@@ -23,6 +23,9 @@ class PointTest extends ApiTestCase
         '@type' => 'ConstraintViolationList',
         'hydra:title' => 'An error occurred'
     ];
+
+    //IMPORTANT (CUSTOM ROUTE)
+    //@route // '/api/point/resident/{id}'
 
     const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/1';
     const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/2';
@@ -81,31 +84,31 @@ class PointTest extends ApiTestCase
 
 
     /**
-     * this test will test will display resident_id = id1+1 with point=3
+     * this test will test will display id = with point=3
      */
     public function testUserWithThreePoints()
     {
         //call client to do a get request and get the json from dataArray
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray]);
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
-            '@context' => '/contexts/Point',
+            '@context' => '/api/contexts/Point',
+            '@id'=>'/api/points/2',
             '@type' => 'Point',
-            ...$this->dataArray,
-            'resident_id' => '2', //this will move cause it is generated.
-            'numPoints' => '3',
+            'id'=> 2,
+            'numPoints' => 3
         ]);
 
-        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
     /**
-     * this needs a fixture
+     * this needs a fixture and sum function
      * this test will test will display resident_id =2 with point=80
      */
     public function testUserWithEightyPoints()
@@ -113,21 +116,23 @@ class PointTest extends ApiTestCase
 
 
         //call client to do a get request and get the json from dataArray
-        $response = self::$client->request('GET', self::API_URL_RESIDENT_THREE, ['json' => $this->dataArray]);
+        //$response = self::$client->request('GET', self::API_URL_RESIDENT_THREE);
+
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_THREE);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
+        //need to look for a combined
         $this->assertJsonContains([
-            '@context' => '/contexts/Point',
+            '@context' => '/api/contexts/Point',
+            '@id'=>'/api/points/3',
             '@type' => 'Point',
-            ...$this->dataArray,
-            'resident_id' => '3',
-            'numPoint' => '80'
+            'numPoints' => 80
         ]);
 
-        $this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
+        //$this->assertRegExp('~^/points/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
     }
 
@@ -142,7 +147,7 @@ class PointTest extends ApiTestCase
         //$response = self::$client->request('GET', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
 
         //why do i need to generate it to pass?
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_NO_ID);
+        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);
 
         //Validate the Get request
         $this->assertResponseStatusCodeSame(404);

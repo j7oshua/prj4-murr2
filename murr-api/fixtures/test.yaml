@@ -14,8 +14,12 @@ App\Entity\Point:
   point2:
     id: 2
     resident: ['@resident2']
-    num_Points: 30
+    num_Points: 3
   point3:
     id: 3
     resident: ['@resident3']
-    num_Points: 80
+    num_Points: 40
+  point4:
+    id: 4
+    resident: [ '@resident3' ]
+    num_Points: 40

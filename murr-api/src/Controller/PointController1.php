@@ -6,8 +6,12 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManager;
 
-class PointController
+class PointController1
 {
+
+    //IMPORTANT (CUSTOM ROUTE)
+    //@route // '/api/point/resident/{id}'
+
     public static function getPoint(EntityManager $em, array $reqData)
     {
 		$qb = $em->createQueryBuilder();
