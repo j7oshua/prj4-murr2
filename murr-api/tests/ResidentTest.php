@@ -24,7 +24,7 @@ class ResidentTest extends ApiTestCase
     /**
      * @beforeClass
      */
-    public static function SetupBeforeClass()
+    public static function SetupBeforeClass() : void
     {
         //Setup client for the the requests to the API
         self::$client = static::createClient();
@@ -48,7 +48,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccount(): void
     {
-        $response = self::$client->request('POST', self::API_URL, ['json' => [
+        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => 'test@email.com',
             'phone' => '1231231231',
             'password' => 'password1',
@@ -56,150 +56,171 @@ class ResidentTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonEquals([
+        $this->assertJsonContains([
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
             'email' => 'test@email.com',
             'phone' => '1231231231',
             'password' => 'password1',
         ]);
-        $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertRegExp('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
 
 
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountSuccessNoEmail(): void
-//    {
-//        unset($this->dataArray['email']);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(201);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//        $this->assertJsonContains([
-//            '@context' => '/contexts/Resident',
-//            '@type' => 'Resident',
-//            ...$this->dataArray,
-//        ]);
-//        $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
-//        $this->assertMatchesResourceItemJsonSchema(Resident::class);
-//
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidEmailFormat(): void
-//    {
-//        $this->dataArray['email'] = 'hellotestcom';
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'email: The email is not a valid email.'
-//        ]);
-//
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidEmailOver150Characters(): void
-//    {
-//        $this->dataArray['email'] = str_repeat('a', 142) . '@test.com';
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'email: Email has more than 150 characters.'
-//        ]);
-//
-//        $this->dataArray['email'] = 'hello@test.com';
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountSuccessNoPhoneNumber(): void
-//    {
-//        unset($this->dataArray['phone']);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
-//
-//        $this->assertResponseStatusCodeSame(201);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//        $this->assertJsonContains([
-//            '@context' => '/contexts/Resident',
-//            '@type' => 'Resident',
-//            ...$this->dataArray,
-//        ]);
-//        $this->assertRegExp('~^/residents/\d+$~', $response->toArray()['@id']);
-//        $this->assertMatchesResourceItemJsonSchema(Resident::class);
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidPhoneUnder10Digits(): void
-//    {
-//        $this->dataArray['phone'] = str_repeat('3', 9);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'phone: Phone needs to be 10 digits.'
-//        ]);
-//
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidPhoneOver10Digits(): void
-//    {
-//        $this->dataArray['phone'] = str_repeat('3',11);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'phone: Phone needs to be 10 digits.'
-//        ]);
-//
-//        $this->dataArray['phone'] = str_repeat('3',10);
-//
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidPasswordOver30Characters(): void
-//    {
-//        $this->dataArray['password'] = str_repeat('a', 31);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'password: Password has more than 30 characters.'
-//        ]);
-//
-//    }
-//
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountSuccessNoEmail(): void
+    {
+        //unset($this->dataArray['email']);
+        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'email' => '',
+            'phone' => '3333333333',
+            'password' => 'password@1',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Resident',
+            '@type' => 'Resident',
+            'email' => '',
+            'phone' => '3333333333',
+            'password' => 'password@1',
+        ]);
+        $this->assertRegExp('~^/api/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Resident::class);
+
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidEmailFormat(): void
+    {
+        $this->dataArray['email'] = 'hellotestcom';
+        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'email: The email is not a valid email.'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidEmailOver150Characters(): void
+    {
+        $this->dataArray['email'] = str_repeat('a', 142) . '@test.com';
+        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'email: Email has more than 150 characters.'
+        ]);
+
+        $this->dataArray['email'] = 'hello@test.com';
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountSuccessNoPhoneNumber(): void
+    {
+        unset($this->dataArray['phone']);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'email' => 'test@email.com',
+            'phone' => '',
+            'password' => 'password1',
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Resident',
+            '@type' => 'Resident',
+            'email' => 'test@email.com',
+            'phone' => '',
+            'password' => 'password1',
+        ]);
+        $this->assertRegExp('~^/api/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Resident::class);
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidPhoneUnder10Digits(): void
+    {
+        $this->dataArray['phone'] = str_repeat('3', 9);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'phone: Phone needs to be 10 digits.'
+        ]);
+
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidPhoneOver10Digits(): void
+    {
+        $this->dataArray['phone'] = str_repeat('3',11);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'phone: Phone needs to be 10 digits.'
+        ]);
+
+        $this->dataArray['phone'] = str_repeat('3',10);
+
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidPasswordOver30Characters(): void
+    {
+        $this->dataArray['password'] = str_repeat('a', 31);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'password: Password has more than 30 characters.'
+        ]);
+
+    }
+
 //    /**
 //     * @test
 //     */
@@ -208,33 +229,37 @@ class ResidentTest extends ApiTestCase
 //        //***Need to create a custom validator for this test***
 //        unset($this->dataArray['email']);
 //        unset($this->dataArray['phone']);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+//        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 //
 //        $this->assertResponseStatusCodeSame(400);
 //        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 //
 //        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
+//            '@context' => '/api/contexts/ConstraintViolationList',
+//            '@type' => 'ConstraintViolationList',
+//            'hydra:title' => 'An error occurred',
 //            'hydra:description' => 'phone & email: Phone and Email should not be blank.'
 //        ]);
 //    }
-//
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidPasswordEmpty(): void
-//    {
-//
-//        unset($this->dataArray['password']);
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'password: Password should not be left blank.'
-//        ]);
-//    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidPasswordEmpty(): void
+    {
+
+        unset($this->dataArray['password']);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'password: Password should not be left blank.'
+        ]);
+    }
 
 }
