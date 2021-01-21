@@ -63,7 +63,7 @@ class ResidentTest extends ApiTestCase
             'phone' => '1231231231',
             'password' => 'password1',
         ]);
-        $this->assertRegExp('~^/api/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
 
@@ -89,7 +89,7 @@ class ResidentTest extends ApiTestCase
             'phone' => '3333333333',
             'password' => 'password@1',
         ]);
-        $this->assertRegExp('~^/api/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
 
     }
@@ -155,7 +155,7 @@ class ResidentTest extends ApiTestCase
             'phone' => '',
             'password' => 'password1',
         ]);
-        $this->assertRegExp('~^/api/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
 
