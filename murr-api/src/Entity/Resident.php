@@ -37,7 +37,7 @@ class Resident
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Assert\Length(max = 30, maxMessage = "Password has more than {{ limit }} characters.")
+     * @Assert\Length(min=7, max = 30, minMessage="Password has to have more than {{ limit }} characters.", maxMessage = "Password has more than {{ limit }} characters.")
      * @Assert\NotBlank(message = "Password should not be left blank.")
      */
     private $password;
