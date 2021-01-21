@@ -3,7 +3,9 @@
 namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use App\Entity\Resident;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
 
 use App\Entity\Point;
 
@@ -34,13 +36,16 @@ class PointTest extends ApiTestCase
 
     /**
      * @before
+     *
      */
+
     public function setUp(): void
     {
 
         $this->dataArray = [
             'numPoints' => 1,
         ];
+
     }
 
     /**
@@ -68,7 +73,7 @@ class PointTest extends ApiTestCase
     public function TestAddOnePointUserWithNoPoints(): void
     {
 
-        $response = self::$client->request('POST', self::API_URL_RESIDENT_TWO, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
@@ -89,7 +94,7 @@ class PointTest extends ApiTestCase
     public function TestAddOnePointUserWithNoID(): void
     {
 
-        $response = self::$client->request('POST', self::API_URL_RESIDENT_NO_ID, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -110,7 +115,7 @@ class PointTest extends ApiTestCase
             //set numPoints as Zero
             $this->dataArray['numPoints'] = 0;
 
-            $response = self::$client->request('POST', self::API_URL_RESIDENT_THREE, ['json' => $this->dataArray]);
+            $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
             $this->assertResponseStatusCodeSame(404);
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -130,7 +135,7 @@ class PointTest extends ApiTestCase
         //set numPoints as Zero
         $this->dataArray['numPoints'] = 0;
 
-        $response = self::$client->request('POST', self::API_URL_RESIDENT_FOUR, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -150,7 +155,7 @@ class PointTest extends ApiTestCase
             //set numPoints as One
             $this->dataArray['numPoints'] = 1;
 
-            $response = self::$client->request('POST', self::API_URL_RESIDENT_NINETYNINE, ['json' => $this->dataArray]);
+            $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
             $this->assertResponseStatusCodeSame(400);
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -170,7 +175,7 @@ class PointTest extends ApiTestCase
         //set numPoints as Null
         unset($this->dataArray['numPoints']);
 
-        $response = self::$client->request('POST', self::API_URL_RESIDENT_FIVE, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -180,5 +185,6 @@ class PointTest extends ApiTestCase
             'hydra:description' => 'numPoints: Points cannot be left null'
         ]);
     }
+
 
 }

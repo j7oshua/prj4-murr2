@@ -1,11 +1,11 @@
 App\Entity\Resident:
-    residentone:
+    residentOne:
       id: 1
-    residenttwo:
+    residentTwo:
       id: 2
-    residentthree:
+    residentThree:
       id: 3
-    residentfour:
+    residentFour:
       id: 4
-    residentfive:
+    residentFive:
       id: 5
