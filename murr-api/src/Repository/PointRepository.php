@@ -26,14 +26,11 @@ class PointRepository extends ServiceEntityRepository
 
         $qb->select('p.numPoint')
             ->from(Resident::class, 'r')
-            ->innerJoin(Point::class, 'p', Join::WITH, 'r.id = p.resident')
+            ->innerJoin(Point::class, 'p', Join::WITH, 'r.id = p.resident.id')
             //Join is not identified
             ->where( 'r.id == $id'); //not sure if this works
         $qb->getArrayResult(); //this may or may not exist
-        $numpoint = array_sum((array)$qb);
-        return $numpoint;
-
-
+        return array_sum((array)$qb);
     }
 
     // /**
