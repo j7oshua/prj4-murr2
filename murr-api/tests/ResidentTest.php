@@ -230,6 +230,8 @@ class ResidentTest extends ApiTestCase
         unset($this->dataArray['email']);
         unset($this->dataArray['phone']);
 
+
+
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(400);
@@ -242,10 +244,10 @@ class ResidentTest extends ApiTestCase
             'hydra:description' => 'email: Phone and Email cannot be both left blank. Only one is required.
             phone: Phone and Email cannot be both left blank. Only one is required.',
             "violations" => [
-                "propertyPath" => "email",
-                "message" => "Phone and Email cannot be both left blank. Only one is required.",
-                "propertyPath" => "phone",
-                "message" => "Phone and Email cannot be both left blank. Only one is required."
+                ["propertyPath" => "email",
+                "message" => "Phone and Email cannot be both left blank. Only one is required."],
+                ["propertyPath" => "phone",
+                "message" => "Phone and Email cannot be both left blank. Only one is required."],
             ]
         ]);
     }
