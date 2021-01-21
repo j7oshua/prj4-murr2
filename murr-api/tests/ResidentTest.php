@@ -221,26 +221,34 @@ class ResidentTest extends ApiTestCase
 
     }
 
-//    /**
-//     * @test
-//     */
-//    public function TestCreateResidentAccountInvalidEmailPhoneEmpty(): void
-//    {
-//        //***Need to create a custom validator for this test***
-//        unset($this->dataArray['email']);
-//        unset($this->dataArray['phone']);
-//        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            '@context' => '/api/contexts/ConstraintViolationList',
-//            '@type' => 'ConstraintViolationList',
-//            'hydra:title' => 'An error occurred',
-//            'hydra:description' => 'phone & email: Phone and Email should not be blank.'
-//        ]);
-//    }
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountInvalidEmailPhoneEmpty(): void
+    {
+        //***Need to create a custom validator for this test***
+        unset($this->dataArray['email']);
+        unset($this->dataArray['phone']);
+
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/ConstraintViolationList',
+            '@type' => 'ConstraintViolationList',
+            'hydra:title' => 'An error occurred',
+            'hydra:description' => 'email: Phone and Email cannot be both left blank. Only one is required.
+            phone: Phone and Email cannot be both left blank. Only one is required.',
+            "violations" => [
+                "propertyPath" => "email",
+                "message" => "Phone and Email cannot be both left blank. Only one is required.",
+                "propertyPath" => "phone",
+                "message" => "Phone and Email cannot be both left blank. Only one is required."
+            ]
+        ]);
+    }
 
     /**
      * @test
@@ -258,7 +266,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'password: Password should not be left blank.'
+            'hydra:description' => 'password: Password should not be left blank.',
         ]);
     }
 

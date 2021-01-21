@@ -5,10 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
+ * @AcmeAssert\PhoneAndEmailBothLeftBlank
  */
 class Resident
 {
