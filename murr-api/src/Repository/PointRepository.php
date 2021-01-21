@@ -18,11 +18,6 @@ class PointRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Point::class);
     }
-    public function getPointByResident(int $id)
-    {
-        $qb = $this->createQueryBuilder();
-
-    }
 
     // /**
     //  * @return Point[] Returns an array of Point objects

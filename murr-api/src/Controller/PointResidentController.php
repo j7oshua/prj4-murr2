@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\PointRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PointResidentController extends AbstractController
+class PointResidentController
 {
     /**
-     * @Route("/point/resident/{id}", name="point_resident")
+     * @Route("/point/{id}", name="point_resident")
      */
     public function index(int $id, PointRepository $pr): Response
     {

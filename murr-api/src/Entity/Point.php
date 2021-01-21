@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource(
- * )
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=PointRepository::class)
  */
 class Point
