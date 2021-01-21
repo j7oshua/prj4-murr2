@@ -21,13 +21,7 @@ class PointTest extends ApiTestCase
         'hydra:title' => 'An error occurred'
     ];
 
-    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/1';
-    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/2';
-    const API_URL_RESIDENT_NO_ID = '127.0.0.1:8000/api/points/-1';
-    const API_URL_RESIDENT_THREE = '127.0.0.1:8000/api/points/3';
-    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/4';
-    const API_URL_RESIDENT_NINETYNINE = '127.0.0.1:8000/api/points/99';
-    const API_URL_RESIDENT_FIVE = '127.0.0.1:8000/api/points/5';
+    const API_URL = '127.0.0.1:8000/api/points';
 
     /**
      * @beforeClass
@@ -54,7 +48,7 @@ class PointTest extends ApiTestCase
      */
     public function TestAddOnePointUserWithThreePoints(): void
     {
-        $response = self::$client->request('POST', self::API_URL_RESIDENT_ONE, ['json' => $this->dataArray]);
+        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
