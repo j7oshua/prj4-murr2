@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Point;
 use App\Entity\Resident;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,7 +23,12 @@ class PointRepository extends ServiceEntityRepository
 
     public function getPointByResident(int $id)
     {
+        //May have to use NativeQuery because point_resident is not an Entity
+        //Switched to RPController since not sure due to entity repository
+
         $qb = $this->createQueryBuilder();
+//        $rsm = new ResultSetMapping();
+//        $qb = $this->createNativeQuery('SELECT id', $rsm);
 
         $qb->select('p.numPoint')
             ->from(Resident::class, 'r')
