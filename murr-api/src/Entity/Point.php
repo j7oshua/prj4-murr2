@@ -35,6 +35,7 @@ class Point
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
+     * @Assert\Count(min = "1", minMessage = "You must add at least one Resident")
      */
     private $resident;
 
