@@ -37,9 +37,9 @@ export default {
         })
     }
   },
-  // mounted () {
-  //   this.getPoints()
-  // },
+  mounted () {
+    this.getPoints()
+  },
   computed: {
     isDisabled: function () {
       return this.isBusy || this.disabled
