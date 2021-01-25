@@ -36,11 +36,21 @@ class ResidentPointController extends AbstractController
      */
     public static function getResidentPoint(EntityManager $em, array $reqData)
     {
-        $rsm = new ResultSetMapping();
+        $qb = $em->createQueryBuilder();
+        $resID = $reqData['residentID'];
 
-        $query = $em->createNativeQuery('SELECT points.ID, points.NumPoints, resident.ID FROM points LEFT OUTER JOIN point_resident 
-                                             ON points.ID = point_resident.pointID AND point_resident.residentID = ?', $rsm);
-        $query->setParameter(1, 'resident.ID');
+        //$qb->select('p')
+        //    ->from('Point', 'p')
+        //    ->innerJoin('p.Resident r ON r.resident_id = p.points_id')
+        //    ->where('p.resident.id = :pointResidentID')
+        //    ->setParameter('pointResidentID', '$pointResidentID')
+        //    ->getQuery();
+
+//        $rsm = new ResultSetMapping();
+//
+//        $query = $em->createNativeQuery('SELECT points.ID, points.NumPoints, resident.ID FROM points LEFT OUTER JOIN point_resident
+//                                             ON points.ID = point_resident.pointID AND point_resident.residentID = ?', $rsm);
+//        $query->setParameter(1, 'resident.ID');
 
         //$qb->select('p.numPoint')
         //->from(Resident::class, 'r')
@@ -48,9 +58,10 @@ class ResidentPointController extends AbstractController
         ////Join is not identified
         //->where( 'r.id == $id'); //not sure if this works
         //$qb->getArrayResult(); //this may or may not exist
+
         //$numpoint = array_sum((array)$qb);
         //return $numpoint;
-        //
+
         ////below is a SQL statement
         //SELECT points.ID, points.NumPoints, resident.ID
         //  FROM points

@@ -27,8 +27,6 @@ class PointRepository extends ServiceEntityRepository
         //Switched to RPController since not sure due to entity repository
 
         $qb = $this->createQueryBuilder();
-//        $rsm = new ResultSetMapping();
-//        $qb = $this->createNativeQuery('SELECT id', $rsm);
 
         $qb->select('p.numPoint')
             ->from(Resident::class, 'r')
@@ -38,19 +36,6 @@ class PointRepository extends ServiceEntityRepository
         $qb->getArrayResult(); //this may or may not exist
         $numpoint = array_sum((array)$qb);
         return $numpoint;
-
-        //below is a SQL statement
-
-//SELECT points.ID, points.NumPoints, resident.ID
-//  FROM points
-//LEFT OUTER JOIN point_resident (many to many table)
-//  ON points.ID = point_resident.pointID
-//    AND point_resident.residentID =  residentID{index}     (this will input the index)
-
-//below may not be needed
-//LEFT OUTER JOIN resident
-//  ON point_resident.residentID = resident.ID
-
     }
 
     // /**
