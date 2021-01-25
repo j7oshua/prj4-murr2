@@ -22,9 +22,13 @@ class ResidentPointController extends AbstractController
      */
     public function index(int $id, PointRepository $pr): Response
     {
+
+        //will need to move code to here!!
+
 //        return $this->render('resident_point/index.html.twig', [
 //            'controller_name' => 'ResidentPointController',
 //        ]);
+
         $response = $pr->getPointByResident($id);
         return $this -> json($response);
     }
@@ -38,6 +42,29 @@ class ResidentPointController extends AbstractController
     {
         $qb = $em->createQueryBuilder();
         $resID = $reqData['residentID'];
+
+        //I think querybuilder is only for building databases so i think i got it mixed up with an actual query.
+         $qb = $em->createQueryBuilder()
+             ->select('p.numPoint')
+             ->from('Point', 'p')
+            ->innerJoin('p.resident', 'r', 'WITH', 'r.resident_id = :indexID')
+            ->setParameter('indexID', $resID);
+
+        $pointArray = $qb->getQuery()->getArrayResult();
+
+         //->getArrayResult();
+         return array_sum((array)$pointArray);
+
+        //I think querybuilder is only for building databases so i think i got it mixed up with an actual query.
+
+
+
+
+
+        //https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/dql-doctrine-query-language.html#array-hydration
+        //$query = $em->createQuery('SELECT u FROM CmsUser u');
+        //$users = $query->getResult(Query::HYDRATE_ARRAY);
+
 
         //$qb->select('p')
         //    ->from('Point', 'p')
@@ -72,7 +99,7 @@ class ResidentPointController extends AbstractController
         //LEFT OUTER JOIN resident
         //  ON point_resident.residentID = resident.ID
 
-        return $query->getResult();
+        //return $query->getResult();
     }
 
 }
