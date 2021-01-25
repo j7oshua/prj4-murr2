@@ -10,25 +10,23 @@ use App\Entity\Point;
 class PointTest extends ApiTestCase
 {
 
+    //Refreshes the database for every test
     use RefreshDatabaseTrait;
 
+    //Private list of empty residents variables
     private $residentOne;
     private $residentTwo;
     private $residentThree;
     private $noResidentID;
     private $residentNinetyNine;
 
-    const VIOLATION_ARRAY = [
-        '@context' => '/api/contexts/ConstraintViolationList',
-        '@type' => 'ConstraintViolationList',
-        'hydra:title' => 'An error occurred'
-    ];
 
+    //static URL
     const API_URL = '127.0.0.1:8000/api/points';
 
     /**
+     * This sets up the Resident and Point objects for the fixtures and test to use while running
      * @before
-     *
      */
     public function setUp(): void
     {
@@ -60,17 +58,31 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * Purpose: This test will test adding a single point to Resident One.
+     *           Resident One already has 3 points.
+     * Expected Result: Success -- Status Response 201
+     * Return: JSONLD of a single point transaction.
      * @test
      */
     public function TestAddOnePointResidentWithThreePoints(): void
     {
+        //creates a client
+        //Request a HTTP POST Request to the static API URL using Resident One
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
 
+        //Return a status code 201("created")
         $this->assertResponseStatusCodeSame(201);
+
+        //Returns the headers for the status code
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //validates the URL and makes sure the is an ID
         $this->assertRegExp('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
+
+        //validates the JSONLD schema
         $this->assertMatchesResourceItemJsonSchema(Point::class);
 
+        //JSONLD expected result should be this:
         $this->assertJsonContains([
             '@context' => '/api/contexts/Point',
             '@type' => 'Point',
@@ -80,6 +92,10 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * Purpose: This test will test adding a single point to Resident Two.
+     *           Resident Two has 0 points.
+     * Expected Result: Success -- Status Response 201
+     * Return: JSONLD of a single point transaction.
      * @test
      */
     public function TestAddOnePointResidentWithNoPoints(): void
@@ -99,25 +115,41 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * Purpose: This test will test adding a single point to noResidentID.
+     *           Resident do not exist.
+     * Expected Result: Failure -- Status Response 400
+     * Return: hydra description of: 'resident: You must add at least one Resident'.
      * @test
      */
     public function TestAddOnePointResidentWithNoID(): void
     {
-
+        //creates a client
+        //Request a HTTP POST Request to the static API URL using noResidentID
         static::createClient()->request('POST', self::API_URL, ['json' => $this->noResidentID]);
+
+        //Returns a status code of 400 ("Bad Request")
         $this->assertResponseStatusCodeSame(400);
+
+       //Returns the headers
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //JSONLD sends back the hydra description:
         $this->assertJsonContains([
             'hydra:description' => 'resident: You must add at least one Resident'
         ]);
     }
 
     /**
+     * Purpose: This test will test adding a Zero points to Resident One.
+     *           Resident One has 3 points .
+     * Expected Result: Failure -- Status Response 400
+     * Return: hydra description of: 'numPoints: The points has to be greater than zero'.
      * @test
      */
     public
     function TestAddZeroPointsToResidentWithPoints(): void
     {
+           //reset numPoint to equal 0
             $this->residentOne['numPoints'] = 0;
 
             self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
@@ -131,13 +163,15 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * Purpose: This test will test adding a Zero points to Resident Three.
+     *           Resident Three has 0 points.
+     * Expected Result: Failure -- Status Response 400
+     * Return: hydra description of: 'numPoints: The points has to be greater than zero'.
      * @test
      */
     public
     function TestAddZeroPointsToResidentWithNoPoints(): void
     {
-
-
         self::createClient()->request('POST', self::API_URL, ['json' => $this->residentThree]);
 
         $this->assertResponseStatusCodeSame(400);
@@ -149,6 +183,11 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * Purpose: This test will test adding a 1 point to Resident Ninety-nine.
+     *           Resident Ninety-nine does not exist.
+     * Expected Result: Failure -- Status Response 400
+     * Return: hydra description of: 'numPoints: The points has to be greater than zero' and
+     *                               'Item not found for "/api/residents/99".'.
      * @test
      */
     public
@@ -160,6 +199,7 @@ class PointTest extends ApiTestCase
             $this->assertResponseStatusCodeSame(400);
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
+            //Returns 2 hydra description for 2 violations:
             $this->assertJsonContains([
                 'hydra:description' => 'resident: You must add at least one Resident',
                 'hydra:description' => 'Item not found for "/api/residents/99".'
@@ -167,6 +207,10 @@ class PointTest extends ApiTestCase
     }
 
     /**
+     * Purpose: This test will test adding a null for the points to Resident One.
+     *           Resident One has 3 points.
+     * Expected Result: Failure -- Status Response 400
+     * Return: hydra description of:  'numPoints: Points cannot be left null'.
      * @test
      */
     public
