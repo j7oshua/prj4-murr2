@@ -12,10 +12,12 @@ class PointTest extends ApiTestCase
 
     use RefreshDatabaseTrait;
 
-    private static $repo;
     private $residentOne;
     private $residentTwo;
+    private $residentThree;
     private $noResidentID;
+    private $residentNinetyNine;
+
     const VIOLATION_ARRAY = [
         '@context' => '/api/contexts/ConstraintViolationList',
         '@type' => 'ConstraintViolationList',
@@ -45,6 +47,16 @@ class PointTest extends ApiTestCase
           'numPoints' => 1
         ];
 
+        $this->residentThree = [
+            'numPoints' => 0,
+            'resident' => ["/api/residents/3"]
+        ];
+
+        $this->residentNinetyNine = [
+            'numPoints' => 1,
+            'resident' => ["/api/residents/99"]
+        ];
+
     }
 
     /**
@@ -59,6 +71,12 @@ class PointTest extends ApiTestCase
         $this->assertRegExp('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
 
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Point',
+            '@type' => 'Point',
+            'numPoints' => 1,
+            'resident' => array(0 => '/api/residents/1')
+        ]);
     }
 
     /**
@@ -72,12 +90,18 @@ class PointTest extends ApiTestCase
         $this->assertRegExp('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
 
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Point',
+            '@type' => 'Point',
+            'numPoints' => 1,
+            'resident' => array(0 => '/api/residents/2')
+        ]);
     }
 
     /**
      * @test
      */
-    public function TestAddOnePointUserWithNoID(): void
+    public function TestAddOnePointResidentWithNoID(): void
     {
 
         static::createClient()->request('POST', self::API_URL, ['json' => $this->noResidentID]);
@@ -88,85 +112,78 @@ class PointTest extends ApiTestCase
         ]);
     }
 
-//    /**
-//     * @test
-//     */
-//    public
-//    function TestAddZeroPointUserWithPoints(): void
-//    {
-//            //set numPoints as Zero
-//            $this->dataArray['numPoints'] = 0;
-//
-//            $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
-//
-//            $this->assertResponseStatusCodeSame(404);
-//            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//            $this->assertJsonContains([
-//                ...self::VIOLATION_ARRAY,
-//                'hydra:description' => 'numPoints: The points has to be greater than zero.'
-//            ]);
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public
-//    function TestAddZeroPointUserWithNoPoints(): void
-//    {
-//        //set numPoints as Zero
-//        $this->dataArray['numPoints'] = 0;
-//
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
-//
-//        $this->assertResponseStatusCodeSame(404);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'numPoints: The points has to be greater than zero.'
-//        ]);
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public
-//    function TestAddOnePointUserIDNinetyNineDoesNotExist(): void
-//    {
-//            //set numPoints as One
-//            $this->dataArray['numPoints'] = 1;
-//
-//            $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
-//
-//            $this->assertResponseStatusCodeSame(400);
-//            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//            $this->assertJsonContains([
-//                ...self::VIOLATION_ARRAY,
-//                'hydra:description' => 'residentID: ResidentID has not been created.'
-//            ]);
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public
-//    function testLeavePointsBlank(): void
-//    {
-//        //set numPoints as Null
-//        unset($this->dataArray['numPoints']);
-//
-//        $response = self::$client->request('POST', self::API_URL, ['json' => $this->dataArray]);
-//
-//        $this->assertResponseStatusCodeSame(400);
-//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-//
-//        $this->assertJsonContains([
-//            ...self::VIOLATION_ARRAY,
-//            'hydra:description' => 'numPoints: Points cannot be left null'
-//        ]);
-//    }
+    /**
+     * @test
+     */
+    public
+    function TestAddZeroPointsToResidentWithPoints(): void
+    {
+            $this->residentOne['numPoints'] = 0;
+
+            self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
+
+            $this->assertResponseStatusCodeSame(400);
+            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+            $this->assertJsonContains([
+                'hydra:description' => 'numPoints: The points has to be greater than zero'
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public
+    function TestAddZeroPointsToResidentWithNoPoints(): void
+    {
+
+
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->residentThree]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            'hydra:description' => 'numPoints: The points has to be greater than zero'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public
+    function TestAddOnePointToResidentIDNinetyNineDoesNotExist(): void
+    {
+
+            self::createClient()->request('POST', self::API_URL, ['json' => $this->residentNinetyNine]);
+
+            $this->assertResponseStatusCodeSame(400);
+            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+            $this->assertJsonContains([
+                'hydra:description' => 'resident: You must add at least one Resident',
+                'hydra:description' => 'Item not found for "/api/residents/99".'
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public
+    function testLeavePointsBlank(): void
+    {
+        //set numPoints as Null
+        unset($this->residentOne['numPoints']);
+
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            'hydra:description' => 'numPoints: Points cannot be left null'
+        ]);
+    }
 
 
 }
