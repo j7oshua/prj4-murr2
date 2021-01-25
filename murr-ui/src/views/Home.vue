@@ -1,15 +1,18 @@
 <template>
   <div class="home">
     <div>
-      <PointsComponent>test</PointsComponent>
+      <PointsComponent></PointsComponent>
     </div>
   </div>
 </template>
 
 <script>
-import PointsComponent from '@/components/ProgressPoints.vue'
+import PointsComponent from '../../src/components/ProgressPoints'
+
 export default {
   name: 'Home',
-  components: PointsComponent
+  components: {
+    PointsComponent
+  }
 }
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h2>Points: {{ points }}</h2>
+    <b-overlay :show="isDisabled">
+      <h2>Points: {{ tempPoints }}</h2>
+    </b-overlay>
   </div>
 </template>
 
@@ -9,8 +11,8 @@ export default {
   name: 'ProgressPoints',
   data () {
     return {
-      tempPoints: null,
-      tempResId: null
+      tempPoints: 0,
+      isBusy: false
     }
   },
   props: {
@@ -19,21 +21,29 @@ export default {
   },
   methods: {
     getPoints: function () {
+      this.isBusy = true
       this.axios.get('http://localhost:3000/residentPoints', {
         params: { residentid: this.residentid }
       })
         .then(resp => {
-          this.tempPoints = resp.data.points
+          this.tempPoints = resp.data[0].points
         })
         .catch(err => {
           if (err.response.status === 404) { //  not found
             this.tempPoints = 0
           }
+        }).finally(() => {
+          this.isBusy = false
         })
     }
   },
-  mounted () {
-    // this.getPoints()
+  // mounted () {
+  //   this.getPoints()
+  // },
+  computed: {
+    isDisabled: function () {
+      return this.isBusy || this.disabled
+    }
   }
 }
 </script>
