@@ -3,13 +3,10 @@
 
 namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Resident;
 
 class ResidentTest extends ApiTestCase
 {
-    use RefreshDatabaseTrait;
-
     private static $client;
     private array $dataArray;
     const VIOLATION_ARRAY=[
@@ -18,17 +15,7 @@ class ResidentTest extends ApiTestCase
         'hydra:title' => 'An error occurred'
     ];
 
-
     const API_URL = '127.0.0.1:8000/api/residents';
-
-    /**
-     * @beforeClass
-     */
-    public static function SetupBeforeClass() : void
-    {
-        //Setup client for the the requests to the API
-        self::$client = static::createClient();
-    }
 
     /**
      * @before
@@ -37,9 +24,9 @@ class ResidentTest extends ApiTestCase
     {
         //Setup an array that contains information to create a resident account.
         $this->dataArray = [
-          'email' => 'test@hello.com',
-          'phone' => '3333333333',
-          'password' => 'password@1',
+            'email' => 'hello@test.com',
+            'phone' => '3333333333',
+            'password' => '#4hs&3j2h',
         ];
     }
 
@@ -49,19 +36,19 @@ class ResidentTest extends ApiTestCase
     public function TestCreateResidentAccount(): void
     {
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'email' => 'test@email.com',
-            'phone' => '1231231231',
-            'password' => 'password1',
-            ]]);
+            'email' => 'hello@test.com',
+            'phone' => '3333333333',
+            'password' => '#4hs&3j2h',
+        ]]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
-            'email' => 'test@email.com',
-            'phone' => '1231231231',
-            'password' => 'password1',
+            'email' => 'hello@test.com',
+            'phone' => '3333333333',
+            'password' => '#4hs&3j2h',
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -73,11 +60,10 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountSuccessNoEmail(): void
     {
-        //unset($this->dataArray['email']);
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => '',
             'phone' => '3333333333',
-            'password' => 'password@1',
+            'password' => '#4hs&3j2h',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -87,7 +73,7 @@ class ResidentTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => '',
             'phone' => '3333333333',
-            'password' => 'password@1',
+            'password' => '#4hs&3j2h',
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -99,11 +85,10 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountSuccessNoPhoneNumber(): void
     {
-        unset($this->dataArray['phone']);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'email' => 'test@email.com',
+            'email' => 'hello@test.com',
             'phone' => '',
-            'password' => 'password1',
+            'password' => '#4hs&3j2h',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -111,9 +96,9 @@ class ResidentTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
-            'email' => 'test@email.com',
+            'email' => 'hello@test.com',
             'phone' => '',
-            'password' => 'password1',
+            'password' => '#4hs&3j2h',
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -155,6 +140,30 @@ class ResidentTest extends ApiTestCase
             'hydra:title' => 'An error occurred',
             'hydra:description' => 'email: Email has more than 150 characters.'
         ]);
+
+        $this->dataArray['email'] = 'hello@test.com';
+    }
+
+    /**
+     * @test
+     */
+    public function TestCreateResidentAccountValidEmail150Characters(): void
+    {
+        $this->dataArray['email'] = str_repeat('a', 141) . '@test.com';
+        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Resident',
+            '@type' => 'Resident',
+            'email' => str_repeat('a', 141).'@test.com',
+            'phone' => '3333333333',
+            'password' => '#4hs&3j2h',
+        ]);
+        $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(Resident::class);
 
         $this->dataArray['email'] = 'hello@test.com';
     }
@@ -218,7 +227,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'password: Password has more than 30 characters.'
+            'hydra:description' => 'password: Password has to be 30 characters or less.'
         ]);
 
     }
@@ -238,7 +247,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'password: Password has to have more than 7 characters.'
+            'hydra:description' => 'password: Password has to be at least 7 characters.'
         ]);
 
     }
@@ -253,33 +262,6 @@ class ResidentTest extends ApiTestCase
         unset($this->dataArray['phone']);
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            "violations" => [
-                ["propertyPath" => "email",
-                "message" => "Phone and Email cannot be both left blank. Only one is required."],
-                ["propertyPath" => "phone",
-                "message" => "Phone and Email cannot be both left blank. Only one is required."],
-            ]
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestCreateResidentAccountInvalidEmailPhoneEmptyString(): void
-    {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'email' => '',
-            'phone' => '',
-            'password' => 'password1',
-        ] ]);
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');

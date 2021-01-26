@@ -3,14 +3,22 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
+use App\Repository\ResidentRepository;
+
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"post", "get"},
+ *     itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
+ * @ORM\Entity(repositoryClass=ResidentRepository::class)
  */
 class Resident
 {
@@ -18,6 +26,7 @@ class Resident
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
      */
     private $id;
 
@@ -37,10 +46,15 @@ class Resident
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to have more than {{ limit }} characters.", maxMessage = "Password has more than {{ limit }} characters.")
+     * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to be at least {{ limit }} characters.", maxMessage = "Password has to be {{ limit }} characters or less.")
      * @Assert\NotBlank(message = "Password should not be left blank.")
      */
     private $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident")
+     */
+    private $points;
 
     public function getId(): ?int
     {
@@ -71,6 +85,28 @@ class Resident
         return $this;
     }
 
+    public function __construct()
+    {
+        $this->points = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Point[]
+     */
+    public function getPoints(): Collection
+    {
+        return $this->points;
+    }
+
+    public function addPoint(Point $point): self
+    {
+        if (!$this->points->contains($point)) {
+            $this->points[] = $point;
+            $point->addResident($this);
+        }
+        return $this;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -80,6 +116,13 @@ class Resident
     {
         $this->password = $password;
 
+        return $this;
+    }
+    public function removePoint(Point $point): self
+    {
+        if ($this->points->removeElement($point)) {
+            $point->removeResident($this);
+        }
         return $this;
     }
 }
