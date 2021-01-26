@@ -19,7 +19,9 @@ class ResidentPointTest extends ApiTestCase
     private $resident2;
     private $resident3;
 
-    const API_URL = '127.0.0.1:8000/api/points';
+    const API_URL = '127.0.0.1:8000/resident/point/1';
+
+    //  'content' => '[{"numPoints":40},{"numPoints":40}]',
 
     private static $client;
     private static $repo;
@@ -89,19 +91,28 @@ class ResidentPointTest extends ApiTestCase
 
         //$response = self::$client->request('GET', self::API_URL_RESIDENT_ONE);
 
-        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
+        $response = static::createClient()->request('GET', self::API_URL);
+
+        //var_dump($response);
 
         $this->assertResponseStatusCodeSame(200); //this needs to be the code for success with finding it
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+//        $this->assertJsonContains([
+//            '@context' => '/api/contexts/Point',
+//            '@id'=>'/api/points/1',
+//            '@type' => 'Point',
+//            'id'=> 1,
+//            'numPoints' => 1
+//        ]);
+
+        //$this->assertMatchesRegularExpression('~^/api/points/\d+$~', $response->toArray()['@id']);
+        //$this->assertMatchesResourceItemJsonSchema(Point::class);
+
+        //only thing that is certain below
         $this->assertJsonContains([
-            '@context' => '/api/contexts/Point',
-            '@id'=>'/api/points/1',
-            '@type' => 'Point',
-            'id'=> 1,
-            'numPoints' => 1
+            'content' => '[{"numPoints":1}]'
         ]);
-        $this->assertMatchesRegularExpression('~^/api/points/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Point::class);
+        //we will need to make it cleaner and to work with sum
     }
 
 

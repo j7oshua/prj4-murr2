@@ -39,6 +39,16 @@ class ResidentPointController extends AbstractController
 
         //I think querybuilder is only for building databases so i think i got it mixed up with an actual query.
 
+//        $qb = $this->getEntityManager()->createQueryBuilder('p');
+//        $qb ->select('t')
+//            ->from('App\Entity\Point','p')
+//            ->innerJoin('t.residents','r','WITH','r.id = ?1')
+//            ->setParameter(1,$id);
+//
+//        $query = $qb->getQuery();
+//        return $query->getResult();
+
+
 
 
 

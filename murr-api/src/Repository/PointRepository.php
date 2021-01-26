@@ -22,16 +22,23 @@ class PointRepository extends ServiceEntityRepository
 
     public function getPointByResident(int $resID)
     {
-        //$resID = $reqData['residentID'];
 
         $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select('p.numPoint')
-            ->from('Point', 'p')
-            ->innerJoin('p.resident', 'r', 'WITH', 'r.resident_id = :indexID')
+            ->select('p.numPoints')
+            ->from('App\Entity\Point', 'p')
+            ->innerJoin('p.resident', 'r', 'WITH', 'r.id = :indexID')  //need to index the many to many table
             ->setParameter('indexID', $resID);
 
-        $pointArray = $qb->getQuery()->getArrayResult();
-        return array_sum((array)$pointArray);
+        //$pointArray = $qb->getQuery()->getArrayResult(); //may mess up formating
+        //return array_sum((array)$pointArray);
+        //we will need to make it cleaner and to work with sum
+
+        return $qb->getQuery()->getResult();
+
+       //$response2 = $qb->getQuery()->getResult();
+
+       //return $response2['content']; //we will need to index the 'content' field
+
     }
 
     // /**
