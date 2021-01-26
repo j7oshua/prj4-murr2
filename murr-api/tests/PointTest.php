@@ -140,7 +140,7 @@ class PointTest extends ApiTestCase
     }
 
     /**
-     * Purpose: This test will test adding a Zero points to Resident One.
+     * Purpose: This test will test adding Zero points to Resident One.
      *           Resident One has 3 points .
      * Expected Result: Failure -- Status Response 400
      * Return: hydra description of: 'numPoints: The points has to be greater than zero'.
