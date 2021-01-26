@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Point;
 use App\Entity\Resident;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,21 +20,18 @@ class PointRepository extends ServiceEntityRepository
         parent::__construct($registry, Point::class);
     }
 
-    public function getPointByResident(int $id)
+    public function getPointByResident(int $resID)
     {
-        //May have to use NativeQuery because point_resident is not an Entity
-        //Switched to RPController since not sure due to entity repository
+        //$resID = $reqData['residentID'];
 
-        $qb = $this->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('p.numPoint')
+            ->from('Point', 'p')
+            ->innerJoin('p.resident', 'r', 'WITH', 'r.resident_id = :indexID')
+            ->setParameter('indexID', $resID);
 
-        $qb->select('p.numPoint')
-            ->from(Resident::class, 'r')
-            ->innerJoin(Point::class, 'p', Join::WITH, 'r.id = p.resident.id')
-            //Join is not identified
-            ->where( 'r.id == $id'); //not sure if this works
-        $qb->getArrayResult(); //this may or may not exist
-        $numpoint = array_sum((array)$qb);
-        return $numpoint;
+        $pointArray = $qb->getQuery()->getArrayResult();
+        return array_sum((array)$pointArray);
     }
 
     // /**

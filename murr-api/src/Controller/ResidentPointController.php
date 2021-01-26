@@ -5,9 +5,6 @@ namespace App\Controller;
 use App\Entity\Resident;
 use App\Repository\PointRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,14 +19,12 @@ class ResidentPointController extends AbstractController
      */
     public function index(int $id, PointRepository $pr): Response
     {
-
-        //will need to move code to here!!
-
 //        return $this->render('resident_point/index.html.twig', [
 //            'controller_name' => 'ResidentPointController',
 //        ]);
 
-        $response = $pr->getPointByResident($id);
+        //$response = $pr->getPointByResident($id);
+        $response = $this->json($pr->getPointByResident($id));
         return $this -> json($response);
     }
 
@@ -38,22 +33,9 @@ class ResidentPointController extends AbstractController
      * @param array $reqData
      * @return int|mixed|string
      */
-    public static function getResidentPoint(EntityManager $em, array $reqData)
+    public static function getResidentPoint()
     {
-        $qb = $em->createQueryBuilder();
-        $resID = $reqData['residentID'];
 
-        //I think querybuilder is only for building databases so i think i got it mixed up with an actual query.
-         $qb = $em->createQueryBuilder()
-             ->select('p.numPoint')
-             ->from('Point', 'p')
-            ->innerJoin('p.resident', 'r', 'WITH', 'r.resident_id = :indexID')
-            ->setParameter('indexID', $resID);
-
-        $pointArray = $qb->getQuery()->getArrayResult();
-
-         //->getArrayResult();
-         return array_sum((array)$pointArray);
 
         //I think querybuilder is only for building databases so i think i got it mixed up with an actual query.
 

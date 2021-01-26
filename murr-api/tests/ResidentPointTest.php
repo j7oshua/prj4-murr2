@@ -15,23 +15,29 @@ class ResidentPointTest extends ApiTestCase
     // This trait provided by HautelookAliceBundle will take care of refreshing the database content to a known state before each test
     use RefreshDatabaseTrait;
 
+    private $resident1;
+    private $resident2;
+    private $resident3;
+
+    const API_URL = '127.0.0.1:8000/api/points';
+
     private static $client;
     private static $repo;
-    private $dataArray;
-    const VIOLATION_ARRAY=[
-        '@context' => '/contexts/ConstraintViolationList',
-        '@type' => 'ConstraintViolationList',
-        'hydra:title' => 'An error occurred'
-    ];
+//    private $dataArray;
+//    const VIOLATION_ARRAY=[
+//        '@context' => '/contexts/ConstraintViolationList',
+//        '@type' => 'ConstraintViolationList',
+//        'hydra:title' => 'An error occurred'
+//    ];
 
     //IMPORTANT (CUSTOM ROUTE)
     //@route // '/api/point/resident/{id}'
 
-    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/1';
-    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/2';
-    const API_URL_RESIDENT_THREE = '127.0.0.1:8000/api/points/3';
-    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/4';
-    const API_URL_RESIDENT_NO_ID = '127.0.0.1:8000/api/points/-1';
+//    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/api/points/1';
+//    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/api/points/2';
+//    const API_URL_RESIDENT_THREE = '127.0.0.1:8000/api/points/3';
+//    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/api/points/4';
+//    const API_URL_RESIDENT_NO_ID = '127.0.0.1:8000/api/points/-1';
 
     /**
      * @beforeClass
@@ -43,14 +49,14 @@ class ResidentPointTest extends ApiTestCase
         self::$repo = static::$container->get('doctrine')->getRepository(Point::class);
     }
 
-//    /**
-//     * @before
-//     */
+    /**
+     * @before
+     */
 //    public function setUp(): void
 //    {
-//
-//        $this->dataArray = [
-//            'numPoints' => 1,
+//        $this->resident1 = [
+//            'numPoint' => 0,
+//            'resident' => ["/api/residents/1"]
 //        ];
 //    }
 
@@ -65,6 +71,22 @@ class ResidentPointTest extends ApiTestCase
      */
     public function testPointForResidentOne(): void
     {
+//        $response = static::createClient()->request('GET', self::API_URL, ['json' => $this->resident1]);
+//
+//        $this->assertResponseStatusCodeSame(200);
+//        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+//
+//        $this->assertMatchesResourceItemJsonSchema(Point::class);
+//        $this->assertMatchesRegularExpression('~^/api/points/\d+$~', $response->toArray()['@id']);
+//
+//        $this->assertJsonContains([
+//            '@context' => '/api/contexts/Point',
+//            '@id'=>'/api/points/1',
+//            '@type' => 'Point',
+//            'id'=> 1,
+//            'numPoints' => 0
+//        ]);
+
         //$response = self::$client->request('GET', self::API_URL_RESIDENT_ONE);
 
         $response = static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
