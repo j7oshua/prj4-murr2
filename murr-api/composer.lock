@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "f03975948e65ea4bb788dd8afc1198b3",
-=======
     "content-hash": "62a8e4d1c709b7e0caa07343c752e7c5",
->>>>>>> master
     "packages": [
         {
             "name": "api-platform/core",
@@ -7352,11 +7348,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2020-10-24T15:53:55+00:00"
-=======
             "time": "2020-12-14T22:27:17+00:00"
->>>>>>> master
         },
         {
             "name": "theofidry/alice-data-fixtures",
