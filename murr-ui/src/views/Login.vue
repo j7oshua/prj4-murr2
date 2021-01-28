@@ -7,10 +7,9 @@
 
 <script>
 import CreateLogin from '@/components/CreateLogin'
-
 export default {
   name: 'CreateLogin',
-  components:{
+  components: {
     loginForm: CreateLogin
   },
   methods: {

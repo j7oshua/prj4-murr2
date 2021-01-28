@@ -5,11 +5,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Vuelidate from 'vuelidate'
-import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor'
+
+/* import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor' */
 
 Vue.use(Vuelidate)
-Vue.use(VuelidateErrorExtractor, {
+/* Vue.use(VuelidateErrorExtractor, {
   attributes: {
     email: 'Email',
     phone: 'Phone',
@@ -20,8 +22,7 @@ Vue.use(VuelidateErrorExtractor, {
     maxLength: '{attribute} must be shorter than {limit} characters.',
     minLength: '{attribute} must be longer than {limit} characters.'
   }
-})
-
+}) */
 export default {
   name: 'CreateLogin',
   props: {
@@ -40,7 +41,7 @@ export default {
       tempResident: {}
     }
   },
-  validations: {
+  /* validations: {
     tempResident: {
       email: {
         required: this.phone === '' || this.phone === null,
@@ -57,7 +58,7 @@ export default {
         maxLength: maxLength(30)
       }
     }
-  },
+  }, */
   methods: {
     postLogin () {
       throw new Error('Not Implemented')
@@ -73,10 +74,10 @@ export default {
     },
     checkCreatedLogin () {
       throw new Error('Not Implemented')
-    },
+    }, /*
     hashPassword () {
       throw new Error('Not Implemented')
-    },
+    }, */
     errorMessage () {
       throw new Error('Not Implemented')
     }
