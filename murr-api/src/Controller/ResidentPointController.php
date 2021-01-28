@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Resident;
 use App\Repository\PointRepository;
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\Constraint\JsonMatches;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +25,25 @@ class ResidentPointController extends AbstractController
 //        ]);
 
         //$response = $pr->getPointByResident($id);
+        var_dump($pr->getPointByResident($id));
+
+        var_dump(gettype($pr->getPointByResident($id)));
+        $result = $pr->getPointByResident($id);
+        //$result = $result[0];
+        var_dump($result);
+        //var_dump(array_sum($result));
+
+        //sum function below
+        $sum = 0;
+        foreach($numPoints as $result){
+
+
+        }
+
         $response = $this->json($pr->getPointByResident($id));
+        //var_dump($response);
+
+
         return $this -> json($response);
     }
 

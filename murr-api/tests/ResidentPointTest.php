@@ -19,7 +19,7 @@ class ResidentPointTest extends ApiTestCase
     private $resident2;
     private $resident3;
 
-    const API_URL = '127.0.0.1:8000/resident/point/1';
+    const API_URL = '127.0.0.1:8000/resident/point/3';
 
     //  'content' => '[{"numPoints":40},{"numPoints":40}]',
 
