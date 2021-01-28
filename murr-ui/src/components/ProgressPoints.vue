@@ -23,14 +23,18 @@ export default {
     getPoints: function () {
       this.isBusy = true
       this.axios.get('http://localhost:3000/residentPoints', {
-        params: { residentid: this.residentid }
+        params: { residentid: 8, points: this.tempPoints }
       })
         .then(resp => {
+          console.log(resp)
           this.tempPoints = resp.data[0].points
         })
         .catch(err => {
-          if (err.response.status === 404) { //  not found
+          console.log(err)
+          if (err.status === 404) { // not found
             this.tempPoints = 0
+            const message = err.status
+            console.log(message)
           }
         }).finally(() => {
           this.isBusy = false
