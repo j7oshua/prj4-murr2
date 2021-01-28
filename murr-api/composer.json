@@ -35,11 +35,7 @@
         "symfony/css-selector": "^4.4",
         "symfony/http-client": "4.4.*",
         "symfony/maker-bundle": "^1.23",
-<<<<<<< HEAD
-        "symfony/phpunit-bridge": "^5.1"
-=======
         "symfony/phpunit-bridge": "^5.2"
->>>>>>> master
     },
     "config": {
         "preferred-install": {
