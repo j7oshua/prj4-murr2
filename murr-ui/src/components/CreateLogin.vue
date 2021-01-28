@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
+/* import Vue from 'vue'
+import Vuelidate from 'vuelidate' */
 
 /* import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor' */
 
-Vue.use(Vuelidate)
-/* Vue.use(VuelidateErrorExtractor, {
+/* Vue.use(Vuelidate)
+ Vue.use(VuelidateErrorExtractor, {
   attributes: {
     email: 'Email',
     phone: 'Phone',
@@ -60,27 +60,27 @@ export default {
     }
   }, */
   methods: {
-    postLogin () {
-      throw new Error('Not Implemented')
-    },
-    checkPhone () {
-      throw new Error('Not Implemented')
-    },
-    checkEmail () {
-      throw new Error('Not Implemented')
-    },
-    checkPassword () {
-      throw new Error('Not Implemented')
-    },
-    checkCreatedLogin () {
-      throw new Error('Not Implemented')
-    }, /*
-    hashPassword () {
-      throw new Error('Not Implemented')
-    }, */
-    errorMessage () {
-      throw new Error('Not Implemented')
-    }
+    // postLogin () {
+    //   throw new Error('Not Implemented')
+    // },
+    // checkPhone () {
+    //   throw new Error('Not Implemented')
+    // },
+    // checkEmail () {
+    //   throw new Error('Not Implemented')
+    // },
+    // checkPassword () {
+    //   throw new Error('Not Implemented')
+    // },
+    // checkCreatedLogin () {
+    //   throw new Error('Not Implemented')
+    // }, /*
+    // hashPassword () {
+    //   throw new Error('Not Implemented')
+    // }, */
+    // errorMessage () {
+    //   throw new Error('Not Implemented')
+    // }
   }
 }
 </script>
