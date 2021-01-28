@@ -24,93 +24,14 @@ class ResidentPointController extends AbstractController
 //            'controller_name' => 'ResidentPointController',
 //        ]);
 
-        //$response = $pr->getPointByResident($id);
-        var_dump($pr->getPointByResident($id));
-
-        var_dump(gettype($pr->getPointByResident($id)));
         $result = $pr->getPointByResident($id);
-        //$result = $result[0];
-        var_dump($result);
-        //var_dump(array_sum($result));
 
-        //sum function below
         $sum = 0;
-        foreach($numPoints as $result){
-
-
+        foreach($result as $points){
+            $sum += $points['numPoints'];
         }
 
-        $response = $this->json($pr->getPointByResident($id));
-        //var_dump($response);
-
-
+        $response = $this->json($sum);
         return $this -> json($response);
     }
-
-    /**
-     * @param EntityManager $em
-     * @param array $reqData
-     * @return int|mixed|string
-     */
-    public static function getResidentPoint()
-    {
-
-
-        //I think querybuilder is only for building databases so i think i got it mixed up with an actual query.
-
-//        $qb = $this->getEntityManager()->createQueryBuilder('p');
-//        $qb ->select('t')
-//            ->from('App\Entity\Point','p')
-//            ->innerJoin('t.residents','r','WITH','r.id = ?1')
-//            ->setParameter(1,$id);
-//
-//        $query = $qb->getQuery();
-//        return $query->getResult();
-
-
-
-
-
-
-        //https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/dql-doctrine-query-language.html#array-hydration
-        //$query = $em->createQuery('SELECT u FROM CmsUser u');
-        //$users = $query->getResult(Query::HYDRATE_ARRAY);
-
-
-        //$qb->select('p')
-        //    ->from('Point', 'p')
-        //    ->innerJoin('p.Resident r ON r.resident_id = p.points_id')
-        //    ->where('p.resident.id = :pointResidentID')
-        //    ->setParameter('pointResidentID', '$pointResidentID')
-        //    ->getQuery();
-
-//        $rsm = new ResultSetMapping();
-//
-//        $query = $em->createNativeQuery('SELECT points.ID, points.NumPoints, resident.ID FROM points LEFT OUTER JOIN point_resident
-//                                             ON points.ID = point_resident.pointID AND point_resident.residentID = ?', $rsm);
-//        $query->setParameter(1, 'resident.ID');
-
-        //$qb->select('p.numPoint')
-        //->from(Resident::class, 'r')
-        //->innerJoin(Point::class, 'p', Join::WITH, 'r.id = p.resident.id')
-        ////Join is not identified
-        //->where( 'r.id == $id'); //not sure if this works
-        //$qb->getArrayResult(); //this may or may not exist
-
-        //$numpoint = array_sum((array)$qb);
-        //return $numpoint;
-
-        ////below is a SQL statement
-        //SELECT points.ID, points.NumPoints, resident.ID
-        //  FROM points
-        //LEFT OUTER JOIN point_resident (many to many table)
-        //  ON points.ID = point_resident.pointID
-        //    AND point_resident.residentID =  residentID{index}     (this will input the index)
-        //below may not be needed
-        //LEFT OUTER JOIN resident
-        //  ON point_resident.residentID = resident.ID
-
-        //return $query->getResult();
-    }
-
 }
