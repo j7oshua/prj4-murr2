@@ -27,11 +27,19 @@ class ResidentPointController extends AbstractController
         $result = $pr->getPointByResident($id);
 
         $sum = 0;
+
+        //if no id or -1
+        //$result["statusCode"] = 404
+
         foreach($result as $points){
             $sum += $points['numPoints'];
         }
 
+
+
         $response = $this->json($sum);
+        //var_dump($response);
+
         return $this -> json($response);
     }
 }

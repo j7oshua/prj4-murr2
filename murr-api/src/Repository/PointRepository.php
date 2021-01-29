@@ -22,11 +22,24 @@ class PointRepository extends ServiceEntityRepository
 
     public function getPointByResident(int $resID)
     {
-        $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select('p.numPoints')
-            ->from('App\Entity\Point', 'p')
-            ->innerJoin('p.resident', 'r', 'WITH', 'r.id = :indexID')
-            ->setParameter('indexID', $resID);
-        return $qb->getQuery()->getResult();
+        $result = 1.2;
+
+
+        if($resID >= 0) {
+            $qb = $this->getEntityManager()->createQueryBuilder()
+                ->select('p.numPoints')
+                ->from('App\Entity\Point', 'p')
+                ->innerJoin('p.resident', 'r', 'WITH', 'r.id = :indexID')
+                ->setParameter('indexID', $resID);
+            $result = $qb->getQuery()->getResult();
+        }
+
+        if ($result == 1.2) { }
+        //var_dump($qb);
+        //if(empty($qb)) {
+            //http_response_code(404);
+        //}
+        return $result;
+
     }
 }
