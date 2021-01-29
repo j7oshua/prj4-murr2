@@ -78,7 +78,7 @@ class ResidentPointTest extends ApiTestCase
     public function testUserWithEightyPoints()
     {
         $response = static::createClient()->request('GET', self::API_URL_3);
-
+        var_dump(http_response_code());
         $this->assertResponseStatusCodeSame(200);
 //        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -115,13 +115,12 @@ class ResidentPointTest extends ApiTestCase
      */
     public function testUserWithNoResidentID(): void //this one if for default but test anyways
     {
+        var_dump(http_response_code());
         $response = static::createClient()->request('GET', self::API_URL_NO_ID);
-
+        var_dump(http_response_code());
         $this->assertResponseStatusCodeSame(404);
 
-        $this->assertJsonContains([
-            'content' => '0'
-        ]);
+        //$this->assertNull($response);
 
         //why do i need to generate it to pass?
 //        $response = static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);

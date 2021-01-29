@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Point;
 use App\Entity\Resident;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\UnexpectedResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,8 +25,7 @@ class PointRepository extends ServiceEntityRepository
 
     public function getPointByResident(int $resID)
     {
-        $result = 1.2;
-
+        $result = null;
 
         if($resID >= 0) {
             $qb = $this->getEntityManager()->createQueryBuilder()
@@ -31,14 +33,9 @@ class PointRepository extends ServiceEntityRepository
                 ->from('App\Entity\Point', 'p')
                 ->innerJoin('p.resident', 'r', 'WITH', 'r.id = :indexID')
                 ->setParameter('indexID', $resID);
+
             $result = $qb->getQuery()->getResult();
         }
-
-        if ($result == 1.2) { }
-        //var_dump($qb);
-        //if(empty($qb)) {
-            //http_response_code(404);
-        //}
         return $result;
 
     }
