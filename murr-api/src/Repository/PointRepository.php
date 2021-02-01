@@ -37,7 +37,7 @@ class PointRepository extends ServiceEntityRepository
 
             $result = $qb->getQuery()->getResult();
         }
-        return $result;
 
+        return $result;
     }
 }

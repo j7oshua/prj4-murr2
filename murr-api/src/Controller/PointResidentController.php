@@ -23,24 +23,28 @@ class PointResidentController extends AbstractController
     {
         //This will grab the numPoints of a resident id.
         $pointResult = $pr->GetPointByResident($id);
+
         //This will find a resident matching the resident id and if none are found it will return null.
         $idFound = $rr->find($id);
-        //initialize response.
-        $response = null;
 
+        //initialize sumTotal.
+        $sumTotal = null;
+
+        //Checks to see if resident exists
         if($idFound) {
             $sum = 0;
+            //Goes through and adds each of residents point transaction to their sum
             foreach ($pointResult as $points) {
                 $sum += $points['numPoints'];
             }
-            $response = $this->json($sum);
-            $result = $this->json($response);
-        } else {
-            $result = $this->json($response);
+            $sumTotal = $this->json($sum);
+            $result = $this->json($sumTotal);
+        }
+        else {
+            $result = $this->json(null);
             $result->setStatusCode(404);
         }
 
         return $result;
-
     }
 }
