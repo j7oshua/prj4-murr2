@@ -23,7 +23,7 @@ export default {
     getPoints: function () {
       this.isBusy = true
       this.axios.get('http://localhost:3000/residentPoints', {
-        params: { residentid: 8, points: this.tempPoints }
+        params: { residentid: 1 }
       })
         .then(resp => {
           console.log(resp)

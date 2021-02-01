@@ -10,7 +10,8 @@ const instance = axios.create({
 })
 
 export default {
-  searchUser (residentid) {
+  getPoints () {
+    let residentid
     return instance
       .get(`/residentPoints?residentid=${residentid}`)
       .then(result => result.data)
@@ -19,14 +20,17 @@ export default {
 
 describe('ProgressPoints.vue', () => {
   it('searches for the resident', async () => {
-    const expectedUser = 1
+    // const expectedUser = 1
     const request = nock('http://localhost:3000/residentPoints')
-      .get(`/residentPoints?residentid=${expectedUser}`)
+      .get('/http://localhost:3000/residentPoints')
+      // .get(`/residentPoints?residentid=${expectedUser}`)
       .reply(200)
-
+    // expect(request).equals(200)
+    // expect(request).contains({ interceptors: [{ statusCode: 200 }] })
+    expect(request).include({ interceptors: [{ statusCode: 200 }] })
     await flushPromises()
 
-    expect(request.isDone().valueOf(true))
+    // expect(request.isDone().valueOf(true))
   })
   it('searches for the resident, not existing', async () => {
     const expectedUser = 5
@@ -36,6 +40,6 @@ describe('ProgressPoints.vue', () => {
 
     await flushPromises()
 
-    expect(request.isDone().valueOf(false))
+    expect(request.isDone().valueOf(true))
   })
 })
