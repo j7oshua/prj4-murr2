@@ -1,0 +1,21 @@
+App\Entity\Resident:
+  resident1:
+    id: 1
+  resident2:
+    id: 2
+  resident3:
+    id: 3
+
+App\Entity\Point:
+  point1:
+    id: 1
+    resident: ['@resident2']
+    num_Points: 3
+  point2:
+    id: 2
+    resident: ['@resident3']
+    num_Points: 40
+  point3:
+    id: 3
+    resident: [ '@resident3' ]
+    num_Points: 40

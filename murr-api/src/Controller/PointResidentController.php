@@ -9,20 +9,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ResidentPointController extends AbstractController
+class PointResidentController extends AbstractController
 {
     /**
-     * @Route("/resident/point/{id}", name="resident_point")
+     * @Route("/point/resident/{id}", name="point_resident")
      * @param int $id
      * @param PointRepository $pr
      * @param ResidentRepository $rr
      * @return Response
+     * This will grab the id from the custom url to return the result json object.
      */
     public function index(int $id, PointRepository $pr, ResidentRepository $rr): Response
     {
-        $pointResult = $pr->getPointByResident($id);
+        //This will grab the numPoints of a resident id.
+        $pointResult = $pr->GetPointByResident($id);
+        //This will find a resident matching the resident id and if none are found it will return null.
         $idFound = $rr->find($id);
-
+        //initialize response.
         $response = null;
 
         if($idFound) {

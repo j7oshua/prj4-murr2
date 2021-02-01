@@ -19,7 +19,12 @@ class PointRepository extends ServiceEntityRepository
         parent::__construct($registry, Point::class);
     }
 
-    public function getPointByResident(int $resID)
+    /**
+     * @param int $resID
+     * @return int|mixed|string|null
+     * This function will grab the numPoints property based on the resID
+     */
+    public function GetPointByResident(int $resID)
     {
         $result = null;
 
