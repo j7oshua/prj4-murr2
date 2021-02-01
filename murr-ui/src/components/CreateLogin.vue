@@ -1,7 +1,7 @@
 <template>
-  <create-login>
-    Login Form
-  </create-login>
+  <div>
+    <h1>Hello</h1>
+  </div>
 </template>
 
 <script>
