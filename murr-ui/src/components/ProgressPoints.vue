@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-overlay :show="isDisabled">
+<!--    <b-overlay :show="isDisabled">-->
       <h2>Points: {{ tempPoints }}</h2>
-    </b-overlay>
+<!--    </b-overlay>-->
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
     getPoints: function () {
       this.isBusy = true
       this.axios.get('http://localhost:3000/residentPoints', {
-        params: { residentid: 1 }
+        params: { residentid: this.residentid }
       })
         .then(resp => {
           console.log(resp)

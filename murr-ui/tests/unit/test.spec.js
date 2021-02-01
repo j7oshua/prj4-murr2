@@ -20,26 +20,23 @@ export default {
 
 describe('ProgressPoints.vue', () => {
   it('searches for the resident', async () => {
-    // const expectedUser = 1
+    const expectedUser = 1
+    const points = 1000
     const request = nock('http://localhost:3000/residentPoints')
-      .get('/http://localhost:3000/residentPoints')
-      // .get(`/residentPoints?residentid=${expectedUser}`)
+      .get(`/residentPoints?residentid=${expectedUser}&points=${points}`)
       .reply(200)
-    // expect(request).equals(200)
-    // expect(request).contains({ interceptors: [{ statusCode: 200 }] })
-    expect(request).include({ interceptors: [{ statusCode: 200 }] })
     await flushPromises()
-
-    // expect(request.isDone().valueOf(true))
+    expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 200 }] })
   })
+
   it('searches for the resident, not existing', async () => {
     const expectedUser = 5
+    const points = 0
     const request = nock('http://localhost:3000/residentPoints')
-      .get(`/residentPoints?residentid=${expectedUser}`)
+      .get(`/residentPoints?residentid=${expectedUser}&points=${points}`)
       .reply(400)
 
     await flushPromises()
-
-    expect(request.isDone().valueOf(true))
+    expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 400 }] })
   })
 })
