@@ -1,6 +1,49 @@
 <template>
   <div>
-    <h1>Hello</h1>
+    <h1>Create Login</h1>
+    <b-form>
+      <b-form-group
+        id="emailInput"
+        label="Email Address:"
+        label-for="input-1"
+        description="Your email will be kept private."
+      >
+        <b-form-input
+          id="input-1"
+          type="email"
+          placeholder="Please enter your email here"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="phoneInput"
+        label="Phone Number:"
+        label-for="input-2"
+        description="Your phone number will be kept private."
+      >
+        <b-form-input
+          id="input-2"
+          type="phone"
+          placeholder="Please enter your phone number here"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="passwordInput"
+        label="Password:"
+        label-for="input-3"
+        description=""
+      >
+        <b-form-input
+          id="input-3"
+          type="password"
+          placeholder="Please a password"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Cancel</b-button>
+    </b-form>
   </div>
 </template>
 
@@ -26,7 +69,6 @@ import Vuelidate from 'vuelidate' */
 export default {
   name: 'CreateLogin',
   props: {
-    Resident: Object,
     email: String,
     phone: String,
     password: String
