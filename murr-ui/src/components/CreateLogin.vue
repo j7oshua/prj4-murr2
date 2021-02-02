@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Create Login</h1>
-    <b-form>
+    <b-form @submit="saveResident" @reset="resetForm" v-if="show">
       <b-form-group
         id="emailInput"
         label="Email Address:"
@@ -11,6 +11,7 @@
         <b-form-input
           id="input-1"
           type="email"
+          v-model="form.em"
           placeholder="Please enter your email here"
         ></b-form-input>
       </b-form-group>
@@ -24,6 +25,7 @@
         <b-form-input
           id="input-2"
           type="phone"
+          v-model="form.pn"
           placeholder="Please enter your phone number here"
         ></b-form-input>
       </b-form-group>
@@ -37,6 +39,7 @@
         <b-form-input
           id="input-3"
           type="password"
+          v-model="form.pw"
           placeholder="Please a password"
           required
         ></b-form-input>
@@ -75,12 +78,14 @@ export default {
   },
   data () {
     return {
-      dt: {
-        em: 'Email',
-        pn: 'Phone Number',
-        pw: 'Password'
+      form: {
+        em: '',
+        pn: '',
+        pw: ''
       },
-      tempResident: {}
+      show: true,
+      tempResident: {},
+      error: {}
     }
   },
   /* validations: {
@@ -123,6 +128,30 @@ export default {
     // errorMessage () {
     //   throw new Error('Not Implemented')
     // }
+    saveResident: function () {
+      //  clear validation messages if they are wrong
+      //  might need this?
+      //  this.error = {};
+
+      this.callAPI('post', this.tempResident)
+        .then(resp => {
+          console.log(resp)
+          this.tempResident = {}
+          this.$emit('added', resp.data)
+        })
+        .catch(err => {
+          console.log(err)
+          this.err = err && err.response ? err.response.data : {}
+        })
+    },
+    resetForm: function (event) {
+      event.preventDefault()
+
+      //Reset all the form values
+      this.form.em = ''
+      this.form.pn = ''
+      this.form.pw = ''
+    }
   }
 }
 </script>
