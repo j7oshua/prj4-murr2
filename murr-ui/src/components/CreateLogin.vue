@@ -44,7 +44,7 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="submit" variant="primary" @click.stop.prevent="saveResident">Submit</b-button>
       <b-button type="reset" variant="danger">Cancel</b-button>
     </b-form>
   </div>
@@ -132,7 +132,6 @@ export default {
       //  clear validation messages if they are wrong
       //  might need this?
       //  this.error = {};
-
       this.callAPI('post', this.tempResident)
         .then(resp => {
           console.log(resp)
@@ -143,11 +142,12 @@ export default {
           console.log(err)
           this.err = err && err.response ? err.response.data : {}
         })
+      this.$router.push('/points')
     },
     resetForm: function (event) {
       event.preventDefault()
 
-      //Reset all the form values
+      // Reset all the form values
       this.form.em = ''
       this.form.pn = ''
       this.form.pw = ''
