@@ -2,13 +2,13 @@
   <div>
     <h1>Create Login</h1>
     <b-form @submit="saveResident" @reset="resetForm" v-if="show">
-      <b-form-group
+      <b-form-group :state="state.em" :invalid-feedback="error.email"
         id="emailInput"
         label="Email Address:"
         label-for="input-1"
-        description="Your email will be kept private."
+        description=""
       >
-        <b-form-input
+        <b-form-input :state="state.em"
           id="input-1"
           type="email"
           v-model="form.em"
@@ -16,13 +16,13 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group :state="state.pn" :invalid-feedback="error.phone"
         id="phoneInput"
         label="Phone Number:"
         label-for="input-2"
-        description="Your phone number will be kept private."
+        description=""
       >
-        <b-form-input
+        <b-form-input :state="state.pn"
           id="input-2"
           type="phone"
           v-model="form.pn"
@@ -30,17 +30,17 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group :state="state.pw" :invalid-feedback="error.password"
         id="passwordInput"
         label="Password:"
         label-for="input-3"
-        description=""
+        description="Must contain Letters and numbers"
       >
-        <b-form-input
+        <b-form-input :state="state.pw"
           id="input-3"
           type="password"
           v-model="form.pw"
-          placeholder="Please a password"
+          placeholder="Please enter a password"
           required
         ></b-form-input>
       </b-form-group>
@@ -151,6 +151,15 @@ export default {
       this.form.em = ''
       this.form.pn = ''
       this.form.pw = ''
+    }
+  },
+  computed: {
+    state: function () {
+      return {
+        em: this.error.email ? false : null,
+        pn: this.error.phone ? false : null,
+        pw: this.error.password ? false : null
+      }
     }
   }
 }

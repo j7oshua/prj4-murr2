@@ -11,6 +11,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootswatch/dist/sketchy/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import GlobalMixin from '@/mixins/global-mixin'
 
 // add libraries to vue context
 Vue.use(BootstrapVue)
@@ -18,6 +19,7 @@ Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
+Vue.mixin(GlobalMixin)
 
 new Vue({
   router,
