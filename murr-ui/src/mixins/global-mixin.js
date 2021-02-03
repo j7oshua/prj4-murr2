@@ -1,4 +1,5 @@
-const RESIDENT_API_URL = 'http://localhost:8000/api/residents'
+
+/* const RESIDENT_API_URL = 'http://localhost:8000/api/residents'
 
 const GlobalMixin = ({
   props: {
@@ -9,9 +10,9 @@ const GlobalMixin = ({
       RESIDENT_API_URL
     }
   },
-  mounted() {
+  mounted () {
 
-  },
-});
+  }
+})
 
-export default GlobalMixin;
+export default GlobalMixin */

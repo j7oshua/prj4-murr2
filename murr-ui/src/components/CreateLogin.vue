@@ -69,8 +69,11 @@ import Vuelidate from 'vuelidate' */
     minLength: '{attribute} must be longer than {limit} characters.'
   }
 }) */
+
+import ResidentMixin from '@/mixins/resident-mixin'
 export default {
   name: 'CreateLogin',
+  mixins: [ResidentMixin],
   props: {
     email: String,
     phone: String,
@@ -137,12 +140,16 @@ export default {
           console.log(resp)
           this.tempResident = {}
           this.$emit('added', resp.data)
+          this.$router.push('/points')
         })
         .catch(err => {
           console.log(err)
-          this.err = err && err.response ? err.response.data : {}
+          if (err.response.status === 400) {
+            this.error = err.response.data
+            console.log(this.error)
+            console.log(this.error.violations[0].message)
+          }
         })
-      this.$router.push('/points')
     },
     resetForm: function (event) {
       event.preventDefault()

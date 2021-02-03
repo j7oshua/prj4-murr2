@@ -1,28 +1,23 @@
 const ResidentMixin = ({
-  props:{
-
+  props: {
   },
-  data: function (){
-
+  data: function () {
   },
   methods: {
-    callAPI: function (method, data){
-      let config ={
+    callAPI: function (method, data) {
+      const config = {
         method: method.toLowerCase(),
-        url: this.RESIDENT_API_URL,
+        url: 'http://localhost:8000/api/residents',
         params: {}
       }
-
-      if(['post'].includes(config.method)){
-        config.data = data;
+      if (['post'].includes(config.method)) {
+        config.data = data
       } else {
-        config.params = data;
+        config.params = data
       }
-
-      return this.axios(config);
-
+      return this.axios(config)
     }
   }
-});
+})
 
-export default ResidentMixin;
+export default ResidentMixin
