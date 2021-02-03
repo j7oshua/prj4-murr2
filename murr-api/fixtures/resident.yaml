@@ -1,0 +1,11 @@
+App\Entity\Resident:
+    residentOne:
+        password: "Password"
+    residentTwo:
+        password: "Password"
+    residentThree:
+        password: "Password"
+    residentFour:
+        password: "Password"
+    residentFive:
+        password: "Password"
