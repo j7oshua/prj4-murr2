@@ -11,7 +11,7 @@ describe('ResidentPoints.vue', () => {
       propsData: { residentid: residentid }
     })
     wrapper.setProps({ residentid: residentid })
-    expect(wrapper.text()).to.include(points) // should return 0
+    expect(wrapper.element).to.include(points) // should return 0
   })
   it('renders props.value when passed residentid 1', () => {
     const residentid = 1

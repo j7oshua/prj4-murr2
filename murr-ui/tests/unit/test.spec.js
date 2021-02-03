@@ -11,9 +11,9 @@ const instance = axios.create({
 
 export default {
   getPoints () {
-    let residentid
+    let residentId
     return instance
-      .get(`/residentPoints?residentid=${residentid}`)
+      .get(`/residentPoints?residentId=${residentId}`)
       .then(result => result.data)
   }
 }
@@ -23,9 +23,11 @@ describe('ResidentPoints.vue', () => {
     const expectedUser = 1
     const points = 1000
     const request = nock('http://localhost:3000/residentPoints')
-      .get(`/residentPoints?residentid=${expectedUser}&points=${points}`)
+      // make the call to the mock database passing in the residentId
+      .get(`/residentPoints?residentId=${expectedUser}&points=${points}`)
       .reply(200)
     await flushPromises()
+    // should return a status code of 200
     expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 200 }] })
   })
 
@@ -33,10 +35,12 @@ describe('ResidentPoints.vue', () => {
     const expectedUser = 5
     const points = 0
     const request = nock('http://localhost:3000/residentPoints')
-      .get(`/residentPoints?residentid=${expectedUser}&points=${points}`)
+      // make the call to the mock database passing in the residentId
+      .get(`/residentPoints?residentId=${expectedUser}&points=${points}`)
       .reply(400)
 
     await flushPromises()
+    // should return a status code of 400
     expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 400 }] })
   })
 })

@@ -10,7 +10,7 @@
 import PointsComponent from '../components/ResidentPoints'
 
 export default {
-  name: 'Home',
+  name: 'Login',
   components: {
     PointsComponent
   }
