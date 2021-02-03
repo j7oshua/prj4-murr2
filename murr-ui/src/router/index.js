@@ -9,10 +9,6 @@ const routes = [
     name: 'Home',
     component: Home
   }
-  // {
-  //   name: 'ProgressPoints',
-  //   component: () => import(/* webpackChunkName: "home" */ '../components/ProgressPoints.vue')
-  // }
 ]
 
 const router = new VueRouter({

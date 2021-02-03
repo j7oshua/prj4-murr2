@@ -1,22 +1,22 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
-import Progress from '@/components/ProgressPoints.vue'
+import { mount } from '@vue/test-utils'
+import Progress from '@/components/ResidentPoints.vue'
 
 //  story32 below
-describe('ProgressPoints.vue', () => {
+describe('ResidentPoints.vue', () => {
   it('renders props.value when passed residentid 3', () => {
     const residentid = 3
     const points = 0
-    const wrapper = shallowMount(Progress, {
-      data: { residentid: residentid, tempPoints: points }
+    const wrapper = mount(Progress, {
+      propsData: { residentid: residentid }
     })
-    wrapper.setData({ tempPoints: points })
+    wrapper.setProps({ residentid: residentid })
     expect(wrapper.text()).to.include(points) // should return 0
   })
   it('renders props.value when passed residentid 1', () => {
     const residentid = 1
     const points = 1000
-    const wrapper = shallowMount(Progress, {
+    const wrapper = mount(Progress, {
       beforeMount: { tempPoints: points }
     })
     wrapper.setData({ residentid: residentid, tempPoints: points })
@@ -25,7 +25,7 @@ describe('ProgressPoints.vue', () => {
   it('renders props.value when passed residentid 4', () => {
     const residentid = 4
     const points = NaN
-    const wrapper = shallowMount(Progress, {
+    const wrapper = mount(Progress, {
       data: { residentid: residentid, tempPoints: points }
     })
     wrapper.setData({ tempPoints: points })

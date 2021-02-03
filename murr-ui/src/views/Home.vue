@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PointsComponent from '../../src/components/ProgressPoints'
+import PointsComponent from '../components/ResidentPoints'
 
 export default {
   name: 'Home',

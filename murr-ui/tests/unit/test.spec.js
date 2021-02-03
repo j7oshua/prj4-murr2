@@ -18,7 +18,7 @@ export default {
   }
 }
 
-describe('ProgressPoints.vue', () => {
+describe('ResidentPoints.vue', () => {
   it('searches for the resident', async () => {
     const expectedUser = 1
     const points = 1000
