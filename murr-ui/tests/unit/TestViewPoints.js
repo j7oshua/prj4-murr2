@@ -41,6 +41,6 @@ describe('ResidentPoints.vue', () => {
 
     await flushPromises()
     // should return a status code of 400
-    expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 400 }] })
+    expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 404 }] })
   })
 })
