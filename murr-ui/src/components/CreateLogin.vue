@@ -51,13 +51,9 @@
 </template>
 
 <script>
-/* import Vue from 'vue'
-import Vuelidate from 'vuelidate' */
-
-/* import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor' */
-
-/* Vue.use(Vuelidate)
- Vue.use(VuelidateErrorExtractor, {
+/*
+import Vue from 'vue'
+Vue.use({
   attributes: {
     email: 'Email',
     phone: 'Phone',
@@ -69,8 +65,11 @@ import Vuelidate from 'vuelidate' */
     minLength: '{attribute} must be longer than {limit} characters.'
   }
 }) */
+import ResidentMixin from '@/mixins/resident-mixin'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   name: 'CreateLogin',
+  mixins: [ResidentMixin],
   props: {
     email: String,
     phone: String,
@@ -88,24 +87,22 @@ export default {
       error: {}
     }
   },
-  /* validations: {
-    tempResident: {
-      email: {
-        required: this.phone === '' || this.phone === null,
-        maxLength: maxLength(150)
-      },
-      phone: {
-        required: this.email === '' || this.email === null,
-        minLength: minLength(10),
-        maxLength: maxLength(10)
-      },
-      password: {
-        required: true,
-        minLength: minLength(7),
-        maxLength: maxLength(30)
-      }
+  validations: {
+    em: {
+      required, // this.pn === '' || this.pn === null,
+      maxLength: maxLength(150)
+    },
+    pn: {
+      required, // this.em === '' || this.em === null,
+      minLength: minLength(10),
+      maxLength: maxLength(10)
+    },
+    pw: {
+      required,
+      minLength: minLength(7),
+      maxLength: maxLength(30)
     }
-  }, */
+  },
   methods: {
     // postLogin () {
     //   throw new Error('Not Implemented')
@@ -137,12 +134,16 @@ export default {
           console.log(resp)
           this.tempResident = {}
           this.$emit('added', resp.data)
+          this.$router.push('/points')
         })
         .catch(err => {
           console.log(err)
-          this.err = err && err.response ? err.response.data : {}
+          if (err.response.status === 400) {
+            this.error = err.response.data
+            console.log(this.error)
+            console.log(this.error.violations[0].message)
+          }
         })
-      this.$router.push('/points')
     },
     resetForm: function (event) {
       event.preventDefault()
