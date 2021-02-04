@@ -31,7 +31,7 @@ class Point
      * @Assert\Positive(message = "The points has to be greater than zero")
      * @Assert\NotNull(message = "Points cannot be left null")
      */
-    private $numPoints;
+    public $num_points;
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
@@ -49,14 +49,14 @@ class Point
         return $this->id;
     }
 
-    public function getNumPoints(): ?int
+    public function getnum_points(): ?int
     {
-        return $this->numPoints;
+        return $this->num_points;
     }
 
-    public function setNumPoints(int $numPoints): self
+    public function setnum_points(int $num_points): self
     {
-        $this->numPoints = $numPoints;
+        $this->num_points = $num_points;
 
         return $this;
     }

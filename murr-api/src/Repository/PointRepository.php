@@ -19,32 +19,25 @@ class PointRepository extends ServiceEntityRepository
         parent::__construct($registry, Point::class);
     }
 
-    // /**
-    //  * @return Point[] Returns an array of Point objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $resID
+     * @return int|mixed|string|null
+     * This function will grab the num_points property based on the resID
+     */
+    public function GetPointByResident(int $resID)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $result = null;
 
-    /*
-    public function findOneBySomeField($value): ?Point
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if($resID >= 0) {
+            $qb = $this->getEntityManager()->createQueryBuilder()
+                ->select('p.num_points')
+                ->from('App\Entity\Point', 'p')
+                ->innerJoin('p.resident', 'r', 'WITH', 'r.id = :indexID')
+                ->setParameter('indexID', $resID);
+
+            $result = $qb->getQuery()->getResult();
+        }
+
+        return $result;
     }
-    */
 }
