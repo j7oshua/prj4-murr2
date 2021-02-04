@@ -1,0 +1,16 @@
+{
+  "residentPoints": [
+    {
+      "residentId": 1,
+      "points": 1000
+    },
+    {
+      "residentId": 2,
+      "points": 10
+    },
+    {
+      "residentId": 3,
+      "points": 0
+    }
+  ]
+}
