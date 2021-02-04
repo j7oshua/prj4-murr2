@@ -5,50 +5,52 @@ use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 class PointResidentTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
-    const API_URL_1 = '127.0.0.1:8000/point/resident/1';
-    const API_URL_2 = '127.0.0.1:8000/point/resident/2';
-    const API_URL_3 = '127.0.0.1:8000/point/resident/3';
+
+    const API_URL_6 = '127.0.0.1:8000/point/resident/6';
+    const API_URL_7 = '127.0.0.1:8000/point/resident/7';
+    const API_URL_8 = '127.0.0.1:8000/point/resident/8';
     const API_URL_NO_ID = '127.0.0.1:8000/point/resident/-1';
 
     /**
-     * Purpose: This test will check if API gets 0 points for resident with an id of 1
+     * Purpose: This test will check if API gets 1000 points for resident with an id of 6
      * Expected Result: Success -- Status Response 200
      * Return: JSON of number of points
      */
-    public function testPointForResidentOne(): void
+    public function testResidentWithOneThousandPoints()
     {
-        static::createClient()->request('GET', self::API_URL_1);
+        static::createClient()->request('GET', self::API_URL_6);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'content' => '0'
+            'content' => '1000'
         ]);
     }
 
     /**
-     * Purpose: This test will check if API gets 3 points for resident with an id of 2
+     * Purpose: This test will check if API gets 80 points for resident with an id of 7
+     *          from two transactions
      * Expected Result: Success -- Status Response 200
      * Return: JSON of number of points
      */
-    public function testUserWithThreePoints()
+    public function testResidentWithSumPointsOfEighty()
     {
-        static::createClient()->request('GET', self::API_URL_2);
-        $this->assertJsonContains([
-            'content' => '3'
-        ]);
-    }
-
-    /**
-     * Purpose: This test will check if API gets 80 points for resident with an id of 3
-     *  from two transactions
-     * Expected Result: Success -- Status Response 200
-     * Return: JSON of number of points
-     */
-    public function testUserWithEightyPoints()
-    {
-        static::createClient()->request('GET', self::API_URL_3);
+        static::createClient()->request('GET', self::API_URL_7);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'content' => '80'
+        ]);
+    }
+
+    /**
+     * Purpose: This test will check if API gets 0 points for resident with an id of 8
+     * Expected Result: Success -- Status Response 200
+     * Return: JSON of number of points
+     */
+    public function testResidentWithZeroPoints(): void
+    {
+        static::createClient()->request('GET', self::API_URL_8);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'content' => '0'
         ]);
     }
 
@@ -57,7 +59,7 @@ class PointResidentTest extends ApiTestCase
      * Expected Result: Failure -- Status Response 404
      * Return: null
      */
-    public function testUserWithNoResidentID(): void
+    public function testResidentWithNoResidentID(): void
     {
         static::createClient()->request('GET', self::API_URL_NO_ID);
         $this->assertResponseStatusCodeSame(404);

@@ -22,7 +22,7 @@ class PointRepository extends ServiceEntityRepository
     /**
      * @param int $resID
      * @return int|mixed|string|null
-     * This function will grab the numPoints property based on the resID
+     * This function will grab the num_points property based on the resID
      */
     public function GetPointByResident(int $resID)
     {
@@ -30,7 +30,7 @@ class PointRepository extends ServiceEntityRepository
 
         if($resID >= 0) {
             $qb = $this->getEntityManager()->createQueryBuilder()
-                ->select('p.numPoints')
+                ->select('p.num_points')
                 ->from('App\Entity\Point', 'p')
                 ->innerJoin('p.resident', 'r', 'WITH', 'r.id = :indexID')
                 ->setParameter('indexID', $resID);

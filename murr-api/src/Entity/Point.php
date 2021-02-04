@@ -10,7 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"post", "get"},
+ *     itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass=PointRepository::class)
  */
 class Point
@@ -21,19 +24,18 @@ class Point
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
      */
-    public $id;
-    //tried changing private to public
+    private $id;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\Positive(message = "The points has to be greater than zero")
      * @Assert\NotNull(message = "Points cannot be left null")
-     *
      */
-    public $numPoints;
+    public $num_points;
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
+     * @Assert\Count(min = "1", minMessage = "You must add at least one Resident")
      */
     private $resident;
 
@@ -47,14 +49,14 @@ class Point
         return $this->id;
     }
 
-    public function getNumPoints(): ?int
+    public function getnum_points(): ?int
     {
-        return $this->numPoints;
+        return $this->num_points;
     }
 
-    public function setNumPoints(int $numPoints): self
+    public function setnum_points(int $num_points): self
     {
-        $this->numPoints = $numPoints;
+        $this->num_points = $num_points;
 
         return $this;
     }

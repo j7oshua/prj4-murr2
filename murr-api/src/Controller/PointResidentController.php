@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Repository\PointRepository;
 use App\Repository\ResidentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +20,7 @@ class PointResidentController extends AbstractController
      */
     public function index(int $id, PointRepository $pr, ResidentRepository $rr): Response
     {
-        //This will grab the numPoints of a resident id.
+        //This will grab the num_points of a resident id.
         $pointResult = $pr->GetPointByResident($id);
 
         //This will find a resident matching the resident id and if none are found it will return null.
@@ -35,7 +34,7 @@ class PointResidentController extends AbstractController
             $sum = 0;
             //Goes through and adds each of residents point transaction to their sum
             foreach ($pointResult as $points) {
-                $sum += $points['numPoints'];
+                $sum += $points['num_points'];
             }
             $sumTotal = $this->json($sum);
             $result = $this->json($sumTotal);
@@ -44,7 +43,6 @@ class PointResidentController extends AbstractController
             $result = $this->json(null);
             $result->setStatusCode(404);
         }
-
         return $result;
     }
 }
