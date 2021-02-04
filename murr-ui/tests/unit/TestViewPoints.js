@@ -37,10 +37,10 @@ describe('ResidentPoints.vue', () => {
     const request = nock('http://localhost:3000/residentPoints')
       // make the call to the mock database passing in the residentId
       .get(`/residentPoints?residentId=${expectedUser}&points=${points}`)
-      .reply(400)
+      .reply(404)
 
     await flushPromises()
-    // should return a status code of 400
+    // should return a status code of 404
     expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 404 }] })
   })
 })
