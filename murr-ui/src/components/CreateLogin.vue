@@ -1,165 +1,125 @@
 <template>
   <div>
     <h1>Create Login</h1>
-    <b-form @submit="saveResident" @reset="resetForm" v-if="show">
-      <b-form-group :state="state.em" :invalid-feedback="error.email"
-        id="emailInput"
-        label="Email Address:"
-        label-for="input-1"
-        description=""
-      >
-        <b-form-input :state="state.em"
-          id="input-1"
-          type="email"
-          v-model="form.em"
-          placeholder="Please enter your email here"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group :state="state.pn" :invalid-feedback="error.phone"
-        id="phoneInput"
-        label="Phone Number:"
-        label-for="input-2"
-        description=""
-      >
-        <b-form-input :state="state.pn"
-          id="input-2"
-          type="phone"
-          v-model="form.pn"
-          placeholder="Please enter your phone number here"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group :state="state.pw" :invalid-feedback="error.password"
-        id="passwordInput"
-        label="Password:"
-        label-for="input-3"
-        description="Must contain Letters and numbers"
-      >
-        <b-form-input :state="state.pw"
-          id="input-3"
-          type="password"
-          v-model="form.pw"
-          placeholder="Please enter a password"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="primary" @click.stop.prevent="saveResident">Submit</b-button>
-      <b-button type="reset" variant="danger">Cancel</b-button>
-    </b-form>
+    <form @submit.prevent="submitForm">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input id="email" type="email" class="form-control" v-model.trim="$v.resident.email.$model"
+                 :class="{'is-invalid':$v.resident.email.$error, 'is-valid':!$v.resident.email.$invalid }">
+          <div class="valid-feedback">Your email is valid!</div>
+          <div class="invalid-feedback">
+            <span v-if="!$v.resident.email.required">Email is required</span>
+            <span v-if="!$v.resident.email.email">Email is not in proper format</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="text" class="form-control" v-model.trim="$v.resident.phone.$model"
+                 :class="{'is-invalid':$v.resident.phone.$error, 'is-valid':!$v.resident.phone.$invalid }">
+          <div class="valid-feedback">Your phone number is valid!</div>
+          <div class="invalid-feedback">
+            <span v-if="!$v.resident.phone.only10DigitsLong">Phone Number must be 10 digits! </span>
+            <span v-if="!$v.resident.phone.numeric">Phone Number must contain only digits! </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="password">Password</label>
+          <input id="password" type="password" class="form-control" v-model.trim="$v.resident.password.$model"
+                 :class="{'is-invalid':$v.resident.password.$error, 'is-valid':!$v.resident.password.$invalid }">
+          <div class="valid-feedback">Your password is valid!</div>
+          <div class="invalid-feedback">
+            <span v-if="!$v.resident.password.required">Password is required</span>
+            <span v-if="!$v.resident.password.minLength">Password must be at least 7 characters! </span>
+            <span v-if="!$v.resident.password.maxLength">Password can't be longer then 30 characters! </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group form-check">
+          <input type="checkbox" id="showPassword" class="form-check-input" @click="togglePassword" v-model="showPassword">
+          <label class="form-check-label" for="showPassword">Show password</label>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="repeatPassword">Repeat Password</label>
+          <input id="repeatPassword" type="password" class="form-control" v-model.trim="$v.resident.repeatPassword.$model"
+                 :class="{'is-invalid':$v.resident.repeatPassword.$error, 'is-valid': (resident.password !== '') ? !$v.resident.repeatPassword.$invalid : '' }">
+          <div class="valid-feedback">Your passwords are identical!</div>
+          <div class="invalid-feedback">
+            <span v-if="!$v.resident.repeatPassword.sameAsPassword">Passwords must be identical!</span>
+            <span v-if="!$v.resident.repeatPassword.required"> Please re-enter your password.</span>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
   </div>
 </template>
 
 <script>
-/*
-import Vue from 'vue'
-Vue.use({
-  attributes: {
-    email: 'Email',
-    phone: 'Phone',
-    password: 'Password'
-  },
-  messages: {
-    required: '{attribute} is required.',
-    maxLength: '{attribute} must be shorter than {limit} characters.',
-    minLength: '{attribute} must be longer than {limit} characters.'
-  }
-}) */
 import ResidentMixin from '@/mixins/resident-mixin'
-import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
 export default {
   name: 'CreateLogin',
   mixins: [ResidentMixin],
   props: {
-    email: String,
-    phone: String,
-    password: String
+    em: String,
+    ph: String,
+    pw: String
   },
   data () {
     return {
-      form: {
-        em: '',
-        pn: '',
-        pw: ''
+      resident: {
+        email: '',
+        phone: '',
+        password: '',
+        repeatPassword: ''
       },
-      show: true,
-      tempResident: {},
-      error: {}
+      showPassword: false
     }
   },
   validations: {
-    em: {
-      required, // this.pn === '' || this.pn === null,
-      maxLength: maxLength(150)
-    },
-    pn: {
-      required, // this.em === '' || this.em === null,
-      minLength: minLength(10),
-      maxLength: maxLength(10)
-    },
-    pw: {
-      required,
-      minLength: minLength(7),
-      maxLength: maxLength(30)
+    resident: {
+      email: {
+        required,
+        email,
+        maxLength: maxLength(150)
+      },
+      phone: {
+        only10DigitsLong (value) {
+          return value.trim().length === 10
+        },
+        numeric
+      },
+      password: {
+        required,
+        minLength: minLength(7),
+        maxLength: maxLength(30)
+      },
+      repeatPassword: {
+        sameAsPassword: sameAs('password'),
+        required
+      }
     }
   },
   methods: {
-    // postLogin () {
-    //   throw new Error('Not Implemented')
-    // },
-    // checkPhone () {
-    //   throw new Error('Not Implemented')
-    // },
-    // checkEmail () {
-    //   throw new Error('Not Implemented')
-    // },
-    // checkPassword () {
-    //   throw new Error('Not Implemented')
-    // },
-    // checkCreatedLogin () {
-    //   throw new Error('Not Implemented')
-    // }, /*
-    // hashPassword () {
-    //   throw new Error('Not Implemented')
-    // }, */
-    // errorMessage () {
-    //   throw new Error('Not Implemented')
-    // }
-    saveResident: function () {
-      //  clear validation messages if they are wrong
-      //  might need this?
-      //  this.error = {};
-      this.callAPI('post', this.tempResident)
-        .then(resp => {
-          console.log(resp)
-          this.tempResident = {}
-          this.$emit('added', resp.data)
-          this.$router.push('/points')
-        })
-        .catch(err => {
-          console.log(err)
-          if (err.response.status === 400) {
-            this.error = err.response.data
-            console.log(this.error)
-            console.log(this.error.violations[0].message)
-          }
-        })
+    submitForm: function () {
+      this.$v.$touch()
     },
-    resetForm: function (event) {
-      event.preventDefault()
-
-      // Reset all the form values
-      this.form.em = ''
-      this.form.pn = ''
-      this.form.pw = ''
-    }
-  },
-  computed: {
-    state: function () {
-      return {
-        em: this.error.email ? false : null,
-        pn: this.error.phone ? false : null,
-        pw: this.error.password ? false : null
+    togglePassword () {
+      const show = document.getElementById('password')
+      if (this.showPassword === false) {
+        this.showPassword = true
+        show.type = 'text'
+      } else {
+        this.showPassword = false
+        show.type = 'password'
       }
     }
   }
