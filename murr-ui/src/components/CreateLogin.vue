@@ -24,7 +24,8 @@
           <div class="invalid-feedback">
             <span v-if="!$v.resident.phone.required">Email or Phone is required</span>
             <span v-if="!$v.resident.phone.numeric">Phone Number must contain only digits! </span>
-            <span v-if="!$v.resident.phone.only10DigitsLong">Phone Number is optional or needs to be 10 digits! </span>
+            <span v-if="!$v.resident.phone.minLength">Phone Number must be 10 digits! </span>
+            <span v-if="!$v.resident.phone.maxLength">Phone Number must be 10 digits! </span>
           </div>
         </div>
       </div>
@@ -97,9 +98,6 @@ export default {
         required: requiredUnless('isOptional'),
         minLength: requiredUnless('isPhoneNumberEntered'),
         maxLength: requiredUnless('isPhoneNumberEntered'),
-        only10DigitsLong (value) {
-          return value.trim().length === 10
-        },
         numeric
       },
       password: {
@@ -130,17 +128,13 @@ export default {
   },
   computed: {
     isOptional () {
-      if (this.resident.email !== '' || this.resident.phone !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.resident.email !== '' || this.resident.phone !== ''
     },
     isPhoneNumberEntered () {
       if (this.resident.phone !== '') {
-        if (this.resident.phone.trim().length !== 10) {
-
-        }
+        return this.resident.phone.trim().length === 10
+      } else {
+        return false
       }
     }
   }
