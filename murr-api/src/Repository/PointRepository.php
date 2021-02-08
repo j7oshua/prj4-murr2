@@ -40,4 +40,5 @@ class PointRepository extends ServiceEntityRepository
 
         return $result;
     }
+
 }

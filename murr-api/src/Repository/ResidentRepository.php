@@ -19,6 +19,11 @@ class ResidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Resident::class);
     }
 
+    public function loginQuery(string $password, string $loginInfo)
+    {
+
+    }
+
     // /**
     //  * @return Resident[] Returns an array of Resident objects
     //  */
