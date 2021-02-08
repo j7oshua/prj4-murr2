@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="Points">
     <div>
       <PointsComponent></PointsComponent>
     </div>
@@ -10,7 +10,7 @@
 import PointsComponent from '../components/ResidentPoints'
 
 export default {
-  name: 'Login',
+  name: 'Points',
   components: {
     PointsComponent
   }
