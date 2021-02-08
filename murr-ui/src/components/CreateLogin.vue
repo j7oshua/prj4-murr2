@@ -10,7 +10,7 @@
           <div class="valid-feedback">Your email is valid!</div>
           <div class="invalid-feedback">
             <span v-if="!$v.resident.email.email">Email is not in proper format</span>
-            <span v-if="!$v.resident.email.required">Email or Phone is required</span>
+            <span v-if="!$v.resident.email.checkForEmailOrPhone">Email or Phone is required</span>
           </div>
 
         </div>
@@ -22,7 +22,7 @@
                  :class="{'is-invalid':$v.resident.phone.$error, 'is-valid':!$v.resident.phone.$invalid }">
           <div class="valid-feedback">Your phone number is valid!</div>
           <div class="invalid-feedback">
-            <span v-if="!$v.resident.phone.required">Email or Phone is required</span>
+            <span v-if="!$v.resident.phone.checkForPhoneOrEmail">Email or Phone is required</span>
             <span v-if="!$v.resident.phone.numeric">Phone Number must contain only digits! </span>
             <span v-if="!$v.resident.phone.minLength">Phone Number must be 10 digits! </span>
             <span v-if="!$v.resident.phone.maxLength">Phone Number must be 10 digits! </span>
@@ -67,7 +67,7 @@
 
 <script>
 import ResidentMixin from '@/mixins/resident-mixin'
-import { required, email, minLength, maxLength, numeric, sameAs, requiredUnless } from 'vuelidate/lib/validators'
+import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
 export default {
   name: 'CreateLogin',
   mixins: [ResidentMixin],
@@ -90,14 +90,18 @@ export default {
   validations: {
     resident: {
       email: {
-        required: requiredUnless('isOptional'),
+        checkForEmailOrPhone (value) {
+          return value !== '' || this.resident.phone !== ''
+        },
         email,
         maxLength: maxLength(150)
       },
       phone: {
-        required: requiredUnless('isOptional'),
-        minLength: requiredUnless('isPhoneNumberEntered'),
-        maxLength: requiredUnless('isPhoneNumberEntered'),
+        checkForPhoneOrEmail (value) {
+          return value !== '' || this.resident.email !== ''
+        },
+        minLength: minLength(10),
+        maxLength: maxLength(10),
         numeric
       },
       password: {
@@ -123,18 +127,6 @@ export default {
       } else {
         this.showPassword = false
         show.type = 'password'
-      }
-    }
-  },
-  computed: {
-    isOptional () {
-      return this.resident.email !== '' || this.resident.phone !== ''
-    },
-    isPhoneNumberEntered () {
-      if (this.resident.phone !== '') {
-        return this.resident.phone.trim().length === 10
-      } else {
-        return false
       }
     }
   }
