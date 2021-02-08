@@ -5,13 +5,13 @@ import { expect } from 'chai'
 import httpAdapter from 'axios/lib/adapters/http'
 
 describe('ResidentLogin.vue', () => {
-  it('Resident with correct username and correct password', async () => {
+  it('Resident with correct email and correct password', async () => {
     const expectedUser = 1
-    const userName = 'mark101'
+    const email = 'test@email.com'
     const password = 'password'
-    const request = nock('http://localhost:3000/residentPoints')
+    const request = nock('http://localhost:3000/login')
       // make the call to the mock database passing in the residentId
-      .get(`/residentPoints?residentId=${expectedUser}&points=${points}`)
+      .get(`/login?residentId=${expectedUser}&password=${password}`)
       .reply(200)
     await flushPromises()
     // should return a status code of 200
@@ -21,19 +21,19 @@ describe('ResidentLogin.vue', () => {
   it('Resident with correct phone and correct password', async () => {
   })
 
-  it('Resident with wrong username and correct password', async () => {
+  it('Resident with wrong email and correct password', async () => {
   })
 
   it('Resident with wrong phone and correct password', async () => {
   })
 
-  it('Resident with correct username and wrong password', async () => {
+  it('Resident with correct email and wrong password', async () => {
   })
 
   it('Resident with correct phone and wrong password', async () => {
   })
 
-  it('Resident with wrong username and wrong password', async () => {
+  it('Resident with wrong email and wrong password', async () => {
   })
 
   it('Resident with wrong phone and wrong password', async () => {
