@@ -9,9 +9,10 @@
                  :class="{'is-invalid':$v.resident.email.$error, 'is-valid':!$v.resident.email.$invalid }">
           <div class="valid-feedback">Your email is valid!</div>
           <div class="invalid-feedback">
-            <span v-if="!$v.resident.email.required">Email is required</span>
             <span v-if="!$v.resident.email.email">Email is not in proper format</span>
+            <span v-if="!$v.resident.email.required">Email or Phone is required</span>
           </div>
+
         </div>
       </div>
       <div class="form-row">
@@ -21,8 +22,9 @@
                  :class="{'is-invalid':$v.resident.phone.$error, 'is-valid':!$v.resident.phone.$invalid }">
           <div class="valid-feedback">Your phone number is valid!</div>
           <div class="invalid-feedback">
-            <span v-if="!$v.resident.phone.only10DigitsLong">Phone Number must be 10 digits! </span>
+            <span v-if="!$v.resident.phone.required">Email or Phone is required</span>
             <span v-if="!$v.resident.phone.numeric">Phone Number must contain only digits! </span>
+            <span v-if="!$v.resident.phone.only10DigitsLong">Phone Number is optional or needs to be 10 digits! </span>
           </div>
         </div>
       </div>
@@ -64,7 +66,7 @@
 
 <script>
 import ResidentMixin from '@/mixins/resident-mixin'
-import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
+import { required, email, minLength, maxLength, numeric, sameAs, requiredUnless } from 'vuelidate/lib/validators'
 export default {
   name: 'CreateLogin',
   mixins: [ResidentMixin],
@@ -87,11 +89,14 @@ export default {
   validations: {
     resident: {
       email: {
-        required,
+        required: requiredUnless('isOptional'),
         email,
         maxLength: maxLength(150)
       },
       phone: {
+        required: requiredUnless('isOptional'),
+        minLength: requiredUnless('isPhoneNumberEntered'),
+        maxLength: requiredUnless('isPhoneNumberEntered'),
         only10DigitsLong (value) {
           return value.trim().length === 10
         },
@@ -120,6 +125,22 @@ export default {
       } else {
         this.showPassword = false
         show.type = 'password'
+      }
+    }
+  },
+  computed: {
+    isOptional () {
+      if (this.resident.email !== '' || this.resident.phone !== '') {
+        return true
+      } else {
+        return false
+      }
+    },
+    isPhoneNumberEntered () {
+      if (this.resident.phone !== '') {
+        if (this.resident.phone.trim().length !== 10) {
+
+        }
       }
     }
   }
