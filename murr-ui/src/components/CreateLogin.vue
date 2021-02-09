@@ -78,13 +78,16 @@ export default {
   },
   data () {
     return {
+      tempNewResident: {},
+      error: {},
       resident: {
         email: '',
         phone: '',
         password: '',
-        repeatPassword: ''
+        repeatPassword: '',
       },
-      showPassword: false
+      showPassword: false,
+
     }
   },
   validations: {
@@ -118,6 +121,24 @@ export default {
   methods: {
     submitForm: function () {
       this.$v.$touch()
+      this.isBusy(true)
+      this.error = {}
+      this.callAPI('post', this.tempNewResident)
+      .then(resp=>{
+        if(resp.status === 201)
+        {
+          this.tempNewResident = resp.data
+          this.$emit('added', resp.data)
+        }
+      })
+      .catch(err=>{
+        if(err.response.status === 404){
+          this.error = err && err.response ? err.response.data: {}
+        }
+      })
+      .finally(() => {
+        this.setBusy(false);
+      })
     },
     togglePassword () {
       const show = document.getElementById('password')
