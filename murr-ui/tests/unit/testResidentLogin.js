@@ -4,6 +4,7 @@ import ResidentLogin from '../../src/components/ResidentLogin'
 import { mount } from '@vue/test-utils'
 
 describe('ResidentLogin.vue', () => {
+  //Correct login information returns status code 200
   it('Resident with correct email and correct password', async () => {
     const loginInfo = 'test@email.com'
     const password = 'password'
@@ -15,6 +16,7 @@ describe('ResidentLogin.vue', () => {
     expect(wrapper.attributes('password').to.be(password))
   })
 
+  //Correct login information returns status code 200
   it('Resident with correct phone and correct password', async () => {
     const loginInfo = '123456789'
     const password = 'password'
@@ -26,6 +28,7 @@ describe('ResidentLogin.vue', () => {
     expect(wrapper.attributes('password').to.be(password))
   })
 
+  //Incorrect login information returns status code 404
   it('Resident with wrong email and correct password', async () => {
     const loginInfo = 'testemail.com'
     const password = 'password'
@@ -39,6 +42,7 @@ describe('ResidentLogin.vue', () => {
     expect(wrapper.text()).to.include(msg)
   })
 
+  //Incorrect login information returns status code 404
   it('Resident with wrong phone and correct password', async () => {
     const loginInfo = '12345678'
     const password = 'password'
@@ -52,6 +56,7 @@ describe('ResidentLogin.vue', () => {
     expect(wrapper.text()).to.include(msg)
   })
 
+  //Incorrect login information returns status code 404
   it('Resident with correct email and wrong password', async () => {
     const loginInfo = 'test@email.com'
     const password = 'pssword'
@@ -65,6 +70,7 @@ describe('ResidentLogin.vue', () => {
     expect(wrapper.text()).to.include(msg)
   })
 
+  //Incorrect login information returns status code 404
   it('Resident with correct phone and wrong password', async () => {
     const loginInfo = '123456789'
     const password = 'pssword'
@@ -78,6 +84,7 @@ describe('ResidentLogin.vue', () => {
     expect(wrapper.text()).to.include(msg)
   })
 
+  //Incorrect login information returns status code 404
   it('Resident with wrong email and wrong password', async () => {
     const loginInfo = 'testemail.com'
     const password = 'pssword'
@@ -90,6 +97,8 @@ describe('ResidentLogin.vue', () => {
     const msg = 'Login failed. Please try again.'
     expect(wrapper.text()).to.include(msg)
   })
+
+  //Incorrect login information returns status code 404
   it('Resident with wrong phone and wrong password', async () => {
     const loginInfo = '12345678'
     const password = 'pssword'
