@@ -10,8 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class LoginController
 {
 
+    // TODO: Might have to use a custom route
     /**
-     * @Route("/point/resident/{id}", name="point_resident")
+     * @Route("/login")
      * @param ResidentRepository $residentRepository
      * @param array $reqInfo
      * @return Response
