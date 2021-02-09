@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LoginController
 {
 
-    // TODO: Might have to use a custom route
+
     /**
      * @Route("/login")
      * @param ResidentRepository $residentRepository
@@ -18,7 +18,7 @@ class LoginController
      * @return Response
      * This method will grab the resident that corresponds to the password and login info passed in
      */
-    public function index(array $reqInfo, ResidentRepository $residentRepository): Response
+    public function residentLogin(array $reqInfo, ResidentRepository $residentRepository): Response
     {
 
     }

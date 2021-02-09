@@ -19,6 +19,11 @@ class ResidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Resident::class);
     }
 
+    /**
+     * @param string $password
+     * @param string $loginInfo
+     * This method will query the database so the resident can login to their account
+    */
     public function loginQuery(string $password, string $loginInfo)
     {
 
