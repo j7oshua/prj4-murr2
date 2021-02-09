@@ -71,11 +71,6 @@ import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidat
 export default {
   name: 'CreateLogin',
   mixins: [ResidentMixin],
-  props: {
-    em: String,
-    ph: String,
-    pw: String
-  },
   data () {
     return {
       tempNewResident: {},
@@ -87,7 +82,6 @@ export default {
         repeatPassword: ''
       },
       showPassword: false
-
     }
   },
   validations: {
@@ -121,22 +115,26 @@ export default {
   methods: {
     submitForm: function () {
       this.$v.$touch()
-      this.isBusy(true)
-      this.error = {}
-      this.callAPI('post', this.tempNewResident)
-        .then(resp => {
-          if (resp.status === 201) {
-            this.$emit('added', resp.data)
-          }
-        })
-        .catch(err => {
-          if (err.response.status === 404) {
-            this.error = err && err.response ? err.response.data : {}
-          }
-        })
-        .finally(() => {
-          this.setBusy(false)
-        })
+      if (!this.$v.$invalid) {
+        this.tempNewResident = {
+          email: this.resident.email,
+          phone: this.resident.phone,
+          password: this.resident.password
+        }
+        this.error = {}
+        this.callAPI('post', this.tempNewResident)
+          .then(resp => {
+            if (resp.status === 201) {
+              this.$emit('added', resp.data)
+              console.log(resp.data)
+            }
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              this.error = err && err.response ? err.response.data : {}
+            }
+          })
+      }
     },
     togglePassword () {
       const show = document.getElementById('password')

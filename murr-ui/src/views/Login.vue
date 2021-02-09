@@ -4,7 +4,7 @@
    <!-- <loginForm /> -->
 
     <!-- this is the redirected page to create a new resident user -->
-    <CreateLoginForm ref="CreateLogin" @added="handleCreated" @busy="setBusy" />
+    <CreateLoginForm ref="CreateLogin"  />
   </div>
 </template>
 
