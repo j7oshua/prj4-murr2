@@ -9,6 +9,7 @@ use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 class ResidentLoginTest
 {
+    // TODO Will have to add tests for security per Wade's suggestion
     use RefreshDatabaseTrait;
     const API_URL = '127.0.0.1:8000/login';
 
