@@ -3,11 +3,13 @@ import axios from 'axios'
 import { expect } from 'chai'
 import httpAdapter from 'axios/lib/adapters/http'
 
+// eslint-disable-next-line no-unused-vars
 const instance = axios.create({
   baseURL: 'http://localhost:3000/login',
   adapter: httpAdapter
 })
-
+// this.axios.get('http://localhost:3000/residentPoints', {
+// params: { residentid: this.residentid }})
 describe('ResidentLogin.vue', () => {
   it('Resident with correct email and correct password', async () => {
     const loginInfo = 'test@email.com'
@@ -15,8 +17,12 @@ describe('ResidentLogin.vue', () => {
     const request = nock('http://localhost:3000/login')
       .get(`/login?login-info=${loginInfo}&password=${password}`)
       .reply(200)
-    expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 200 }] })
+    const wrapper = mount(password)
+    // expect(request).to.contains.all.keys({ interceptors: [{ statusCode: 200 }] })
+
     // homepage
+    expect(wrapper.attributes('password')).toBe('password')
+
   })
 
   it('Resident with correct phone and correct password', async () => {

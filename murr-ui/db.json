@@ -1,0 +1,10 @@
+{
+  "Resident": [
+    {
+      "id": 4,
+      "email": "hello@test.com",
+      "phone": "123456789",
+      "password": "passsword"
+    }
+  ]
+}
