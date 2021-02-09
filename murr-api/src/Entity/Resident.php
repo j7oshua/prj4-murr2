@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\ResidentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
-use App\Repository\ResidentRepository;
-
 
 /**
  * @ApiResource(
@@ -56,6 +55,11 @@ class Resident
      */
     private $points;
 
+    public function __construct()
+    {
+        $this->points = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,11 +87,6 @@ class Resident
         $this->phone = $phone;
 
         return $this;
-    }
-
-    public function __construct()
-    {
-        $this->points = new ArrayCollection();
     }
 
     /**
@@ -118,6 +117,7 @@ class Resident
 
         return $this;
     }
+
     public function removePoint(Point $point): self
     {
         if ($this->points->removeElement($point)) {

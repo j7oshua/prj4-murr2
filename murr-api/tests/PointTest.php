@@ -9,6 +9,8 @@ use App\Entity\Point;
 
 class PointTest extends ApiTestCase
 {
+    //php bin/console doctrine:database:drop --force
+    //php bin/console doctrine:schema:update --force
 
     //Refreshes the database for every test
     use RefreshDatabaseTrait;
@@ -32,26 +34,26 @@ class PointTest extends ApiTestCase
     {
 
         $this->residentOne = [
-            'numPoints' => 1,
+            'num_points' => 1,
             'resident' => ["/api/residents/1"]
         ];
 
         $this->residentTwo = [
-            'numPoints' => 1,
+            'num_points' => 1,
             'resident' => ["/api/residents/2"]
         ];
 
         $this->noResidentID = [
-          'numPoints' => 1
+          'num_points' => 1
         ];
 
         $this->residentThree = [
-            'numPoints' => 0,
+            'num_points' => 0,
             'resident' => ["/api/residents/3"]
         ];
 
         $this->residentNinetyNine = [
-            'numPoints' => 1,
+            'num_points' => 1,
             'resident' => ["/api/residents/99"]
         ];
 
@@ -77,7 +79,7 @@ class PointTest extends ApiTestCase
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         //validates the URL and makes sure the is an ID
-        $this->assertRegExp('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
 
         //validates the JSONLD schema
         $this->assertMatchesResourceItemJsonSchema(Point::class);
@@ -86,7 +88,7 @@ class PointTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Point',
             '@type' => 'Point',
-            'numPoints' => 1,
+            'num_points' => 1,
             'resident' => array(0 => '/api/residents/1')
         ]);
     }
@@ -103,13 +105,13 @@ class PointTest extends ApiTestCase
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->residentTwo]);
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertRegExp('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Point::class);
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/Point',
             '@type' => 'Point',
-            'numPoints' => 1,
+            'num_points' => 1,
             'resident' => array(0 => '/api/residents/2')
         ]);
     }
@@ -143,14 +145,14 @@ class PointTest extends ApiTestCase
      * Purpose: This test will test adding Zero points to Resident One.
      *           Resident One has 3 points .
      * Expected Result: Failure -- Status Response 400
-     * Return: hydra description of: 'numPoints: The points has to be greater than zero'.
+     * Return: hydra description of: 'num_points: The points has to be greater than zero'.
      * @test
      */
     public
     function TestAddZeroPointsToResidentWithPoints(): void
     {
            //reset numPoint to equal 0
-            $this->residentOne['numPoints'] = 0;
+            $this->residentOne['num_points'] = 0;
 
             self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
 
@@ -158,7 +160,7 @@ class PointTest extends ApiTestCase
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
             $this->assertJsonContains([
-                'hydra:description' => 'numPoints: The points has to be greater than zero'
+                'hydra:description' => 'num_points: The points has to be greater than zero'
             ]);
     }
 
@@ -166,7 +168,7 @@ class PointTest extends ApiTestCase
      * Purpose: This test will test adding a Zero points to Resident Three.
      *           Resident Three has 0 points.
      * Expected Result: Failure -- Status Response 400
-     * Return: hydra description of: 'numPoints: The points has to be greater than zero'.
+     * Return: hydra description of: 'num_points: The points has to be greater than zero'.
      * @test
      */
     public
@@ -178,7 +180,7 @@ class PointTest extends ApiTestCase
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
-            'hydra:description' => 'numPoints: The points has to be greater than zero'
+            'hydra:description' => 'num_points: The points has to be greater than zero'
         ]);
     }
 
@@ -186,7 +188,7 @@ class PointTest extends ApiTestCase
      * Purpose: This test will test adding a 1 point to Resident Ninety-nine.
      *           Resident Ninety-nine does not exist.
      * Expected Result: Failure -- Status Response 400
-     * Return: hydra description of: 'numPoints: The points has to be greater than zero' and
+     * Return: hydra description of: 'num_points: The points has to be greater than zero' and
      *                               'Item not found for "/api/residents/99".'.
      * @test
      */
@@ -210,14 +212,14 @@ class PointTest extends ApiTestCase
      * Purpose: This test will test adding a null for the points to Resident One.
      *           Resident One has 3 points.
      * Expected Result: Failure -- Status Response 400
-     * Return: hydra description of:  'numPoints: Points cannot be left null'.
+     * Return: hydra description of:  'num_points: Points cannot be left null'.
      * @test
      */
     public
     function testLeavePointsBlank(): void
     {
-        //set numPoints as Null
-        unset($this->residentOne['numPoints']);
+        //set num_points as Null
+        unset($this->residentOne['num_points']);
 
         self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
 
@@ -225,7 +227,7 @@ class PointTest extends ApiTestCase
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
-            'hydra:description' => 'numPoints: Points cannot be left null'
+            'hydra:description' => 'num_points: Points cannot be left null'
         ]);
     }
 

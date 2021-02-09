@@ -1,15 +1,19 @@
 <template>
- <div>
-   <h1>This is the Points Page</h1>
- </div>
+  <div class="Points">
+    <div>
+      <PointsComponent></PointsComponent>
+    </div>
+  </div>
 </template>
 
 <script>
+import PointsComponent from '../components/ResidentPoints'
+
 export default {
-name: "Points"
+  name: 'Points',
+  components: {
+    PointsComponent
+  }
 }
 </script>
 
-<style scoped>
-
-</style>
