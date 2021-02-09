@@ -4,7 +4,7 @@
    <!-- <loginForm /> -->
 
     <!-- this is the redirected page to create a new resident user -->
-    <CreateLoginForm ref="CreateLogin"  />
+    <CreateLoginForm></CreateLoginForm>
   </div>
 </template>
 
@@ -21,9 +21,6 @@ export default {
       // ** ASk Josh about directional routing here ??
       // does it go here or index?
       // throw new Error('Not Implemented')
-    },
-    callAPI () {
-      throw new Error('Not Implemented')
     }
   }
 }
