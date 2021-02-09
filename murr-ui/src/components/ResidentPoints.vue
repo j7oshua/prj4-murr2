@@ -2,8 +2,8 @@
   <div>
 <!--    adds a loading animation when the page is busy-->
     <b-overlay :show="isDisabled">
-      <h2 v-if="statusCode === 200">Points: {{ tempPoints }}</h2>
-      <h2 v-else-if="statusCode === 404">Failed Connection</h2>
+      <h2>Points: {{ tempPoints }}</h2>
+     <!-- <h2 v-else-if="statusCode === 404">Failed Connection</h2> -->
     </b-overlay>
   </div>
 </template>
@@ -18,29 +18,27 @@ export default {
       // store the resident's points in this variable
       tempPoints: 0,
       isBusy: false,
-      statusCode: null
+      statusCode: null,
+      residentId: 0
     }
   },
-  props: {
-    // this will come from the login page which will be id for the resident
-    // to be used in the method to get the resident's points
-    residentId: Number
+  created () {
+    this.residentId = this.$route.params.id
   },
   methods: {
     getPoints: function () {
-      // todo
-      // using for demo as we can't get id from url until it is created
-      this.residentId = 200
       // disable overlay
       this.isBusy = true
       // make the call to the API
-      this.axios.get(this.RESIDENT_POINTS_URL + this.residentId, {
+      this.axios.get(this.RESIDENT_POINTS_URL + 13, {
       })
         .then(resp => {
           console.log(resp)
           this.statusCode = resp.status
           // set tempPoints to be the points returned by the API
           this.tempPoints = resp.data.content
+          console.log(resp.data.content)
+          console.log(this.tempPoints)
         })
         .catch(err => {
           console.log(err)
@@ -48,6 +46,7 @@ export default {
             this.statusCode = err.response.status
             const message = err.status
             console.log(message)
+            console.log(this.tempPoints)
           }
         }).finally(() => {
           // re-enable overlay

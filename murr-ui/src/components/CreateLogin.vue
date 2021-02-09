@@ -81,7 +81,8 @@ export default {
         password: '',
         repeatPassword: ''
       },
-      showPassword: false
+      showPassword: false,
+      url: '/points/'
     }
   },
   validations: {
@@ -126,7 +127,9 @@ export default {
           .then(resp => {
             if (resp.status === 201) {
               this.$emit('added', resp.data)
-              console.log(resp.data)
+              this.url += resp.data.id.toString()
+              console.log(this.url)
+              this.$router.push(this.url)
             }
           })
           .catch(err => {
