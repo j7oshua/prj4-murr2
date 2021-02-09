@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import ResidentLogin from "../components/ResidentLogin";
+import ResidentLogin from '../components/ResidentLogin'
 
-  export default {
-    name: 'Login',
-    components: {
-      ResidentLogin
+export default {
+  name: 'Login',
+  components: {
+    ResidentLogin
   }
 }
 </script>

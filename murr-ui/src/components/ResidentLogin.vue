@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ResidentMixin from "../mixins/resident-mixin";
+import ResidentMixin from '../mixins/resident-mixin'
 
 export default {
   name: 'ResidentLogin',
@@ -15,13 +15,13 @@ export default {
       type: Object
     }
   },
-  data() {
+  data () {
     return {
       tempResident: {}
     }
   },
   methods: {
-    residentSignIn() {
+    residentSignIn () {
       throw new Error('Not Implemented')
     }
   }
