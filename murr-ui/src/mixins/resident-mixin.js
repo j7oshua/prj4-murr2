@@ -2,17 +2,17 @@ const ResidentMixin = ({
   props: {
   },
   data: function () {
-    return{
+    return {
       isBusy: false
     }
   },
   computed: {
-    isDisabled() {
+    isDisabled () {
       return this.isBusy || this.disabled
     }
   },
   methods: {
-    setBusy(state) {
+    setBusy (state) {
       this.isBusy = state
       this.$emit('busy', state)
     },
