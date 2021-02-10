@@ -25,9 +25,9 @@ export default {
   },
   methods: {
     residentSignIn () {
-      //Would call api with a get sending tempCustomer login info and password
-      //If completes then sends to resident page
-      //Would call bad login if get fails
+      // Would call api with a get sending tempCustomer login info and password
+      // If completes then sends to resident page
+      // Would call bad login if get fails
       throw new Error('Not Implemented')
     }
   }
