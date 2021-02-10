@@ -2,8 +2,8 @@
   <div>
 <!--    adds a loading animation when the page is busy-->
     <b-overlay :show="isDisabled">
-      <h2>Points: {{ tempPoints }}</h2>
-     <!-- <h2 v-else-if="statusCode === 404">Failed Connection</h2> -->
+      <h2 v-if="statusCode === 200">Points: {{ tempPoints }}</h2>
+      <h2 v-else-if="statusCode === 404">Failed Connection</h2>
     </b-overlay>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
       // disable overlay
       this.isBusy = true
       // make the call to the API
-      this.axios.get(this.RESIDENT_POINTS_URL + 13, {
+      this.axios.get(this.RESIDENT_POINTS_URL + this.residentId, {
       })
         .then(resp => {
           console.log(resp)

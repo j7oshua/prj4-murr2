@@ -14,14 +14,6 @@ export default {
   name: 'CreateLogin',
   components: {
     CreateLoginForm: CreateLogin
-  },
-  methods: {
-    handleCreated () {
-      // if creation was successful we need to redirect to the user points page
-      // ** ASk Josh about directional routing here ??
-      // does it go here or index?
-      // throw new Error('Not Implemented')
-    }
   }
 }
 </script>
