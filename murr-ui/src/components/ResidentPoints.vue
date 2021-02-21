@@ -33,12 +33,9 @@ export default {
       this.axios.get(this.RESIDENT_POINTS_URL + this.residentId, {
       })
         .then(resp => {
-          console.log(resp)
           this.statusCode = resp.status
           // set tempPoints to be the points returned by the API
           this.tempPoints = resp.data.content
-          console.log(resp.data.content)
-          console.log(this.tempPoints)
         })
         .catch(err => {
           console.log(err)
@@ -46,7 +43,6 @@ export default {
             this.statusCode = err.response.status
             const message = err.status
             console.log(message)
-            console.log(this.tempPoints)
           }
         }).finally(() => {
           // re-enable overlay

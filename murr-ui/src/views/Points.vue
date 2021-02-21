@@ -16,3 +16,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.Points {
+  text-align: center;
+}
+</style>
