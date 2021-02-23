@@ -113,6 +113,9 @@
     "fig/link-util": {
         "version": "1.1.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.2"
+    },
     "hautelook/alice-bundle": {
         "version": "2.1",
         "recipe": {

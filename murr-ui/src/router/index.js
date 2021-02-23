@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+// creates the routes to the different pages
 const routes = [
   {
     path: '/',
