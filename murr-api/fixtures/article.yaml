@@ -1,0 +1,13 @@
+App\Entity\Article:
+  article1:
+    title: "What Can You Recycle"
+    image: "image1.jpg"
+    info: "Paper, Plastic"
+  article2:
+    title: "How to Recycle"
+    image: "image2.jpg"
+    info: "Put in bin"
+  article3:
+    title: "Hours and Location"
+    image: "image3.jpg"
+    info: "Saskatoon"

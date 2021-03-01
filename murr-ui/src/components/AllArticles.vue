@@ -15,9 +15,11 @@
       }
     },
     methods: {
+      // this method will get all articles and will display there title and image
       getArticles() {
 
       },
+      // this method will open the article using the id and will navigate the user to a new page
       openArticle(id) {
 
       }

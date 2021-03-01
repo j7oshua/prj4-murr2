@@ -21,9 +21,11 @@
       }
     },
     methods: {
+      // this method will get the specific article details and display all the information for that specific article
       getArticleDetails() {
 
       },
+      // this method will allow the user to click next or previous to navigate the articles without having to leave the page
       navigateArticlesPrevNext() {
 
       }

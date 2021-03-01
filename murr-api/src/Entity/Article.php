@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,7 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={"get"},
  *     itemOperations={"get"}
  * )
- * * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
 class Article
 {
