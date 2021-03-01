@@ -1,0 +1,14 @@
+App\Entity\Pickup:
+  PickupOne:
+    site: ['@SiteOne']
+    numCollected: 5
+    numObstructed: 0
+    numContaminated: 0
+    date: '24-02-2021'
+
+  PickupTwo:
+    site: [ '@SiteTwo' ]
+    numCollected: 0
+    numObstructed: 2
+    numContaminated: 4
+    date: '24-02-2021'

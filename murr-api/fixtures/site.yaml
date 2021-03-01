@@ -1,0 +1,10 @@
+App\Entity\Site:
+  SiteOne:
+    siteName: 'SiteOne'
+    numBins: 5
+    residents: ['@residentOne'], ['@residentTwo'], ['@residentThree']
+
+  SiteTwo:
+    siteName: 'SiteTwo'
+    numBins: 6
+    residents: ['@residentFour'], ['@residentFive']

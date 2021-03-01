@@ -81,7 +81,7 @@ describe('SitePointsConfirmation.vue', () => {
           pickupID: 2,
           siteID: 2,
           numCollected: 0,
-          numObstructed: 1,
+          numObstructed: 2,
           numContaminated: 4,
           date: '24-02-2021'
         }
@@ -91,7 +91,7 @@ describe('SitePointsConfirmation.vue', () => {
       expect(wrapper.find('.successMessage').text().to.be.equal('No points were added to { sitename }'))
     })
   })
-  describe('post to the database', () => {
+  describe('POST to the database', () => {
     it('creates points for the site and returns status code 201', (done) => {
       const newPickup = {
         pickupID: 1
@@ -110,6 +110,32 @@ describe('SitePointsConfirmation.vue', () => {
       chai.request(server)
         .post('/api/site/1')
         .send(newPickup)
+        .end((res) => {
+          expect(res.should.have.status(400))
+          expect(res.body.should.be.a('string'))
+          done()
+        })
+    })
+  })
+  describe('GET request', () => {
+    it('gets back the site name from the database', (done) => {
+      const getSiteName = {
+        siteID: 1
+      }
+      chai.request(server)
+        .get('/api/site/1')
+        .send(getSiteName)
+        .end((res) => {
+          expect(res.should.have.status(200))
+          expect(res.body.should.have.property('sitename').equal('*PUTSITENAMEHERE*'))
+          done()
+        })
+    })
+    it('gets back an error that the site does not exist', (done) => {
+      const getSiteName = {}
+      chai.request(server)
+        .get('/api/site/1')
+        .send(getSiteName)
         .end((res) => {
           expect(res.should.have.status(400))
           expect(res.body.should.be.a('string'))
