@@ -44,7 +44,7 @@ class PointTest extends ApiTestCase
         ];
 
         $this->noResidentID = [
-          'num_points' => 1
+            'num_points' => 1
         ];
 
         $this->residentThree = [
@@ -132,7 +132,7 @@ class PointTest extends ApiTestCase
         //Returns a status code of 400 ("Bad Request")
         $this->assertResponseStatusCodeSame(400);
 
-       //Returns the headers
+        //Returns the headers
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         //JSONLD sends back the hydra description:
@@ -151,17 +151,17 @@ class PointTest extends ApiTestCase
     public
     function TestAddZeroPointsToResidentWithPoints(): void
     {
-           //reset numPoint to equal 0
-            $this->residentOne['num_points'] = 0;
+        //reset numPoint to equal 0
+        $this->residentOne['num_points'] = 0;
 
-            self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
 
-            $this->assertResponseStatusCodeSame(400);
-            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-            $this->assertJsonContains([
-                'hydra:description' => 'num_points: The points has to be greater than zero'
-            ]);
+        $this->assertJsonContains([
+            'hydra:description' => 'num_points: The points has to be greater than zero'
+        ]);
     }
 
     /**
@@ -196,16 +196,16 @@ class PointTest extends ApiTestCase
     function TestAddOnePointToResidentIDNinetyNineDoesNotExist(): void
     {
 
-            self::createClient()->request('POST', self::API_URL, ['json' => $this->residentNinetyNine]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->residentNinetyNine]);
 
-            $this->assertResponseStatusCodeSame(400);
-            $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-            //Returns 2 hydra description for 2 violations:
-            $this->assertJsonContains([
-                'hydra:description' => 'resident: You must add at least one Resident',
-                'hydra:description' => 'Item not found for "/api/residents/99".'
-            ]);
+        //Returns 2 hydra description for 2 violations:
+        $this->assertJsonContains([
+            'hydra:description' => 'resident: You must add at least one Resident',
+            'hydra:description' => 'Item not found for "/api/residents/99".'
+        ]);
     }
 
     /**
@@ -230,6 +230,5 @@ class PointTest extends ApiTestCase
             'hydra:description' => 'num_points: Points cannot be left null'
         ]);
     }
-
 
 }
