@@ -1,18 +1,20 @@
 <template>
 <div>
-  <DriverConfirms :pickupID="pickUp.pickupID"></DriverConfirms>
+  <!-- Confirmation component that confirms the site to get points -->
+  <confirm :pickup="pickUp"></confirm>
 </div>
 </template>
 
 <script>
-import DriverConfirms from '@/components/DriverConfirms'
+import SitePointsConfirmation from '@/components/SitePointsConfirmation'
 export default {
   name: 'Collection',
   components: {
-    DriverConfirms: DriverConfirms
+    confirm: SitePointsConfirmation
   },
   data () {
     return {
+      // Hardcoded Pickup object needed for Story05 - pickupID is needed to be passed down to child component
       pickUp: {
         pickupID: 1,
         siteID: 1,
