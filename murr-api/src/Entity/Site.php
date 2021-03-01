@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *@ApiResource(itemOperations={
+ *     "post_site_points"={
+ *          "method"="POST",
+ *          "path"="/api/site/{id}",
+ *          "controller"=SitePointController::class
+ *     }
+ *   }
+ *
+ * )
  * @ORM\Entity(repositoryClass=SiteRepository::class)
+ *
  */
 class Site
 {
@@ -50,7 +61,7 @@ class Site
     private $residents = [];
 
     /**
-     * @ORM\OneToMany(targetEntity=Pickup::class, mappedBy="siteID")
+     * @ORM\OneToMany(targetEntity=Pickup::class, mappedBy="siteObject")
      */
     private $pickupCollection;
 

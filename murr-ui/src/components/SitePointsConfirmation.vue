@@ -20,7 +20,8 @@ export default {
       site: {
         siteID: 0,
         siteName: ''
-      }
+      },
+      resp: 0
     }
   },
   methods: {

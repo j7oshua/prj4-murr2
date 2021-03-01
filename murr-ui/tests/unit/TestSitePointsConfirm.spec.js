@@ -19,12 +19,46 @@ describe('SitePointsConfirmation.vue', () => {
       }
     })
   })
+  // ****** Test block for when the component is first rendered
+  describe('when rendered, error message displayed', () => {
+    it('asks for confirmation of number of containers picked up', () => {
+      expect(wrapper.find('h1').text().to.be.equal('Confirm Point Addition to { sitename }'))
+      expect(wrapper.find('.message').text().to.be.equal('Do you confirm { numCollected } were collected from '))
+    })
+    before(() => {
+      wrapper.setProps({
+        pickup: {
+          pickupID: 99,
+          siteID: 1,
+          numCollected: 0,
+          numObstructed: 1,
+          numContaminated: 4,
+          date: '24-02-2021'
+        }
+      })
+    })
+    it('displays error that pickupID was not found', () => {
+      expect(wrapper.find('h1').text().to.be.equal('Error'))
+      expect(wrapper.find('.errorMessage').text().to.be.equal('Pickup ID was not found'))
+    })
+    before(() => {
+      wrapper.setData({
+        resp: 500
+      })
+    })
+    it('displays error that could not connect to server',() => {
+      expect(wrapper.find('h1').text().to.be.equal('Connection Error'))
+      expect(wrapper.find('.errorMessage').text().to.be.equal('Could not connect to the server'))
+    })
+  })
+  // *********
   describe('clicking the cancel button', async () => {
     it('closes the component', () => {
       wrapper.find('button.cancel').trigger('click')
       expect(wrapper.exists().to.be.false)
     })
   })
+  // **********
   describe('clicking the yes button', () => {
     it('displays success message that points were added', async () => {
       wrapper.find('button.yes').trigger('click')
@@ -44,6 +78,8 @@ describe('SitePointsConfirmation.vue', () => {
         }
       })
       wrapper.find('button.yes').trigger('click')
+      expect(wrapper.find('h1').text().to.be.equal('{ sitename } No Points Added'))
+      expect(wrapper.find('.successMessage').text().to.be.equal('No points were added to { sitename }'))
     })
   })
 })
