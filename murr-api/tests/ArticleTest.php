@@ -19,15 +19,9 @@ class ArticleTest extends ApiTestCase
         static::createClient()->request('GET', self::API_URL_EDU);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'id' => 1,
-            'title'=> 'What Can You Recycle',
-            'image'=> 'image1.jpg',
-            'id'=> 2,
-            'title'=> 'How to Recycle',
-            'image'=> 'image2.jpg',
-            'id' => 3,
-            'title'=> 'Hours and Locations',
-            'image'=> 'image3.jpg'
+            'id' => 1, 2, 3,
+            'title'=> 'What Can You Recycle', 'How to Recycle', 'Hours and Locations',
+            'image'=> 'image1.jpg', 'image2.jpg', 'image3.jpg'
         ]);
     }
 
