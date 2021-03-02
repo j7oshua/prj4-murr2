@@ -22,8 +22,8 @@ class PickUp
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\PositiveOrZero(message="number of bins must be a zero or positve integer")
      * @Assert\NotNull(message="Invalid: Bin input required.")
+     * @Assert\PositiveOrZero(message="number of bins must be a zero or positve integer")
      */
     private $numCollected;
 

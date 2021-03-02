@@ -48,33 +48,54 @@ class PickUpSiteTest extends ApiTestCase
             'numObstructed' => 2,
             'dateTime' => "2021-03-08"
         ];
+
         $this -> siteOne = [
             'numCollect' => 2,
             'numContaminated' => 2,
             'numObstructed' => 0,
             'dateTime' => "2021-03-08"
         ];
+
         $this -> siteOne = [
             'numCollect' => 0,
             'numContaminated' => 2,
             'numObstructed' => 2,
             'dateTime' => "2021-03-08"
         ];
+
         $this -> siteOne = [
             'numCollect' => 2,
             'numContaminated' => 1,
             'numObstructed' => 1,
             'dateTime' => "2021-03-08"
         ];
+
         $this -> siteNegOne = [
 
+            //how do we put a site object to do these tests?
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
         ];
+
         $this -> siteNinetyNine = [
 
+            //how do we put a site object to do these tests?
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
         ];
 
         //null site
-        $this -> siteOne = [
+        $this -> siteNull = [
+
+            //how do we put a site object to do these tests?
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
         ];
 
         $this -> siteOne = [
@@ -83,6 +104,7 @@ class PickUpSiteTest extends ApiTestCase
             'numObstructed' => 0,
             'dateTime' => "2021-03-08"
         ];
+
         $this -> siteOne = [
             'numCollect' => 3,
             'numContaminated' => 1,
@@ -144,18 +166,15 @@ class PickUpSiteTest extends ApiTestCase
     protected function TestContainersCollected(): void
     {
 
-
+        //this will index for site one
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
+        //this status code means "OK"
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -182,15 +201,11 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -218,15 +233,11 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -255,15 +266,11 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -291,15 +298,11 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -327,15 +330,11 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -362,15 +361,11 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
 
-
         $this->assertResponseStatusCodeSame(200);
-
 
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
 
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
@@ -397,6 +392,7 @@ class PickUpSiteTest extends ApiTestCase
         //this will index the -1 site id,
         self::createClient()->request('POST', self::API_URL, ['json' => $this->siteNegOne]);
 
+        //this returns a status code that means "Not Found"
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
