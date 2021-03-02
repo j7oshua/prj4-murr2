@@ -13,6 +13,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of only contaminated bins
    * Expected Result: Success
    * Return: return Collections History Form
+   *         Message: "Submitted"
    **/
   it('Should successfully be valid with all bins contaminated', async () => {
 
@@ -23,6 +24,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of only obstructed bins
    * Expected Result: Success
    * Return: return Collections History Form
+   *          Message: "Submitted"
    **/
   it('Should successfully be valid with all bins obstructed', async () => {
 
@@ -33,6 +35,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of only collected bins
    * Expected Result: Success
    * Return: return Collections History Form
+   *          Message: "Submitted"
    **/
   it('Should successfully be valid with all bins collected', async () => {
 
@@ -42,6 +45,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of all bin types
    * Expected Result: Success
    * Return: return Collections History Form
+   *          Message: "Submitted"
   **/
   it('Should successfully be valid with all bins types', async () => {
 
@@ -52,6 +56,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of only collected and contaminated bins
    * Expected Result: Success
    * Return: return Collections History Form
+   *          Message: "Submitted"
    **/
   it('Should successfully be valid with all bins collected and obstructed', async () => {
 
@@ -62,6 +67,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of only collected and contaminated bins
    * Expected Result: Success
    * Return: return Collections History Form
+   *          Message: "Submitted"
    **/
   it('Should successfully be valid with all bins collected and contaminated', async () => {
 
@@ -72,6 +78,7 @@ describe('DriverSiteReport.vue', () => {
    * Purpose: Test a pickup history of only contaminated and obstructed bins
    * Expected Result: Success
    * Return: return Collections History Form
+   *          Message: "Submitted"
    **/
   it('Should successfully be valid with all bins contaminated and obstructed', async () => {
 

@@ -16,26 +16,36 @@ class PickUp
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message="ID must be a positive number")
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message="number of bins must be a zero or positve integer")
+     * @Assert\NotNull(message="Invalid: Bin input required.")
      */
     private $numCollected;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull(message="Invalid: Bin input required.")
+     * @Assert\PositiveOrZero(message="number of bins must be a zero or positve integer")
      */
     private $numObstructed;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull(message="Invalid: Bin input required.")
+     * @Assert\PositiveOrZero (message="number of bins must be a zero or positve integer")
      */
     private $numContaminated;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Date
+     * @var string A "Y-m-d" formatted value
+     * @Assert\NotBlank(message="Invalid: date required.")
      */
     private $dateTime;
 

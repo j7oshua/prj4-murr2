@@ -18,16 +18,20 @@ class Site
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message="Must be a positive number")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=80)
+     * @Assert\NotNull(message="Site name required")
      */
     private $siteName;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message="Bins must be a positive integer")
+     * @Assert\NotNull(message="Invalid: bin input required.")
      */
     private $numBins;
 

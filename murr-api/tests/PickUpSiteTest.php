@@ -9,7 +9,6 @@ class PickUpSiteTest extends ApiTestCase
 
     use RefreshDatabaseTrait;
 
-
     private $siteOne;
     private $siteNegOne;
     private $siteNinetyNine;
@@ -17,6 +16,120 @@ class PickUpSiteTest extends ApiTestCase
     const API_URL = '127.0.0.1:8000/api/PickUp';
 
     public function setup(): void{
+        //all buns collected
+        $this -> siteOne = [
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+
+        //all bins Obstructed
+        $this -> siteOne = [
+            'numCollect' => 0,
+            'numContaminated' => 4,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+
+        //all bins contaminated
+        $this -> siteOne = [
+            'numCollect' => 0,
+            'numContaminated' => 0,
+            'numObstructed' => 4,
+            'dateTime' => "2021-03-08"
+        ];
+
+        $this -> siteOne = [
+            'numCollect' => 2,
+            'numContaminated' => 0,
+            'numObstructed' => 2,
+            'dateTime' => "2021-03-08"
+        ];
+        $this -> siteOne = [
+            'numCollect' => 2,
+            'numContaminated' => 2,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+        $this -> siteOne = [
+            'numCollect' => 0,
+            'numContaminated' => 2,
+            'numObstructed' => 2,
+            'dateTime' => "2021-03-08"
+        ];
+        $this -> siteOne = [
+            'numCollect' => 2,
+            'numContaminated' => 1,
+            'numObstructed' => 1,
+            'dateTime' => "2021-03-08"
+        ];
+        $this -> siteNegOne = [
+
+        ];
+        $this -> siteNinetyNine = [
+
+        ];
+
+        //null site
+        $this -> siteOne = [
+        ];
+
+        $this -> siteOne = [
+            'numCollect' => 2,
+            'numContaminated' => 1,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+        $this -> siteOne = [
+            'numCollect' => 3,
+            'numContaminated' => 1,
+            'numObstructed' => 1,
+            'dateTime' => "2021-03-08"
+        ];
+        //future date
+        $this -> siteOne = [
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+        //past date
+        $this -> siteOne = [
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+        //all bins are zero
+        $this -> siteOne = [
+            'numCollect' => 0,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-08"
+        ];
+        //date null
+        $this -> siteOne = [
+            'numCollect' => 4,
+            'numContaminated' => 0,
+            'numObstructed' => 0,
+            'dateTime' => ""
+        ];
+        //null bins and date
+        $this -> siteOne = [
+            'numCollect' => "",
+            'numContaminated' => "",
+            'numObstructed' => "",
+            'dateTime' => "2021-03-08"
+        ];
+
+        //all fields null
+        $this -> siteOne = [
+            'numCollect' => "",
+            'numContaminated' => "",
+            'numObstructed' => "",
+            'dateTime' => ""
+        ];
 
     }
 
@@ -160,7 +273,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestValidDateFutureDate(): void
     {
-
+      //look-up how to test future and past date
     }
 
     /**
@@ -171,7 +284,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestNameValidDatePastDate(): void
     {
-
+        //look-up how to test future and past date
     }
 
     /**
