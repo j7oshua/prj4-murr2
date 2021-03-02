@@ -18,7 +18,7 @@ class Pickup
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="numCollected")
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="pickupCollection")
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;

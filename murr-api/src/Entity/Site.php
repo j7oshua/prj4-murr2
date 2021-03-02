@@ -8,19 +8,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\SitePointController;
 
 /**
- *@ApiResource(itemOperations={
- *     "post_site_points"={
- *          "method"="POST",
- *          "path"="/api/site/{id}",
- *          "controller"=SitePointController::class
- *     }
- *   }
- *
- * )
  * @ORM\Entity(repositoryClass=SiteRepository::class)
- *
+ * @ApiResource(
+ *     collectionOperations={
+ *      "get",
+ *      "post"
+ *     },
+ *     itemOperations={
+ *      "get"={
+ *      "method"="GET",
+ *      "path"="/site/{siteName}"
+ *     },
+ *      "post_site_points"={
+ *          "method"="POST",
+ *          "path"="/site/pickup/{id}",
+ *          "controller"=SitePointController::class
+ *      }
+ *     }
+ * )
  */
 class Site
 {
@@ -34,7 +42,7 @@ class Site
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\Regex(
-     *     pattern="/^[A-Z ][a-z]/",
+     *     pattern="/^[A-Za-z]/",
      *     match=true,
      *     message="Site name cannot have a number"
      * )
@@ -61,7 +69,7 @@ class Site
     private $residents = [];
 
     /**
-     * @ORM\OneToMany(targetEntity=Pickup::class, mappedBy="siteObject")
+     * @ORM\OneToMany(targetEntity=Pickup::class, mappedBy="site")
      */
     private $pickupCollection;
 

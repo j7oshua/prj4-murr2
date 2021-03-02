@@ -94,25 +94,28 @@ describe('SitePointsConfirmation.vue', () => {
   describe('POST to the database', () => {
     it('creates points for the site and returns status code 201', (done) => {
       const newPickup = {
-        pickupID: 1
+        pickupID: 1,
+        siteID: 1,
+        numCollected: 5,
+        numObstructed: 0,
+        numContaminated: 0,
+        date: '24-02-2021'
       }
       chai.request(server)
         .post('/api/site/1')
         .send(newPickup)
         .end((res) => {
           expect(res.should.have.status(201))
-          expect(res.body.should.be.a('string'))
           done()
         })
     })
-    it('error while sending no pickup ID', (done) => {
+    it('error while sending no pickup object', (done) => {
       const newPickup = {}
       chai.request(server)
         .post('/api/site/1')
         .send(newPickup)
         .end((res) => {
           expect(res.should.have.status(400))
-          expect(res.body.should.be.a('string'))
           done()
         })
     })
@@ -120,25 +123,47 @@ describe('SitePointsConfirmation.vue', () => {
   describe('GET request', () => {
     it('gets back the site name from the database', (done) => {
       const getSiteName = {
-        siteID: 1
+        siteName: '***SITENAMEHERE***'
       }
+      const siteURL = '/api/site/' + getSiteName.siteName
       chai.request(server)
-        .get('/api/site/1')
+        .get(siteURL)
         .send(getSiteName)
         .end((res) => {
           expect(res.should.have.status(200))
-          expect(res.body.should.have.property('sitename').equal('*PUTSITENAMEHERE*'))
+          expect(res.body.should.have.property('siteName').equal('*PUTSITENAMEHERE*'))
           done()
         })
     })
-    it('gets back an error that the site does not exist', (done) => {
-      const getSiteName = {}
+    it('gets back an error code that the site does not exist', (done) => {
+      const getSiteName = {
+        siteName: 'noName'
+      }
+      const siteURL = '/api/site/' + getSiteName.siteName
       chai.request(server)
-        .get('/api/site/1')
+        .get(siteURL)
         .send(getSiteName)
         .end((res) => {
           expect(res.should.have.status(400))
-          expect(res.body.should.be.a('string'))
+          done()
+        })
+    })
+  })
+  describe('Connection Error', () => {
+    it('gets back an error code that cannot connect to server', (done) => {
+      const newPickup = {
+        pickupID: 1,
+        siteID: 1,
+        numCollected: 5,
+        numObstructed: 0,
+        numContaminated: 0,
+        date: '24-02-2021'
+      }
+      chai.request(server)
+        .post('/api/site/1')
+        .send(newPickup)
+        .end((res) => {
+          expect(res.should.have.status(500))
           done()
         })
     })

@@ -3,19 +3,17 @@
 namespace App\Controller;
 
 use App\Repository\PointRepository;
-use App\Repository\ResidentRepository;
 use App\Repository\SiteRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class SitePointController extends AbstractController
+use App\Entity\Point;
+use App\Entity\Site;
+use App\Entity\Pickup;
+
+class SitePointController
 {
-    public function index(): Response
+    public function __invoke(Pickup $data): Response
     {
-        /*
-        return $this->render('site_point/index.html.twig', [
-            'controller_name' => 'SitePointController',
-        ]);
-        */
+        // TODO: Implement adding points to site in here
     }
 }
