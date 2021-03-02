@@ -21,12 +21,7 @@ use App\Controller\SitePointController;
  *      "get"={
  *      "method"="GET",
  *      "path"="/site/{siteName}"
- *     },
- *      "post_site_points"={
- *          "method"="POST",
- *          "path"="/site/pickup/{id}",
- *          "controller"=SitePointController::class
- *      }
+ *     }
  *     }
  * )
  */
@@ -42,7 +37,7 @@ class Site
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\Regex(
-     *     pattern="/^[A-Za-z]/",
+     *     pattern="/^[A-Za-z ]/",
      *     match=true,
      *     message="Site name cannot have a number"
      * )
