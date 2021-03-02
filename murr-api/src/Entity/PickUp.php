@@ -46,6 +46,8 @@ class PickUp
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
      * @Assert\NotBlank(message="Invalid: date required.")
+     * @Assert\LessThan("today UTC", message="Invalid Date. This is a past Date")
+     * @Assert\GreaterThan("today UTC", message="Invalid Date. This is a future Date")
      */
     private $dateTime;
 
