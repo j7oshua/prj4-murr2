@@ -1,4 +1,5 @@
 App\Entity\Resident:
   siteOne:
-  siteNegOne:
-  siteNinetyNine:
+    id: 1
+    siteName: Site One
+    numBins: 4
