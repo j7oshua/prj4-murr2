@@ -19,7 +19,7 @@
       getArticles() {
 
       },
-      // this method will open the article using the id and will navigate the user to a new page
+      // this method will map the article being selected using the id and will navigate the user to a new page
       openArticle(id) {
 
       }

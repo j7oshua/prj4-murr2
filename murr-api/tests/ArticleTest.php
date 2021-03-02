@@ -8,9 +8,9 @@ class ArticleTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
 
-    const API_URL_EDU = '127.0.0.1:8000/edu';
-    const API_URL_EDU_ARTICLE = '127.0.0.1:8000/edu/article/1';
-    const API_URL_NO_ID = '127.0.0.1:8000/edu/article/-1';
+    const API_URL_EDU = '127.0.0.1:8000/api/articles';
+    const API_URL_EDU_ARTICLE = '127.0.0.1:8000/api/articles/1';
+    const API_URL_NO_ID = '127.0.0.1:8000/api/articles/-1';
 
     //this test is handling the get request and making sure it gets all the articles back
     //it will return a list of all article titles and images
@@ -21,7 +21,7 @@ class ArticleTest extends ApiTestCase
         $this->assertJsonContains([
             'id' => 1, 2, 3,
             'title'=> 'What Can You Recycle', 'How to Recycle', 'Hours and Locations',
-            'image'=> 'image1.jpg', 'image2.jpg', 'image3.jpg'
+            'image'=> 'image1url', 'image2url', 'image3url'
         ]);
     }
 
@@ -34,7 +34,7 @@ class ArticleTest extends ApiTestCase
         $this->assertJsonContains([
             'id' => 1,
             'title'=> 'What Can You Recycle',
-            'image'=> 'image1.jpg',
+            'image'=> 'image1url',
             'info' => 'Paper, Plastic'
         ]);
     }
