@@ -27,7 +27,7 @@ class ArticleTest extends ApiTestCase
         //Setup an array that contains information to create a resident account.
         $this->dataArray = [
             'title' => 'What Can You Recycle',
-            'image' => 'http://www.ottawa-information-guide.com/wp-content/uploads/recycle-1170x1129.jpg',
+            'image' => 'http://image1url.jpg',
             'info' => 'Paper, Plastic, and Cardboard',
         ];
     }
@@ -39,12 +39,13 @@ class ArticleTest extends ApiTestCase
 
     /**
      * @test
+     * Testing to see a valid post
      */
     public function TestValidPost(): void
     {
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'title' => 'What Can You Recycle',
-            'image' => 'http://www.ottawa-information-guide.com/wp-content/uploads/recycle-1170x1129.jpg',
+            'image' => 'http://image1url.jpg',
             'info' => 'Paper, Plastic, and Cardboard',
         ]]);
 
@@ -52,7 +53,7 @@ class ArticleTest extends ApiTestCase
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             'title' => 'What Can You Recycle',
-            'image' => 'http://www.ottawa-information-guide.com/wp-content/uploads/recycle-1170x1129.jpg',
+            'image' => 'http://image1url.jpg',
             'info' => 'Paper, Plastic, and Cardboard',
         ]);
         $this->assertMatchesRegularExpression('~^/api/articles/\d+$~', $response->toArray()['@id']);
@@ -61,6 +62,7 @@ class ArticleTest extends ApiTestCase
 
     /**
      * @test
+     * Testing for an invalid image
      */
     public function TestInvalidImageURL(): void
     {
@@ -80,6 +82,7 @@ class ArticleTest extends ApiTestCase
 
     /**
      * @test
+     * testing for a title longer than 200 character max
      */
     public function TestInvalidTitle(): void
     {
@@ -99,6 +102,7 @@ class ArticleTest extends ApiTestCase
 
     /**
      * @test
+     * Testing empty Title
      */
     public function TestInvalidTitleEmpty(): void
     {
@@ -118,6 +122,7 @@ class ArticleTest extends ApiTestCase
 
     /**
      * @test
+     * Testing article info that is shorter than 20 characters
      */
     public function TestInvalidInfoTooShort(): void
     {
@@ -137,6 +142,7 @@ class ArticleTest extends ApiTestCase
 
     /**
      * @test
+     * Testing article info that is longer than 3000 characters
      */
     public function TestInvalidInfoTooLong(): void
     {
@@ -154,8 +160,11 @@ class ArticleTest extends ApiTestCase
         ]);
     }
 
-    //this test is handling the get request and making sure it gets all the articles back
-    //it will return a list of all article titles and images
+    /**
+     * @test
+     * this test is handling the get request and making sure it gets all the articles back
+     * it will return a list of all article titles and images
+     */
     public function testAPIReceivesGetRequestOfAllArticles()
     {
         static::createClient()->request('GET', self::API_URL_EDU);
@@ -171,7 +180,7 @@ class ArticleTest extends ApiTestCase
                 '@type' => 'Article',
                 'id' => 1,
                 'title' => 'What Can You Recycle',
-                'image' => 'http://www.ottawa-information-guide.com/wp-content/uploads/recycle-1170x1129.jpg',
+                'image' => 'http://image1url.jpg',
                 'info' => 'Paper, Plastic, and Cardboard',
             ),
                 1 =>
@@ -180,7 +189,7 @@ class ArticleTest extends ApiTestCase
                         '@type' => 'Article',
                         'id' => 2,
                         'title' => 'How to Recycle',
-                        'image' => 'image2url',
+                        'image' => 'image2url.jpg',
                         'info' => 'Put in bin',
                     ),
                 2 =>
@@ -189,7 +198,7 @@ class ArticleTest extends ApiTestCase
                         '@type' => 'Article',
                         'id' => 3,
                         'title' => 'Hours and Location',
-                        'image' => 'image3url',
+                        'image' => 'image3url.jpg',
                         'info' => 'Saskatoon',
                     ),
             ),
@@ -197,20 +206,26 @@ class ArticleTest extends ApiTestCase
         ]);
     }
 
-    //this test is the get request for one specific article and will return the status code
-    //and the article details
+    /**
+     * @test
+     * this test is the get request for one specific article and will return the status code
+     * and the article details
+     */
     public function testAPIReceivesGetRequestOfArticleSelected()
     {
         static::createClient()->request('GET', self::API_URL_EDU_ARTICLE);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'title'=> 'What Can You Recycle',
-            'image'=> 'http://www.ottawa-information-guide.com/wp-content/uploads/recycle-1170x1129.jpg',
+            'image'=> 'http://image1url.jpg',
             'info' => 'Paper, Plastic, and Cardboard'
         ]);
     }
 
-    //this test is handling the error if the user enters an invalid article in the url
+    /**
+     * @test
+     * this test is handling the error if the user enters an invalid article in the url
+     */
     public function testAPIReceivesGetRequestOfInvalidArticleSelected()
     {
         static::createClient()->request('GET', self::API_URL_NO_ID);

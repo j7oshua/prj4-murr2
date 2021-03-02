@@ -1,13 +1,13 @@
 App\Entity\Article:
   article1:
     title: "What Can You Recycle"
-    image: "http://www.ottawa-information-guide.com/wp-content/uploads/recycle-1170x1129.jpg"
+    image: "http://image1url.jpg"
     info: "Paper, Plastic, and Cardboard"
   article2:
     title: "How to Recycle"
-    image: "image2url"
+    image: "image2url.jpg"
     info: "Put in bin"
   article3:
     title: "Hours and Location"
-    image: "image3url"
+    image: "image3url.jpg"
     info: "Saskatoon"
