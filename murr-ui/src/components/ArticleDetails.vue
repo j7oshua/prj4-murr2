@@ -1,5 +1,7 @@
 <template>
-
+  <div>
+    <img :src="tempArticle.image" @error="tempArticle.image='../../public/default.png'" alt="Recycling image">
+  </div>
 </template>
 
 <script>

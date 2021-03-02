@@ -1,13 +1,14 @@
 import nock from 'nock'
 import flushPromises from 'flush-promises'
 import { expect } from "chai"
+import {describe} from "mocha";
 
 describe('AllArticles.vue', () => {
   // this test will make sure the get request is returning the full list of articles available
   it('Resident views all recycling articles on main page', async () => {
     const request = nock('http://localhost:8000/api/articles/1')
       // make the call to the mock database passing in the article id
-      .get(`/edu`)
+      .get(`/api/articles`)
       .reply(200)
     await flushPromises()
     // should return a status code of 200
@@ -32,7 +33,7 @@ describe('ArticleDetails.vue', () => {
     const expectedArticle = -1
     const request = nock('http://localhost:8000/api/articles/-1')
       // make the call to the mock database passing in the article id
-      .get(`/edu/article${expectedArticle}`)
+      .get(`/api/articles/${expectedArticle}`)
       .reply(404)
     await flushPromises()
     // should return a status code of 404
