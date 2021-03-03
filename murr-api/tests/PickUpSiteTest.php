@@ -431,12 +431,12 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestNullSite(): void
     {
-
+       //comment
         self::createClient()->request('POST', self::API_URL, ['json' => $this->siteNull]);
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
+        //comment for this line
         $this->assertJsonContains([
             'hydra:description' => 'site: Invalid site required.'
         ]);
@@ -589,6 +589,7 @@ class PickUpSiteTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
+        //make a comment about a double hydra
         $this->assertJsonContains([
             'hydra:description' => 'site: Invalid bin input required.',
             'hydra:description' => 'dateTime: Invalid date required.'

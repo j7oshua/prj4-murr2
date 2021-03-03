@@ -79,7 +79,7 @@ class PointTest extends ApiTestCase
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         //validates the URL and makes sure the is an ID
-        $this->assertMatchesRegularExpression('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('/^\/api\/point\/\d+$/', $response->toArray()['@id']);
 
         //validates the JSONLD schema
         $this->assertMatchesResourceItemJsonSchema(Point::class);

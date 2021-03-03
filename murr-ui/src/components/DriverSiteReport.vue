@@ -20,6 +20,30 @@ export default {
     },
     dateTime: {
       type: Date
+    },
+    pickup: {
+      collected: '',
+      obstructed: '',
+      contaminated: '',
+      date: ''
+    },
+    tempPickup: {},
+    error: {}
+  },
+  validations: {
+    pickup: {
+      collected: {
+        // some validation
+      },
+      obstructed: {
+        // some validation
+      },
+      contaminated: {
+        // some validation
+      },
+      date: {
+        // some validation
+      }
     }
   },
   methods: {
