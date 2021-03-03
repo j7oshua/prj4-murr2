@@ -19,12 +19,12 @@ const routes = [
     component: () => import('../views/Points.vue')
   },
   {
-    path: '/articles',
+    path: '/edu',
     name: 'RecyclingArticles',
     component: () => import('../views/RecyclingArticles')
   },
   {
-    path: '/articles/:id',
+    path: '/edu/articles/:id',
     name: 'Article',
     component: () => import('../views/Article')
   }

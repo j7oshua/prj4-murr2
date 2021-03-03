@@ -1,13 +1,14 @@
 App\Entity\Article:
   article1:
     title: "What Can You Recycle"
-    image: "http://image1url.jpg"
+    image: "https://i.dlpng.com/static/png/7250118_preview.png"
     info: "Paper, Plastic, and Cardboard"
   article2:
     title: "How to Recycle"
-    image: "image2url.jpg"
+    image: "http://image2url.jpg"
     info: "Put in bin"
   article3:
     title: "Hours and Location"
-    image: "image3url.jpg"
+    image: "http://image3url.jpg"
     info: "Saskatoon"
+

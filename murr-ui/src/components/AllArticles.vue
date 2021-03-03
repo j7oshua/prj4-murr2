@@ -1,7 +1,9 @@
 <template>
-  <div>
-
-<!--    <img :src="Article.image" @error="Article.image='../../public/default.png'" alt="Recycling image">-->
+  <div> {{ Article }}
+    <div v-for="article in articleList" :key="article.id">
+      <p>{{article.title}}</p>
+    </div>
+    <!--    <img :src="Article.image" @error="Article.image='../../public/default.png'" alt="Recycling image">-->
   </div>
 </template>
 
@@ -16,7 +18,8 @@ export default {
         id: Number,
         title: String,
         image: URL
-      }
+      },
+      articleList: []
     }
   },
   methods: {
@@ -27,7 +30,7 @@ export default {
       })
         .then(resp => {
           // set tempPoints to be the points returned by the API
-          this.Article = resp.data.content
+          this.articleList = resp.data
         })
         .catch(err => {
           console.log(err)

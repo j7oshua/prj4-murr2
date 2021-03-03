@@ -189,7 +189,7 @@ class ArticleTest extends ApiTestCase
                         '@type' => 'Article',
                         'id' => 2,
                         'title' => 'How to Recycle',
-                        'image' => 'image2url.jpg',
+                        'image' => 'http://image2url.jpg',
                         'info' => 'Put in bin',
                     ),
                 2 =>
@@ -198,7 +198,7 @@ class ArticleTest extends ApiTestCase
                         '@type' => 'Article',
                         'id' => 3,
                         'title' => 'Hours and Location',
-                        'image' => 'image3url.jpg',
+                        'image' => 'http://image3url.jpg',
                         'info' => 'Saskatoon',
                     ),
             ),
