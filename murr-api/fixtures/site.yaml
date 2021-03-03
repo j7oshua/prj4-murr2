@@ -1,3 +1,4 @@
+# Story05 - Created two site fixtures with three residents in the Wascana site and two residents in the Brighton site
 App\Entity\Site:
   SiteOne:
     siteName: 'Wascana'

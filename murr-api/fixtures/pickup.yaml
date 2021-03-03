@@ -1,3 +1,4 @@
+# Story05 - Created two pickup fixtures to be used. One pickup with Site One and one pickup for Site Two.
 App\Entity\Pickup:
   PickupOne:
     site: ['@SiteOne']

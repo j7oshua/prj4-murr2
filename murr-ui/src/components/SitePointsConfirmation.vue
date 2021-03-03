@@ -9,8 +9,8 @@ export default {
   name: 'DriverConfirms',
   // Prop pickupID is sent from the parent. Used in the API call.
   props: {
-    pickupID: {
-      type: Number,
+    pickUp: {
+      type: Object,
       required: true
     }
   },
@@ -18,7 +18,7 @@ export default {
     return {
       // Site is used to display site name within the HTML confirmation messages
       site: {
-        siteID: 0,
+        site: 0,
         siteName: ''
       }, // Status code returned is used to display the appropriate messages
       respCode: 0

@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Confirmation component that confirms the site to get points -->
-  <confirm :pickupID="pickUp.pickupID"></confirm>
+  <confirm :pickUp="pickUp"></confirm>
 </div>
 </template>
 
@@ -16,7 +16,12 @@ export default {
     return {
       // *** PickupID needed for Story05 - pickupID is needed to be passed down to confirm component
       pickUp: {
-        pickupID: 1
+        pickupID: 1,
+        site: 1,
+        numCollected: 5,
+        numObstructed: 0,
+        numContaminated: 0,
+        dateTime: '2020-03-03'
       }
     }
   }

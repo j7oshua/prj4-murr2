@@ -16,8 +16,13 @@ describe('SitePointsConfirmation.vue', () => {
   beforeEach(() => {
     wrapper = mount(SitePointsConfirmation, {
       propsData: {
-        pickup: {
-          pickupID: 1
+        pickUp: {
+          pickupID: 1,
+          site: 1,
+          numCollected: 5,
+          numObstructed: 0,
+          numContaminated: 0,
+          dateTime: '2020-03-03'
         }
       }
     })
@@ -32,7 +37,12 @@ describe('SitePointsConfirmation.vue', () => {
     before(() => {
       wrapper.setProps({
         pickup: {
-          pickupID: 99
+          pickupID: 99,
+          site: 1,
+          numCollected: 5,
+          numObstructed: 0,
+          numContaminated: 0,
+          dateTime: '2020-03-03'
         }
       })
     })
@@ -69,7 +79,12 @@ describe('SitePointsConfirmation.vue', () => {
       // Set the pickup prop to now include a pickup with no containers collected
       await wrapper.setProps({
         pickup: {
-          pickupID: 2
+          pickupID: 2,
+          site: 2,
+          numCollected: 5,
+          numObstructed: 0,
+          numContaminated: 0,
+          dateTime: '2020-03-03'
         }
       })
       wrapper.find('button.yes').trigger('click')
@@ -85,7 +100,7 @@ describe('SitePointsConfirmation.vue', () => {
         pickupID: 1
       }
       chai.request(server)
-        .post('/api/site/1')
+        .post('/site/1')
         .send(newPickup)
         .end((res) => {
           expect(res.should.have.status(201))
@@ -95,7 +110,7 @@ describe('SitePointsConfirmation.vue', () => {
     it('receive status code 400 while sending no pickupID', (done) => {
       const newPickup = {}
       chai.request(server)
-        .post('/api/site/1')
+        .post('/site/1')
         .send(newPickup)
         .end((res) => {
           expect(res.should.have.status(400))
@@ -107,9 +122,9 @@ describe('SitePointsConfirmation.vue', () => {
   describe('GET request', () => {
     it('gets back the site name from the database', (done) => {
       const getSiteName = {
-        siteID: 1
+        site: 1
       }
-      const siteURL = '/api/site/' + getSiteName.siteID.toString()
+      const siteURL = '/api/site/1' + getSiteName.siteID.toString()
       chai.request(server)
         .get(siteURL)
         .send(getSiteName)
@@ -121,9 +136,9 @@ describe('SitePointsConfirmation.vue', () => {
     })
     it('gets back an error status code 400 that the site does not exist', (done) => {
       const getSiteName = {
-        siteID: 99
+        site: 99
       }
-      const siteURL = '/api/site/' + getSiteName.siteID.toString()
+      const siteURL = '/api/site/99' + getSiteName.siteID.toString()
       chai.request(server)
         .get(siteURL)
         .send(getSiteName)
