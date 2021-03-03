@@ -6,6 +6,8 @@ use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+// Repository required by API Platform for 'GET' operations
+// This code was automatically generated when site entity was created and left untouched
 /**
  * @method Site|null find($id, $lockMode = null, $lockVersion = null)
  * @method Site|null findOneBy(array $criteria, array $orderBy = null)

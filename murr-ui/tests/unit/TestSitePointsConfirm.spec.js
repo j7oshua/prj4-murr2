@@ -3,103 +3,86 @@ import SitePointsConfirmation from '@/components/SitePointsConfirmation'
 import { expect } from 'chai'
 
 let wrapper
+// URL to the backend server
 const server = '127.0.0.1:8000'
+
+// Used to test the front end api calls to the backend server
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
-// ******* Setup the props named pickup to contain the values declared below before each test
+// Setup the props named pickup to contain the values declared below before each test
 describe('SitePointsConfirmation.vue', () => {
   beforeEach(() => {
     wrapper = mount(SitePointsConfirmation, {
       propsData: {
         pickup: {
-          pickupID: 1,
-          siteID: 1,
-          numCollected: 5,
-          numObstructed: 0,
-          numContaminated: 0,
-          date: '24-02-2021'
+          pickupID: 1
         }
       }
     })
   })
-  // ****** Test block for when the component is first rendered
-  describe('when rendered, error message displayed', () => {
+  // Multiple tests, for when the component is first rendered
+  describe('When component is first rendered', () => {
     it('asks for confirmation of number of containers picked up', () => {
-      expect(wrapper.find('h1').text().to.be.equal('Confirm Point Addition to { sitename }'))
-      expect(wrapper.find('.message').text().to.be.equal('Do you confirm { numCollected } were collected from '))
+      expect(wrapper.find('h1').text().to.be.equal('Confirm Point Addition to Wascana'))
+      expect(wrapper.find('.message').text().to.be.equal('Do you confirm 5 containers were collected from Wascana?'))
     })
+    // Sets the prop data to a pickupID that does not exist
     before(() => {
       wrapper.setProps({
         pickup: {
-          pickupID: 99,
-          siteID: 1,
-          numCollected: 0,
-          numObstructed: 1,
-          numContaminated: 4,
-          date: '24-02-2021'
+          pickupID: 99
         }
       })
     })
-    // ******** Test block when there is no pickup ID found in the database
     it('displays error that pickupID was not found', () => {
       expect(wrapper.find('h1').text().to.be.equal('Error'))
       expect(wrapper.find('.errorMessage').text().to.be.equal('Pickup ID was not found'))
     })
+    // Sets the component data to simulate a response code of 500 for connection error
     before(() => {
       wrapper.setData({
-        resp: 500
+        respCode: 500
       })
     })
-    // ******* Test for when the front end could not communicate with the backend
     it('displays error that could not connect to server', () => {
       expect(wrapper.find('h1').text().to.be.equal('Connection Error'))
       expect(wrapper.find('.errorMessage').text().to.be.equal('Could not connect to the server'))
     })
   })
-  // ********* Testing the cancel button for the modal. Should close the modal when the button is clicked
+  // Testing the cancel button.
   describe('clicking the cancel button', async () => {
     it('closes the component', () => {
       wrapper.find('button.cancel').trigger('click')
       expect(wrapper.exists().to.be.false)
     })
   })
-  // ********** Test block for the yes button.
+  // Testing the yes button.
   describe('clicking the yes button', () => {
-    // ************ Test block for when points are added to the site with a success message
     it('displays success message that points were added', async () => {
       wrapper.find('button.yes').trigger('click')
       expect(wrapper.find('h1').text().to.be.equal('Points Added!'))
-      expect(wrapper.find('.successMessage').text().to.be.equal('Successfully added points to { sitename }!'))
+      expect(wrapper.find('.successMessage').text().to.be.equal('Successfully added points to Wascana!'))
     })
-    // ******* Test block for having no points added to the site
     it('displays message that no points were added', async () => {
       // Set the pickup prop to now include a pickup with no containers collected
       await wrapper.setProps({
         pickup: {
-          pickupID: 2,
-          siteID: 2,
-          numCollected: 0,
-          numObstructed: 2,
-          numContaminated: 4,
-          date: '24-02-2021'
+          pickupID: 2
         }
       })
       wrapper.find('button.yes').trigger('click')
-      expect(wrapper.find('h1').text().to.be.equal('{ sitename } No Points Added'))
-      expect(wrapper.find('.successMessage').text().to.be.equal('No points were added to { sitename }'))
+      expect(wrapper.find('h1').text().to.be.equal('Brighton - No Points Added'))
+      expect(wrapper.find('.successMessage').text().to.be.equal('No points were added to Brighton'))
     })
   })
+  // Tests the POST api call to the server.
   describe('POST to the database', () => {
     it('creates points for the site and returns status code 201', (done) => {
+      // Creates a mock pickupID to send to the server
       const newPickup = {
-        pickupID: 1,
-        siteID: 1,
-        numCollected: 5,
-        numObstructed: 0,
-        numContaminated: 0,
-        date: '24-02-2021'
+        pickupID: 1
       }
       chai.request(server)
         .post('/api/site/1')
@@ -109,7 +92,7 @@ describe('SitePointsConfirmation.vue', () => {
           done()
         })
     })
-    it('error while sending no pickup object', (done) => {
+    it('receive status code 400 while sending no pickupID', (done) => {
       const newPickup = {}
       chai.request(server)
         .post('/api/site/1')
@@ -120,50 +103,32 @@ describe('SitePointsConfirmation.vue', () => {
         })
     })
   })
+  // Testing the GET request to receive the site name from the database
   describe('GET request', () => {
     it('gets back the site name from the database', (done) => {
       const getSiteName = {
-        siteName: '***SITENAMEHERE***'
+        siteID: 1
       }
-      const siteURL = '/api/site/' + getSiteName.siteName
+      const siteURL = '/api/site/' + getSiteName.siteID.toString()
       chai.request(server)
         .get(siteURL)
         .send(getSiteName)
         .end((res) => {
           expect(res.should.have.status(200))
-          expect(res.body.should.have.property('siteName').equal('*PUTSITENAMEHERE*'))
+          expect(res.body.should.have.property('siteName').equal('Wascana'))
           done()
         })
     })
-    it('gets back an error code that the site does not exist', (done) => {
+    it('gets back an error status code 400 that the site does not exist', (done) => {
       const getSiteName = {
-        siteName: 'noName'
+        siteID: 99
       }
-      const siteURL = '/api/site/' + getSiteName.siteName
+      const siteURL = '/api/site/' + getSiteName.siteID.toString()
       chai.request(server)
         .get(siteURL)
         .send(getSiteName)
         .end((res) => {
           expect(res.should.have.status(400))
-          done()
-        })
-    })
-  })
-  describe('Connection Error', () => {
-    it('gets back an error code that cannot connect to server', (done) => {
-      const newPickup = {
-        pickupID: 1,
-        siteID: 1,
-        numCollected: 5,
-        numObstructed: 0,
-        numContaminated: 0,
-        date: '24-02-2021'
-      }
-      chai.request(server)
-        .post('/api/site/1')
-        .send(newPickup)
-        .end((res) => {
-          expect(res.should.have.status(500))
           done()
         })
     })

@@ -10,19 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Controller\SitePointController;
 
+// Using API platform for just 'get' operation at this time.
+// Sites will be hardcoded into the database at this point in time.
+// 'GET' will be used in Story05 to display site name in the front end display messages
+
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  * @ApiResource(
- *     collectionOperations={
- *      "get",
- *      "post"
- *     },
- *     itemOperations={
- *      "get"={
- *      "method"="GET",
- *      "path"="/site/{siteName}"
- *     }
- *     }
+ *     itemOperations={"get"}
  * )
  */
 class Site
@@ -34,10 +29,12 @@ class Site
      */
     private $id;
 
+    // For the site name, we will be testing to make sure no digits are added
+    // As well as, testing that the site name is between 3 and 100 characters long
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\Regex(
-     *     pattern="/^[A-Za-z ]/",
+     *     pattern="/^[A-Za-z]/",
      *     match=true,
      *     message="Site name cannot have a number"
      * )
@@ -50,6 +47,7 @@ class Site
      */
     private $siteName;
 
+    // Each site is required to have at least one recycling bin
     /**
      * @ORM\Column(type="integer")
      * @Assert\Positive(
@@ -58,11 +56,14 @@ class Site
      */
     private $numBins;
 
+    // An array of residents that are living at the site. Can be null.
     /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $residents = [];
 
+    // A collection of pickups made at this site. Acts as the many to one relationship
+    // between the site and pickups
     /**
      * @ORM\OneToMany(targetEntity=Pickup::class, mappedBy="site")
      */

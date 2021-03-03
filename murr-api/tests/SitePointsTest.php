@@ -21,14 +21,15 @@ class SitePointsTest extends ApiTestCase
     private $noPickupID;
     private $invalidPickupID;
 
-    //API URLS
+    //API URLS used in the tests.
     const API_URL_SITE_ONE = '127.0.0.1:8000/api/site/1';
     const API_URL_SITE_TWO = '127.0.0.1:8000/api/site/2';
+    // The below URLs will return the sum of the points for the resident
     const API_URL_RESIDENT_TWO = '127.0.0.1:8000/point/resident/2';
     const API_URL_RESIDENT_THREE = '127.0.0.1:8000/point/resident/3';
     const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/point/resident/4';
 
-
+    //Does the beginning setup before the tests are run. Initializes the json to be sent to API
     public function setUp(): void
     {
         //initialize pickups
@@ -50,10 +51,10 @@ class SitePointsTest extends ApiTestCase
     /**
      * Purpose: This test will check if the API successfully adds points to the site with all the
      * containers collected.
-     * Expected Result: Success -- Status Response 200
-     * Return: success message: "Points successfully added to (siteName)"
+     * Expected Result: Success -- Status Response 201
+     * Return: success message: "Points successfully added to Wascana"
      */
-    public function TestAddPointsToSiteOneResidentsWith100PercentContainerPickup(): void
+    public function TestAddPointsToSiteOneWith100PercentContainerPickup(): void
     {
         // Check resident for current points
         static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
@@ -68,7 +69,7 @@ class SitePointsTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseIsSuccessful();
         //Check the response if it contains the success message
-        $this->assertContains("Points successfully added to (siteName)", $response);
+        $this->assertContains("Points successfully added to Wascana", $response);
 
         // Re-check resident for points. Expect it to be 100.
         static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
@@ -81,10 +82,10 @@ class SitePointsTest extends ApiTestCase
     /**
      * Purpose: This test will check if the API successfully adds points to the site with half of the
      * containers collected.
-     * Expected Result: Success -- Status Response 200
-     * Return: success message: "Points successfully added to (siteName)"
+     * Expected Result: Success -- Status Response 201
+     * Return: success message: "Points successfully added to Brighton"
      */
-    public function TestAddPointsToSiteTwoResidentsWith50PercentContainerPickup(): void
+    public function TestAddPointsToSiteTwoWith50PercentContainerPickup(): void
     {
         // Check resident for current points
         static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);
@@ -99,7 +100,7 @@ class SitePointsTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseIsSuccessful();
         //Check the response if it contains the success message
-        $this->assertContains("Points successfully added to (siteName)", $response);
+        $this->assertContains("Points successfully added to Brighton", $response);
 
         // Re-check resident for points. Expect it to be 50.
         static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);
@@ -109,12 +110,12 @@ class SitePointsTest extends ApiTestCase
     }
 
     /**
-     * Purpose: This test will check if the API successfully adds points to the site with none of the
+     * Purpose: This test will check if the API successfully checks and adds no points to the site with zero
      * containers collected.
      * Expected Result: Success -- Status Response 200
-     * Return: success message: "No points were added to (siteName)"
+     * Return: success message: "No points were added to Wascana"
      */
-    public function TestAddNoPointsToSiteOneResidentsWith0PercentContainerPickup(): void
+    public function TestAddNoPointsToSiteOneWithZeroContainerPickup(): void
     {
         // Check resident for current points
         static::createClient()->request('GET', self::API_URL_RESIDENT_THREE);
@@ -129,7 +130,7 @@ class SitePointsTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseIsSuccessful();
         //Check the response if it contains the success message
-        $this->assertContains("No points were added to (siteName)", $response);
+        $this->assertContains("No points were added to Wascana", $response);
 
 
         // Re-check resident for points. Expect it to be still at 0.
@@ -146,7 +147,7 @@ class SitePointsTest extends ApiTestCase
      * Expected Result: Error -- Status Response 400
      * Return: success message: "Pickup Id was not found"
      */
-    public function TestAddPointToSiteWithNoPickupId(): void
+    public function TestAddPointsToSiteWithNoPickupId(): void
     {
         //Request a HTTP POST Request to the static API URL using Resident One
         $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->noPickupID]);
