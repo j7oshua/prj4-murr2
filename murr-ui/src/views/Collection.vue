@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Confirmation component that confirms the site to get points -->
-  <confirm :siteName="siteName" :pickUp="pickUp"></confirm>
+  <confirm siteName="siteName" :pickUp="pickUp"></confirm>
 </div>
 </template>
 

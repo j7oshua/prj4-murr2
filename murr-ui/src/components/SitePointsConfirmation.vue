@@ -1,6 +1,9 @@
 <template>
   <div>
-    <!-- TODO: Code for Story05 to be added here -->
+    <h1>Hello</h1>
+    <b-modal id="modal-multi-1" title="Test" ok-only no-stacking>
+      <p class="my-2">First Modal</p>
+    </b-modal>
   </div>
 </template>
 
