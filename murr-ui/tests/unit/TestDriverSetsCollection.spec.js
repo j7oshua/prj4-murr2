@@ -254,15 +254,15 @@ it('Should display error when container number of containers is more than 4', as
   const inputCollected = wrapper.find('#collected')
   await inputCollected.setValue('2')
   expect(wrapper.find('#collected').element.value).to.equal('2')
-  expect(wrapper.find('#properCollected').text()).to.equal('Error - Invalid number of bins')
+  expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid number of bins')
   const inputObstructed = wrapper.find('#obstructed')
   await inputObstructed.setValue('2')
   expect(wrapper.find('#obstructed').element.value).to.equal('2')
-  expect(wrapper.find('#properObstructed').text()).to.equal('Error - Invalid number of bins')
+  expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid number of bins')
   const inputContaminated = wrapper.find('#contaminated')
   await inputContaminated.setValue('1')
   expect(wrapper.find('#contaminated').element.value).to.equal('1')
-  expect(wrapper.find('#properContaminated').text()).to.equal('Error - Invalid number of bins')
+  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid number of bins')
 })
 
 /**
@@ -272,9 +272,9 @@ it('Should display error when container number of containers is more than 4', as
  * Return: Error Message description: "Error - Invalid, Bin number amount required".
  **/
 it('Should display error when container number of containers is null', async () => {
-  expect(wrapper.find('#properCollected').text()).to.equal('Error - Invalid. Bin number amount required.')
-  expect(wrapper.find('#properObstructed').text()).to.equal('Error - Invalid. Bin number amount required.')
-  expect(wrapper.find('#properContaminated').text()).to.equal('Error - Invalid. Bin number amount required.')
+  expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid. Bin number amount required.')
+  expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid. Bin number amount required.')
+  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid. Bin number amount required.')
 })
 
 /**
@@ -287,7 +287,7 @@ it('Should display error when date fields are in a past date', async () => {
   const inputDateTime = wrapper.find('#dateTime')
   await inputDateTime.setValue('2021-01-02')
   expect(wrapper.find('#dateTime').element.value).to.equal('2021-01-02')
-  expect(wrapper.find('#properDateTime').text()).to.equal('Error - Invalid date response')
+  expect(wrapper.find('#improperDateTime').text()).to.equal('Error - Invalid date response')
 })
 
 /**
@@ -300,7 +300,7 @@ it('Should display error when date fields are in a future date', async () => {
   const inputDateTime = wrapper.find('#dateTime')
   await inputDateTime.setValue('2021-04-02')
   expect(wrapper.find('#dateTime').element.value).to.equal('2021-04-02')
-  expect(wrapper.find('#properDateTime').text()).to.equal('Error - Invalid date response')
+  expect(wrapper.find('#improperDateTime').text()).to.equal('Error - Invalid date response')
 })
 
 /**
@@ -310,7 +310,7 @@ it('Should display error when date fields are in a future date', async () => {
  * Return: Error Message description: "Error – Invalid, date required".
  **/
 it('Should display error when date fields are null', async () => {
-  expect(wrapper.find('#properDateTime').text()).to.equal('Error - Invalid, date required.')
+  expect(wrapper.find('#improperDateTime').text()).to.equal('Error - Invalid, date required.')
 })
 
 /**
@@ -321,10 +321,10 @@ it('Should display error when date fields are null', async () => {
  *         Error Message description: "Error - Invalid require Bin number amounts".
  **/
 it('Should display error when all fields are null', async () => {
-  expect(wrapper.find('#properCollected').text()).to.equal('Error - Invalid. Bin number amount required.')
-  expect(wrapper.find('#properObstructed').text()).to.equal('Error - Invalid. Bin number amount required.')
-  expect(wrapper.find('#properContaminated').text()).to.equal('Error - Invalid. Bin number amount required.')
-  expect(wrapper.find('#properDateTime').text()).to.equal('Error - Invalid date response')
+  expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid. Bin number amount required.')
+  expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid. Bin number amount required.')
+  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid. Bin number amount required.')
+  expect(wrapper.find('#improperDateTime').text()).to.equal('Error - Invalid date response')
 })
 
 /**
@@ -334,7 +334,7 @@ it('Should display error when all fields are null', async () => {
  * Return: Error Message description: "Error -No Site Exist".
  **/
 it('Should display error when container fields are required', async () => {
-  expect(wrapper.find('#properContaminated').text()).to.equal('Error - No site exists.')
+  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - No site exists.')
 })
 
 /**
@@ -344,5 +344,5 @@ it('Should display error when container fields are required', async () => {
  * Return: Error Message description: "Error - Invalid Page/ Not Found".
  **/
 it('Should display error when container fields are required', async () => {
-  expect(wrapper.find('#properContaminated').text()).to.equal('Error - Invalid Page/Not Found.')
+  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid Page/Not Found.')
 })

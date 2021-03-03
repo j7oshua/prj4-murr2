@@ -55,7 +55,7 @@ class PickUp
      * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="pickupid")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $siteobject;
+    private Site $siteObject;
 
     public function getId(): ?int
     {
@@ -112,12 +112,12 @@ class PickUp
 
     public function getSiteobject(): ?Site
     {
-        return $this->siteobject;
+        return $this->siteObject;
     }
 
     public function setSiteobject(?Site $siteobject): self
     {
-        $this->siteobject = $siteobject;
+        $this->siteObject = $siteobject;
 
         return $this;
     }
