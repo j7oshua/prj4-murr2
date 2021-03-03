@@ -6,7 +6,7 @@ import {describe} from "mocha";
 describe('AllArticles.vue', () => {
   // this test will make sure the get request is returning the full list of articles available
   it('Resident views all recycling articles on main page', async () => {
-    const request = nock('http://localhost:8000/api/articles/1')
+    const request = nock('http://localhost:8000/api/articles')
       // make the call to the mock database passing in the article id
       .get(`/api/articles`)
       .reply(200)
