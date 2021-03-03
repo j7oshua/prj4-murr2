@@ -124,7 +124,7 @@ describe('SitePointsConfirmation.vue', () => {
       const getSiteName = {
         site: 1
       }
-      const siteURL = '/api/site/1' + getSiteName.siteID.toString()
+      const siteURL = '/api/site/' + getSiteName.site.toString()
       chai.request(server)
         .get(siteURL)
         .send(getSiteName)
@@ -138,7 +138,7 @@ describe('SitePointsConfirmation.vue', () => {
       const getSiteName = {
         site: 99
       }
-      const siteURL = '/api/site/99' + getSiteName.siteID.toString()
+      const siteURL = '/api/site/' + getSiteName.site.toString()
       chai.request(server)
         .get(siteURL)
         .send(getSiteName)
