@@ -12,7 +12,9 @@ describe('AllArticles.vue', () => {
       .reply(200)
     await flushPromises()
     // should return a status code of 200
-    expect(request).to.contain({id: 1, title: "What Can You Recycle", image: "image1.jpg"})
+    expect(request).to.contain({id: 1, title: "What Can You Recycle", image: "http://image1.jpg"})
+    expect(request).to.contain({id: 2, title: "How to Recycle", image: "http://image2.jpg"})
+    expect(request).to.contain({id: 3, title: "Hours and Location", image: "http://image3.jpg"})
   })
 })
 
@@ -27,6 +29,8 @@ describe('ArticleDetails.vue', () => {
     await flushPromises()
     // should return a status code of 200
     expect(request).to.contains( [{ statusCode: 200 }])
+    expect(request).to.contain({id: 1, title: "What Can You Recycle", image: "http://image1.jpg", info: "Paper, Plastic, and Cardboard"})
+    expect(request).to.contain(this.href = 'http://localhost:8000/api/articles/1')
   })
   it('Resident unsuccessfully views recycling article', async () => {
     // this test is to make sure if the user enters an invalid article id in the url it wont work
@@ -37,6 +41,6 @@ describe('ArticleDetails.vue', () => {
       .reply(404)
     await flushPromises()
     // should return a status code of 404
-    expect(request).to.contains([{ statusCode: 404 }] )
+    expect(request).to.contains([{ statusCode: 404 }])
   })
 })

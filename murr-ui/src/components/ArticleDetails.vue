@@ -1,38 +1,29 @@
 <template>
   <div>
-    <img :src="tempArticle.image" @error="tempArticle.image='../../public/default.png'" alt="Recycling image">
+    <img :src="Article.image" @error="Article.image='../../public/favicon.ico'" alt="Recycling image">
   </div>
 </template>
 
 <script>
-  export default {
-    name: "ArticleInfo",
-    props: {
-      article: {
-        tempID: Number
-      }
-    },
-    data() {
-      return {
-        tempArticle: {
-          id: Number,
-          title: String,
-          image: Image,
-          info: String
-        }
-      }
-    },
-    methods: {
-      // this method will get the specific article details and display all the information for that specific article
-      getArticleDetails() {
-
-      },
-      // this method will allow the user to click next or previous to navigate the articles without having to leave the page
-      navigateArticlesPrevNext() {
-
+export default {
+  name: 'ArticleInfo',
+  data () {
+    return {
+      Article: {
+        id: Number,
+        title: String,
+        image: URL,
+        info: String
       }
     }
+  },
+  methods: {
+    // this method will get the specific article details and display all the information for that specific article
+    getArticleDetails () {
+
+    }
   }
+}
 </script>
 
 <style scoped>

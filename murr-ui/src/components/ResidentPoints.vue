@@ -40,7 +40,7 @@ export default {
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) { // not found
-            this.statusCode = err.response.status
+            this.statusCode = 404
             const message = err.status
             console.log(message)
           }

@@ -1,16 +1,16 @@
 <template>
-  <div></div>
+  <ArticleDetails></ArticleDetails>
 </template>
 
 <script>
-  import ArticleDetails from "../components/ArticleDetails";
+import ArticleDetails from '../components/ArticleDetails'
 
-  export default {
-    name: "Article",
-    components: {
-      ArticleDetails
-    }
+export default {
+  name: 'Article',
+  components: {
+    ArticleDetails
   }
+}
 </script>
 
 <style scoped>
