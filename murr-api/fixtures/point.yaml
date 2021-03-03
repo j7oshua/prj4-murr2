@@ -2,6 +2,9 @@ App\Entity\Point:
   threePointResidentOne:
     resident: ['@residentOne']
     num_points: 3
+  twentyFivePointResidentFour:
+    resident: ['@residentFour']
+    numb_points: 25
 
   point6:
     resident: ['@resident6']

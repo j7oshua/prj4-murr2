@@ -25,8 +25,8 @@ class SitePointsTest extends ApiTestCase
     const API_URL_SITE_ONE = '127.0.0.1:8000/api/site/1';
     const API_URL_SITE_TWO = '127.0.0.1:8000/api/site/2';
     // The below URLs will return the sum of the points for the resident
+    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/point/resident/1';
     const API_URL_RESIDENT_TWO = '127.0.0.1:8000/point/resident/2';
-    const API_URL_RESIDENT_THREE = '127.0.0.1:8000/point/resident/3';
     const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/point/resident/4';
 
     //Does the beginning setup before the tests are run. Initializes the json to be sent to API
@@ -62,6 +62,13 @@ class SitePointsTest extends ApiTestCase
             'content' => '0'
         ]);
 
+        //This is for residentOne which contains 3 points
+        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
+        $this->assertJsonContains([
+            'content' => '3'
+        ]);
+
+
         //Request a HTTP POST Request to the static API URL using Site One
         $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
 
@@ -77,6 +84,12 @@ class SitePointsTest extends ApiTestCase
             'content' => '100'
         ]);
 
+
+        // Re-check resident for points. Expect it to be 103.
+        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
+        $this->assertJsonContains([
+            'content' => '103'
+        ]);
     }
 
     /**
@@ -90,7 +103,7 @@ class SitePointsTest extends ApiTestCase
         // Check resident for current points
         static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);
         $this->assertJsonContains([
-            'content' => '0'
+            'content' => '25'
         ]);
 
         //Request a HTTP POST Request to the static API URL using Site Two
@@ -105,8 +118,10 @@ class SitePointsTest extends ApiTestCase
         // Re-check resident for points. Expect it to be 50.
         static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);
         $this->assertJsonContains([
-            'content' => '50'
+            'content' => '75'
         ]);
+
+
     }
 
     /**
@@ -118,9 +133,9 @@ class SitePointsTest extends ApiTestCase
     public function TestAddNoPointsToSiteOneWithZeroContainerPickup(): void
     {
         // Check resident for current points
-        static::createClient()->request('GET', self::API_URL_RESIDENT_THREE);
+        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
         $this->assertJsonContains([
-            'content' => '0'
+            'content' => '3'
         ]);
 
         //Request a HTTP POST Request to the static API URL using Site One
@@ -134,9 +149,9 @@ class SitePointsTest extends ApiTestCase
 
 
         // Re-check resident for points. Expect it to be still at 0.
-        static::createClient()->request('GET', self::API_URL_RESIDENT_FOUR);
+        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
         $this->assertJsonContains([
-            'content' => '0'
+            'content' => '3'
         ]);
 
     }

@@ -12,15 +12,14 @@ export default {
     pickUp: {
       type: Object,
       required: true
+    },
+    siteName: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
-      // Site is used to display site name within the HTML confirmation messages
-      site: {
-        site: 0,
-        siteName: ''
-      }, // Status code returned is used to display the appropriate messages
       respCode: 0
     }
   },
@@ -32,15 +31,7 @@ export default {
     // User clicks the cancel button and the component is closed and returned to prev page
     cancel: {
       // TODO: Code for Story05
-    },
-    // Makes a call to the API to get the site name and display in the component
-    getSite: {
-      // TODO: Code for Story05
     }
-  },
-  // When component is loaded will load the site name in the confirmation message
-  mounted () {
-    // TODO: Code for Story05
   }
 }
 </script>

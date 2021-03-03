@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Confirmation component that confirms the site to get points -->
-  <confirm :pickUp="pickUp"></confirm>
+  <confirm :siteName="siteName" :pickUp="pickUp"></confirm>
 </div>
 </template>
 
@@ -22,7 +22,9 @@ export default {
         numObstructed: 0,
         numContaminated: 0,
         dateTime: '2020-03-03'
-      }
+      },
+      // ***** Site name will be sent to SitePointsConfirmation component
+      siteName: 'Wascana'
     }
   }
 }
