@@ -5,14 +5,12 @@ import { expect } from 'chai'
 let wrapper
 
 describe('DriverSiteReport.vue', () => {
+  // before each test
   beforeEach(() => {
+    // create a new wrapper container for the shallow mount
     wrapper = shallowMount(DriverSiteReport)
   })
 })
-// before each test
-
-// create a new wrapper container for the shallow mount
-
 /**
    * Title: TestContaminatedFour
    * Purpose: Test a pickup history of only contaminated bins
@@ -21,21 +19,37 @@ describe('DriverSiteReport.vue', () => {
    *         Message: "Submitted"
    **/
 it('Should successfully be valid with all bins contaminated', async () => {
+  // look for the collected input box
   const inputCollected = wrapper.find('#collected')
+  // set the input value for the collected box to the input '4'
   await inputCollected.setValue('4')
+  // this will find the collected input box with the value and check if it equal to '4'
   expect(wrapper.find('#collected').element.value).to.equal('4')
+  // this will find the correct input message and check if it is equal to 'Valid bin input'
   expect(wrapper.find('#properCollected').text()).to.equal('Valid bin input')
+  // look for the Obstructed input box
   const inputObstructed = wrapper.find('#obstructed')
+  // set the input value for the collected box to the input '0'
   await inputObstructed.setValue('0')
+  // this will find the obstructed input box with the value and check if it equal to '0'
   expect(wrapper.find('#obstructed').element.value).to.equal('0')
+  // this will find the correct input message and check if it is equal to 'Valid bin input'
   expect(wrapper.find('#properObstructed').text()).to.equal('Valid bin input')
+  // look for the contaminated input box
   const inputContaminated = wrapper.find('#contaminated')
+  // set the input value for the contaminated box to the input '0'
   await inputContaminated.setValue('0')
+  // this will find the contaminated input box with the value and check if it equal to '0'
   expect(wrapper.find('#contaminated').element.value).to.equal('0')
+  // this will find the correct input message and check if it is equal to 'Valid bin input'
   expect(wrapper.find('#properContaminated').text()).to.equal('Valid bin input')
+  // look for the datetime input box
   const inputDateTime = wrapper.find('#dateTime')
+  // this will set the datetime to '2021-03-02'
   await inputDateTime.setValue('2021-03-02')
+  // this will find the datetime input box with the value and check if it equal to '0'
   expect(wrapper.find('#dateTime').element.value).to.equal('2021-03-02')
+  // this will find the correct input message and check if it is equal to 'Valid bin input'
   expect(wrapper.find('#properDateTime').text()).to.equal('Valid date input')
 })
 
@@ -203,22 +217,30 @@ it('Should successfully be valid with all bins contaminated and obstructed', asy
  * Return: Error Message description: "Error - Invalid number of containers".
  **/
 it('Should display error when container number of containers is less than 4', async () => {
+  // look for the collected input box
   const inputCollected = wrapper.find('#collected')
+  // this will set the input to '2'
   await inputCollected.setValue('2')
+  // this will find the collected input box with the value and check if it equal to '2'
   expect(wrapper.find('#collected').element.value).to.equal('2')
-  expect(wrapper.find('#properCollected').text()).to.equal('Error - Invalid number of bins')
+  // this will find the correct input message and check if it is equal to 'Invalid bin input'
+  expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid number of bins')
+  // look for the obstructed input box
   const inputObstructed = wrapper.find('#obstructed')
+  // this will set the input to '1'
   await inputObstructed.setValue('1')
+  // this will find the obstructed input box with the value and check if it equal to '1'
   expect(wrapper.find('#obstructed').element.value).to.equal('1')
-  expect(wrapper.find('#properObstructed').text()).to.equal('Error - Invalid number of bins')
+  // this will find the correct input message and check if it is equal to 'Invalid bin input'
+  expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid number of bins')
+  // look for the contaminated input box
   const inputContaminated = wrapper.find('#contaminated')
+  // this will find the contaminated input box with the value and check if it equal to '0'
   await inputContaminated.setValue('0')
+  // this will find the contaminated input box with the value and check if it equal to '0'
   expect(wrapper.find('#contaminated').element.value).to.equal('0')
-  expect(wrapper.find('#properContaminated').text()).to.equal('Error - Invalid number of bins')
-  const inputDateTime = wrapper.find('#dateTime')
-  await inputDateTime.setValue('2021-03-02')
-  expect(wrapper.find('#dateTime').element.value).to.equal('2021-03-02')
-  expect(wrapper.find('#properDateTime').text()).to.equal('Valid date input')
+  // this will find the correct input message and check if it is equal to 'Invalid bin input'
+  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid number of bins')
 })
 
 /**
@@ -241,10 +263,6 @@ it('Should display error when container number of containers is more than 4', as
   await inputContaminated.setValue('1')
   expect(wrapper.find('#contaminated').element.value).to.equal('1')
   expect(wrapper.find('#properContaminated').text()).to.equal('Error - Invalid number of bins')
-  const inputDateTime = wrapper.find('#dateTime')
-  await inputDateTime.setValue('2021-03-02')
-  expect(wrapper.find('#dateTime').element.value).to.equal('2021-03-02')
-  expect(wrapper.find('#properDateTime').text()).to.equal('Valid date input')
 })
 
 /**

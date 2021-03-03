@@ -171,11 +171,11 @@ class PickUpSiteTest extends ApiTestCase
 
         //this status code means "OK"
         $this->assertResponseStatusCodeSame(200);
-
+        //this will check if the header has a content type of a json ld object
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
+        //this will will check if the url has the proper pattern and id
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
-
+        //this will check if the item returned is a PickUp object class
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
         //JSONLD expected result should be this:
@@ -431,12 +431,12 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestNullSite(): void
     {
-       //comment
+        //this will index the null site id, which does not exists
         self::createClient()->request('POST', self::API_URL, ['json' => $this->siteNull]);
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        //comment for this line
+        //expected hydra result
         $this->assertJsonContains([
             'hydra:description' => 'site: Invalid site required.'
         ]);
@@ -589,7 +589,7 @@ class PickUpSiteTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-        //make a comment about a double hydra
+        //expected two hydra results
         $this->assertJsonContains([
             'hydra:description' => 'site: Invalid bin input required.',
             'hydra:description' => 'dateTime: Invalid date required.'

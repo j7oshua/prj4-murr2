@@ -21,14 +21,18 @@ export default {
     dateTime: {
       type: Date
     },
-    pickup: {
-      collected: '',
-      obstructed: '',
-      contaminated: '',
-      date: ''
-    },
-    tempPickup: {},
-    error: {}
+    data () {
+      return {
+        pickup: {
+          collected: '',
+          obstructed: '',
+          contaminated: '',
+          date: ''
+        },
+        tempPickup: {},
+        error: {}
+      }
+    }
   },
   validations: {
     pickup: {
