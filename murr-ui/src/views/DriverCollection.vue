@@ -1,16 +1,17 @@
 <template>
   <div>
     CollectionSite
+    <!-- do a modal -->
+    <DriverPickUpModal></DriverPickUpModal>
   </div>
 </template>
 
 <script>
-
-import DriverSiteReport from '../components/DriverSiteReport';
+import DriverPickUp from '@/components/DriverPickUp'
 
 export default {
   name: 'DriverCollection',
-  components: { CollectionSiteForm: DriverSiteReport }
+  components: { DriverPickUpModal: DriverPickUp }
 }
 </script>
 
