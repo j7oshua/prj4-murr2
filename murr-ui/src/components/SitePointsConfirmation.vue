@@ -2,16 +2,16 @@
   <div>
     <b-overlay :show="isDisabled">
       <b-modal v-if="displayCode === 1"
-        id="confirm" header-bg-variant="primary" header-text-variant="light" :title="title"
+        id="modal-scoped" header-bg-variant="primary" header-text-variant="light" :title="title"
       footer-bg-variant="primary" footer-text-variant="light">
         <b-container>
           <b-row class="mb-1">
             <b-col><b-icon icon="trash-fill" scale="3"></b-icon> </b-col>
             <b-col id="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{siteName}}? </b-col>
           </b-row>
-          <template #modal-footer>
+          <template v-slot:modal-footer="{ yes, cancel }">
             <b-row class="mb-1">
-              <button @click="cancel">Cancel</button>
+              <b-button @click="cancel">asdfl</b-button>
             </b-row>
           </template>
         </b-container>
@@ -21,10 +21,11 @@
 </template>
 
 <script>
-import ResidentPointMixin from '@/mixins/resident-point-mixin'
+import MurrMixin from '@/mixins/murr-mixin'
+import SitePointMixin from '@/mixins/site-point-mixin';
 export default {
   name: 'DriverConfirms',
-  mixins: [ResidentPointMixin],
+  mixins: [MurrMixin, SitePointMixin],
   // Prop pickupID is sent from the parent. Used in the API call.
   props: {
     pickUp: {
@@ -47,12 +48,27 @@ export default {
   methods: {
     // Makes the call to the API. Will add points to the correct site.
     confirmPoints () {
-      // TODO: Code for Story05
+      this.isBusy = true
+      this.callAPI('post', this.pickUp.pickupID, this.SITE_POINT_API_URL + this.pickUp.site)
+        .then(resp => {
+          this.respCode = resp.status
+        })
+        .catch(err => {
+          console.log(err)
+          if (err.response.status === 400) {
+            this.respCode = err.response.status
+          } else if (err.response.status === 404) {
+            this.respCode = err.response.status
+          }
+        })
+        .finally(() => {
+          this.isBusy = false
+        })
     },
     // User clicks the cancel button and the component is closed and returned to prev page
     cancel () {
       this.$emit('finished')
-      this.$bvModal.hide('confirm')
+      this.$bvModal.hide('modal-scoped')
     },
     // Calls the API to check to see if the pickupID exists
     checkPickupID () {
@@ -64,7 +80,7 @@ export default {
       this.title = 'Confirm Points to ' + this.siteName
     }
     this.checkPickupID()
-    this.$bvModal.show('confirm')
+    this.$bvModal.show('modal-scoped')
   },
   computed: {
     isDisabled: function () {
