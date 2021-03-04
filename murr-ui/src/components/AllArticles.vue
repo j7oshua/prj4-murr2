@@ -1,7 +1,8 @@
 <template>
-  <div> {{ Article }}
-    <div v-for="article in articleList" :key="article.id">
-      <p>{{article.title}}</p>
+  <div class="container"><h1>Education Information</h1>
+    <div class="row" v-for="article in articleList" :key="article.id">
+      <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="200" width="250"></div>
+      <h4 class="col-2, p-4">{{article.title}}</h4>
     </div>
     <!--    <img :src="Article.image" @error="Article.image='../../public/default.png'" alt="Recycling image">-->
   </div>
@@ -12,7 +13,7 @@ import ArticlesMixin from '@/mixins/articles-mixin'
 export default {
   name: 'AllArticles',
   mixins: [ArticlesMixin],
-  data () {
+  data: function () {
     return {
       Article: {
         id: Number,
@@ -30,7 +31,7 @@ export default {
       })
         .then(resp => {
           // set tempPoints to be the points returned by the API
-          this.articleList = resp.data
+          this.articleList = resp.data['hydra:member']
         })
         .catch(err => {
           console.log(err)
