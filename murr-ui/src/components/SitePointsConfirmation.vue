@@ -1,11 +1,19 @@
 <template>
   <div>
     <b-overlay :show="isDisabled">
-      <b-modal id="confirm" header-bg-variant="primary" header-text-variant="light" title="Confirm Points" hide-footer>
+      <b-modal v-if="displayCode === 1"
+        id="confirm" header-bg-variant="primary" header-text-variant="light" :title="title"
+      footer-bg-variant="primary" footer-text-variant="light">
         <b-container>
           <b-row class="mb-1">
+            <b-col><b-icon icon="trash-fill" scale="3"></b-icon> </b-col>
+            <b-col id="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{siteName}}? </b-col>
           </b-row>
-          <button @click="cancel">Cancel</button>
+          <template #modal-footer>
+            <b-row class="mb-1">
+              <button @click="cancel">Cancel</button>
+            </b-row>
+          </template>
         </b-container>
       </b-modal>
     </b-overlay>
@@ -30,9 +38,10 @@ export default {
   },
   data () {
     return {
-      displayCode: 0,
+      displayCode: 1,
       respCode: 0,
-      isBusy: false
+      isBusy: false,
+      title: ''
     }
   },
   methods: {
@@ -44,9 +53,17 @@ export default {
     cancel () {
       this.$emit('finished')
       this.$bvModal.hide('confirm')
+    },
+    // Calls the API to check to see if the pickupID exists
+    checkPickupID () {
+      // TODO: Code for Story05
     }
   },
   mounted () {
+    if (this.siteName !== null) {
+      this.title = 'Confirm Points to ' + this.siteName
+    }
+    this.checkPickupID()
     this.$bvModal.show('confirm')
   },
   computed: {

@@ -3,7 +3,7 @@
   <h1>Collection Page</h1>
   <!-- Confirmation component that confirms the site to get points -->
   <div v-if="loadConfirm">
-    <confirm siteName="siteName" :pickUp="pickUp" @finished="confirmFinished"></confirm>
+    <confirm :siteName="siteName" :pickUp="pickUp" @finished="confirmFinished"></confirm>
   </div>
   <button @click="confirmPoints">Confirm</button>
 </div>
@@ -33,11 +33,11 @@ export default {
     }
   },
   methods: {
-    // Hides modal when the component is finished
+    // Hides modal when the SitePointsConfirmation component is finished
     confirmFinished () {
       this.loadConfirm = false
     },
-    // This is when the button is clicked. Component is rendered.
+    // This is for the API call. ***this.loadConfirm should be called in the .finally() of the call to the API
     confirmPoints () {
       this.loadConfirm = true
     }
