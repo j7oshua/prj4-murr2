@@ -1,15 +1,22 @@
 <template>
   <div>
-    <h1>Hello</h1>
-    <b-modal id="modal-multi-1" title="Test" ok-only no-stacking>
-      <p class="my-2">First Modal</p>
-    </b-modal>
+    <b-overlay :show="isDisabled">
+      <b-modal id="confirm" header-bg-variant="primary" header-text-variant="light" title="Confirm Points" hide-footer>
+        <b-container>
+          <b-row class="mb-1">
+          </b-row>
+          <button @click="cancel">Cancel</button>
+        </b-container>
+      </b-modal>
+    </b-overlay>
   </div>
 </template>
 
 <script>
+import ResidentPointMixin from '@/mixins/resident-point-mixin'
 export default {
   name: 'DriverConfirms',
+  mixins: [ResidentPointMixin],
   // Prop pickupID is sent from the parent. Used in the API call.
   props: {
     pickUp: {
@@ -23,17 +30,28 @@ export default {
   },
   data () {
     return {
-      respCode: 0
+      displayCode: 0,
+      respCode: 0,
+      isBusy: false
     }
   },
   methods: {
     // Makes the call to the API. Will add points to the correct site.
-    confirmPoints: {
+    confirmPoints () {
       // TODO: Code for Story05
     },
     // User clicks the cancel button and the component is closed and returned to prev page
-    cancel: {
-      // TODO: Code for Story05
+    cancel () {
+      this.$emit('finished')
+      this.$bvModal.hide('confirm')
+    }
+  },
+  mounted () {
+    this.$bvModal.show('confirm')
+  },
+  computed: {
+    isDisabled: function () {
+      return this.isBusy || this.disabled
     }
   }
 }

@@ -1,7 +1,11 @@
 <template>
 <div>
+  <h1>Collection Page</h1>
   <!-- Confirmation component that confirms the site to get points -->
-  <confirm siteName="siteName" :pickUp="pickUp"></confirm>
+  <div v-if="loadConfirm">
+    <confirm siteName="siteName" :pickUp="pickUp" @finished="confirmFinished"></confirm>
+  </div>
+  <button @click="confirmPoints">Confirm</button>
 </div>
 </template>
 
@@ -24,7 +28,18 @@ export default {
         dateTime: '2020-03-03'
       },
       // ***** Site name will be sent to SitePointsConfirmation component
-      siteName: 'Wascana'
+      siteName: 'Wascana',
+      loadConfirm: false
+    }
+  },
+  methods: {
+    // Hides modal when the component is finished
+    confirmFinished () {
+      this.loadConfirm = false
+    },
+    // This is when the button is clicked. Component is rendered.
+    confirmPoints () {
+      this.loadConfirm = true
     }
   }
 }
