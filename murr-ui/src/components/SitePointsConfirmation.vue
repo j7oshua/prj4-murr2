@@ -32,10 +32,10 @@ export default {
   },
   data () {
     return {
-      displayCode: 1,
+      displayCode: 3,
       respCode: 0,
       isBusy: false,
-      modalType: 'confirm'
+      modalType: 'successPointsAdded'
     }
   },
   methods: {
@@ -45,6 +45,7 @@ export default {
       this.callAPI('post', this.pickUp.pickupID, this.SITE_POINT_API_URL + this.pickUp.site)
         .then(resp => {
           this.respCode = resp.status
+          // setTimeout here
         })
         .catch(err => {
           console.log(err)
@@ -60,10 +61,25 @@ export default {
     },
     // Calls the API to check to see if the pickupID exists
     checkPickupID () {
-      this.$bvModal.show('confirm')
+      this.$bvModal.show('successPointsAdded')
     },
     handleHidden () {
       this.$emit('finished')
+    }
+  },
+  watch: {
+    displayCode: function (val) {
+      switch (val) {
+        case 1:
+          this.$bvModal.show('confirm')
+          break
+        case 2:
+          this.$bvModal.show('noPickupID')
+          break
+        case 3:
+          this.$bvModal.show('successPointsAdded')
+          break
+      }
     }
   },
   mounted () {

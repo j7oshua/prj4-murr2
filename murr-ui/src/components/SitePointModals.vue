@@ -4,7 +4,7 @@
     <slot name="confirm">
       <b-modal id="confirm" @hidden="handleHidden">
         <div slot="modal-title">
-          <h1>Confirm Point Addition To {{siteName}}</h1>
+          <h4>Confirm Point Addition To {{siteName}}</h4>
         </div>
         <div>
           <p class="message">Do you confirm {{pickUp.numCollected}} was collected from {{siteName}}</p>
@@ -18,7 +18,7 @@
     <slot name="noPickupID">
       <b-modal id="noPickupID">
         <div slot="modal-title">
-          <h1>Error</h1>
+          <h4>Error</h4>
         </div>
         <div>
           <p class="errorMessage">Pickup ID: {{pickUp.pickupID}} was not found</p>
@@ -29,7 +29,13 @@
       </b-modal>
     </slot>
     <slot name="successPointsAdded">
-      <b-modal id="successPointsAdded">
+      <b-modal id="successPointsAdded" hide-footer>
+        <div slot="modal-title">
+          <h4>Points Added to {{siteName}}!</h4>
+        </div>
+        <div>
+          <p class="successMessage">Successfully added 100 points to Wascana!</p>
+        </div>
       </b-modal>
     </slot>
     <slot name="successNoPointsAdded">
@@ -62,6 +68,7 @@ export default {
     },
     handleAPI () {
       this.$emit('callAPI')
+      this.$emit('finished')
     }
   }
 }

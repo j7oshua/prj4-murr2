@@ -30,7 +30,7 @@ describe('SitePointsConfirmation', () => {
   // Multiple tests, for when the component is first rendered
   describe('When component is first rendered', () => {
     it('asks for confirmation of number of containers picked up', () => {
-      expect(wrapper.find('h1').text().to.be.equal('Confirm Point Addition to Wascana'))
+      expect(wrapper.find('h4').text().to.be.equal('Confirm Point Addition to Wascana'))
       expect(wrapper.find('.message').text().to.be.equal('Do you confirm 5 containers were collected from Wascana?'))
     })
     // Sets the prop data to a pickupID that does not exist
@@ -47,7 +47,7 @@ describe('SitePointsConfirmation', () => {
       })
     })
     it('displays error that pickupID was not found', () => {
-      expect(wrapper.find('h1').text().to.be.equal('Error'))
+      expect(wrapper.find('h4').text().to.be.equal('Error'))
       expect(wrapper.find('.errorMessage').text().to.be.equal('Pickup ID was not found'))
     })
     // Sets the component data to simulate a response code of 500 for connection error
@@ -57,7 +57,7 @@ describe('SitePointsConfirmation', () => {
       })
     })
     it('displays error that could not connect to server', () => {
-      expect(wrapper.find('h1').text().to.be.equal('Connection Error'))
+      expect(wrapper.find('h4').text().to.be.equal('Connection Error'))
       expect(wrapper.find('.errorMessage').text().to.be.equal('Could not connect to the server'))
     })
   })
@@ -72,8 +72,8 @@ describe('SitePointsConfirmation', () => {
   describe('clicking the yes button', () => {
     it('displays success message that points were added', async () => {
       wrapper.find('button.yes').trigger('click')
-      expect(wrapper.find('h1').text().to.be.equal('Points Added!'))
-      expect(wrapper.find('.successMessage').text().to.be.equal('Successfully added points to Wascana!'))
+      expect(wrapper.find('h4').text().to.be.equal('Points Added to Wascana!'))
+      expect(wrapper.find('.successMessage').text().to.be.equal('Successfully added 100 points to Wascana!'))
     })
     it('displays message that no points were added', async () => {
       // Set the pickup prop to now include a pickup with no containers collected
@@ -88,7 +88,7 @@ describe('SitePointsConfirmation', () => {
         }
       })
       wrapper.find('button.yes').trigger('click')
-      expect(wrapper.find('h1').text().to.be.equal('Brighton - No Points Added'))
+      expect(wrapper.find('h4').text().to.be.equal('Brighton - No Points Added'))
       expect(wrapper.find('.successMessage').text().to.be.equal('No points were added to Brighton'))
     })
   })
