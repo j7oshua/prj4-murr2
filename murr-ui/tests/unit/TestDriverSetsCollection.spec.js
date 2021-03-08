@@ -11,6 +11,11 @@ describe('DriverPickUp.vue', () => {
     wrapper = shallowMount(DriverSiteReport)
   })
 })
+
+// we will need to check the post status code and add the "submit" button being clicked
+// as well we need to account for the other team on where data goes
+// we will need to remove the error messages for improper inputs and move it to be a single message somewhere
+
 /**
    * Title: TestContaminatedFour
    * Purpose: Test a pickup history of only contaminated bins
@@ -43,6 +48,8 @@ it('Should successfully be valid with all bins contaminated', async () => {
   expect(wrapper.find('#contaminated').element.value).to.equal('0')
   // this will find the correct input message and check if it is equal to 'Valid bin input'
   expect(wrapper.find('#properContaminated').text()).to.equal('Valid bin input')
+  // we will need to check the post status code and add the "submit" button being clicked
+  // as well we need to account for the other team on where data goes
 })
 
 /**
@@ -153,7 +160,6 @@ it('Should successfully be valid with all bins contaminated and obstructed', asy
   await inputContaminated.setValue('2')
   expect(wrapper.find('#contaminated').element.value).to.equal('2')
   expect(wrapper.find('#properContaminated').text()).to.equal('Valid bin input')
-
 })
 
 /**
@@ -166,9 +172,9 @@ it('Should successfully be valid with all bins contaminated and obstructed', asy
 it('Should display error when container number of containers is less than 4', async () => {
   // look for the collected input box
   const inputCollected = wrapper.find('#collected')
-  // this will set the input to '2'
+  // this will set the input to '1'
   await inputCollected.setValue('1')
-  // this will find the collected input box with the value and check if it equal to '2'
+  // this will find the collected input box with the value and check if it equal to '1'
   expect(wrapper.find('#collected').element.value).to.equal('1')
   // this will find the correct input message and check if it is equal to 'Invalid bin input'
   expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid number of bins')
@@ -182,9 +188,9 @@ it('Should display error when container number of containers is less than 4', as
   expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid number of bins')
   // look for the contaminated input box
   const inputContaminated = wrapper.find('#contaminated')
-  // this will find the contaminated input box with the value and check if it equal to '0'
+  // this will set the input to '1'
   await inputContaminated.setValue('1')
-  // this will find the contaminated input box with the value and check if it equal to '0'
+  // this will find the contaminated input box with the value and check if it equal to '1'
   expect(wrapper.find('#contaminated').element.value).to.equal('1')
   // this will find the correct input message and check if it is equal to 'Invalid bin input'
   expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid number of bins')
@@ -230,7 +236,7 @@ it('Should display error when container number of containers is null', async () 
  * Expected Result: Failure
  * Return: Error Message description: "Error -No Site Exist".
  **/
-it('Should display error when container fields are required', async () => {
+it('Should display error when report has no assigned site', async () => {
   expect(wrapper.find('#improperContaminated').text()).to.equal('Error - No site exists.')
 })
 
@@ -240,6 +246,6 @@ it('Should display error when container fields are required', async () => {
  * Expected Result: Failure
  * Return: Error Message description: "Error - Invalid Page/ Not Found".
  **/
-it('Should display error when container fields are required', async () => {
+it('Should display error when page is unable to load', async () => {
   expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid Page/Not Found.')
 })

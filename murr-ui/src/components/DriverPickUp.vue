@@ -18,20 +18,19 @@
 export default {
   name: 'DriverSiteReport',
   props: {
-    SiteID: {
-      type: Number
-    },
-    SiteName: {
-      type: String
+    siteObject: { // not sure if this is correct
     }
   },
   data () {
     return {
       pickup: {
+        pickupid: '',
         siteid: '',
         collected: '',
         obstructed: '',
-        contaminated: ''
+        contaminated: '',
+        dateTime: '',
+        siteObject: ''
       },
       error: {}
     }

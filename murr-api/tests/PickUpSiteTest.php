@@ -11,18 +11,20 @@ class PickUpSiteTest extends ApiTestCase
     use RefreshDatabaseTrait;
 
     //site variables
-    private $siteOne;
-    private $siteNegOne;
-    private $siteNinetyNine;
-    private $siteNull;
+    private $pickup = [];
+    private $pickupwithsiteNegOne;
+    private $pickupwithsiteNinetyNine;
+    private $pickupwithsiteNull;
 
     //static URL
     const API_URL = '127.0.0.1:8000/api/pickup';
 
     //Sets up each test with the variable that will be inputted into the test
+
+
     public function setup(): void{
         //all bins collected
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
@@ -31,7 +33,7 @@ class PickUpSiteTest extends ApiTestCase
         ];
 
         //all bins Obstructed
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 0,
             'numContaminated' => 4,
             'numObstructed' => 0,
@@ -40,7 +42,7 @@ class PickUpSiteTest extends ApiTestCase
         ];
 
         //all bins contaminated
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 0,
             'numContaminated' => 0,
             'numObstructed' => 4,
@@ -48,7 +50,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
 
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 2,
             'numContaminated' => 0,
             'numObstructed' => 2,
@@ -56,14 +58,14 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
 
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 2,
             'numContaminated' => 2,
             'numObstructed' => 0,
             'dateTime' => "2021-03-08"
         ];
 
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 0,
             'numContaminated' => 2,
             'numObstructed' => 2,
@@ -71,7 +73,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
 
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 2,
             'numContaminated' => 1,
             'numObstructed' => 1,
@@ -80,7 +82,7 @@ class PickUpSiteTest extends ApiTestCase
 
         ];
 
-        $this -> siteNegOne = [
+        $this -> pickupwithsiteNegOne = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
@@ -88,7 +90,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/-1"]
         ];
 
-        $this -> siteNinetyNine = [
+        $this -> pickupwithsiteNinetyNine = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
@@ -97,14 +99,14 @@ class PickUpSiteTest extends ApiTestCase
         ];
 
         //null site
-        $this -> siteNull = [
+        $this -> pickupwithsiteNull = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
             'dateTime' => "2021-03-08"
         ];
 
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 2,
             'numContaminated' => 1,
             'numObstructed' => 0,
@@ -112,7 +114,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
 
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 3,
             'numContaminated' => 1,
             'numObstructed' => 1,
@@ -120,7 +122,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
         //future date
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
@@ -128,7 +130,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
         //past date
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
@@ -136,7 +138,7 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
         //all bins are zero
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 0,
             'numContaminated' => 0,
             'numObstructed' => 0,
@@ -144,21 +146,21 @@ class PickUpSiteTest extends ApiTestCase
             'siteObject' => ["/api/site/1"]
         ];
         //date null
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'numCollect' => 4,
             'numContaminated' => 0,
             'numObstructed' => 0,
             'siteObject' => ["/api/site/1"]
         ];
         //null bins and date
-        $this -> siteOne = [
+        $this -> pickup[] = [
 
             'dateTime' => "2021-03-08",
             'siteObject' => ["/api/site/1"]
         ];
 
         //all fields null
-        $this -> siteOne = [
+        $this -> pickup[] = [
             'siteObject' => ["/api/site/1"]
         ];
 
@@ -173,7 +175,7 @@ class PickUpSiteTest extends ApiTestCase
     protected function TestBinsCollected(): void
     {
         //this will index for site one
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[0]]);
         //this status code means "OK"
         $this->assertResponseStatusCodeSame(200);
         //this will check if the header has a content type of a json ld object
@@ -202,7 +204,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestBinsContaminated(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[1]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
@@ -229,7 +231,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestBinsObstructed(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[2]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
@@ -256,7 +258,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestBinsCollectedAndObstructed(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[3]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
@@ -282,7 +284,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestBinsObstructAndContaminated(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[4]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
@@ -308,7 +310,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestTestBinsCollectedObstructedContaminated(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[5]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
@@ -335,7 +337,7 @@ class PickUpSiteTest extends ApiTestCase
     protected function TestSiteDoesNotExistNegativeOutOfBounds(): void
     {
         //this will index the -1 site id,
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteNegOne]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickupwithsiteNegOne]);
 
         //this returns a status code that means "Not Found"
         $this->assertResponseStatusCodeSame(404);
@@ -356,7 +358,7 @@ class PickUpSiteTest extends ApiTestCase
     protected function TestSiteDoesExistPositiveOutOfBounds(): void
     {
         //this will index the 99 site id, which does not exists
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteNinetyNine]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickupwithsiteNinetyNine]);
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -376,7 +378,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestValidNumberOfBinsLessThanFour(): void
     {
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[6]]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -394,7 +396,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestValidNumberOfBinsMoreThanFour(): void
     {
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[7]]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -412,7 +414,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestAllBinsZero(): void
     {
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[8]]);
         $this->assertResponseStatusCodeSame(404);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -430,7 +432,7 @@ class PickUpSiteTest extends ApiTestCase
      */
     protected function TestNullBins(): void
     {
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteOne]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickup[9]]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -449,7 +451,7 @@ class PickUpSiteTest extends ApiTestCase
     protected function TestNullSite(): void
     {
         //this will index the null site id, which does not exists
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->siteNull]);
+        self::createClient()->request('POST', self::API_URL, ['json' => $this->pickupwithsiteNull]);
         //this returns a status code that means "Bad Request"
         $this->assertResponseStatusCodeSame(400);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
