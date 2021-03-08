@@ -44,3 +44,4 @@ describe('ArticleDetails.vue', () => {
     expect(request).to.contains([{ statusCode: 404 }])
   })
 })
+

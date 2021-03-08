@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-overlay :show="isDisabled">
+    <b-overlay :show="isDisabled" opacity="1">
       <p>{{Article.title}}</p>
-      <img :src="Article.image" @error="Article.image='cosmo.png'" alt="Recycling image" height="200">
+      <img :src="Article.image" @error="Article.image='cosmo.png'" alt="No Image" height="200">
       <p>{{Article.info}}</p>
     </b-overlay>
   </div>
@@ -39,7 +39,9 @@ export default {
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) { // not found
-            const message = err.status
+            const message = err.response.status
+            this.Article = {}
+            this.Article.title = '404 Article Not Found'
             console.log(message)
           }
         }).finally(() => {
