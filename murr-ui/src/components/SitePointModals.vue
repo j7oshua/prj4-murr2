@@ -7,14 +7,25 @@
           <h1>Confirm Point Addition To {{siteName}}</h1>
         </div>
         <div>
-          <p class="message">Do you confirm {{pickUp.numCollected}} was collected from </p>
+          <p class="message">Do you confirm {{pickUp.numCollected}} was collected from {{siteName}}</p>
         </div>
         <div slot="modal-footer">
+          <b-button @click="handleAPI">Yes</b-button>
+          <b-button @click="handleHidden">Cancel</b-button>
         </div>
       </b-modal>
     </slot>
     <slot name="noPickupID">
       <b-modal id="noPickupID">
+        <div slot="modal-title">
+          <h1>Error</h1>
+        </div>
+        <div>
+          <p class="errorMessage">Pickup ID: {{pickUp.pickupID}} was not found</p>
+        </div>
+        <div slot="modal-footer">
+          <b-button @click="handleHidden">Ok</b-button>
+        </div>
       </b-modal>
     </slot>
     <slot name="successPointsAdded">
@@ -48,6 +59,9 @@ export default {
   methods: {
     handleHidden () {
       this.$emit('finished')
+    },
+    handleAPI () {
+      this.$emit('callAPI')
     }
   }
 }
