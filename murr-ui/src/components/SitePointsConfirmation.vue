@@ -1,37 +1,30 @@
 <template>
   <div>
     <b-overlay :show="isDisabled">
-      <b-modal v-if="displayCode === 1"
-        id="modal-scoped" header-bg-variant="primary" header-text-variant="light" :title="title"
-      footer-bg-variant="primary" footer-text-variant="light">
-        <b-container>
-          <b-row class="mb-1">
-            <b-col><b-icon icon="trash-fill" scale="3"></b-icon> </b-col>
-            <b-col id="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{siteName}}? </b-col>
-          </b-row>
-          <template v-slot:modal-footer="{ yes, cancel }">
-            <b-row class="mb-1">
-              <b-button @click="cancel">asdfl</b-button>
-            </b-row>
-          </template>
-        </b-container>
-      </b-modal>
+      <site-point-modals @callAPI="confirmPoints" @finished="handleHidden" :siteName="siteName" :pickUp="pickUp">
+        <template v-slot:{{modalType}}>
+        </template>
+      </site-point-modals>
     </b-overlay>
   </div>
 </template>
 
 <script>
 import MurrMixin from '@/mixins/murr-mixin'
-import SitePointMixin from '@/mixins/site-point-mixin';
+import SitePointMixin from '@/mixins/site-point-mixin'
+import SitePointModals from '@/components/SitePointModals'
 export default {
   name: 'DriverConfirms',
   mixins: [MurrMixin, SitePointMixin],
+  components: {
+    SitePointModals: SitePointModals
+  },
   // Prop pickupID is sent from the parent. Used in the API call.
   props: {
     pickUp: {
       type: Object,
       required: true
-    },
+    }, // Site name prop used to display site name in the modals
     siteName: {
       type: String,
       required: true
@@ -42,7 +35,7 @@ export default {
       displayCode: 1,
       respCode: 0,
       isBusy: false,
-      title: ''
+      modalType: 'confirm'
     }
   },
   methods: {
@@ -65,22 +58,17 @@ export default {
           this.isBusy = false
         })
     },
-    // User clicks the cancel button and the component is closed and returned to prev page
-    cancel () {
-      this.$emit('finished')
-      this.$bvModal.hide('modal-scoped')
-    },
     // Calls the API to check to see if the pickupID exists
     checkPickupID () {
-      // TODO: Code for Story05
+      this.$bvModal.show('confirm')
+    },
+    handleHidden () {
+      this.$emit('finished')
     }
   },
   mounted () {
-    if (this.siteName !== null) {
-      this.title = 'Confirm Points to ' + this.siteName
-    }
+    // When component is first rendered, want to check to see if the pickupID exists.
     this.checkPickupID()
-    this.$bvModal.show('modal-scoped')
   },
   computed: {
     isDisabled: function () {

@@ -12,7 +12,7 @@ const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
 // Setup the props named pickup to contain the values declared below before each test
-describe('SitePointsConfirmation.vue', () => {
+describe('SitePointsConfirmation', () => {
   beforeEach(() => {
     wrapper = mount(SitePointsConfirmation, {
       propsData: {
