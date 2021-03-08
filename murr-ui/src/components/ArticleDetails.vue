@@ -1,9 +1,10 @@
 <template>
   <div>
-    <p>{{Article.title}}</p>
-    <img :src="Article.image" alt="Recycling image" height="200">
-<!--    @error="Article.image='../../public/favicon.ico'"-->
-    <p>{{Article.info}}</p>
+    <b-overlay :show="isDisabled">
+      <p>{{Article.title}}</p>
+      <img :src="Article.image" @error="Article.image='cosmo.png'" alt="Recycling image" height="200">
+      <p>{{Article.info}}</p>
+    </b-overlay>
   </div>
 </template>
 
@@ -16,18 +17,20 @@ export default {
   data () {
     return {
       Article: {
-        id: Number,
+        id: this.$route.params.id,
         title: String,
         image: URL,
         info: String
-      }
+      },
+      isBusy: false
     }
   },
   methods: {
     // this method will get the specific article details and display all the information for that specific article
     getArticleDetails () {
+      this.isBusy = true
       // make the call to the API
-      this.axios.get(this.ARTICLES_URL + '/' + 1, {
+      this.axios.get(this.ARTICLES_URL + '/' + this.Article.id, {
       })
         .then(resp => {
           // set tempPoints to be the points returned by the API
@@ -40,12 +43,17 @@ export default {
             console.log(message)
           }
         }).finally(() => {
-
+          this.isBusy = false
         })
     }
   },
   mounted () {
     this.getArticleDetails()
+  },
+  computed: {
+    isDisabled: function () {
+      return this.isBusy || this.disabled
+    }
   }
 }
 </script>

@@ -1,10 +1,11 @@
 <template>
   <div class="container"><h1>Education Information</h1>
-    <div class="row" v-for="article in articleList" :key="article.id">
-      <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="200" width="250"></div>
-      <h4 class="col-2, p-4">{{article.title}}</h4>
-    </div>
-    <!--    <img :src="Article.image" @error="Article.image='../../public/default.png'" alt="Recycling image">-->
+    <b-overlay :show="isDisabled">
+      <div class="row" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)">
+        <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="200"></div>
+        <h4 class="col-2, p-4">{{article.title}}</h4>
+      </div>
+    </b-overlay>
   </div>
 </template>
 
@@ -20,12 +21,14 @@ export default {
         title: String,
         image: URL
       },
-      articleList: []
+      articleList: [],
+      isBusy: false
     }
   },
   methods: {
     // this method will get all articles and will display there title and image
     getArticles () {
+      this.isBusy = true
       // make the call to the API
       this.axios.get(this.ARTICLES_URL, {
       })
@@ -40,16 +43,21 @@ export default {
             console.log(message)
           }
         }).finally(() => {
-
+          this.isBusy = false
         })
     },
     // this method will map the article being selected using the id and will navigate the user to a new page
     openArticle (id) {
-
+      this.$router.push({ path: `/edu/articles/${id}` })
     }
   },
   mounted () {
     this.getArticles()
+  },
+  computed: {
+    isDisabled: function () {
+      return this.isBusy || this.disabled
+    }
   }
 }
 </script>
