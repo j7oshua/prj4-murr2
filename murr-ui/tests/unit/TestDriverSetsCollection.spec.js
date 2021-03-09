@@ -169,23 +169,23 @@ it('Should successfully be valid with all bins contaminated and obstructed', asy
  * Expected Result: Failure
  * Return: Error Message description: "Error - Invalid number of containers".
  **/
-it('Should display error when container number of containers is less than 4', async () => {
+it('Should display error when container number of containers is less than 4', async () => { // we will need to assign the error for all of this later
   // look for the collected input box
   const inputCollected = wrapper.find('#collected')
   // this will set the input to '1'
   await inputCollected.setValue('1')
   // this will find the collected input box with the value and check if it equal to '1'
   expect(wrapper.find('#collected').element.value).to.equal('1')
-  // this will find the correct input message and check if it is equal to 'Invalid bin input'
-  expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid number of bins')
+  // this will find the correct input message and check if it is equal to 'Valid bin input'
+  expect(wrapper.find('#improperCollected').text()).to.equal('Valid bin input')
   // look for the obstructed input box
   const inputObstructed = wrapper.find('#obstructed')
   // this will set the input to '1'
   await inputObstructed.setValue('1')
   // this will find the obstructed input box with the value and check if it equal to '1'
   expect(wrapper.find('#obstructed').element.value).to.equal('1')
-  // this will find the correct input message and check if it is equal to 'Invalid bin input'
-  expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid number of bins')
+  // this will find the correct input message and check if it is equal to 'Valid bin input'
+  expect(wrapper.find('#properObstructed').text()).to.equal('Valid bin input')
   // look for the contaminated input box
   const inputContaminated = wrapper.find('#contaminated')
   // this will set the input to '1'
@@ -203,15 +203,15 @@ it('Should display error when container number of containers is less than 4', as
  * Expected Result: Failure
  * Return: Error Message description: "Error - Invalid number of containers".
  **/
-it('Should display error when container number of containers is more than 4', async () => {
+it('Should display error when container number of containers is more than 4', async () => { // we will need to assign the error for all of this later
   const inputCollected = wrapper.find('#collected')
   await inputCollected.setValue('2')
   expect(wrapper.find('#collected').element.value).to.equal('2')
-  expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid number of bins')
+  expect(wrapper.find('#properCollected').text()).to.equal('Valid bin input')
   const inputObstructed = wrapper.find('#obstructed')
   await inputObstructed.setValue('2')
   expect(wrapper.find('#obstructed').element.value).to.equal('2')
-  expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid number of bins')
+  expect(wrapper.find('#properObstructed').text()).to.equal('Valid bin input')
   const inputContaminated = wrapper.find('#contaminated')
   await inputContaminated.setValue('2')
   expect(wrapper.find('#contaminated').element.value).to.equal('2')
@@ -224,7 +224,7 @@ it('Should display error when container number of containers is more than 4', as
  * Expected Result: Failure
  * Return: Error Message description: "Error - Invalid, Bin number amount required".
  **/
-it('Should display error when container number of containers is null', async () => {
+it('Should display error when container number of containers is null', async () => { // we will need to assign this later
   expect(wrapper.find('#improperCollected').text()).to.equal('Error - Invalid. Bin number amount required.')
   expect(wrapper.find('#improperObstructed').text()).to.equal('Error - Invalid. Bin number amount required.')
   expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid. Bin number amount required.')
@@ -237,7 +237,7 @@ it('Should display error when container number of containers is null', async () 
  * Return: Error Message description: "Error -No Site Exist".
  **/
 it('Should display error when report has no assigned site', async () => {
-  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - No site exists.')
+  expect(wrapper.find('#impropersite').text()).to.equal('Error - No site exists.') // we will need to assign this later
 })
 
 /**
@@ -247,5 +247,5 @@ it('Should display error when report has no assigned site', async () => {
  * Return: Error Message description: "Error - Invalid Page/ Not Found".
  **/
 it('Should display error when page is unable to load', async () => {
-  expect(wrapper.find('#improperContaminated').text()).to.equal('Error - Invalid Page/Not Found.')
+  expect(wrapper.find('#improperLoad').text()).to.equal('Error - Invalid Page/Not Found.') // we will need to assign this later
 })

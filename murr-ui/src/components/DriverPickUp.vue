@@ -18,17 +18,17 @@
 export default {
   name: 'DriverSiteReport',
   props: {
-    siteObject: { // not sure if this is correct
+    siteObject: {
+      type: Object
     }
   },
   data () {
     return {
       pickup: {
-        pickupid: '',
-        siteid: '',
-        collected: '',
-        obstructed: '',
-        contaminated: '',
+        id: '',
+        numCollected: '',
+        numObstructed: '',
+        numContaminated: '',
         dateTime: '',
         siteObject: ''
       },
@@ -38,15 +38,15 @@ export default {
 
   validations: {
     pickup: {
-      siteid: {
+      siteid: { // we will need to figure this one out
       },
-      collected: {
+      numCollected: {
         // some validation
       },
-      obstructed: {
+      numObstructed: {
         // some validation
       },
-      contaminated: {
+      numContaminated: {
         // some validation
       }
     }

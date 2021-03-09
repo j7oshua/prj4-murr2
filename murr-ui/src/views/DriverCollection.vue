@@ -2,7 +2,7 @@
   <div>
     CollectionSite
     <!-- do a modal -->
-    <DriverPickUpModal></DriverPickUpModal>
+    <DriverPickUpModal @site-id="1" @site-name="Wascana" @num-bins="4" ></DriverPickUpModal>
   </div>
 </template>
 
