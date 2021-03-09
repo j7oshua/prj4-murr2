@@ -1,10 +1,16 @@
 <template>
   <div>
     <b-overlay :show="isDisabled">
-      <site-point-modals @callAPI="confirmPoints" @finished="handleHidden" :siteName="siteName" :pickUp="pickUp">
-        <template v-slot:{{modalType}}>
-        </template>
-      </site-point-modals>
+      <div v-if="pickupIDExists">
+        <b-modal @ok="confirmPoints" v-model="showModal" @hidden="handleHidden">
+          <div slot="modal-title">
+            <h4>Confirm Point Addition to {{siteName}}</h4>
+          </div>
+          <p class="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{ siteName }}?</p>
+        </b-modal>
+      </div>
+      <div v-else>
+      </div>
     </b-overlay>
   </div>
 </template>
@@ -12,17 +18,18 @@
 <script>
 import MurrMixin from '@/mixins/murr-mixin'
 import SitePointMixin from '@/mixins/site-point-mixin'
-import SitePointModals from '@/components/SitePointModals'
+
 export default {
   name: 'DriverConfirms',
   mixins: [MurrMixin, SitePointMixin],
-  components: {
-    SitePointModals: SitePointModals
-  },
   // Prop pickupID is sent from the parent. Used in the API call.
   props: {
     pickUp: {
       type: Object,
+      required: true
+    },
+    showModal: {
+      type: Boolean,
       required: true
     }, // Site name prop used to display site name in the modals
     siteName: {
@@ -35,7 +42,8 @@ export default {
       displayCode: 3,
       respCode: 0,
       isBusy: false,
-      modalType: 'successPointsAdded'
+      pickupIDExists: true,
+      message: ''
     }
   },
   methods: {
@@ -45,7 +53,7 @@ export default {
       this.callAPI('post', this.pickUp.pickupID, this.SITE_POINT_API_URL + this.pickUp.site)
         .then(resp => {
           this.respCode = resp.status
-          // setTimeout here
+          this.message = resp.body.content
         })
         .catch(err => {
           console.log(err)
@@ -61,25 +69,10 @@ export default {
     },
     // Calls the API to check to see if the pickupID exists
     checkPickupID () {
-      this.$bvModal.show('successPointsAdded')
+
     },
     handleHidden () {
       this.$emit('finished')
-    }
-  },
-  watch: {
-    displayCode: function (val) {
-      switch (val) {
-        case 1:
-          this.$bvModal.show('confirm')
-          break
-        case 2:
-          this.$bvModal.show('noPickupID')
-          break
-        case 3:
-          this.$bvModal.show('successPointsAdded')
-          break
-      }
     }
   },
   mounted () {

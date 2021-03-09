@@ -1,18 +1,16 @@
 <template>
-<div>
-  <h1>Collection Page</h1>
-  <!-- Confirmation component that confirms the site to get points -->
-  <div v-if="loadConfirm">
-    <confirm :siteName="siteName" :pickUp="pickUp" @finished="confirmFinished"></confirm>
+  <div>
+    <h1>Collection Page</h1>
+    <!-- Confirmation component that confirms the site to get points -->
+    <confirm :showModal="showModal" :siteName="siteName" :pickUp="pickUp" @finished="confirmFinished"></confirm>
+    <button @click="confirmPoints">Submit</button>
   </div>
-  <button @click="confirmPoints">Confirm</button>
-</div>
 </template>
 
 <script>
 import SitePointsConfirmation from '@/components/SitePointsConfirmation'
 export default {
-  name: 'Collection',
+  name: 'DriverPickup',
   components: {
     confirm: SitePointsConfirmation
   },
@@ -29,17 +27,17 @@ export default {
       },
       // ***** Site name will be sent to SitePointsConfirmation component
       siteName: 'Wascana',
-      loadConfirm: false
+      showModal: false
     }
   },
   methods: {
     // Hides modal when the SitePointsConfirmation component is finished
     confirmFinished () {
-      this.loadConfirm = false
+      this.showModal = false
     },
-    // This is for the API call. ***this.loadConfirm should be called in the .finally() of the call to the API
+    // This is for the API call. ***this.showModal should be called in the .finally() of the call to the API
     confirmPoints () {
-      this.loadConfirm = true
+      this.showModal = true
     }
   }
 }

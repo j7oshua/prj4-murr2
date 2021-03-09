@@ -19,9 +19,9 @@ const routes = [
     component: () => import('../views/Points.vue')
   },
   {
-    path: '/collection',
-    name: 'Collection',
-    component: () => import('../views/Collection.vue')
+    path: '/DriverCollection',
+    name: 'DriverCollection',
+    component: () => import('../views/DriverCollection.vue')
   }
 
 ]
