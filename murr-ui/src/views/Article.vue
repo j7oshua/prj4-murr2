@@ -1,5 +1,7 @@
 <template>
-  <ArticleDetails></ArticleDetails>
+  <div class="container">
+    <ArticleDetails/>
+  </div>
 </template>
 
 <script>

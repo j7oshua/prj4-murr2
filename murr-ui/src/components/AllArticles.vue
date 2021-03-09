@@ -2,8 +2,12 @@
   <div class="container"><h1>Education Information</h1>
     <b-overlay :show="isDisabled" opacity="1">
       <div class="row" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)">
-        <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="200"></div>
-        <h4 class="col-2, p-4">{{article.title}}</h4>
+        <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="150" width="150"></div>
+        <div class="col-2, p-4">
+          <h4>{{article.title}}</h4>
+            <div v-if="article.info.length<90">{{ article.info }}</div>
+            <div v-else>{{ article.info.substring(0,90)+"...Click to read full article" }}</div>
+        </div>
       </div>
     </b-overlay>
   </div>

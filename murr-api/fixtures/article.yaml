@@ -1,7 +1,7 @@
 App\Entity\Article:
   article1:
     title: "What Can You Recycle"
-    image: "https://i.dlpng.com/static/png/7250118_preview.png"
+    image: "https://cdn.pixabay.com/photo/2012/04/02/13/48/recycle-24543__480.png"
     info: "Paper, Plastic, and Cardboard"
   article2:
     title: "How to Recycle"

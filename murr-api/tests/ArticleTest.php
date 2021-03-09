@@ -27,7 +27,7 @@ class ArticleTest extends ApiTestCase
         //Setup an array that contains information to create a resident account.
         $this->dataArray = [
             'title' => 'What Can You Recycle',
-            'image' => 'http://image1url.jpg',
+            'image' => 'https://cdn.pixabay.com/photo/2012/04/02/13/48/recycle-24543__480.png',
             'info' => 'Paper, Plastic, and Cardboard',
         ];
     }
@@ -180,7 +180,7 @@ class ArticleTest extends ApiTestCase
                 '@type' => 'Article',
                 'id' => 1,
                 'title' => 'What Can You Recycle',
-                'image' => 'http://image1url.jpg',
+                'image' => 'https://cdn.pixabay.com/photo/2012/04/02/13/48/recycle-24543__480.png',
                 'info' => 'Paper, Plastic, and Cardboard',
             ),
                 1 =>
@@ -217,7 +217,7 @@ class ArticleTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'title'=> 'What Can You Recycle',
-            'image'=> 'http://image1url.jpg',
+            'image'=> 'https://cdn.pixabay.com/photo/2012/04/02/13/48/recycle-24543__480.png',
             'info' => 'Paper, Plastic, and Cardboard'
         ]);
     }
