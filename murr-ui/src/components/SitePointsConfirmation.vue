@@ -1,16 +1,12 @@
 <template>
   <div>
     <b-overlay :show="isDisabled">
-      <div v-if="pickupIDExists">
-        <b-modal @ok="confirmPoints" v-model="showModal" @hidden="handleHidden">
-          <div slot="modal-title">
-            <h4>Confirm Point Addition to {{siteName}}</h4>
-          </div>
-          <p class="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{ siteName }}?</p>
-        </b-modal>
-      </div>
-      <div v-else>
-      </div>
+      <b-modal @ok="confirmPoints" v-model="showModal" @hidden="handleHidden">
+        <div slot="modal-title">
+          <h4>Confirm Point Addition to {{siteName}}</h4>
+        </div>
+        <p class="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{ siteName }}?</p>
+      </b-modal>
     </b-overlay>
   </div>
 </template>
@@ -42,7 +38,6 @@ export default {
       displayCode: 3,
       respCode: 0,
       isBusy: false,
-      pickupIDExists: true,
       message: ''
     }
   },
@@ -52,6 +47,7 @@ export default {
       this.isBusy = true
       this.callAPI('post', this.pickUp.pickupID, this.SITE_POINT_API_URL + this.pickUp.site)
         .then(resp => {
+          this.handleHidden()
           this.respCode = resp.status
           this.message = resp.body.content
         })
@@ -59,25 +55,47 @@ export default {
           console.log(err)
           if (err.response.status === 400) {
             this.respCode = err.response.status
+            this.$bvToast.toast('There was a error sending the request', {
+              title: 'Error: Bad Request',
+              variant: 'danger',
+              toaster: 'b-toaster-top-center'
+            })
           } else if (err.response.status === 404) {
             this.respCode = err.response.status
+            this.$bvToast.toast('There was a error sending the request', {
+              title: 'Error: Not Found',
+              variant: 'danger',
+              toaster: 'b-toaster-top-center'
+            })
+          } else if (err.response.status === 500) {
+            this.$bvToast.toast('Could not connect to the server', {
+              title: 'Connection Error',
+              variant: 'danger',
+              toaster: 'b-toaster-top-center'
+            })
           }
         })
         .finally(() => {
           this.isBusy = false
+          if (this.respCode === 201) {
+            this.$bvToast.toast(this.message, {
+              title: 'Points Added to ' + this.siteName + '!',
+              variant: 'success',
+              toaster: 'b-toaster-top-center'
+            })
+          }
+          if (this.respCode === 200) {
+            this.$bvToast.toast(this.message, {
+              title: this.siteName + ' - No Points Added',
+              variant: 'success',
+              toaster: 'b-toaster-top-center'
+            })
+          }
         })
-    },
-    // Calls the API to check to see if the pickupID exists
-    checkPickupID () {
-
     },
     handleHidden () {
       this.$emit('finished')
     }
-  },
-  mounted () {
-    // When component is first rendered, want to check to see if the pickupID exists.
-    this.checkPickupID()
   },
   computed: {
     isDisabled: function () {

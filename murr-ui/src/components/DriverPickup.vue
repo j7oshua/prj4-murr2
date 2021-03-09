@@ -36,7 +36,13 @@ export default {
       this.showModal = false
     },
     // This is for the API call. ***this.showModal should be called in the .finally() of the call to the API
+    // this.$bvToast.toast should be placed in the .catch part of the call to the API to display the pickupID error
     confirmPoints () {
+      this.$bvToast.toast('Pickup ID: ' + this.pickUp.pickupID + ' was not found', {
+        title: 'Error: Bad Request',
+        variant: 'danger',
+        toaster: 'b-toaster-top-center'
+      })
       this.showModal = true
     }
   }
