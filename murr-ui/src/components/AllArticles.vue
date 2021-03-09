@@ -1,6 +1,6 @@
 <template>
   <div class="container"><h1>Education Information</h1>
-    <b-overlay :show="isDisabled">
+    <b-overlay :show="isDisabled" opacity="1">
       <div class="row" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)">
         <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="200"></div>
         <h4 class="col-2, p-4">{{article.title}}</h4>
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     // this method will get all articles and will display there title and image
-    getArticles () {
+    async getArticles () {
       this.isBusy = true
       // make the call to the API
       this.axios.get(this.ARTICLES_URL, {
@@ -39,7 +39,7 @@ export default {
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) { // not found
-            const message = err.status
+            const message = err.response.status
             console.log(message)
           }
         }).finally(() => {

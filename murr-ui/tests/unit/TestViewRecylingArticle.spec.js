@@ -51,3 +51,4 @@ describe('GET /articles', function () {
     expect(response.status).to.eql(404)
   })
 })
+
