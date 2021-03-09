@@ -6,6 +6,7 @@ use App\Repository\PointRepository;
 use App\Repository\ResidentRepository;
 use App\Repository\SiteRepository;
 use App\Repository\PickupRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Entity\Point;
@@ -31,10 +32,38 @@ class SitePointController
      * @param int $id
      * @param PointRepository $pr
      * @param SiteRepository $ss
+     * @param PickupRepository $pur
      * @return Response
      */
-    public function index(int $id, PointRepository $pr, SiteRepository $ss): Response
+    public function index(int $id, PointRepository $pr, SiteRepository $ss, PickupRepository $pur): Response
     {
-        // TODO: Implement adding points to site in here
+        $site = $ss->findSiteById($id);
+        $request = Request::createFromGlobals();
+        $content = $request->getContent();
+        $pickup = $pur->findPickupById($content);
+        var_dump($content);
+        $response = new Response();
+
+        if ($site == null)
+        {
+            $response->setStatusCode(400);
+            $response->setContent('Site object not found');
+        }
+
+        $collected = $pickup->getNumCollected();
+        $totalBins = $site->getNumBins();
+
+        $ptPercentage = ($totalBins - $collected) / $totalBins;
+        $sitePoints = (int) ($ptPercentage * 100);
+
+        $residents = $site->getResidents();
+        $point = new Point();
+        $point->setnum_points($sitePoints);
+        foreach ($residents as $resident)
+        {
+            $point->addResident($resident);
+        }
+
+        return $response;
     }
 }
