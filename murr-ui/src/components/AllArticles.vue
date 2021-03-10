@@ -2,11 +2,11 @@
   <div class="container-xl"><h1>Education Information</h1>
     <b-overlay :show="isDisabled" opacity="1">
       <div class="row mt-2" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)" style="background: rgb(245,245,245)">
-        <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="150" width="150"></div>
-        <div class="col-2, p-4" style="width: 65%; display: inline-block;">
+        <div class="col-1, pt-4 pb-4 pl-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="150" width="200"></div>
+        <div class="col-2, p-4 d-inline-block" style="width: 80%;">
           <h4>{{article.title}}</h4>
-            <div v-if="article.info.length<65">{{ article.info }}</div>
-            <div v-else>{{ article.info.substring(0,65)+"... Click to read full article" }}</div>
+            <div v-if="article.info.length<215">{{ article.info }}</div>
+          <div v-else>{{ article.info.substring(0,215)}}... <b>Click to read full article</b></div>
         </div>
       </div>
     </b-overlay>
@@ -30,7 +30,7 @@ export default {
     }
   },
   methods: {
-    // this method will get all articles and will display there title and image
+    // this method will get all articles and will display their title and image
     async getArticles () {
       this.isBusy = true
       // make the call to the API
@@ -39,10 +39,8 @@ export default {
         .then(resp => {
           // set tempPoints to be the points returned by the API
           this.articleList = resp.data['hydra:member']
-          console.log(this.articleList)
         })
         .catch(err => {
-          console.log(err)
           if (err.response === 404) { // not found
             const message = err.response.status
             console.log(message)

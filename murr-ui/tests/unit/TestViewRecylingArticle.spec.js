@@ -16,12 +16,12 @@ describe('GET /articles', function () {
     expect(response.status).to.eql(200)
 
     expect(response.body['hydra:member'][0]).to.contain({ title: 'What Can You Recycle' })
-    expect(response.body['hydra:member'][1]).to.contain({ title: 'How to Recycle' })
-    expect(response.body['hydra:member'][2]).to.contain({ title: 'Hours and Location' })
+    expect(response.body['hydra:member'][1]).to.contain({ title: 'Multi-Unit Cart Service' })
+    expect(response.body['hydra:member'][2]).to.contain({ title: 'Multi-Unit Bin Service' })
 
-    expect(response.body['hydra:member'][0]).to.contain({ image: 'https://cosmoindustries.com/assets/images/combined-50th-sigfile-798x392.png' })
-    expect(response.body['hydra:member'][1]).to.contain({ image: 'http://image2url.jpg' })
-    expect(response.body['hydra:member'][2]).to.contain({ image: 'http://image3url.jpg' })
+    expect(response.body['hydra:member'][0]).to.contain({ image: 'https://image1.jpg' })
+    expect(response.body['hydra:member'][1]).to.contain({ image: 'https://www.cosmoindustries.com/assets/images/cosmocarts-460x307.jpg' })
+    expect(response.body['hydra:member'][2]).to.contain({ image: 'https://www.cosmoindustries.com/assets/images/side-by-side-recycling-and-garbage-460x307.jpg' })
   })
 
   /**
@@ -36,7 +36,7 @@ describe('GET /articles', function () {
     expect(response.status).to.eql(200)
 
     expect(response.body).to.contain({ title: 'What Can You Recycle' })
-    expect(response.body).to.contain({ image: 'https://cosmoindustries.com/assets/images/combined-50th-sigfile-798x392.png' })
+    expect(response.body).to.contain({ image: 'https://cdn.pixabay.com/photo/2012/04/02/13/48/recycle-24543__480.png' })
     expect(response.body).to.contain({ info: 'Paper, Plastic, and Cardboard' })
   })
 

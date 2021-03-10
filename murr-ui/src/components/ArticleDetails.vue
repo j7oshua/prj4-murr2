@@ -38,7 +38,6 @@ export default {
           this.Article = resp.data
         })
         .catch(err => {
-          console.log(err)
           if (err.response.status === 404) { // not found
             const message = err.response.status
             this.Article = {}
