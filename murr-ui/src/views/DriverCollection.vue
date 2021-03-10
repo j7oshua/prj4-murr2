@@ -10,16 +10,18 @@
         {{siteId}} {{siteName}}
 
         <!-- need the on click to redirct -->
-        <button v-on:click="reDirectToDriverPickup">
-          <DriverPickUpModal @site-id="1" @site-name="Wascana" @num-bins="4" ></DriverPickUpModal>
-        </button>
+        <b-button size="sm" class="mb-2" @click="reDirectToDriverPickup">
+            <b-iconstack font-scale="1">
+              <b-icon stacked icon="circle" variant="primary"></b-icon>
+              <b-icon stacked icon="plus-circle-fill" variant="primary">
+              </b-icon>
+            </b-iconstack>
+            <DriverPickUpForm @finished="confirmFinish" @site-id="1" @site-name="Wascana" @num-bins="4"  v-model="showForm"></DriverPickUpForm>
+          </b-button>
       </li>
 
     </ul>
     </div>
-
-    <!-- do a modal -->
-
   </div>
 </template>
 
@@ -28,7 +30,7 @@ import DriverPickUp from '@/components/DriverPickUp'
 
 export default {
   name: 'DriverCollection',
-  components: { DriverPickUpModal: DriverPickUp },
+  components: { DriverPickUpForm: DriverPickUp },
   props: {
     siteObject: {
       type: Object
@@ -37,7 +39,16 @@ export default {
   data () {
     return {
       siteId: '',
-      siteName: ''
+      siteName: '',
+      showForm: false
+    }
+  },
+  methods: {
+    reDirectToDriverPickup: function () {
+      this.showForm = true
+    },
+    confirmFinish: function () {
+      this.showForm = false
     }
   }
 }

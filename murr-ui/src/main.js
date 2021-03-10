@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootswatch/dist/sketchy/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuelidate from 'vuelidate'
+import Toasted from 'vue-toasted'
 
 // add libraries to vue context
 Vue.use(BootstrapVue)
@@ -20,6 +21,7 @@ Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 Vue.use(Vuelidate)
 Vue.use(VueEllipseProgress)
+Vue.use(Toasted)
 
 Vue.config.productionTip = false
 

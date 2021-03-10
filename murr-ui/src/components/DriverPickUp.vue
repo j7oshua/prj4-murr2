@@ -136,12 +136,16 @@ export default {
         .then(resp => {
           if (resp.status === 201) {
           // toast statement of submit
+            this.$toasted.show('Submitted')
           }
         })
         .catch(err => {
           if (err.response.status === 404) {
             this.error = err && err.response ? err.response.data : {}
           }
+        })
+        .finally(() => { // this will emit to stop showing the form.
+          this.$emit('finished')
         })
     },
     checkValidBins (value1, value2, value3) {
