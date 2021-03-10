@@ -4,7 +4,7 @@
   <div class="form-row">
     <div class="form-group col-4">
       <label for="siteId">Site ID: </label>
-      <p id="siteId">{{siteObject.siteid}}</p>
+      <p id="siteId">{{siteObject.id}}</p>
       <div class="valid-feedback" id="properSiteID"></div>
       <div class="invalid-feedback" id="improperSiteID">Error - No site exists.</div>
     </div>
@@ -23,10 +23,11 @@
       <div class="form-group col-6">
       <label for="collected">Collected: </label>
         <input id="collected" type="text" class="form-control" v-model.trim="$v.pickup.numCollected.$model"
-               :class="{'is-invlaid' :$v.pickup.numCollected.$error, 'is-invalid': $v.pickup.numCollecte}">
+               :class="{'is-invlaid' :$v.pickup.numCollected.$error, 'is-invalid': $v.pickup.numCollected}">
         <div class="valid-feedback" id="properCollected">Valid bin amount </div>
         <div class="invalid-feedback" id="improperCollected">
           <span v-if="$v.pickup.numCollected.required">Error - Invalid. Bin number amount required.</span>
+          <span v-if="!$v.pickup.numCollected.numeric">Must contain only digits</span>
           <span v-if="$"></span>
           <span></span>
         </div>
@@ -40,6 +41,7 @@
       <div class="valid-feedback" id="properObstucted">Valid bin amount </div>
       <div class="invalid-feedback" id="improperObstructed">
         <span v-if="$v.pickup.numObstructed.required">Error - Invalid. Bin number amount required.</span>
+        <span v-if="!$v.pickup.numObstructed.numeric">Must contain only digits</span>
         <span v-if="$"></span>
         <span></span>
       </div>
@@ -53,6 +55,7 @@
       <div class="valid-feedback" id="properContaminated">Valid bin amount </div>
       <div class="invalid-feedback" id="improperContaminated">
         <span v-if="$v.pickup.numContaminated.required">Error - Invalid. Bin number amount required.</span>
+        <span v-if="!$v.pickup.numContaminated.numeric">Must contain only digits</span>
         <span v-if="$"></span>
         <span></span>
       </div>
@@ -77,12 +80,12 @@ export default {
   data () {
     return {
       pickup: {
-        id: '',
+        siteId: '',
+        siteName: '',
         numCollected: '',
         numObstructed: '',
         numContaminated: '',
-        dateTime: '',
-        siteObject: ''
+        dateTime: ''
       },
       error: {},
       dateStamp: ''
@@ -115,11 +118,31 @@ export default {
     }
   },
   created () {
-    setInterval(this.getSeverTime, 1000)
+    setInterval(this.getSeverDate, 1000)
   },
   methods: {
     postPickup: function () {
-      throw new Error('Not Implemented')
+      this.$v.$touch()
+      this.pickup = {
+        numCollected: this.pickup.numCollected,
+        numContaminated: this.pickup.numContaminated,
+        numObstructed: this.pickup.numObstructed,
+        siteId: this.siteObject.id,
+        siteName: this.siteObject.siteName,
+        dateTime: this.dateStamp
+      }
+      this.error = {}
+      // Direct axios call here
+        .then(resp => {
+          if (resp.status === 201) {
+          // toast statement of submit
+          }
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            this.error = err && err.response ? err.response.data : {}
+          }
+        })
     },
     checkValidBins (value1, value2, value3) {
       // this will be a if else statement to check the values
@@ -127,7 +150,7 @@ export default {
       // this check will also check against the count of the site bins
       return true
     },
-    getSeverTime: function () {
+    getSeverDate: function () {
       const today = new Date()
       this.dateStamp = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     }
