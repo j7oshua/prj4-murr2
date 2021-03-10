@@ -7,13 +7,15 @@ use App\Repository\ResidentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
  *     collectionOperations={"post", "get"},
- *     itemOperations={"get"}
+ *     itemOperations={"get"},
+ *     denormalizationContext={"groups"={"resident-point:read"}},
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
@@ -26,6 +28,7 @@ class Resident
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
+     * @Groups ({"resident-point"})
      */
     private $id;
 
@@ -33,13 +36,15 @@ class Resident
      * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\Email(message = "The email is not a valid email.")
      * @Assert\Length(allowEmptyString="true", max = 150, maxMessage = "Email has more than {{ limit }} characters.")
-     *
+     * @Groups ({"resident-point"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\Length(allowEmptyString="true", min=10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.")
+     * @Assert\Length(allowEmptyString="true", min=10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.", normalizer="trim")
+     * @Assert\Regex(pattern="/^[0-9]/", message="Phone number must only contain numbers.")
+     * @Groups ({"resident-point"})
      */
     private $phone;
 

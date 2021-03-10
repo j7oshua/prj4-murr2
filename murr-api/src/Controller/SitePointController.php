@@ -29,7 +29,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class SitePointController extends AbstractController
 {
     /**
-     * @Route("/site_point/{id}", name="site_point")
+     * @Route("/site/{id}", name="site_point")
      * @param int $id
      * @param SiteRepository $ss
      * @param PickupRepository $pur
@@ -40,6 +40,8 @@ class SitePointController extends AbstractController
         $site = $ss->findSiteById($id);
         $request = Request::createFromGlobals();
         $content = $request->getContent();
+        $json = json_decode($content);
+        $pickupID = $json->{'pickupID'};
         $pickup = $pur->findPickupById($pickupID);
         $response = new Response();
         $entityManager = $this->getDoctrine()->getManager();
@@ -65,6 +67,7 @@ class SitePointController extends AbstractController
             $sitePoints = (int) ($ptPercentage * 100);
 
             $residents = $site->getResidents();
+            var_dump($residents);
             $point = new Point();
             $point->setnum_points($sitePoints);
             foreach ($residents as $resident)
