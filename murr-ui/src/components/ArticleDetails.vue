@@ -4,6 +4,7 @@
       <h1>{{Article.title}}</h1>
       <img class="pt-3" :src="Article.image" @error="Article.image='cosmo.png'" alt="No Image" height="400">
       <p class="pt-4">{{Article.info}}</p>
+      <b-button class="mt-2 mb-4" @click="goBack()">Back</b-button>
     </b-overlay>
   </div>
 </template>
@@ -47,6 +48,9 @@ export default {
         }).finally(() => {
           this.isBusy = false
         })
+    },
+    goBack () {
+      this.$router.push({ path: '/edu' })
     }
   },
   mounted () {

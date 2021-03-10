@@ -1,12 +1,12 @@
 <template>
-  <div class="container"><h1>Education Information</h1>
+  <div class="container-xl"><h1>Education Information</h1>
     <b-overlay :show="isDisabled" opacity="1">
-      <div class="row" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)" :style="'background:' + chooseColor()">
+      <div class="row mt-2" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)" style="background: rgb(245,245,245)">
         <div class="col-1, p-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="150" width="150"></div>
-        <div class="col-2, p-4">
+        <div class="col-2, p-4" style="width: 65%; display: inline-block;">
           <h4>{{article.title}}</h4>
-            <div v-if="article.info.length<90">{{ article.info }}</div>
-            <div v-else>{{ article.info.substring(0,90)+"... Click to read full article" }}</div>
+            <div v-if="article.info.length<65">{{ article.info }}</div>
+            <div v-else>{{ article.info.substring(0,65)+"... Click to read full article" }}</div>
         </div>
       </div>
     </b-overlay>
@@ -26,8 +26,7 @@ export default {
         image: URL
       },
       articleList: [],
-      isBusy: false,
-      counter: 0
+      isBusy: false
     }
   },
   methods: {
@@ -40,10 +39,11 @@ export default {
         .then(resp => {
           // set tempPoints to be the points returned by the API
           this.articleList = resp.data['hydra:member']
+          console.log(this.articleList)
         })
         .catch(err => {
           console.log(err)
-          if (err.response.status === 404) { // not found
+          if (err.response === 404) { // not found
             const message = err.response.status
             console.log(message)
           }
@@ -54,15 +54,6 @@ export default {
     // this method will map the article being selected using the id and will navigate the user to a new page
     openArticle (id) {
       this.$router.push({ path: `/edu/articles/${id}` })
-    },
-    chooseColor () {
-      for (this.article in this.articleList) {
-        if (this.articleList.indexOf(this.article) % 2 === 0) {
-          return 'grey'
-        } else {
-          return 'red'
-        }
-      }
     }
   },
   mounted () {
