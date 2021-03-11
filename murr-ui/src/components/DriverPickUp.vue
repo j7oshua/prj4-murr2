@@ -1,6 +1,6 @@
 <template>
 <div>
-<b-form v-model="showForm" @submit.prevent="postPickup" >
+<b-form v-if="showForm" @submit.prevent="postPickup" @>
   <div class="form-row">
     <!-- This will show the site id -->
     <div class="form-group col-4">
@@ -27,7 +27,7 @@
       <div class="form-group col-6">
       <label for="collected">Collected: </label>
         <input id="collected" type="text" class="form-control" v-model.trim="$v.pickup.numCollected.$model"
-               :class="{'is-invalid' :$v.pickup.numCollected.$error, 'is-invalid': $v.pickup.numCollected}">
+               :class="{'is-invalid' :$v.pickup.numCollected.$error, 'is-valid': !$v.pickup.numCollected.$invalid}">
         <div class="valid-feedback" id="properCollected">Valid bin amount </div>
         <div class="invalid-feedback" id="improperCollected">
           <!-- required error-->
@@ -46,7 +46,7 @@
     <div class="form-group col-6">
       <label for="obstructed">Obstructed: </label>
       <input id="obstructed" type="text" class="form-control" v-model.trim="$v.pickup.numObstructed.$model"
-             :class="{'is-invalid' :$v.pickup.numObstructed.$error, 'is-invalid': $v.pickup.numObstructed}">
+             :class="{'is-invalid' :$v.pickup.numObstructed.$error, 'is-valid': !$v.pickup.numObstructed.$invalid}">
       <div class="valid-feedback" id="properObstucted">Valid bin amount </div>
       <div class="invalid-feedback" id="improperObstructed">
         <!-- required error-->
@@ -65,7 +65,7 @@
     <div class="form-group col-6">
       <label for="contaminated">Contaminated: </label>
       <input id="contaminated" type="text" class="form-control" v-model.trim="$v.pickup.numContaminated.$model"
-             :class="{'is-invalid' :$v.pickup.numContaminated.$error, 'is-invalid': $v.pickup.numContaminated}">
+             :class="{'is-invalid':$v.pickup.numContaminated.$error, 'is-valid': !$v.pickup.numContaminated.$invalid}">
       <div class="valid-feedback" id="properContaminated">Valid bin amount </div>
       <div class="invalid-feedback" id="improperContaminated">
         <!-- required error-->
@@ -74,12 +74,12 @@
         <span v-if="!$v.pickup.numContaminated.numeric">Must contain only digits</span>
         <!-- between error-->
         <!--<span v-if="!$v.pickup.numContaminated.between">Error - Invalid number of bins</span>-->
-        <span v-if="$"></span>
+<!--        <span v-if="$"></span>-->
         <span></span>
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-submit">Submit</button>
+  <b-button type="submit" class="btn btn-submit" >Submit</b-button>
 </b-form>
 </div>
 </template>
@@ -87,10 +87,11 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { numeric, required } from 'vuelidate/lib/validators'
+import MurrMixin from '@/mixins/murr-mixin'
 
 export default {
   name: 'DriverSiteReport',
-  mixins: [validationMixin],
+  mixins: [validationMixin, MurrMixin],
   props: {
     siteObject: {
       type: Object
@@ -108,7 +109,7 @@ export default {
         numObstructed: '',
         numContaminated: '',
         dateTime: '',
-        numBins: 4
+        numBins: ''
       },
       error: {},
       dateStamp: ''
@@ -118,25 +119,25 @@ export default {
     pickup: {
       numCollected: {
         required,
-        checkValidBins (value1, value2, value3) {
-          return false
-        },
+        // checkValidBins (value1, value2, value3) {
+        //   return false
+        // },
         numeric
         // between: between(0, this.numBins)
       },
       numObstructed: {
         required,
-        checkValidBins (value1, value2, value3) {
-          return false
-        },
+        // checkValidBins (value1, value2, value3) {
+        //   return false
+        // },
         numeric
         // between: between(0, this.numBins)
       },
       numContaminated: {
         required,
-        checkValidBins (value1, value2, value3) {
-          return false
-        },
+        // checkValidBins (value1, value2, value3) {
+        //   return false
+        // },
         numeric
         // between: between(0, this.numBins)
       }
@@ -159,6 +160,11 @@ export default {
       }
       this.error = {}
       // Direct axios call here
+      this.axios({
+        method: 'post',
+        url: this.PICKUP_API_URL,
+        data: this.pickup
+      })
         .then(resp => {
           if (resp.status === 201) {
           // toast statement of submit

@@ -3,22 +3,15 @@
     <div>
       <h1>CollectionSite</h1>
     </div>
-    <div>
-      <!-- this need to be change to a list -->
-    <ul id="listOfSites">
-     <!--<li v-for="item in items" :key="item.message">-->
-        <!--{{siteId}} {{siteName}} -->
-        site1 Wascana
-        <!-- need the on click to redirct -->
+    <div v-if="!showForm">
+      <!-- this is a hard-coded site, for route story this is where the list of sites would be displayed -->
+       <h2>Site1 Wascana
+        <!-- the button will redirect to the DriverPickUp.vue component -->
         <b-button size="sm" class="mb-2" @click="reDirectToDriverPickup">
-            <b-iconstack font-scale="1">
-              <b-icon stacked icon="plus-circle-fill" variant="primary">
-              </b-icon>
-            </b-iconstack>
-          </b-button>
-      <!--</li>-->
-
-    </ul>
+              <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
+        </b-button></h2>
+    </div>
+    <div>
       <DriverPickUpForm @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUpForm>
     </div>
   </div>
@@ -44,7 +37,7 @@ export default {
     reDirectToDriverPickup: function () {
       this.showForm = true
     },
-    confirmFinish: function () {
+    confirmFinish: function (event) {
       this.showForm = false
     }
   }
