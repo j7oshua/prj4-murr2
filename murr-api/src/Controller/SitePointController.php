@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Core\Hal\Serializer\ObjectNormalizer;
 use App\Repository\SiteRepository;
 use App\Repository\PickupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,7 @@ use App\Entity\Pickup;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class SitePointController
@@ -69,6 +71,8 @@ class SitePointController extends AbstractController
             $residents = $site->getResidents();
             var_dump($residents);
             $point = new Point();
+
+
             $point->setnum_points($sitePoints);
             foreach ($residents as $resident)
             {
