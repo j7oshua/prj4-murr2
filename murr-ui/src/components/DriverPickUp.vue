@@ -1,6 +1,6 @@
 <template>
 <div>
-<form @submit.prevent="postPickup">
+<b-form v-model="showForm" @submit.prevent="postPickup" >
   <div class="form-row">
     <!-- This will show the site id -->
     <div class="form-group col-4">
@@ -35,7 +35,7 @@
           <!-- numeric error-->
           <span v-if="!$v.pickup.numCollected.numeric">Must contain only digits</span>
           <!-- between error-->
-          <span v-if="!$v.pickup.numCollected.between">Error - Invalid number of bins</span>
+          <!--<span v-if="!$v.pickup.numCollected.between">Error - Invalid number of bins</span>-->
           <span v-if="$"></span>
           <span></span>
         </div>
@@ -54,7 +54,7 @@
         <!-- numeric error-->
         <span v-if="!$v.pickup.numObstructed.numeric">Must contain only digits</span>
         <!-- between error-->
-        <span v-if="!$v.pickup.numObstructed.between">Error - Invalid number of bins</span>
+        <!--<span v-if="!$v.pickup.numObstructed.between">Error - Invalid number of bins</span>-->
         <span v-if="$"></span>
         <span></span>
       </div>
@@ -73,20 +73,20 @@
         <!-- numeric error-->
         <span v-if="!$v.pickup.numContaminated.numeric">Must contain only digits</span>
         <!-- between error-->
-        <span v-if="!$v.pickup.numContaminated.between">Error - Invalid number of bins</span>
+        <!--<span v-if="!$v.pickup.numContaminated.between">Error - Invalid number of bins</span>-->
         <span v-if="$"></span>
         <span></span>
       </div>
     </div>
   </div>
   <button type="submit" class="btn btn-submit">Submit</button>
-</form>
+</b-form>
 </div>
 </template>
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { numeric, required, between } from 'vuelidate/lib/validators'
+import { numeric, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'DriverSiteReport',
@@ -94,6 +94,9 @@ export default {
   props: {
     siteObject: {
       type: Object
+    },
+    showForm: {
+      type: Boolean
     }
   },
   data () {
@@ -104,11 +107,11 @@ export default {
         numCollected: '',
         numObstructed: '',
         numContaminated: '',
-        dateTime: ''
+        dateTime: '',
+        numBins: 4
       },
       error: {},
-      dateStamp: '',
-      numBins: 0
+      dateStamp: ''
     }
   },
   validations: {
@@ -118,30 +121,30 @@ export default {
         checkValidBins (value1, value2, value3) {
           return false
         },
-        numeric,
-        between: between(0, this.numBins)
+        numeric
+        // between: between(0, this.numBins)
       },
       numObstructed: {
         required,
         checkValidBins (value1, value2, value3) {
           return false
         },
-        numeric,
-        between: between(0, this.numBins)
+        numeric
+        // between: between(0, this.numBins)
       },
       numContaminated: {
         required,
         checkValidBins (value1, value2, value3) {
           return false
         },
-        numeric,
-        between: between(0, this.numBins)
+        numeric
+        // between: between(0, this.numBins)
       }
     }
   },
   created () {
     setInterval(this.getSeverDate, 1000)
-    this.numBins = Number.parseInt(this.props.siteObject.numBins)// assigned a numBins property from props numBins, not sure if I need to cast
+    // this.numBins = Number.parseInt(this.props.siteObject.numBins)// assigned a numBins property from props numBins, not sure if I need to cast
   },
   methods: {
     postPickup: function () {

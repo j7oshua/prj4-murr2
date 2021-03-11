@@ -6,21 +6,20 @@
     <div>
       <!-- this need to be change to a list -->
     <ul id="listOfSites">
-      <li v-for="item in items" :key="item.message">
-        {{siteId}} {{siteName}}
-
+     <!--<li v-for="item in items" :key="item.message">-->
+        <!--{{siteId}} {{siteName}} -->
+        site1 Wascana
         <!-- need the on click to redirct -->
         <b-button size="sm" class="mb-2" @click="reDirectToDriverPickup">
             <b-iconstack font-scale="1">
-              <b-icon stacked icon="circle" variant="primary"></b-icon>
               <b-icon stacked icon="plus-circle-fill" variant="primary">
               </b-icon>
             </b-iconstack>
-            <DriverPickUpForm @finished="confirmFinish" @site-id="1" @site-name="Wascana" @num-bins="4"  v-model="showForm"></DriverPickUpForm>
           </b-button>
-      </li>
+      <!--</li>-->
 
     </ul>
+      <DriverPickUpForm @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUpForm>
     </div>
   </div>
 </template>
@@ -31,15 +30,13 @@ import DriverPickUp from '@/components/DriverPickUp'
 export default {
   name: 'DriverCollection',
   components: { DriverPickUpForm: DriverPickUp },
-  props: {
-    siteObject: {
-      type: Object
-    }
-  },
   data () {
     return {
-      siteId: '',
-      siteName: '',
+      siteObject: {
+        id: 1,
+        siteName: 'Wascana',
+        numBins: 4
+      },
       showForm: false
     }
   },
