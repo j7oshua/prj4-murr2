@@ -2,7 +2,7 @@
   <div class="container-xl"><h1>Education Information</h1>
     <b-overlay :show="isDisabled" opacity="1">
       <div class="row mt-2" v-for="article in articleList" :key="article.id" @click="openArticle(article.id)" style="background: rgb(245,245,245)">
-        <div class="col-1, pt-4 pb-4 pl-4"><img :src="article.image" @error="article.image='cosmo.png'" alt="Recycling image" height="150" width="200"></div>
+        <div class="col-1, pt-4 pb-4 pl-4"><img :src="article.image" @error="article.image='cosmoindustries_icon.png'" alt="Recycling image" height="150" width="200"></div>
         <div class="col-2, p-4 d-inline-block" style="width: 80%;">
           <h4>{{article.title}}</h4>
             <div v-if="article.info.length<215">{{ article.info }}</div>

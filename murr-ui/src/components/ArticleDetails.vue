@@ -2,7 +2,7 @@
   <div>
     <b-overlay :show="isDisabled" opacity="1">
       <h1>{{Article.title}}</h1>
-      <img class="pt-3" :src="Article.image" @error="Article.image='cosmo.png'" alt="No Image" height="400">
+      <img class="pt-3" :src="Article.image" @error="Article.image='cosmoindustries_icon.png'" alt="Recycling image" height="400">
       <p class="pt-4">{{Article.info}}</p>
       <b-button class="mt-2 mb-4" @click="goBack()">Back</b-button>
     </b-overlay>
@@ -19,9 +19,9 @@ export default {
     return {
       Article: {
         id: this.$route.params.id,
-        title: String,
-        image: URL,
-        info: String
+        title: this.$route.params.title,
+        image: this.$route.params.image,
+        info: this.$route.params.info
       },
       isBusy: false
     }

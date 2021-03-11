@@ -36,7 +36,7 @@ describe('GET /articles', function () {
     expect(response.status).to.eql(200)
 
     expect(response.body).to.contain({ title: 'What Can You Recycle' })
-    expect(response.body).to.contain({ image: 'https://cdn.pixabay.com/photo/2012/04/02/13/48/recycle-24543__480.png' })
+    expect(response.body).to.contain({ image: 'https://image1.jpg' })
     expect(response.body).to.contain({ info: 'Paper, Plastic, and Cardboard' })
   })
 
