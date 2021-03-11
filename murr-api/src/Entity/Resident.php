@@ -27,7 +27,6 @@ class Resident
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
-     * @Groups ({"read:point"})
      */
     private $id;
 
@@ -35,7 +34,6 @@ class Resident
      * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\Email(message = "The email is not a valid email.")
      * @Assert\Length(allowEmptyString="true", max = 150, maxMessage = "Email has more than {{ limit }} characters.")
-     * @Groups ({"read:point"})
      */
     private $email;
 

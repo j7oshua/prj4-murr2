@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"read:point"}},
  *     collectionOperations={"post", "get"},
  *     itemOperations={"get"}
  * )
@@ -25,22 +24,19 @@ class Point
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
-     * @Groups ({"read:point"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\Positive(message = "The points has to be greater than zero")
-     * @Assert\NotNull(message = "Points cannot be left null")
-     * @Groups ({"read:point"})
+     * @Assert\NotNull(message = "Points cannot be left null"))
      */
     public $num_points;
 
     /**
      * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points")
      * @Assert\Count(min = "1", minMessage = "You must add at least one Resident")
-     * @Groups ({"read:point"})
      */
     private $resident;
 

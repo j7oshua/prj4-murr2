@@ -8,6 +8,7 @@ use App\Repository\PickupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\ResidentRepository;
 
 use App\Entity\Point;
 use App\Entity\Site;
@@ -37,7 +38,7 @@ class SitePointController extends AbstractController
      * @param PickupRepository $pur
      * @return Response
      */
-    public function index(int $id, SiteRepository $ss, PickupRepository $pur): Response
+    public function index(int $id, SiteRepository $ss, PickupRepository $pur, ResidentRepository $rr): Response
     {
         $site = $ss->findSiteById($id);
         $request = Request::createFromGlobals();
@@ -65,19 +66,25 @@ class SitePointController extends AbstractController
             $collected = $pickup->getNumCollected();
             $totalBins = $site->getNumBins();
 
-            $ptPercentage = ($totalBins - $collected) / $totalBins;
+            $ptPercentage = $collected / $totalBins;
             $sitePoints = (int) ($ptPercentage * 100);
 
-            $residents = $site->getResidents();
-            var_dump($residents);
+            $residentsStringArr = $site->getResidents();
+            $residents = [];
+            foreach ($residentsStringArr as $residentString)
+            {
+                $residentObject = $rr->findResidentByString($residentString);
+                array_push($residents, $residentObject);
+            }
             $point = new Point();
-
+            var_dump($residents);
 
             $point->setnum_points($sitePoints);
             foreach ($residents as $resident)
             {
                 $point->addResident($resident);
             }
+            var_dump($sitePoints);
 
             $entityManager->persist($point);
 
