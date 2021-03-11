@@ -41,7 +41,8 @@ export default {
       this.$bvToast.toast('Pickup ID: ' + this.pickUp.pickupID + ' was not found', {
         title: 'Error: Bad Request',
         variant: 'danger',
-        toaster: 'b-toaster-top-center'
+        toaster: 'b-toaster-top-center',
+        noAutoHide: true
       })
       this.showModal = true
     }

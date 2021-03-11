@@ -4,12 +4,7 @@ import { expect } from 'chai'
 
 let wrapper
 // URL to the backend server
-const server = '127.0.0.1:8000'
-
-// Used to test the front end api calls to the backend server
-const chai = require('chai')
-const chaiHttp = require('chai-http')
-chai.use(chaiHttp)
+const request = require('supertest')('http://127.0.0.1:8000/api')
 
 // Setup the props named pickup to contain the values declared below before each test
 describe('SitePointsConfirmation', () => {
@@ -47,7 +42,8 @@ describe('SitePointsConfirmation', () => {
       })
     })
     it('displays error that pickupID was not found', () => {
-      expect(wrapper.find('h4').text().to.be.equal('Error'))
+      expect(wrapper.html().includes('<div class="toast-header">Error: Bad Request </div>'))
+      expect(wrapper.html().includes('<div class="toast-body">Error: Bad Request </div>'))
       expect(wrapper.find('.errorMessage').text().to.be.equal('Pickup ID was not found'))
     })
     // Sets the component data to simulate a response code of 500 for connection error
@@ -94,54 +90,20 @@ describe('SitePointsConfirmation', () => {
   })
   // Tests the POST api call to the server.
   describe('POST to the database', () => {
-    it('creates points for the site and returns status code 201', (done) => {
+    it('creates points for the site and returns status code 201', async function () {
       // Creates a mock pickupID to send to the server
-      const newPickup = {
-        pickupID: 1
+      const pickup = {
+        pickupID: '1'
       }
-      chai.request(server)
-        .post('/site/1')
-        .send(newPickup)
-        .end((res) => {
-          expect(res.should.have.status(201))
-          done()
-        })
+      const response = await request
+        .post(pickup)
+        .send()
     })
     it('receive status code 400 while sending no pickupID', (done) => {
       const newPickup = {}
       chai.request(server)
         .post('/site/1')
         .send(newPickup)
-        .end((res) => {
-          expect(res.should.have.status(400))
-          done()
-        })
-    })
-  })
-  // Testing the GET request to receive the site name from the database
-  describe('GET request', () => {
-    it('gets back the site name from the database', (done) => {
-      const getSiteName = {
-        site: 1
-      }
-      const siteURL = '/api/site/' + getSiteName.site.toString()
-      chai.request(server)
-        .get(siteURL)
-        .send(getSiteName)
-        .end((res) => {
-          expect(res.should.have.status(200))
-          expect(res.body.should.have.property('siteName').equal('Wascana'))
-          done()
-        })
-    })
-    it('gets back an error status code 400 that the site does not exist', (done) => {
-      const getSiteName = {
-        site: 99
-      }
-      const siteURL = '/api/site/' + getSiteName.site.toString()
-      chai.request(server)
-        .get(siteURL)
-        .send(getSiteName)
         .end((res) => {
           expect(res.should.have.status(400))
           done()
