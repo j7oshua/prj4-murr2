@@ -22,10 +22,18 @@ const routes = [
     path: '/DriverCollection',
     name: 'DriverCollection',
     component: () => import('../views/DriverCollection.vue')
+  },
+  {
+    path: '/edu',
+    name: 'RecyclingArticles',
+    component: () => import('../views/RecyclingArticles')
+  },
+  {
+    path: '/edu/articles/:id',
+    name: 'Article',
+    component: () => import('../views/Article')
   }
-
 ]
-
 const router = new VueRouter({
   routes
 })

@@ -19,7 +19,6 @@ class ResidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Resident::class);
     }
 
-
     public function findResidentByString($value): ?Resident
     {
         $id = substr($value, 15);
