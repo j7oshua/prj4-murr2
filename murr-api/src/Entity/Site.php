@@ -39,7 +39,7 @@ class Site
     private $numBins;
 
     /**
-     * @ORM\OneToMany(targetEntity=PickUp::class, mappedBy="siteobject")
+     * @ORM\OneToMany(targetEntity=PickUp::class, mappedBy="siteObject")
      */
     private $pickupid;
 

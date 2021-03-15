@@ -13,7 +13,7 @@ use App\Validator as AcmeAssert;
  *     collectionOperations={"post", "get"},
  *     itemOperations={"get"}
  * )
- * @ORM\Entity(repositoryClass=PickUpRepository::class)
+ * @ORM\Entity(repositoryClass=PickUpRepository::class)point_resident
  */
 class PickUp
 {
@@ -49,12 +49,13 @@ class PickUp
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\Date
-     * @var string A "Y-m-d" formatted value
      * @Assert\NotBlank(message="Invalid: date required.")
-     * @Assert\LessThan("today UTC", message="Invalid Date. This is a past Date")
-     * @Assert\GreaterThan("today UTC", message="Invalid Date. This is a future Date")
      */
     private $dateTime;
+
+    //* @Assert\LessThan("today UTC", message="Invalid Date. This is a past Date")
+    //     * @Assert\GreaterThan("today UTC", message="Invalid Date. This is a future Date")
+    //* @var string A "Y-m-d" formatted value
 
     /**
      * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="pickupid")
