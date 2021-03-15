@@ -22,7 +22,7 @@ class ResidentRepository extends ServiceEntityRepository
 
     public function findResidentByString($value): ?Resident
     {
-        $id = substr($value, -1);
+        $id = substr($value, 15);
         return $this->createQueryBuilder('r')
             ->andWhere('r.id = :val')
             ->setParameter('val', $id)

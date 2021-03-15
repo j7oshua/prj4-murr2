@@ -90,8 +90,16 @@ class SitePointController extends AbstractController
 
             $entityManager->flush();
 
-            $response->getStatusCode();
-            $response->getContent();
+
+            if($response->getStatusCode() == 201)
+            {
+                $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());
+            }
+            else if ($response->getStatusCode() == 200)
+            {
+                $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());
+            }
+
         }
 
         return $response;

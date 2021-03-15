@@ -22,33 +22,37 @@ class SitePointsTest extends ApiTestCase
     private $invalidPickupID;
 
     //API URLS used in the tests.
-    const API_URL_SITE_ONE = '127.0.0.1:8000/api/site/1';
-    const API_URL_SITE_TWO = '127.0.0.1:8000/api/site/2';
+    const API_URL_SITE_ONE = '127.0.0.1:8000/site/1';
+    const API_URL_SITE_TWO = '127.0.0.1:8000/site/2';
     // The below URLs will return the sum of the points for the resident
     const API_URL_RESIDENT_ONE = '127.0.0.1:8000/point/resident/1';
     const API_URL_RESIDENT_TWO = '127.0.0.1:8000/point/resident/2';
     const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/point/resident/4';
 
     //Does the beginning setup before the tests are run. Initializes the json to be sent to API
+    /**
+     * @before
+    */
     public function setUp(): void
     {
         //initialize pickups
         $this->pickupOne = [
-            'pickup_id' => 1
+            'pickupID' => 1
         ];
 
         $this->pickupTwo = [
-            'pickup_id' => 2
+            'pickupID' => 2
         ];
 
         $this->noPickupID = [];
 
         $this->invalidPickupID = [
-            'pickup_id' => 99
+            'pickupID' => 99
         ];
     }
 
     /**
+     * @test
      * Purpose: This test will check if the API successfully adds points to the site with all the
      * containers collected.
      * Expected Result: Success -- Status Response 201
@@ -76,7 +80,7 @@ class SitePointsTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseIsSuccessful();
         //Check the response if it contains the success message
-        $this->assertContains("Points successfully added to Wascana", $response);
+        $this->assertContains("100 Points successfully added to Wascana", $response);
 
         // Re-check resident for points. Expect it to be 100.
         static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
@@ -93,6 +97,7 @@ class SitePointsTest extends ApiTestCase
     }
 
     /**
+     * @test
      * Purpose: This test will check if the API successfully adds points to the site with half of the
      * containers collected.
      * Expected Result: Success -- Status Response 201
@@ -125,6 +130,7 @@ class SitePointsTest extends ApiTestCase
     }
 
     /**
+     * @test
      * Purpose: This test will check if the API successfully checks and adds no points to the site with zero
      * containers collected.
      * Expected Result: Success -- Status Response 200
@@ -157,6 +163,7 @@ class SitePointsTest extends ApiTestCase
     }
 
     /**
+     * @test
      * Purpose: This test will check if the API unsuccessfully adds points to the site when there is no
      * pickup id provided
      * Expected Result: Error -- Status Response 400
@@ -174,6 +181,7 @@ class SitePointsTest extends ApiTestCase
     }
 
     /**
+     * @test
      * Purpose: This test will check if the API unsuccessfully adds points to the site when there is an invalid
      * pickup id provided
      * Expected Result: Error -- Status Response 400

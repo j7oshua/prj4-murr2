@@ -48,12 +48,12 @@ class Pickup
         return $this->id;
     }
 
-    public function getSiteID(): ?Site
+    public function getSite(): ?Site
     {
         return $this->site;
     }
 
-    public function setSiteID(?Site $siteID): self
+    public function setSite(?Site $siteID): self
     {
         $this->site = $siteID;
 
