@@ -22,8 +22,8 @@ class SitePointsTest extends ApiTestCase
     private $invalidPickupID;
 
     //API URLS used in the tests.
-    const API_URL_SITE_ONE = '127.0.0.1:8000/site/1';
-    const API_URL_SITE_TWO = '127.0.0.1:8000/site/2';
+    const API_URL_SITE_ONE = 'http://127.0.0.1:8000/site/1';
+    const API_URL_SITE_TWO = 'http://127.0.0.1:8000/site/2';
     // The below URLs will return the sum of the points for the resident
     const API_URL_RESIDENT_ONE = '127.0.0.1:8000/point/resident/1';
     const API_URL_RESIDENT_TWO = '127.0.0.1:8000/point/resident/2';

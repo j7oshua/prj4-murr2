@@ -1,15 +1,15 @@
 # Story05 - Created two pickup fixtures to be used. One pickup with Site One and one pickup for Site Two.
 App\Entity\Pickup:
   PickupOne:
-    site: ['@SiteOne']
+    site: '@SiteOne'
     numCollected: 5
     numObstructed: 0
     numContaminated: 0
-    date: '2021-01-01T01:00:00.630Z'
+    date: '2021-01-01'
 
   PickupTwo:
-    site: [ '@SiteTwo' ]
+    site: '@SiteTwo'
     numCollected: 0
     numObstructed: 2
     numContaminated: 4
-    date: '2021-01-01T01:00:00.630Z'
+    date: '2021-01-01'

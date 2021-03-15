@@ -39,7 +39,7 @@ class Pickup
     private $numContaminated;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string")
      */
     private $dateTime;
 
@@ -96,12 +96,12 @@ class Pickup
         return $this;
     }
 
-    public function getDateTime(): ?\DateTimeInterface
+    public function getDate(): ?string
     {
         return $this->dateTime;
     }
 
-    public function setDateTime(\DateTimeInterface $dateTime): self
+    public function setDate(string $dateTime): self
     {
         $this->dateTime = $dateTime;
 

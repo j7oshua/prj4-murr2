@@ -127,7 +127,7 @@ class Site
     {
         if (!$this->pickupCollection->contains($numCollected)) {
             $this->pickupCollection[] = $numCollected;
-            $numCollected->setSiteID($this);
+            $numCollected->setSite($this);
         }
 
         return $this;
@@ -137,8 +137,8 @@ class Site
     {
         if ($this->pickupCollection->removeElement($numCollected)) {
             // set the owning side to null (unless already changed)
-            if ($numCollected->getSiteID() === $this) {
-                $numCollected->setSiteID(null);
+            if ($numCollected->getSite() === $this) {
+                $numCollected->setSite(null);
             }
         }
 
