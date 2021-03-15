@@ -45,6 +45,7 @@ class SitePointController extends AbstractController
         $content = $request->getContent();
         $json = json_decode($content);
         $pickupID = $json->{'pickupID'};
+        var_dump($pickupID);
         $pickup = $pur->findPickupById($pickupID);
         $response = new Response();
         $entityManager = $this->getDoctrine()->getManager();
@@ -70,6 +71,7 @@ class SitePointController extends AbstractController
             $sitePoints = (int) ($ptPercentage * 100);
 
             $residentsStringArr = $site->getResidents();
+            var_dump($residentsStringArr);
             $residents = [];
             foreach ($residentsStringArr as $residentString)
             {
@@ -77,7 +79,7 @@ class SitePointController extends AbstractController
                 array_push($residents, $residentObject);
             }
             $point = new Point();
-            var_dump($residents);
+
 
             $point->setnum_points($sitePoints);
             foreach ($residents as $resident)
