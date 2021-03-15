@@ -5,9 +5,14 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PickUpRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as AcmeAssert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"post", "get"},
+ *     itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass=PickUpRepository::class)
  */
 class PickUp

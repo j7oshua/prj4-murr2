@@ -112,7 +112,8 @@ export default {
         numBins: ''
       },
       error: {},
-      dateStamp: ''
+      dateStamp: '',
+      countBins: ''
     }
   },
   validations: {
@@ -180,15 +181,17 @@ export default {
           this.$emit('finished')
         })
     },
-    checkValidBins (value1, value2, value3) {
-      // this will be a if else statement to check the values
-      // and compare them to determine the right response by returning true or false
-      // this check will also check against the count of the site bins
-      return true
-    },
     getSeverDate: function () {
       const today = new Date()
       this.dateStamp = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    },
+    checkValidBins: function (value) {
+      return value === this.siteObject.numBins
+    },
+    checkCountValidBins: function (value) {
+      this.countBins += value
+      if (this.countBins < this.siteObject.numBins) {
+      }
     }
   }
 }
