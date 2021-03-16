@@ -47,7 +47,6 @@ class SitePointController extends AbstractController
         $content = $request->getContent();
         $json = json_decode($content);
         $pickupID = $json->{'pickupID'};
-        var_dump($pickupID);
         $pickup = $pur->findPickupById($pickupID);
         $response = new Response();
         $entityManager = $this->getDoctrine()->getManager();
@@ -88,7 +87,6 @@ class SitePointController extends AbstractController
             {
                 $point->addResident($resident);
             }
-            var_dump($sitePoints);
 
             $entityManager->persist($point);
 

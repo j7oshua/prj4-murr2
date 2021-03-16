@@ -5,14 +5,14 @@ namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-
 use App\Entity\Site;
 use App\Entity\Point;
 use App\Entity\Pickup;
 use App\Entity\Resident;
 
-class SitePointsTest extends ApiTestCase
+class SitePointsTest extends WebTestCase
 {
     use RefreshDatabaseTrait;
 
@@ -51,19 +51,9 @@ class SitePointsTest extends ApiTestCase
         $this->invalidPickupID = [
             'pickupID' => 99
         ];
-
-
-
     }
 
 
-    public function CheckResidentPoints($url): int
-    {
-        $client = static::createClient()->request('GET', $url);
-        $resident = $client->getContent();
-        $json = json_decode($resident);
-        return (int)$json->{'content'};
-    }
 
     /**
      * @test
@@ -74,6 +64,8 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddPointsToSiteOneWith100PercentContainerPickup(): void
     {
+
+
         //Check resident for current points
 
 //
@@ -86,19 +78,46 @@ class SitePointsTest extends ApiTestCase
 //        $this->assertJsonContains([
 //            'content' => '3'
 //        ]);
+//        $process = new Process(['ls', '-lsa']);
+//        $process->start();
+//        while ($process->isRunning())
+//        {
+//            $residentTwo = $this->CheckResidentPoints(self::API_URL_RESIDENT_TWO);
+//            $this->assertSame(0, $residentTwo);
+//            $residentT
+//        }
+//        echo $process->getOutput();
+//        $process->stop();
 
-        
-        $residentTwo = $this->CheckResidentPoints(self::API_URL_RESIDENT_TWO);
-        $this->assertSame(0, $residentTwo);
+        $resident = static::createClient();
+        static::ensureKernelShutdown();
+        $response = static::createClient();
+//
+        $response->insulate();
+
+        $resident->request('GET', self::API_URL_RESIDENT_TWO);
+        $content = $resident->getResponse()->getContent();
+        $json = json_decode($content);
+        $points = $json->{'content'};
+        $this->assertEquals(0, $points);
+
+        $response->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
+        $this->assertResponseIsSuccessful();
+
+
+
+
 
         //Request a HTTP POST Request to the static API URL using Site One
-        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
+//        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
+////
+////        //Return a status code 201("created")
+////        $this->assertResponseStatusCodeSame(200);
+////        $this->assertResponseIsSuccessful();
+////        //Check the response if it contains the success message
+////        $this->assertSame('100 Points successfully added to Wascana', $response->getContent());
 
-        //Return a status code 201("created")
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertResponseIsSuccessful();
-        //Check the response if it contains the success message
-        $this->assertSame('100 Points successfully added to Wascana', $response->getContent());
+
 
 //        // Re-check resident for points. Expect it to be 100.
 //        static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
