@@ -34,14 +34,16 @@ class SitePointController extends AbstractController
     /**
      * @Route("/site/{id}", name="site_point")
      * @param int $id
+     * @param Request $request
      * @param SiteRepository $ss
      * @param PickupRepository $pur
+     * @param ResidentRepository $rr
      * @return Response
      */
-    public function index(int $id, SiteRepository $ss, PickupRepository $pur, ResidentRepository $rr): Response
+    public function index(int $id , Request $request, SiteRepository $ss, PickupRepository $pur,
+                          ResidentRepository $rr): Response
     {
         $site = $ss->findSiteById($id);
-        $request = Request::createFromGlobals();
         $content = $request->getContent();
         $json = json_decode($content);
         $pickupID = $json->{'pickupID'};
@@ -70,14 +72,14 @@ class SitePointController extends AbstractController
             $ptPercentage = $collected / $totalBins;
             $sitePoints = (int) ($ptPercentage * 100);
 
-            $residentsStringArr = $site->getResidents();
-            var_dump($residentsStringArr);
-            $residents = [];
-            foreach ($residentsStringArr as $residentString)
-            {
-                $residentObject = $rr->findResidentByString($residentString);
-                array_push($residents, $residentObject);
-            }
+            $residents = $site->getResidents();
+//            var_dump($residentsStringArr);
+//            $residents = [];
+//            foreach ($residentsStringArr as $residentString)
+//            {
+//                $residentObject = $rr->findResidentByString($residentString);
+//                array_push($residents, $residentObject);
+//            }
             $point = new Point();
 
 

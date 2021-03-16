@@ -9,10 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get", "post"},
- *     itemOperations={"get", "post"}
+ *     itemOperations={"get"}
  * )
- * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
 class Article
