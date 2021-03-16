@@ -6,8 +6,9 @@ use App\Repository\PickUpRepository;
 use App\Repository\SiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\PickUp:
+use App\Entity\PickUp;
 use App\Entity\Site;
 
 class PickupController extends AbstractController
@@ -26,11 +27,13 @@ class PickupController extends AbstractController
         $pickCollected = $json->{'numColledted'};
         $pickObstruct = $json->{'numObstructed'};
         $pickContam = $json->{'numContaminated'};
+        $pickDateT = $json->{'dateTime'};
         $siteId = $site->find($id);
         $siteBins = $site->findBy($siteNumBins);
         $pickColBin = $pickup->findBy($pickCollected);
         $pickObBin = $pickup->findBy($pickObstruct);
         $pickConBin = $pickup->findBy($pickContam);
+        $pickDateTime = $pickup->findBy($pickDateT);
         $response = new Response();
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -53,24 +56,26 @@ class PickupController extends AbstractController
         //check to see if the  pickup object was successfully added
         else{
             // NOTE **** put all of this in a tempPickup object
+            $tempPickup = new PickUp();
 
-            $collected = $pickup->setNumCollected($pickCollected);
-            $obstructed = $pickup->setNumObstructed($pickObstruct);
-            $contaminated = $pickup->setNumContaminated($pickContam);
+            $tempPickup->setNumCollected($pickCollected);
+            $tempPickup->setNumObstructed($pickObstruct);
+             $tempPickup->setNumContaminated($pickContam);
+            $tempPickup->setDateTime((string)$pickDateTime);
 
-            //DateTime added to this
-
-            $siteoject = $site->getId();
+            $tempPickup->setSiteObject($site->find((array)$siteId));
 
             $entityManager ->persist($tempPickup);
             $entityManager->flush();
 
             if($response->getStatusCode() == 201)
             {
-                $response->setContent("Sunmitted");
+                $response->setContent("Submitted");
             }elseif ($response->getStatusCode() == 200 )
             {
-               $response->setContent("sSubmitted");
+               $response->setContent("Submitted");
+            }else{
+                $response->setContent("Error Cannot Submit");
             }
 
 
