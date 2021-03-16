@@ -12,8 +12,8 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
- *     collectionOperations={"post", "get"},
- *     itemOperations={"get"}
+ *     itemOperations={"get"},
+ *
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  * @AcmeAssert\PhoneAndEmailBothLeftBlank

@@ -18,4 +18,13 @@ class ResidentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Resident::class);
     }
+
+    /**
+     * This function will query the resident object and compare entered in
+     * email/phone and password to the database
+     */
+    public function GetResident()
+    {
+
+    }
 }
