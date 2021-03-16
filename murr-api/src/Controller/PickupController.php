@@ -24,7 +24,7 @@ class PickupController extends AbstractController
         $content = $request ->getcontent();
         $json = json_decode($content);
         $siteNumBins = $json->{'numBins'};
-        $pickCollected = $json->{'numColledted'};
+        $pickCollected = $json->{'numCollected'};
         $pickObstruct = $json->{'numObstructed'};
         $pickContam = $json->{'numContaminated'};
         $pickDateT = $json->{'dateTime'};
