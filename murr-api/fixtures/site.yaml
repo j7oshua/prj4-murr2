@@ -3,7 +3,7 @@ App\Entity\Site:
   SiteOne:
     siteName: 'Wascana'
     numBins: 5
-    residents: ['@residentOne'], ['@residentTwo'], ['@residentThree']
+    residents: ['@resident6', '@resident7', '@resident8']
 
   SiteTwo:
     siteName: 'Brighton'

@@ -12,7 +12,7 @@ use App\Entity\Point;
 use App\Entity\Pickup;
 use App\Entity\Resident;
 
-class SitePointsTest extends WebTestCase
+class SitePointsTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
 
@@ -65,65 +65,27 @@ class SitePointsTest extends WebTestCase
     public function TestAddPointsToSiteOneWith100PercentContainerPickup(): void
     {
 
-
-        //Check resident for current points
-
-//
-//        $this->assertJsonContains([
-//            'content' => '0'
-//        ]);
-
-        //This is for residentOne which contains 3 points
-//        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
-//        $this->assertJsonContains([
-//            'content' => '3'
-//        ]);
-//        $process = new Process(['ls', '-lsa']);
-//        $process->start();
-//        while ($process->isRunning())
-//        {
-//            $residentTwo = $this->CheckResidentPoints(self::API_URL_RESIDENT_TWO);
-//            $this->assertSame(0, $residentTwo);
-//            $residentT
-//        }
-//        echo $process->getOutput();
-//        $process->stop();
-
-        $resident = static::createClient();
-        static::ensureKernelShutdown();
-        $response = static::createClient();
-//
-        $response->insulate();
-
-        $resident->request('GET', self::API_URL_RESIDENT_TWO);
-        $content = $resident->getResponse()->getContent();
-        $json = json_decode($content);
-        $points = $json->{'content'};
-        $this->assertEquals(0, $points);
-
-        $response->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
-        $this->assertResponseIsSuccessful();
-
-
-
-
+        static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
+        $this->assertJsonContains([
+            'content' => '0'
+        ]);
 
         //Request a HTTP POST Request to the static API URL using Site One
-//        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
-////
-////        //Return a status code 201("created")
-////        $this->assertResponseStatusCodeSame(200);
-////        $this->assertResponseIsSuccessful();
-////        //Check the response if it contains the success message
-////        $this->assertSame('100 Points successfully added to Wascana', $response->getContent());
+        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
+
+        //Return a status code 201("created")
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseIsSuccessful();
+        //Check the response if it contains the success message
+        $this->assertSame('100 Points successfully added to Wascana', $response->getContent());
 
 
 
 //        // Re-check resident for points. Expect it to be 100.
-//        static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
-//        $this->assertJsonContains([
-//            'content' => '100'
-//        ]);
+        static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
+        $this->assertJsonContains([
+            'content' => '100'
+        ]);
 //
 //
 //        // Re-check resident for points. Expect it to be 103.
