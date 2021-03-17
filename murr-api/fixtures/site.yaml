@@ -1,0 +1,8 @@
+App\Entity\Site:
+  SiteOne:
+    siteName: 'Wascana'
+    numBins: 5
+
+  SiteTwo:
+    siteName: 'Brighton'
+    numBins: 6
