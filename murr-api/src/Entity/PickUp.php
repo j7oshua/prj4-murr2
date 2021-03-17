@@ -58,10 +58,26 @@ class PickUp
     //* @var string A "Y-m-d" formatted value
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="pickupid")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Site::class,inversedBy="pickupCollection")
      */
-    private Site $siteObject;
+    private $site;
+
+    /**
+     * @return mixed
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param mixed $site
+     */
+    public function setSite($site): void
+    {
+        $this->site = $site;
+    }
+
 
     public function getId(): ?int
     {
@@ -116,15 +132,4 @@ class PickUp
         return $this;
     }
 
-    public function getSiteobject(): ?Site
-    {
-        return $this->siteObject;
-    }
-
-    public function setSiteobject(?Site $siteobject): self
-    {
-        $this->siteObject = $siteobject;
-
-        return $this;
-    }
 }

@@ -1,5 +1,0 @@
-App\Entity\Resident:
-  siteOne:
-    id: 1
-    siteName: Wascana
-    numBins: 4
