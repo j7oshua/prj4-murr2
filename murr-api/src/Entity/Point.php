@@ -70,10 +70,10 @@ class Point
         return $this->resident;
     }
 
-    public function addResident(Resident $resident): self
+    public function addResident(Resident $residentToAdd): self
     {
-        if (!$this->resident->contains($resident)) {
-            $this->resident[] = $resident;
+        if (!$this->resident->contains($residentToAdd)) {
+            $this->resident[] = $residentToAdd;
         }
 
         return $this;

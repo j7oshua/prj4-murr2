@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\Hal\Serializer\ObjectNormalizer;
+use App\Entity\Resident;
 use App\Repository\SiteRepository;
 use App\Repository\PickupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,6 +75,7 @@ class SitePointController extends AbstractController
             $sitePoints = (int) ($ptPercentage * 100);
             $residents = $site->getResidents();
 
+
             $point = new Point();
 
             var_dump($residents);
@@ -82,8 +84,9 @@ class SitePointController extends AbstractController
 
             foreach ($residents as $resident)
             {
-                $point->addResident($resident);
-                var_dump($resident);
+                $point->getResident()->add($resident);
+                $resident->getPoints()->add($point);
+                $entityManager->persist($resident);
             }
             var_dump($point->getResident());
             var_dump($point);
