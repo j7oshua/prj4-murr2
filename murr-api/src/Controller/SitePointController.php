@@ -52,8 +52,6 @@ class SitePointController extends AbstractController
         $response = new Response();
         $entityManager = $this->getDoctrine()->getManager();
 
-        var_dump($site);
-
         // Check to see if the site object returned exists or not. If not, return status code 400 and error message
         if ($site == null)
         {
@@ -73,29 +71,24 @@ class SitePointController extends AbstractController
 
             $ptPercentage = $collected / $totalBins;
             $sitePoints = (int) ($ptPercentage * 100);
-            $residents = $site->getResidents();
 
+            $residents = $site->getResidents();
 
             $point = new Point();
 
-            var_dump($residents);
-
             $point->setnum_points($sitePoints);
+
+            $entityManager->persist($point);
+            $entityManager->flush();
 
             foreach ($residents as $resident)
             {
-                $point->getResident()->add($resident);
-                $resident->getPoints()->add($point);
-                $entityManager->persist($resident);
+                $point->addResident($resident);
             }
-            var_dump($point->getResident());
-            var_dump($point);
-
-            $entityManager->persist($point);
 
             $entityManager->flush();
 
-
+            var_dump($point->getResident());
             if($response->getStatusCode() == 201)
             {
                 $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());

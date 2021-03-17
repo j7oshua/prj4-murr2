@@ -8,4 +8,4 @@ App\Entity\Site:
   SiteTwo:
     siteName: 'Brighton'
     numBins: 6
-    residents: ['@residentFour'], ['@residentFive']
+    residents: ['@residentFour', '@residentFive']

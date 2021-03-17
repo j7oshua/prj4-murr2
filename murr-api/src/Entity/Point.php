@@ -35,7 +35,7 @@ class Point
     public $num_points;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity=Resident::class, inversedBy="points", cascade={"merge"})
      * @Assert\Count(min = "1", minMessage = "You must add at least one Resident")
      */
     private $resident;
