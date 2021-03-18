@@ -23,7 +23,6 @@ class SitePointsTest extends ApiTestCase
     private $noPickupID;
     private $invalidPickupID;
 
-
     //API URLS used in the tests.
     const API_URL_SITE_ONE = '127.0.0.1:8000/site/1';
     const API_URL_SITE_TWO = '127.0.0.1:8000/site/2';
@@ -58,9 +57,13 @@ class SitePointsTest extends ApiTestCase
         $this->invalidPickupID = [
             'pickupID' => 99
         ];
+
+
+        $this->residentOne = [
+            'num_points' => 100,
+            'resident' => ["/api/residents/1"]
+        ];
     }
-
-
 
     /**
      * @test
@@ -72,9 +75,9 @@ class SitePointsTest extends ApiTestCase
     public function TestAddPointsToSiteOneWith100PercentContainerPickup(): void
     {
 
-        static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
+        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
         $this->assertJsonContains([
-            'content' => '0'
+            'content' => '3'
         ]);
 
         //Request a HTTP POST Request to the static API URL using Site One
@@ -86,15 +89,13 @@ class SitePointsTest extends ApiTestCase
         //Check the response if it contains the success message
         $this->assertSame('100 Points successfully added to Wascana', $response->getContent());
 
+        // Re-check resident for points. Expect it to be 100.
+        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE.'#refresh');
+        $this->assertJsonContains([
+            'content' => '103'
+        ]);
 
 
-//        // Re-check resident for points. Expect it to be 100.
-//        static::createClient()->request('GET', self::API_URL_RESIDENT_TWO);
-//        $this->assertJsonContains([
-//            'content' => '100'
-//        ]);
-//
-//
 //        // Re-check resident for points. Expect it to be 103.
 //        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
 //        $this->assertJsonContains([
@@ -168,23 +169,23 @@ class SitePointsTest extends ApiTestCase
 
     }
 
-    /**
-     * @test
-     * Purpose: This test will check if the API unsuccessfully adds points to the site when there is no
-     * pickup id provided
-     * Expected Result: Error -- Status Response 400
-     * Return: success message: "Pickup Id was not found"
-     */
-    public function TestAddPointsToSiteWithNoPickupId(): void
-    {
-        //Request a HTTP POST Request to the static API URL using Resident One
-        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->noPickupID]);
-
-        //Return a status code 400("created")
-        $this->assertResponseStatusCodeSame(400);
-        //Check the response if it contains the error message
-        $this->assertSame("Pickup Id was not found", $response->getContent());
-    }
+//    /**
+//     * @test
+//     * Purpose: This test will check if the API unsuccessfully adds points to the site when there is no
+//     * pickup id provided
+//     * Expected Result: Error -- Status Response 400
+//     * Return message: "Pickup Id was not found"
+//     */
+//    public function TestAddPointsToSiteWithNoPickupId(): void
+//    {
+//        //Request a HTTP POST Request to the static API URL using Resident One
+//        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->noPickupID]);
+//
+//        //Return a status code 400("Bad Request")
+//        $this->assertResponseStatusCodeSame(400);
+//        //Check the response if it contains the error message
+//        $this->assertSame("Pickup Id was not found", $response->getContent());
+//    }
 //
 //    /**
 //     * @test

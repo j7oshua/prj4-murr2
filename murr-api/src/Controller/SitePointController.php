@@ -38,12 +38,12 @@ class SitePointController extends AbstractController
      * @param Request $request
      * @param SiteRepository $ss
      * @param PickupRepository $pur
-     * @param ResidentRepository $rr
      * @return Response
      */
-    public function index(int $id , Request $request, SiteRepository $ss, PickupRepository $pur,
-                          ResidentRepository $rr): Response
+    public function index(int $id , Request $request, SiteRepository $ss, PickupRepository $pur): Response
     {
+        var_dump($request);
+
         $site = $ss->findSiteById($id);
         $content = $request->getContent();
         $json = json_decode($content);
@@ -92,7 +92,6 @@ class SitePointController extends AbstractController
 
                 $entityManager->persist($point);
                 $entityManager->flush();
-                var_dump($point->getResident());
                 $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());
             }
         }
