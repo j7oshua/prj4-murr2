@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
 
+
 /**
  * @ApiResource(
  *     collectionOperations={"post", "get"},
@@ -60,23 +61,24 @@ class PickUp
     /**
      * @ORM\ManyToOne(targetEntity=Site::class,inversedBy="pickupCollection")
      */
-    private $site;
+    private $siteObject;
 
     /**
      * @return mixed
      */
-    public function getSite()
+    public function getSiteObject()
     {
-        return $this->site;
+        return $this->siteObject;
     }
 
     /**
-     * @param mixed $site
+     * @param mixed $siteObject
      */
-    public function setSite($site): void
+    public function setSiteObject($siteObject): void
     {
-        $this->site = $site;
+        $this->siteObject = $siteObject;
     }
+
 
 
     public function getId(): ?int

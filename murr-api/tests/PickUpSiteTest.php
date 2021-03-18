@@ -25,17 +25,17 @@ class PickUpSiteTest extends ApiTestCase
     {
         //all bins collected
         $this->pickUp = [
-            'numCollect' => 5,
+            'siteObject' => "/api/sites/1",
+            'numCollected' => 5,
             'numContaminated' => 0,
             'numObstructed' => 0,
-            'dateTime' => "2021-03-08",
-            'site' => ["/api/sites/1"]
+            'dateTime' => "2021-03-08"
         ];
     }
 
 
     /**
-    -     * Purpose: Test All 4 bins marked as collected
+    -     * Purpose: Test All 5 bins marked as collected
     -     * Expected Result: Success
     -     * Return: JSONLD of a Pickup transaction history object
     -     * @test
@@ -49,7 +49,7 @@ class PickUpSiteTest extends ApiTestCase
         //this will check if the header has a content type of a json ld object
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         //this will will check if the url has the proper pattern and id
-        $this->assertMatchesRegularExpression('/^\/api\/pickup\/\d+$/', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('/^\/api\/pick_ups\/\d+$/', $response->toArray()['@id']);
         //this will check if the item returned is a PickUp object class
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
         //JSONLD expected result should be this:
@@ -59,10 +59,68 @@ class PickUpSiteTest extends ApiTestCase
             'numCollected' => 5,
             'numObstructed' => 0,
             'numContaminated' => 0,
-            'dateTime' => "",
-            'site' => array(0 => 'api/site/1')
+            'dateTime' => "2021-03-08",
+            'siteObject' => '/api/sites/1'
         ]);
     }
+
+    /**
+         * Purpose: Test All 5 bins marked as all bin types
+         * Expected Result: Success
+         * Return: JSONLD of a Pickup transaction history object
+         * @test
+         */
+    public function TestTestBinsCollectedObstructedContaminated(): void
+    {
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'siteObject' => "/api/sites/1",
+            'numCollected' => 2,
+            'numContaminated' => 2,
+            'numObstructed' => 1,
+            'dateTime' => "2021-03-08"
+            ]
+        ]);
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertMatchesRegularExpression('/^\/api\/pick_ups\/\d+$/', $response->toArray()['@id']);
+        $this->assertMatchesResourceItemJsonSchema(PickUp::class);
+
+        //JSONLD expected result should be this:
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/PickUp',
+            '@type' => 'PickUp',
+            'numCollected' => 2,
+            'numObstructed' => 1,
+            'numContaminated' => 2,
+            'dateTime' => "2021-03-08",
+            'siteObject' => '/api/sites/1'
+        ]);
+    }
+
+    /**
+         * Purpose: Test if the bin input is less than the number of bins to a site (5)
+         * Expected Result: Failure -- Status Response 400
+         * Return: hydra description of: 'site: Number of bins do not match.'.
+         * @test
+         */
+   public function TestValidNumberOfBinsLessThanFour(): void
+   {
+       self::createClient()->request('POST', self::API_URL, ['json' => [
+           'siteObject' => "/api/sites/1",
+            'numCollected' => 2,
+            'numContaminated' => 1,
+            'numObstructed' => 1,
+            'dateTime' => "2021-03-08"
+           ]]);
+       $this->assertResponseStatusCodeSame(400);
+       $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+       //expected hydra result
+       $this->assertJsonContains([
+           'hydra:description' => 'site: Number of bins do not match.'
+       ]);
+    }
+
 
 
 }

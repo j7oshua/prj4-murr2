@@ -12,7 +12,10 @@ use App\Validator as AcmeAssert;
 
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"post", "get"},
+ *     itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  */
 class Site
@@ -35,7 +38,7 @@ class Site
     private $numBins;
 
     /**
-     * @ORM\OneToMany(targetEntity=Pickup::class,mappedBy="site")
+     * @ORM\OneToMany(targetEntity=Pickup::class,mappedBy="siteObject")
      */
     private $pickupCollection;
 
