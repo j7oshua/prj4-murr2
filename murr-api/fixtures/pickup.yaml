@@ -13,3 +13,10 @@ App\Entity\Pickup:
     numObstructed: 2
     numContaminated: 4
     date: '2021-01-01'
+
+  PickupThree:
+    site: '@SiteTwo'
+    numCollected: 3
+    numObstructed: 2
+    numContaminated: 1
+    date: '2021-01-01'

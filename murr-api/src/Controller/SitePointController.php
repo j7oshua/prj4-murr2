@@ -69,35 +69,32 @@ class SitePointController extends AbstractController
             $collected = $pickup->getNumCollected();
             $totalBins = $site->getNumBins();
 
-            $ptPercentage = $collected / $totalBins;
+            $ptPercentage = round(($collected / $totalBins), 1);
             $sitePoints = (int) ($ptPercentage * 100);
 
-            $residents = $site->getResidents();
-
-            $point = new Point();
-
-            $point->setnum_points($sitePoints);
-
-            $entityManager->persist($point);
-            $entityManager->flush();
-
-            foreach ($residents as $resident)
+            if ($sitePoints == 0)
             {
-                $point->addResident($resident);
+                $response->setContent('No points were added to '.$site->getSiteName());
             }
-
-            $entityManager->flush();
-
-            var_dump($point->getResident());
-            if($response->getStatusCode() == 201)
+            else
             {
+                $residents = $site->getResidents();
+
+                $point = new Point();
+
+                $point->setnum_points($sitePoints);
+
+                foreach ($residents as $findResident)
+                {
+                    $resident = $entityManager->getRepository(Resident::class)->find($findResident->getId());
+                    $resident->addPoint($point);
+                }
+
+                $entityManager->persist($point);
+                $entityManager->flush();
+                var_dump($point->getResident());
                 $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());
             }
-            else if ($response->getStatusCode() == 200)
-            {
-                $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());
-            }
-
         }
 
         return $response;

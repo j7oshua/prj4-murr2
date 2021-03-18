@@ -52,7 +52,7 @@ class Resident
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident", cascade={"merge"})
+     * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident")
      */
     private $points;
 
