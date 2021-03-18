@@ -5,6 +5,7 @@ namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Article;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+
 class ArticleTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
