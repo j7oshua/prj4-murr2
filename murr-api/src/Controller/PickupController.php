@@ -14,7 +14,7 @@ use App\Entity\Site;
 class PickupController extends AbstractController
 {
     /**
-     * @Route("/pickup", name="pickup")
+     * @Route("/pick_ups", name="pickup")
      */
     public function index(int $id, PickUpRepository $pRep, SiteRepository $sRep): Response
     {
