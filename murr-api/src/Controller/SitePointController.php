@@ -42,8 +42,6 @@ class SitePointController extends AbstractController
      */
     public function index(int $id , Request $request, SiteRepository $ss, PickupRepository $pur): Response
     {
-        var_dump($request);
-
         $site = $ss->findSiteById($id);
         $content = $request->getContent();
         $json = json_decode($content);
