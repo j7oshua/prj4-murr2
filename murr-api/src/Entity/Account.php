@@ -27,8 +27,14 @@ class Account
     private $id;
 
     /**
+     * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero
+     */
+    private $residentID;
+
+    /**
      * @ORM\Column (type="string", length=20)
-     * @Assert\Length(max="20", maxMessage="First Name cannot be longer than {{ limit }} characters.")
+     * @Assert\Length(max="20", min="2", maxMessage="First Name cannot be longer than {{ limit }} characters.", minMessage="First Name must be more than 1 character")
      * @Assert\NotBlank (message="First name cannot be blank")
      */
     private $firstName;
@@ -41,8 +47,25 @@ class Account
 
     /**
      * @ORM\Column (type="string")
+     * @Assert\Image(mimeTypes="image/*", mimeTypesMessage="This file is not a valid image.")
      */
     private $profilePic;
+
+    /**
+     * @return mixed
+     */
+    public function getResidentID()
+    {
+        return $this->residentID;
+    }
+
+    /**
+     * @param mixed $residentID
+     */
+    public function setResidentID($residentID): void
+    {
+        $this->residentID = $residentID;
+    }
 
     /**
      * @return mixed
