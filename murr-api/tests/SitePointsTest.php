@@ -1,16 +1,10 @@
 <?php
 
-
 namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Site;
-use App\Entity\Point;
-use App\Entity\Pickup;
-use App\Entity\Resident;
+
 
 class SitePointsTest extends ApiTestCase
 {
@@ -111,11 +105,6 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddNoPointsToSiteOneWithZeroContainerPickup(): void
     {
-        // Check resident for current points
-        static::createClient()->request('GET', self::API_URL_RESIDENT_ONE);
-        $this->assertJsonContains([
-            'content' => '3'
-        ]);
 
         //Request a HTTP POST Request to the static API URL using Site One
         $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, ['json' => $this->pickupTwo]);
@@ -137,13 +126,9 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddPointsToSiteWithNoPickupId(): void
     {
-//        //Request a HTTP POST Request to the static API URL using Resident One
-//        $response =
-//        var_dump($response);
-        //Return a status code 400("Bad Request")
-        $this->assertResponseStatusCodeSame(500, static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->noPickupID])->getStatusCode());
-        //Check the response if it contains the error message
-        $this->assertSame("Pickup Id was not found", static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->noPickupID])->getContent());
+        //Request a HTTP POST Request to the static API URL using Resident One
+        //Return a status code 500("Internal Server Error") causes API Platform to error out
+        $this->assertResponseStatusCodeSame(500, static::createClient()->request('POST', self::API_URL_SITE_ONE,['json' => $this->noPickupID])->getStatusCode());
     }
 
     /**
@@ -158,10 +143,10 @@ class SitePointsTest extends ApiTestCase
         //Request an HTTP POST request to the static API URL using resident One
         $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->invalidPickupID]);
 
-        //Check response to be equal to 400
-        $this->assertResponseStatusCodeSame(400);
+        //Check response to be equal to 422
+        $this->assertResponseStatusCodeSame(422);
         //Check the response if it contains the error message
-        $this->assertSame("Pickup Id was not found", $response->getContent());
+        $this->assertContains("error: Pickup ID not found", $response->getInfo());
 
     }
 

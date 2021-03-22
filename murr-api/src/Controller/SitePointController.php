@@ -59,8 +59,8 @@ class SitePointController extends AbstractController
         // Check to see if the pickup object returned exists or not. If not, return status code 400 and error message
         else if ($pickup == null)
         {
-            $response->setStatusCode(400);
-            $response->setContent('Pickup ID was not found');
+            $response->setStatusCode(422);
+            $response->headers->set('error', 'Pickup ID not found');
         }
         else
         {
