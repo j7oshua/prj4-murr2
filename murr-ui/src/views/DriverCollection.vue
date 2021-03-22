@@ -12,17 +12,17 @@
         </b-button></h2>
     </div>
     <div>
-      <DriverPickUpForm @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUpForm>
+      <DriverPickUp @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUp>
     </div>
   </div>
 </template>
 
 <script>
-import DriverPickUp from '@/components/DriverPickUp'
 
+import DriverPickUp from '@/components/DriverPickUp'
 export default {
   name: 'DriverCollection',
-  components: { DriverPickUpForm: DriverPickUp },
+  components: { DriverPickUp },
   data () {
     return {
       siteObject: {
