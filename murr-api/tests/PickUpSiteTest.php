@@ -14,7 +14,7 @@ class PickUpSiteTest extends ApiTestCase
 
     //static URL
     //const API_URL = '127.0.0.1:8000/api/pick_ups';
-    const API_URL = 'localhost:8000/api/pick_ups';
+    const API_URL = 'localhost:8000/pickups/1';
 
     //Sets up each test with the variable that will be inputted into the test
 
@@ -113,7 +113,7 @@ class PickUpSiteTest extends ApiTestCase
             'dateTime' => "2021-03-08"
            ]]);
        $this->assertResponseStatusCodeSame(400);
-       $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+       //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
        //expected hydra result
        $this->assertJsonContains([
