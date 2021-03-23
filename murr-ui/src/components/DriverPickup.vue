@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Collection Page</h1>
     <!-- Confirmation component that confirms the site to get points -->
     <confirm :showModal="showModal" :siteName="siteName" :pickUp="pickUp" @finished="confirmFinished"></confirm>
     <button @click="confirmPoints">Submit</button>

@@ -30,6 +30,7 @@
 </template>
 
 <script>
+// import required mixins
 import MurrMixin from '@/mixins/murr-mixin'
 import SitePointMixin from '@/mixins/site-point-mixin'
 
@@ -42,7 +43,7 @@ export default {
       type: Object,
       required: true
     },
-    showModal: {
+    showModal: { // prop to be used to hide and show modal in DriverPickup.vue
       type: Boolean,
       required: true
     }, // Site name prop used to display site name in the modals
@@ -66,8 +67,10 @@ export default {
   methods: {
     // Makes the call to the API. Will add points to the correct site.
     confirmPoints () {
+      // set isBusy to true for the overlay
       this.isBusy = true
       this.currentPickup.pickupID = this.pickUp.pickupID
+      // call the API to add points to site
       this.callAPI('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.site)
         .then(resp => {
           this.handleHidden()
