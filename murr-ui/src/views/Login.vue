@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- this is for the initial sign-in page -->
-    <Login/>
+    <Login></Login>
 
     <!-- this is the redirected page to create a new resident user -->
     <CreateLoginForm></CreateLoginForm>
@@ -19,7 +19,7 @@ export default {
   components: {
     // creates a variable that references the component name space
     CreateLoginForm: CreateLogin,
-    Login: Login,
+    Login: Login
   }
 }
 </script>
