@@ -1,16 +1,20 @@
 <template>
   <div>
-    <b-form @submit.prevent="postPickup">
+    <b-form v-if="showForm" @submit.prevent="postPickup" @>
       <div class="form-row">
         <!-- This will show the site id -->
         <div class="form-group col-4">
-          <!--<label for="siteId">Site ID: </label>
-           <p id="siteId">{{siteObject.id}}</p> -->
+          <label for="siteId">Site ID: </label>
+          <p id="siteId">{{siteObject.id}}</p>
+          <div class="valid-feedback" id="properSiteID"></div>
+          <div class="invalid-feedback" id="improperSiteID">Error - No site exists.</div>
         </div>
         <!-- This will show the site name-->
         <div class="form-group col-4">
-          <!--<label for="siteName">Site ID: </label>
-          <p id="siteName">{{siteObject.siteName}}</p> -->
+          <label for="siteName">Site ID: </label>
+          <p id="siteName">{{siteObject.siteName}}</p>
+          <div class="valid-feedback" id="properSiteName"></div>
+          <div class="invalid-feedback" id="improperSiteName">Error - No site exists.</div>
         </div>
         <!-- This will show the current date from the website-->
         <div class="form-group col-4">
@@ -23,31 +27,31 @@
         <div class="form-group col-6">
           <label for="collected">Collected: </label>
           <input id="collected" type="text" class="form-control" v-model.trim="pickup.numCollected">
-          </div>
         </div>
+      </div>
       <!-- This will be the Obstructed section-->
       <div class="form-row">
         <div class="form-group col-6">
           <label for="obstructed">Obstructed: </label>
           <input id="obstructed" type="text" class="form-control" v-model.trim="pickup.numObstructed">
 
-          </div>
         </div>
+      </div>
       <!-- This will be the Contaminated section-->
       <div class="form-row">
         <div class="form-group col-6">
           <label for="contaminated">Contaminated: </label>
           <input id="contaminated" type="text" class="form-control" v-model.trim="pickup.numContaminated">
 
-            <span></span>
-          </div>
+          <span></span>
         </div>
-     <!-- <div v-if="countedBins == siteObject.numBins" class="form-group col-6 border border-success">
-       <span id="properBins" class="text-success p-2">Valid bin amount</span>
       </div>
-      <div v-else class="form-group col-6 border border-danger">
+      <div v-if="countedBins == siteObject.numBins" class="form-group col-6 border border-success">
+        <span id="properBins" class="text-success p-2">Valid bin amount</span>
+      </div>
+      <div v-else  class="form-group col-6 border border-danger">
         <span  id="improperBins" class="text-danger p-2">This Site is expecting {{siteObject.numBins}} bins.</span>
-      </div> -->
+      </div>
       <div>
         <b-button type="submit" class="btn btn-submit" >Submit</b-button>
       </div>
