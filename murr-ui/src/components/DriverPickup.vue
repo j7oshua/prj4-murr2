@@ -23,7 +23,7 @@ export default {
         numCollected: 5,
         numObstructed: 0,
         numContaminated: 0,
-        dateTime: '2020-03-03'
+        dateTime: '2021-01-01'
       },
       // ***** Site name will be sent to SitePointsConfirmation component
       siteName: 'Wascana',
@@ -36,14 +36,7 @@ export default {
       this.showModal = false
     },
     // This is for the API call. ***this.showModal should be called in the .finally() of the call to the API
-    // this.$bvToast.toast should be placed in the .catch part of the call to the API to display the pickupID error
     confirmPoints () {
-      this.$bvToast.toast('Pickup ID: ' + this.pickUp.pickupID + ' was not found', {
-        title: 'Error: Bad Request',
-        variant: 'danger',
-        toaster: 'b-toaster-top-center',
-        noAutoHide: true
-      })
       this.showModal = true
     }
   }

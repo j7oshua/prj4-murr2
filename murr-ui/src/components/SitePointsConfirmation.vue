@@ -1,11 +1,29 @@
 <template>
   <div>
     <b-overlay :show="isDisabled">
-      <b-modal @ok="confirmPoints" v-model="showModal" @hidden="handleHidden">
+      <b-modal @ok="confirmPoints" v-model="showMod" @hidden="handleHidden" :header-bg-variant="headerBgVariant"
+      :header-text-variant="headerTextVariant" hide-backdrop content-class="shadow" hide-footer>
         <div slot="modal-title">
           <h4>Confirm Point Addition to {{siteName}}</h4>
         </div>
-        <p class="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{ siteName }}?</p>
+        <b-container>
+          <b-row>
+            <b-col cols="2">
+              <b-icon icon="trash-fill" variant="primary" font-scale="3"></b-icon>
+            </b-col>
+            <b-col>
+              <p class="message">Do you confirm {{pickUp.numCollected}} containers were collected from {{ siteName }}?</p>
+            </b-col>
+          </b-row>
+          <b-row align-h="end">
+            <b-col cols="2">
+              <b-button id="btncancel" variant="danger" @click="handleHidden">Cancel</b-button>
+            </b-col>
+            <b-col cols="2">
+              <b-button id="btnyes" variant="primary" @click="confirmPoints">Yes</b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </b-modal>
     </b-overlay>
   </div>
@@ -35,21 +53,26 @@ export default {
   },
   data () {
     return {
-      displayCode: 3,
       respCode: 0,
       isBusy: false,
-      message: ''
+      currentPickup: {
+        pickupID: -1
+      },
+      message: '',
+      headerBgVariant: 'primary',
+      headerTextVariant: 'light'
     }
   },
   methods: {
     // Makes the call to the API. Will add points to the correct site.
     confirmPoints () {
       this.isBusy = true
-      this.callAPI('post', this.pickUp.pickupID, this.SITE_POINT_API_URL + this.pickUp.site)
+      this.currentPickup.pickupID = this.pickUp.pickupID
+      this.callAPI('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.site)
         .then(resp => {
           this.handleHidden()
           this.respCode = resp.status
-          this.message = resp.body.content
+          this.message = resp.data
         })
         .catch(err => {
           console.log(err)
@@ -60,19 +83,23 @@ export default {
               variant: 'danger',
               toaster: 'b-toaster-top-center'
             })
-          } else if (err.response.status === 404) {
+            this.handleHidden()
+          } else if (err.response.status === 422) {
             this.respCode = err.response.status
             this.$bvToast.toast('There was a error sending the request', {
               title: 'Error: Not Found',
               variant: 'danger',
               toaster: 'b-toaster-top-center'
             })
-          } else if (err.response.status === 500) {
+            this.handleHidden()
+          } else {
+            this.respCode = 500
             this.$bvToast.toast('Could not connect to the server', {
               title: 'Connection Error',
               variant: 'danger',
               toaster: 'b-toaster-top-center'
             })
+            this.handleHidden()
           }
         })
         .finally(() => {
@@ -100,6 +127,14 @@ export default {
   computed: {
     isDisabled: function () {
       return this.isBusy || this.disabled
+    },
+    showMod: {
+      get: function () {
+        return this.showModal
+      },
+      set: function () {
+        this.$emit('finished')
+      }
     }
   }
 }

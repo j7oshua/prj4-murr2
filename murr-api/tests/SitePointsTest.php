@@ -71,7 +71,7 @@ class SitePointsTest extends ApiTestCase
         $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
 
         //Return a status code 201("created")
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(201);
         $this->assertResponseIsSuccessful();
         //Check the response if it contains the success message
         $this->assertSame('100 Points successfully added to Wascana', $response->getContent());
@@ -90,7 +90,7 @@ class SitePointsTest extends ApiTestCase
         $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, ['json' => $this->pickupThree]);
 
         //Return a status code 201("created")
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(201);
         $this->assertResponseIsSuccessful();
         //Check the response if it contains the success message
         $this->assertSame("50 Points successfully added to Brighton", $response->getContent());

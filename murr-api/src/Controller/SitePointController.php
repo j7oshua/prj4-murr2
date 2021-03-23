@@ -91,6 +91,7 @@ class SitePointController extends AbstractController
                 $entityManager->persist($point);
                 $entityManager->flush();
                 $response->setContent($sitePoints.' Points successfully added to '.$site->getSiteName());
+                $response->setStatusCode(201);
             }
         }
 
