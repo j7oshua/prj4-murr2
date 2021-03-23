@@ -23,7 +23,7 @@ class ResidentRepository extends ServiceEntityRepository
      * This function will query the resident object and compare entered in
      * email/phone and password to the database
      */
-    public function GetResident()
+    public function GetResidentLogin()
     {
 
     }

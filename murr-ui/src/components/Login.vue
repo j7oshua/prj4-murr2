@@ -23,13 +23,13 @@ export default {
     getLoginInfo: function () {
       this.isBusy = true;
       this.axios
-        .post('/login', {
+        .get('/resident', {
           email: this.email,
           password: this.password
         })
         .then(response => {
           console.log(response.data);
-          this.$emit('user-authenticated', apiToken);
+          this.$emit('user-authenticated', this.apiToken);
           this.email = '';
           this.password = '';
         }).catch(error => {

@@ -18,7 +18,7 @@ class LoginController extends AbstractController
      * @return Response
      * This will get the resident entered information in and send back if they can log in or not
      */
-    public function checkLogin(int $id, ResidentRepository $rr): Response
+    public function compareLogin(int $id, ResidentRepository $rr): Response
     {
 
     }
