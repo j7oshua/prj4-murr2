@@ -12,18 +12,38 @@ export default {
       resident: {
         email: '',
         phone: '',
-        password: ''
+        password: '',
+        apiToken: ''
       },
-      url: '/points/'
+      url: '/points/',
+      isBusy: false
     }
   },
   methods: {
     getLoginInfo: function () {
-
+      this.isBusy = true;
+      this.axios
+        .post('/login', {
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          console.log(response.data);
+          this.$emit('user-authenticated', apiToken);
+          this.email = '';
+          this.password = '';
+        }).catch(error => {
+        console.log(error.response.data);
+      }).finally(() => {
+        this.isBusy = false;
+      })
     },
     isLoggedIn: function () {
 
     }
+  },
+  mounted () {
+    this.getLoginInfo();
   }
 }
 </script>

@@ -12,11 +12,34 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
- *     itemOperations={"get"},
- *
+ *     itemOperations={"get"={
+ *             "path"="/resident/{id}",
+ *             "swagger_context"={
+ *                 "tags"={"Resident"}
+ *             }
+ *          }
+ *     },
+ *     collectionOperations={
+ *         "post"={
+ *             "path"="/resident/1",
+ *             "method"="POST",
+ *             "swagger_context"={
+ *                 "tags"={"Authentication"},
+ *                 "summary"={"User registration"}
+ *             }
+ *         },
+ *         "get"={
+ *             "path"="/resident/{id}",
+ *             "method"="GET",
+ *             "swagger_context"={
+ *                 "tags"={"Resident"}
+ *             }
+ *          }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
  */
 class Resident
@@ -54,6 +77,16 @@ class Resident
      * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident")
      */
     private $points;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private $apiToken;
 
     public function __construct()
     {
@@ -124,5 +157,47 @@ class Resident
             $point->removeResident($this);
         }
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(?string $apiToken): void
+    {
+        $this->apiToken = $apiToken ?? md5(uniqid(rand(), true));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function createToken(): void
+    {
+        if(!$this->apiToken) {
+            $this->apiToken = md5(uniqid(rand(), true));
+        }
     }
 }
