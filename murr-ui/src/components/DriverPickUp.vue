@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form v-if="showForm" @submit.prevent="postPickup" @>
+    <form v-if="showForm" @submit.prevent="postPickup">
       <div class="form-row">
         <!-- This will show the site id -->
         <div class="form-group col-4">
@@ -53,9 +53,9 @@
         <span  id="improperBins" class="text-danger p-2">This Site is expecting {{siteObject.numBins}} bins.</span>
       </div>
       <div>
-        <b-button type="submit" class="btn btn-submit" >Submit</b-button>
+        <button type="submit" class="btn btn-submit" >Submit</button>
       </div>
-    </b-form>
+    </form>
   </div>
 </template>
 
@@ -69,10 +69,18 @@ export default {
   mixins: [MurrMixin],
   props: {
     siteObject: {
-      type: Object
+      type: Object,
+      default: () => {
+        return {
+          id: 0,
+          siteName: '',
+          numBins: 4
+        }
+      }
     },
     showForm: {
-      type: Boolean
+      type: Boolean,
+      default: true
     }
   },
   data () {
