@@ -15,9 +15,10 @@ export default {
   data: function () {
     return {
       tempAccount: {},
+      residentID: Number,
       firstName: String,
       lastName: String,
-      profilePicture: File
+      profilePic: File
     }
   },
   methods: {

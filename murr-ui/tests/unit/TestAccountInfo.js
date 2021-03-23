@@ -5,51 +5,81 @@ const expect = require('chai').expect
 
 describe('Account Info Update', function () {
   it('Valid first name', async function () {
-
+    const account = {
+      firstName: "Tom"
+    }
+    const response = await request
+      .post(account.firstName)
+      .send(account)
+    expect(response.status).to.eql(200)
+    expect(response.text).to.eql('Account information has been updated')
   })
 
   it('First name too long', async function () {
-
+    const first = 'f'
+    const account = {
+      firstName: first.repeat(21)
+    }
+    const response = await request
+      .post(account.firstName)
+      .send(account)
+    expect(response.status).to.eql(400)
+    expect(response.text).to.eql('Unable to update account information')
   })
 
   it('First name too short', async function () {
-
+    const account = {
+      firstName: "f"
+    }
+    const response = await request
+      .post(account.firstName)
+      .send(account)
+    expect(response.status).to.eql(400)
+    expect(response.text).to.eql('Unable to update account information')
   })
 
   it('Valid last name', async function () {
-
+    const account = {
+      lastName: 'L.'
+    }
+    const response = await request
+      .post(account.lastName)
+      .send(account)
+    expect(response.status).to.eql(200)
+    expect(response.text).to.eql('Account information has been updated')
   })
 
   it('Last name too long', async function () {
-
+    const last = 'n'
+    const account = {
+      lastName: last.repeat(21)
+    }
+    const response = await request
+      .post(account.lastName)
+      .send(account)
+    expect(response.status).to.eql(400)
+    expect(response.text).to.eql('Unable to update account information')
   })
 
   it('Valid profile picture', async function () {
-
+    const account = {
+      profilePic: 'C:/image.jpg'
+    }
+    const response = await request
+      .post(account.profilePic)
+      .send(account)
+    expect(response.status).to.eql(200)
+    expect(response.text).to.eql('Account information has been updated')
   })
 
   it('Profile picture not image', async function () {
-
+    const account = {
+      profilePic: 'C:/image.txt'
+    }
+    const response = await request
+      .post(account.profilePic)
+      .send(account)
+    expect(response.status).to.eql(400)
+    expect(response.text).to.eql('Unable to update account information')
   })
 })
-
-// describe('POST to the database', () => {
-//   it('creates points for the site and returns status code 200', async function () {
-//     // Creates a mock pickupID to send to the server
-//     const pickup = {
-//       pickupID: 1
-//     }
-//     const response = await request
-//       .post('1')
-//       .send(pickup)
-//     expect(response.status).to.eql(200)
-//     expect(response.text).to.eql('100 Points successfully added to Wascana')
-//   })
-//   it('receive status code 500 while sending no pickupID', async function () {
-//     const newPickup = {}
-//     const response = await request
-//       .post('1')
-//       .send(newPickup)
-//     expect(response.status).to.eql(500)
-//   })
-// })
