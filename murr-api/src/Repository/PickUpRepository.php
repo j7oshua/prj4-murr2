@@ -47,4 +47,14 @@ class PickUpRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function getMaxId(): ?int
+    {
+        return $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('s.id')
+            ->from('App\Entity\Site', 's')
+            ->getMaxResults();
+    }
+
 }

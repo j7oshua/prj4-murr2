@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\PickUpRepository;
 use App\Repository\SiteRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,14 +15,13 @@ use App\Entity\Site;
 class PickupController extends AbstractController
 {
     /**
-     * @Route("/pickups/{id}", name="pickup")
-     * @param int $id
+     * @Route("/pickups", name="pickup")
      * @param Request $request
      * @param PickUpRepository $pRep
      * @param SiteRepository $sRep
      * @return Response
      */
-    public function index(int $id, Request $request,PickUpRepository $pRep, SiteRepository $sRep): Response
+    public function index( Request $request,PickUpRepository $pRep, SiteRepository $sRep): Response
     {
         $pickID2 = 0;
         $site = $sRep;
@@ -62,14 +62,16 @@ class PickupController extends AbstractController
         //Check to see if the number of bins matches the number of counted Bins
         if ($countedBins != $pickNumbins2)
         {
+            $response = $this->json(['hydra:description' => 'site: Number of bins do not match.']);
             $response->setStatusCode(400);
-            $response->setContent('Number of bins do not match.');
+            //$response->setContent('Number of bins do not match.');
         }
         //checks if the site id is not null
         elseif ($siteId == null)
         {
+            $response = $this->json(['hydra:description' => 'site was not found']);
             $response->setStatusCode(404);
-            $response->setContent("Site was not found");
+            //$response->setContent("Site was not found");
         }
         //check to see if the  pickup object was successfully added
         else{
@@ -81,18 +83,31 @@ class PickupController extends AbstractController
              $tempPickup->setNumContaminated($pickContam);
             $tempPickup->setDateTime((string)$pickDateT);
 
-            var_dump($pickID);
-            $tempPickup->setSiteObject($pickID);
 
+            //var_dump($tempPickup->getNumCollected());
+            //var_dump($siteId);
+            $tempPickup->setSiteObject($siteId);
+            //var_dump($pRep->getMaxId());
+            //$DummyID= $pRep->getMaxId();
+            //if($DummyID == NULL){ $tempPickup->setId(1);}else{ $tempPickup->setId( 1 + $DummyID);}
+            var_dump($tempPickup->getId());
             $entityManager ->persist($tempPickup);
+            // so I think this isn't giving us the proper saving we need, may need to go group api platform on this controller
+            //https://symfony.com/doc/current/doctrine.html idk it should work but i wonder if api platform is the problem.
             $entityManager->flush();
 
             if($response->getStatusCode() == 201)
             {
-                $response->setContent("Submitted");
+                //$response->setContent("Submitted");
+                //$fullpickup = $this->json($tempPickup);
+                $response = $this->json($tempPickup);
+                var_dump($response);
             }elseif ($response->getStatusCode() == 200 )
             {
-               $response->setContent("Submitted");
+               //$response->setContent("Submitted");
+                //$fullpickup = $this->json($tempPickup);
+                $response = $this->json($tempPickup);
+                var_dump($response);
             }else{
                 $response->setContent("Error Cannot Submit");
             }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PickUpRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
 
@@ -20,8 +21,8 @@ class PickUp
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      * @Assert\PositiveOrZero(message="ID must be a positive number")
      */
     private $id;
@@ -84,6 +85,14 @@ class PickUp
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param Int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getNumCollected(): ?int
