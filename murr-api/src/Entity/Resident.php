@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Entity;
 
@@ -7,13 +7,14 @@ use App\Repository\ResidentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
  *     itemOperations={"get"={
- *             "path"="/resident/{id}",
+ *             "path"="api/residents/{id}",
  *             "swagger_context"={
  *                 "tags"={"Resident"}
  *             }
@@ -21,7 +22,7 @@ use App\Validator as AcmeAssert;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "path"="/resident/1",
+ *             "path"="api/residents",
  *             "method"="POST",
  *             "swagger_context"={
  *                 "tags"={"Authentication"},
@@ -29,7 +30,7 @@ use App\Validator as AcmeAssert;
  *             }
  *         },
  *         "get"={
- *             "path"="/resident/{id}",
+ *             "path"="api/residents",
  *             "method"="GET",
  *             "swagger_context"={
  *                 "tags"={"Resident"}
@@ -42,7 +43,7 @@ use App\Validator as AcmeAssert;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
  */
-class Resident
+class Resident implements UserInterface
 {
     /**
      * @ORM\Id
@@ -53,7 +54,7 @@ class Resident
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=true)
+     * @ORM\Column(type="string", length=150, nullable=true, unique=true)
      * @Assert\Email(message = "The email is not a valid email.")
      * @Assert\Length(allowEmptyString="true", max = 150, maxMessage = "Email has more than {{ limit }} characters.")
      *
@@ -67,7 +68,7 @@ class Resident
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, unique=true)
      * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to be at least {{ limit }} characters.", maxMessage = "Password has to be {{ limit }} characters or less.")
      * @Assert\NotBlank(message = "Password should not be left blank.")
      */
@@ -199,5 +200,15 @@ class Resident
         if(!$this->apiToken) {
             $this->apiToken = md5(uniqid(rand(), true));
         }
+    }
+
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
     }
 }

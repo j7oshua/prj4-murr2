@@ -1,20 +1,21 @@
-<?php declare(strict_types = 1);
+<?php
 
-namespace App\Controller;
+
+namespace App\Security;
 
 
 use App\Entity\Resident;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-class LoginController extends AbstractGuardAuthenticator
+class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     private $em;
 
@@ -27,6 +28,8 @@ class LoginController extends AbstractGuardAuthenticator
      * Called on every request to decide if this authenticator should be
      * used for the request. Returning false will cause this authenticator
      * to be skipped.
+     * @param Request $request
+     * @return bool
      */
     public function supports(Request $request)
     {
@@ -36,6 +39,8 @@ class LoginController extends AbstractGuardAuthenticator
     /**
      * Called on every request. Return whatever credentials you want to
      * be passed to getUser() as $credentials.
+     * @param Request $request
+     * @return array|null[]
      */
     public function getCredentials(Request $request)
     {

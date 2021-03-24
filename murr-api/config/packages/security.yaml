@@ -1,7 +1,7 @@
 #config/packages/security.yaml
 security:
     encoders:
-        App\Entity\Resident:
+        App\Entity\UserApi:
             algorithm: bcrypt
             cost: 12
 
@@ -11,7 +11,7 @@ security:
         api_user_provider:
             entity:
                 class: App\Entity\Resident
-                property: email, phone
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -23,7 +23,7 @@ security:
             provider: api_user_provider
             guard:
                 authenticators:
-                    - App\Controller\LoginController
+                    - App\Security\TokenAuthenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* matching access control will be used
