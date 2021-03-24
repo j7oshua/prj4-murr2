@@ -1,21 +1,27 @@
 <template>
   <div>
-    <form v-if="showForm" @submit.prevent="postPickup">
+    <form id="form" v-if="showForm" @submit.prevent="postPickup">
       <div class="form-row">
         <!-- This will show the site id -->
         <div class="form-group col-4">
           <label for="siteId">Site ID: </label>
-          <p id="siteId">{{siteObject.id}}</p>
-          <div class="valid-feedback" id="properSiteID"></div>
-          <div class="invalid-feedback" id="improperSiteID">Error - No site exists.</div>
+          <div v-if="siteObject.id == 0 || siteObject.id.isEmpty">
+            <span id="invalidSite">Error - No site exists.</span>
+          </div>
+          <div v-else>
+            <p id="siteId">{{siteObject.id}}</p>
+          </div>
         </div>
+      </div>
         <!-- This will show the site name-->
         <div class="form-group col-4">
           <label for="siteName">Site ID: </label>
-          <p id="siteName">{{siteObject.siteName}}</p>
-          <div class="valid-feedback" id="properSiteName"></div>
-          <div class="invalid-feedback" id="improperSiteName">Error - No site exists.</div>
-        </div>
+          <div v-if="siteObject.siteName.length === 0">
+            <span id="invalidSiteName">Error - No site exists</span>
+          </div>
+          <div v-else>
+            <p id="siteName">{{siteObject.siteName}}</p>
+          </div>
         <!-- This will show the current date from the website-->
         <div class="form-group col-4">
           <label for="siteDate">Date: </label>
@@ -72,8 +78,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          id: 0,
-          siteName: '',
+          id: 1,
+          siteName: 'Wascana',
           numBins: 4
         }
       }
