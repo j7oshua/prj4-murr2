@@ -12,7 +12,7 @@ use App\Controller\SitePointController;
 
 // Using API platform for just 'get' operation at this time.
 // Sites will be hardcoded into the database at this point in time.
-// 'GET' will be used in Story05 to display site name in the front end display messages
+
 
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)

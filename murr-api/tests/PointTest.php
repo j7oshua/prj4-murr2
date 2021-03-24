@@ -119,7 +119,7 @@ class PointTest extends ApiTestCase
     /**
      * Purpose: This test will test adding a single point to noResidentID.
      *           Resident do not exist.
-     * Expected Result: Failure -- Status Response 400
+     * Expected Result: Failure -- Status Response 422
      * Return: hydra description of: 'resident: You must add at least one Resident'.
      * @test
      */
@@ -129,8 +129,8 @@ class PointTest extends ApiTestCase
         //Request a HTTP POST Request to the static API URL using noResidentID
         static::createClient()->request('POST', self::API_URL, ['json' => $this->noResidentID]);
 
-        //Returns a status code of 400 ("Bad Request")
-        $this->assertResponseStatusCodeSame(400);
+        //Returns a status code of 422 ("Bad Request")
+        $this->assertResponseStatusCodeSame(422);
 
        //Returns the headers
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -144,7 +144,7 @@ class PointTest extends ApiTestCase
     /**
      * Purpose: This test will test adding Zero points to Resident One.
      *           Resident One has 3 points .
-     * Expected Result: Failure -- Status Response 400
+     * Expected Result: Failure -- Status Response 422
      * Return: hydra description of: 'num_points: The points has to be greater than zero'.
      * @test
      */
@@ -156,7 +156,7 @@ class PointTest extends ApiTestCase
 
             self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
 
-            $this->assertResponseStatusCodeSame(400);
+            $this->assertResponseStatusCodeSame(422);
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
             $this->assertJsonContains([
@@ -167,7 +167,7 @@ class PointTest extends ApiTestCase
     /**
      * Purpose: This test will test adding a Zero points to Resident Three.
      *           Resident Three has 0 points.
-     * Expected Result: Failure -- Status Response 400
+     * Expected Result: Failure -- Status Response 422
      * Return: hydra description of: 'num_points: The points has to be greater than zero'.
      * @test
      */
@@ -176,7 +176,7 @@ class PointTest extends ApiTestCase
     {
         self::createClient()->request('POST', self::API_URL, ['json' => $this->residentThree]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -211,7 +211,7 @@ class PointTest extends ApiTestCase
     /**
      * Purpose: This test will test adding a null for the points to Resident One.
      *           Resident One has 3 points.
-     * Expected Result: Failure -- Status Response 400
+     * Expected Result: Failure -- Status Response 422
      * Return: hydra description of:  'num_points: Points cannot be left null'.
      * @test
      */
@@ -223,7 +223,7 @@ class PointTest extends ApiTestCase
 
         self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([

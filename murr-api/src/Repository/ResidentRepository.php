@@ -19,15 +19,5 @@ class ResidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Resident::class);
     }
 
-    public function findResidentByString($value): ?Resident
-    {
-        $id = substr($value, 15);
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.id = :val')
-            ->setParameter('val', $id)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
 
 }

@@ -76,7 +76,6 @@ class ResidentTest extends ApiTestCase
             'password' => '#4hs&3j2h',
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Resident::class);
 
     }
 
@@ -101,7 +100,6 @@ class ResidentTest extends ApiTestCase
             'password' => '#4hs&3j2h',
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Resident::class);
     }
 
     /**
@@ -112,7 +110,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray['email'] = 'hellotestcom';
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -131,7 +129,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray['email'] = str_repeat('a', 142) . '@test.com';
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -163,7 +161,6 @@ class ResidentTest extends ApiTestCase
             'password' => '#4hs&3j2h',
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Resident::class);
 
         $this->dataArray['email'] = 'hello@test.com';
     }
@@ -178,7 +175,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray['phone'] = str_repeat('3', 9);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -198,7 +195,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray['phone'] = str_repeat('3',11);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -220,7 +217,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray['password'] = str_repeat('a', 31);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -240,7 +237,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray['password'] = str_repeat('a', 6);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -263,7 +260,7 @@ class ResidentTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -290,7 +287,7 @@ class ResidentTest extends ApiTestCase
         unset($this->dataArray['password']);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([

@@ -121,8 +121,7 @@ class SitePointsTest extends ApiTestCase
      * @test
      * Purpose: This test will check if the API unsuccessfully adds points to the site when there is no
      * pickup id provided
-     * Expected Result: Error -- Status Response 400
-     * Return message: "PickUp Id was not found"
+     * Expected Result: Error -- Status Response 500
      */
     public function TestAddPointsToSiteWithNoPickupId(): void
     {
@@ -135,7 +134,7 @@ class SitePointsTest extends ApiTestCase
      * @test
      * Purpose: This test will check if the API unsuccessfully adds points to the site when there is an invalid
      * pickup id provided
-     * Expected Result: Error -- Status Response 400
+     * Expected Result: Error -- Status Response 422
      * Return: success message: "PickUp Id was not found"
      */
     public function TestAddPointToSiteWithInvalidPickupId(): void
