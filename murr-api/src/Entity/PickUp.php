@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PickupRepository;
+use App\Repository\PickUpRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PickupRepository::class)
+ * @ORM\Entity(repositoryClass=PickUpRepository::class)
  */
-class Pickup
+class PickUp
 {
     /**
      * @ORM\Id
@@ -21,7 +21,7 @@ class Pickup
      * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="pickupCollection")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $site;
+    private $siteObject;
 
     /**
      * @ORM\Column(type="integer")
@@ -50,14 +50,13 @@ class Pickup
 
     public function getSite(): ?Site
     {
-        return $this->site;
+        return $this->siteObject;
     }
 
-    public function setSite(?Site $siteID): self
+    public function setSite(?Site $siteObject): void
     {
-        $this->site = $siteID;
+        $this->siteObject = $siteObject;
 
-        return $this;
     }
 
     public function getNumCollected(): ?int

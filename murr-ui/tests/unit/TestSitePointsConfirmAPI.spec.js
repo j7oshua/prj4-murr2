@@ -48,7 +48,7 @@ describe('POST to the database', () => {
       .post('2')
       .send(pickup)
     expect(response.status).to.eql(422)
-    expect(response.header.error).to.eql('Pickup ID not found')
+    expect(response.header.error).to.eql('PickUp ID not found')
   })
   /**
    * This test block will send an empty pickup ID to add points to site 1

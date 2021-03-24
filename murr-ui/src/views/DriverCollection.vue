@@ -1,16 +1,16 @@
 <template>
 <div>
-  <h1></h1>
-  <driverPickup></driverPickup>
+  <h1>CollectionSite</h1>
+  <DriverPickup></DriverPickup>
 </div>
 </template>
 
 <script>
-import driverPickup from '@/components/DriverPickup'
+import DriverPickup from '@/components/DriverPickUp'
 export default {
-  name: 'Collection',
+  name: 'DriverCollection',
   components: {
-    driverPickup: driverPickup
+    DriverPickup: DriverPickup
   }
 }
 

@@ -5,7 +5,7 @@ namespace App\Controller;
 use ApiPlatform\Core\Hal\Serializer\ObjectNormalizer;
 use App\Entity\Resident;
 use App\Repository\SiteRepository;
-use App\Repository\PickupRepository;
+use App\Repository\PickUpRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use App\Repository\ResidentRepository;
 
 use App\Entity\Point;
 use App\Entity\Site;
-use App\Entity\Pickup;
+use App\Entity\PickUp;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,10 +37,10 @@ class SitePointController extends AbstractController
      * @param int $id
      * @param Request $request
      * @param SiteRepository $ss
-     * @param PickupRepository $pur
+     * @param PickUpRepository $pur
      * @return Response
      */
-    public function index(int $id , Request $request, SiteRepository $ss, PickupRepository $pur): Response
+    public function index(int $id , Request $request, SiteRepository $ss, PickUpRepository $pur): Response
     {
         $site = $ss->findSiteById($id);
         $content = $request->getContent();
@@ -60,7 +60,7 @@ class SitePointController extends AbstractController
         else if ($pickup == null)
         {
             $response->setStatusCode(422);
-            $response->headers->set('error', 'Pickup ID not found');
+            $response->headers->set('error', 'PickUp ID not found');
         }
         else
         {

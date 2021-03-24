@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import SitePointsConfirmation from '@/components/SitePointsConfirmation'
 import { expect } from 'chai'
+import DriverCollection from '@/views/DriverCollection'
 
 let wrapper
 
@@ -17,15 +18,14 @@ describe('SitePointsConfirmation', () => {
       propsData: {
         pickUp: {
           pickupID: 1,
-          site: 1,
+          siteId: 1,
           numCollected: 5,
           numObstructed: 0,
           numContaminated: 0,
           dateTime: '2020-03-03'
         },
         showModal: true,
-        siteName: 'Wascana',
-        respCode: 0
+        siteName: 'Wascana'
       }
     })
   })
@@ -39,30 +39,10 @@ describe('SitePointsConfirmation', () => {
       expect(wrapper.find('.message').text()).to.equal('Do you confirm 5 containers were collected from Wascana?')
     })
     /**
-     * This will test for error messages in the UI
-     * */
-    it('displays error that pickupID was not found', async () => {
-      await wrapper.setProps({
-        pickup: {
-          pickupID: 99,
-          site: 1,
-          numCollected: 5,
-          numObstructed: 0,
-          numContaminated: 0,
-          dateTime: '2020-03-03'
-        }
-      })
-      expect(wrapper.html().includes('Error: Bad Request'))
-      expect(wrapper.html().includes('Pickup ID 99 was not found'))
-    })
-    /**
      * Will check if the success toast appears when the yes button is clicked and the points are added successfully
      * */
     describe('clicking the yes button', () => {
       it('displays success message that points were added', async () => {
-        await wrapper.setData({
-          respCode: 201
-        })
         wrapper.find('#btnyes').trigger('click')
         expect(wrapper.html().includes('Points Added to Wascana!'))
         expect(wrapper.html().includes('Successfully added 100 points to Wascana!'))
@@ -114,6 +94,13 @@ describe('SitePointsConfirmation', () => {
         wrapper.find('#btnyes').trigger('click')
         expect(wrapper.html().includes('There was a error sending the request'))
         expect(wrapper.html().includes('Error: Not Found'))
+      })
+    })
+    describe('Clicking the cancel button', () => {
+      it('Display the previous page', () => {
+        wrapper = mount(DriverCollection)
+        wrapper.find('#btncancel').trigger('click')
+        expect(wrapper.find('h1').text()).to.equal('CollectionSite')
       })
     })
   })

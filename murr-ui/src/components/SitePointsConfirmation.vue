@@ -43,7 +43,7 @@ export default {
       type: Object,
       required: true
     },
-    showModal: { // prop to be used to hide and show modal in DriverPickup.vue
+    showModal: { // prop to be used to hide and show modal in DriverPickUp.vue
       type: Boolean,
       required: true
     }, // Site name prop used to display site name in the modals
@@ -71,12 +71,13 @@ export default {
       this.isBusy = true
       this.currentPickup.pickupID = this.pickUp.pickupID
       // call the API to add points to site
-      this.callAPI('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.site)
+      this.callAPI('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.siteId)
         .then(resp => {
           this.handleHidden()
           this.respCode = resp.status
           this.message = resp.data
         })
+        // Handles any errors that occur during the POST. Will display a toast notification displaying the error
         .catch(err => {
           console.log(err)
           if (err.response.status === 400) {
@@ -105,10 +106,12 @@ export default {
             this.handleHidden()
           }
         })
+        // If the POST was successful. Will display the success toast depending on the status code received
         .finally(() => {
           this.isBusy = false
           if (this.respCode === 201) {
             this.$bvToast.toast(this.message, {
+              id: 'pointsCreated',
               title: 'Points Added to ' + this.siteName + '!',
               variant: 'success',
               toaster: 'b-toaster-top-center'
@@ -123,6 +126,7 @@ export default {
           }
         })
     },
+    // Method that will emit back to the DriverPickUp, telling it that this component is finished and will hide it
     handleHidden () {
       this.$emit('finished')
     }
@@ -131,6 +135,8 @@ export default {
     isDisabled: function () {
       return this.isBusy || this.disabled
     },
+    // Getter and Setter for the showModal prop. Don't want to mutate the prop so the setter will just emit back that
+    // component is finished and will not change the prop in any way.
     showMod: {
       get: function () {
         return this.showModal

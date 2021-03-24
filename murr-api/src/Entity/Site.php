@@ -65,7 +65,7 @@ class Site
     // A collection of pickups made at this site. Acts as the many to one relationship
     // between the site and pickups
     /**
-     * @ORM\OneToMany(targetEntity=Pickup::class, mappedBy="site")
+     * @ORM\OneToMany(targetEntity=PickUp::class, mappedBy="siteObject")
      */
     private $pickupCollection;
 
@@ -116,29 +116,29 @@ class Site
     }
 
     /**
-     * @return Collection|Pickup[]
+     * @return Collection|PickUp[]
      */
     public function getPickupCollection(): Collection
     {
         return $this->pickupCollection;
     }
 
-    public function addPickupCollection(Pickup $numCollected): self
+    public function addPickupCollection(PickUp $numCollected): self
     {
         if (!$this->pickupCollection->contains($numCollected)) {
             $this->pickupCollection[] = $numCollected;
-            $numCollected->setSite($this);
+            $numCollected->setSiteObject($this);
         }
 
         return $this;
     }
 
-    public function removePickupCollection(Pickup $numCollected): self
+    public function removePickupCollection(PickUp $numCollected): self
     {
         if ($this->pickupCollection->removeElement($numCollected)) {
             // set the owning side to null (unless already changed)
-            if ($numCollected->getSite() === $this) {
-                $numCollected->setSite(null);
+            if ($numCollected->getSiteObject() === $this) {
+                $numCollected->setSiteObject(null);
             }
         }
 
