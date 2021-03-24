@@ -25,7 +25,7 @@ class PickUpSiteTest extends ApiTestCase
     {
         //all bins collected
         $this->pickUp = [
-            'siteObject' => "/api/sites/1",
+            'siteId' => 1,
             'numCollected' => 5,
             'numContaminated' => 0,
             'numObstructed' => 0,

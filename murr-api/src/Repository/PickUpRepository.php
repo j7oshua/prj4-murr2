@@ -57,4 +57,18 @@ class PickUpRepository extends ServiceEntityRepository
             ->getMaxResults();
     }
 
+    /***
+     * @param $entity
+     * @return mixed
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save($entity) : PickUp
+    {
+        $this->_em->persist($entity);
+        $this->_em->flush();
+        return  $entity;
+    }
+
+
 }
