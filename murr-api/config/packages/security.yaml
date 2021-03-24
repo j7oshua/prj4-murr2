@@ -1,7 +1,7 @@
 #config/packages/security.yaml
 security:
     encoders:
-        App\Entity\UserApi:
+        App\Entity\Resident:
             algorithm: bcrypt
             cost: 12
 
@@ -28,5 +28,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* matching access control will be used
     access_control:
-        - { path: '^/api/docs', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/api/residents', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/api', roles: ROLE_API }

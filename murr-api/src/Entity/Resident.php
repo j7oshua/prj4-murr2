@@ -14,7 +14,7 @@ use App\Validator as AcmeAssert;
 /**
  * @ApiResource(
  *     itemOperations={"get"={
- *             "path"="api/residents/{id}",
+ *             "path"="/api/residents/{id}",
  *             "swagger_context"={
  *                 "tags"={"Resident"}
  *             }
@@ -22,7 +22,7 @@ use App\Validator as AcmeAssert;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "path"="api/residents",
+ *             "path"="/api/residents",
  *             "method"="POST",
  *             "swagger_context"={
  *                 "tags"={"Authentication"},
@@ -30,7 +30,7 @@ use App\Validator as AcmeAssert;
  *             }
  *         },
  *         "get"={
- *             "path"="api/residents",
+ *             "path"="/api/residents",
  *             "method"="GET",
  *             "swagger_context"={
  *                 "tags"={"Resident"}
