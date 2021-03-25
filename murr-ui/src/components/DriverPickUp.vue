@@ -32,14 +32,14 @@
       <div class="form-row">
         <div class="form-group col-6">
           <label for="collected">Collected: </label>
-          <input id="collected" type="text" class="form-control" v-model.trim="pickup.numCollected">
+          <input id="collected" type="number" class="form-control" v-model.trim="pickup.numCollected">
         </div>
       </div>
       <!-- This will be the Obstructed section-->
       <div class="form-row">
         <div class="form-group col-6">
           <label for="obstructed">Obstructed: </label>
-          <input id="obstructed" type="text" class="form-control" v-model.trim="pickup.numObstructed">
+          <input id="obstructed" type="number" class="form-control" v-model.trim="pickup.numObstructed">
 
         </div>
       </div>
@@ -47,7 +47,7 @@
       <div class="form-row">
         <div class="form-group col-6">
           <label for="contaminated">Contaminated: </label>
-          <input id="contaminated" type="text" class="form-control" v-model.trim="pickup.numContaminated">
+          <input id="contaminated" type="number" class="form-control" v-model.trim="pickup.numContaminated">
 
           <span></span>
         </div>
@@ -93,11 +93,12 @@ export default {
     return {
       pickup: {
         siteId: this.siteObject.id,
-        numCollected: '',
-        numObstructed: '',
-        numContaminated: ''
+        numCollected: 0,
+        numObstructed: 0,
+        numContaminated: 0
       },
-      error: {}
+      error: {},
+      dateStamp: ''
     }
   },
 
@@ -107,6 +108,12 @@ export default {
   methods: {
     postPickup: function () {
       this.error = {}
+      this.pickup = {
+        numCollected: parseInt(this.pickup.numCollected),
+        numContaminated: parseInt(this.pickup.numContaminated),
+        numObstructed: parseInt(this.pickup.numObstructed),
+        siteId: this.siteObject.id
+      }
       // Direct axios call here
       this.axios({
         method: 'post',
@@ -115,13 +122,13 @@ export default {
       })
         .then(resp => {
           this.pickup = resp.data
-          if (resp.status === 201) {
+          if (resp === 201) {
             // toast statement of submit
             this.$toasted.show('Submitted')
           }
         })
         .catch(err => {
-          if (err.response.status === 404) {
+          if (err.response === 404) {
             this.error = err && err.response ? err.response.data : {}
           }
         })

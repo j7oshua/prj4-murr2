@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Controller;
+// header("Access-Control-Allow-Origin: *");
 
 use App\Entity\PickUp;
 use App\Entity\Site;
