@@ -5,7 +5,7 @@ const expect = require('chai').expect
 
 describe('AccountInfo', function () {
 
-  //Resident posts valid first name
+  //Resident puts valid first name
   it('Valid first name', async function () {
     const account = {
       firstName: "Tom"
@@ -17,75 +17,75 @@ describe('AccountInfo', function () {
     expect(response.text).to.eql('Account information has been updated')
   })
 
-  //Resident posts invalid first name
+  //Resident puts invalid first name
   it('First name too long', async function () {
     const first = 'f'
     const account = {
       firstName: first.repeat(21)
     }
     const response = await request
-      .post(account.firstName)
+      .put(account.firstName)
       .send(account)
     expect(response.status).to.eql(400)
     expect(response.text).to.eql('Unable to update account information')
   })
 
-  //Resident posts invalid first name
+  //Resident puts invalid first name
   it('First name too short', async function () {
     const account = {
       firstName: "f"
     }
     const response = await request
-      .post(account.firstName)
+      .put(account.firstName)
       .send(account)
     expect(response.status).to.eql(400)
     expect(response.text).to.eql('Unable to update account information')
   })
 
-  //Resident posts valid last name
+  //Resident puts valid last name
   it('Valid last name', async function () {
     const account = {
       lastName: 'L.'
     }
     const response = await request
-      .post(account.lastName)
+      .put(account.lastName)
       .send(account)
     expect(response.status).to.eql(200)
     expect(response.text).to.eql('Account information has been updated')
   })
 
-  //Resident posts invalid last name
+  //Resident puts invalid last name
   it('Last name too long', async function () {
     const last = 'n'
     const account = {
       lastName: last.repeat(21)
     }
     const response = await request
-      .post(account.lastName)
+      .put(account.lastName)
       .send(account)
     expect(response.status).to.eql(400)
     expect(response.text).to.eql('Unable to update account information')
   })
 
-  //Resident posts valid profile picture
+  //Resident puts valid profile picture
   it('Valid profile picture', async function () {
     const account = {
       profilePic: 'C:/image.jpg'
     }
     const response = await request
-      .post(account.profilePic)
+      .put(account.profilePic)
       .send(account)
     expect(response.status).to.eql(200)
     expect(response.text).to.eql('Account information has been updated')
   })
 
-  //Resident posts invalid profile picture
+  //Resident puts invalid profile picture
   it('Profile picture not image', async function () {
     const account = {
       profilePic: 'C:/image.txt'
     }
     const response = await request
-      .post(account.profilePic)
+      .put(account.profilePic)
       .send(account)
     expect(response.status).to.eql(400)
     expect(response.text).to.eql('Unable to update account information')
