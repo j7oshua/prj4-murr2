@@ -80,7 +80,7 @@ export default {
         return {
           id: 1,
           siteName: 'Wascana',
-          numBins: 4
+          numBins: 5
         }
       }
     },
@@ -114,6 +114,7 @@ export default {
         data: this.pickup
       })
         .then(resp => {
+          this.pickup = resp.data
           if (resp.status === 201) {
             // toast statement of submit
             this.$toasted.show('Submitted')

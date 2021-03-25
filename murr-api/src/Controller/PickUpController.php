@@ -52,5 +52,6 @@ class PickUpController extends AbstractController
         }else{
             //return error that the bins do not match.
         }
+       // return $this->json($$pickUpObject);
     }
 }

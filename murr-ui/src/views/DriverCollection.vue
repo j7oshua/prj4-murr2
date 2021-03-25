@@ -28,7 +28,7 @@ export default {
       siteObject: {
         id: 1,
         siteName: 'Wascana',
-        numBins: 4
+        numBins: 5
       },
       showForm: false
     }
