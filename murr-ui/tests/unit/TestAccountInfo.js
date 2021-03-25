@@ -3,6 +3,8 @@ const expect = require('chai').expect
 
 // npm install --save supertest mocha chai
 
+//Will have to change tests to not interact with back end
+
 describe('AccountInfo', function () {
 
   //Resident puts valid first name
