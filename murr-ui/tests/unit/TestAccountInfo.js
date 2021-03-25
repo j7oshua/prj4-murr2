@@ -11,7 +11,7 @@ describe('AccountInfo', function () {
       firstName: "Tom"
     }
     const response = await request
-      .post(account.firstName)
+      .put(account.firstName)
       .send(account)
     expect(response.status).to.eql(200)
     expect(response.text).to.eql('Account information has been updated')

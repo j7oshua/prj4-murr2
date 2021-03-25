@@ -35,7 +35,6 @@ class Account
     /**
      * @ORM\Column (type="string", length=20)
      * @Assert\Length(max="20", min="2", maxMessage="First Name cannot be longer than {{ limit }} characters.", minMessage="First Name must be more than 1 character")
-     * @Assert\NotBlank (message="First name cannot be blank")
      */
     private $firstName;
 

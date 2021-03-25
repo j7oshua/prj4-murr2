@@ -28,113 +28,13 @@ class AccountTest extends ApiTestCase
     {
         //Setup an array that contains information to create a resident account.
         $this->dataArray = [
-            'residentID' => '1',
-            'firstName' => 'Bill',
-            'lastName' => 'Jones',
+            'residentID' => '',
+            'firstName' => '',
+            'lastName' => '',
             'profilePic' => ''
         ];
     }
 
-    /**
-     * @test
-     */
-    public function TestValidFirstNamePost(): void
-    {
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'firstName' => 'Tom',
-        ]]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            'residentID' => '1',
-            'firstName' => 'Tom',
-            'lastName' => 'Jones',
-            'profilePic' => '',
-        ]);
-        $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Account::class);
-    }
-
-    /**
-     * @test
-     */
-    public function TestInvalidFirstNamePost(): void
-    {
-        $this->dataArray['firstName'] = 'T';
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'firstName: First Name must be more than 1 character.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestValidLastNamePost(): void
-    {
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'lastName' => 'Andrews',
-        ]]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            'residentID' => '1',
-            'firstName' => 'Tom',
-            'lastName' => 'Andrews',
-            'profilePic' => '',
-        ]);
-        $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Account::class);
-    }
-
-    /**
-     * @test
-     */
-    public function TestInvalidLastNamePost(): void
-    {
-        $this->dataArray['lastName'] = str_repeat('n', 21);
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'lastName: Last Name cannot be longer than 20 characters.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestValidPicturePost(): void
-    {
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'profilePic' => 'C:\image.jpg',
-        ]]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            'residentID' => '1',
-            'firstName' => 'Tom',
-            'lastName' => 'Andrews',
-            'profilePic' => 'C:\image.jpg',
-        ]);
-        $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Account::class);
-    }
 
     /**
      * @test
