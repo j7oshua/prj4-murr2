@@ -92,20 +92,12 @@ export default {
   data () {
     return {
       pickup: {
-        siteId: '',
-        siteName: '',
+        siteId: this.siteObject.id,
         numCollected: '',
         numObstructed: '',
-        numContaminated: '',
-        dateTime: '',
-        numBins: ''
+        numContaminated: ''
       },
-      error: {},
-      dateStamp: '',
-      countBins: '',
-      collectedFocused: false,
-      contaminatedFocused: false,
-      obstructedFocused: false
+      error: {}
     }
   },
 
@@ -113,21 +105,7 @@ export default {
     setInterval(this.getSeverDate, 1000)
   },
   methods: {
-    focused: function (fieldName) {
-      this.collectedFocused = fieldName === 'collected'
-      this.obstructedFocused = fieldName === 'obstructed'
-      this.contaminatedFocused = fieldName === 'contaminated'
-    },
     postPickup: function () {
-      this.$v.$touch()
-      this.pickup = {
-        numCollected: this.pickup.numCollected,
-        numContaminated: this.pickup.numContaminated,
-        numObstructed: this.pickup.numObstructed,
-        siteId: this.siteObject.id,
-        siteName: this.siteObject.siteName,
-        dateTime: this.dateStamp
-      }
       this.error = {}
       // Direct axios call here
       this.axios({
