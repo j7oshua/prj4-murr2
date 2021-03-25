@@ -7,6 +7,7 @@ use App\Repository\PointRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,7 +30,7 @@ class Point
     /**
      * @ORM\Column(type="integer")
      * @Assert\Positive(message = "The points has to be greater than zero")
-     * @Assert\NotNull(message = "Points cannot be left null")
+     * @Assert\NotNull(message = "Points cannot be left null"))
      */
     public $num_points;
 
@@ -69,10 +70,10 @@ class Point
         return $this->resident;
     }
 
-    public function addResident(Resident $resident): self
+    public function addResident(Resident $residentToAdd): self
     {
-        if (!$this->resident->contains($resident)) {
-            $this->resident[] = $resident;
+        if (!$this->resident->contains($residentToAdd)) {
+            $this->resident[] = $residentToAdd;
         }
 
         return $this;

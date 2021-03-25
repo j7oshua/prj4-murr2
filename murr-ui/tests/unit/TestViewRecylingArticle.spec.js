@@ -4,7 +4,6 @@ const expect = require('chai').expect
 // npm install --save supertest mocha chai
 
 describe('GET /articles', function () {
-
   /**
    * Title: Resident views all recycling articles on main page
    * Purpose: This test will test that ALL articles appear on the main education page
@@ -12,7 +11,7 @@ describe('GET /articles', function () {
    * Return: Status Code: 200, Array of article objects
    **/
   it('Resident views all recycling articles on main page', async function () {
-    const response = await request.get("/articles")
+    const response = await request.get('/articles')
     expect(response.status).to.eql(200)
 
     expect(response.body['hydra:member'][0]).to.contain({ title: 'What Can You Recycle' })
@@ -32,7 +31,7 @@ describe('GET /articles', function () {
    * Return: Status Code: 200, Array of an article
    **/
   it('Resident selects recycling article “What can you Recycle”', async function () {
-    const response = await request.get("/articles/1")
+    const response = await request.get('/articles/1')
     expect(response.status).to.eql(200)
 
     expect(response.body).to.contain({ title: 'What Can You Recycle' })
@@ -47,8 +46,7 @@ describe('GET /articles', function () {
    * Return: Status Code: 404
    **/
   it('Resident unsuccessfully views recycling article', async function () {
-    const response = await request.get("/articles/-1")
+    const response = await request.get('/articles/-1')
     expect(response.status).to.eql(404)
   })
 })
-
