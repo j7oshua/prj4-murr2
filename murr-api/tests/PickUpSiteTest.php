@@ -29,7 +29,7 @@ class PickUpSiteTest extends ApiTestCase
             'numCollected' => 5,
             'numContaminated' => 0,
             'numObstructed' => 0,
-            'dateTime' => "2021-03-08"
+            'dateTime' => "2021-03-25"
         ];
     }
 
@@ -40,7 +40,7 @@ class PickUpSiteTest extends ApiTestCase
     -     * Return: JSONLD of a Pickup transaction history object
     -     * @test
     -     */
-   public function TestBinsCollected(): void
+    public function TestBinsCollected(): void
     {
         //this will index for site one
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
@@ -49,22 +49,18 @@ class PickUpSiteTest extends ApiTestCase
         //this will check if the header has a content type of a json ld object
         //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         //this will will check if the url has the proper pattern and id
-        //$this->assertMatchesRegularExpression('/^\/api\/pick_ups\/\d+$/', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('/^\/api\/pick_ups\/\d+$/', $response->toArray()['@id']);
         //this will check if the item returned is a PickUp object class
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
         //JSONLD expected result should be this:
         $this->assertJsonContains([
-            '@context' => '/api/contexts/PickUp',
-            '@type' => 'PickUp',
+            'siteObject' => "/api/sites/1",
+            'id' => 1,
             'numCollected' => 5,
-            'numObstructed' => 0,
             'numContaminated' => 0,
-            'dateTime' => "2021-03-08",
-            'siteObject' => '/api/sites/1'
+            'numObstructed' => 0,
+            'dateTime' => "2021-03-25"
         ]);
-
-        //'@context' => '/api/contexts/PickUp',
-        //'@type' => 'PickUp',
     }
 
     /**
@@ -75,30 +71,26 @@ class PickUpSiteTest extends ApiTestCase
          */
     public function TestTestBinsCollectedObstructedContaminated(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'siteObject' => "/api/sites/1",
-            'numCollected' => 2,
-            'numContaminated' => 2,
-            'numObstructed' => 1,
-            'dateTime' => "2021-03-08"
-            ]
-        ]);
+        $this->pickUp['numCollected'] = 2;
+        $this->pickUp['numObstructed'] = 2;
+        $this->pickUp['numContaminated'] = 1;
+
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(200);
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        //$this->assertMatchesRegularExpression('/^\/api\/pick_ups\/\d+$/', $response->toArray()['@id']);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->assertMatchesRegularExpression('/^\/api\/pick_ups\/\d+$/', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
         //JSONLD expected result should be this:
         $this->assertJsonContains([
+            'siteObject' => "/api/sites/1",
+            'id' => 1,
             'numCollected' => 2,
-            'numObstructed' => 1,
             'numContaminated' => 2,
-            'dateTime' => "2021-03-08",
-            'siteObject' => '/api/sites/1'
+            'numObstructed' => 1,
+            'dateTime' => "2021-03-25"
         ]);
 
-        //'@context' => '/api/contexts/PickUp',
-        //'@type' => 'PickUp',
     }
 
     /**

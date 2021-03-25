@@ -16,11 +16,10 @@ describe('DriverPickUp.vue', () => {
    *
    */
   it('Should display Valid bin amount when all four bins in Collect input', async () => {
-    expect(wrapper.html().includes('Collected: '))
     const Collected = wrapper.find('#collected')
-    await Collected.setValue('4')
-    expect(wrapper.find('#collected').element.value).to.equal('4')
-    expect(wrapper.find('#properBins').text()).to.equal('Valid bin amount')
+    await Collected.setValue('5')
+    expect(wrapper.find('#collected').element.value).to.equal('5')
+    expect(wrapper.find('.border-success span').text()).to.equal('Valid bin amount')
   })
 
   /**
@@ -28,15 +27,15 @@ describe('DriverPickUp.vue', () => {
    */
   it('should display Valid bin amount when all four bins in all input types', async () => {
     const collect = wrapper.find('#collected')
-    await collect.setValue('2')
+    await collect.setValue(2)
     expect(wrapper.find('#collected').element.value).to.equal('2')
     const obstruct = wrapper.find('#obstructed')
-    await obstruct.setValue('1')
-    expect(wrapper.find('#obstructed').element.value).to.equal('1')
+    await obstruct.setValue(2)
+    expect(wrapper.find('#obstructed').element.value).to.equal('2')
     const contaminated = wrapper.find('#contaminated')
-    await contaminated.setValue('1')
+    await contaminated.setValue(1)
     expect(wrapper.find('#contaminated').element.value).to.equal('1')
-    expect(wrapper.find('#properBins').text()).to.equal('Valid bin amount')
+    expect(wrapper.find('.border-success span').text()).to.equal('Valid bin amount')
   })
 
   /**
@@ -52,7 +51,7 @@ describe('DriverPickUp.vue', () => {
     const contaminatedBins = wrapper.find('#contaminated')
     await contaminatedBins.setValue('2')
     expect(wrapper.find('#contaminated').element.value).to.equal('2')
-    expect(wrapper.find('#improperBins').text()).to.equal('This Site is expecting 4 bins.')
+    expect(wrapper.find('.border-danger span').text()).to.equal('This Site is expecting 5 bins.')
   })
 
   /**
@@ -68,14 +67,14 @@ describe('DriverPickUp.vue', () => {
     const contaminatedBin = wrapper.find('#contaminated')
     await contaminatedBin.setValue('1')
     expect(wrapper.find('#contaminated').element.value).to.equal('1')
-    expect(wrapper.find('#improperBins').text()).to.equal('This Site is expecting 4 bins.')
+    expect(wrapper.find('.border-danger span').text()).to.equal('This Site is expecting 5 bins.')
   })
 
   /**
    *
    */
   it('Should display error message when all input types are set to null and is expecting 4', async () => {
-    expect(wrapper.find('#improperBins').text()).to.equal('This Site is expecting 4 bins.')
+    expect(wrapper.find('.border-danger span').text()).to.equal('This Site is expecting 5 bins.')
   })
 
   /**

@@ -32,14 +32,14 @@
       <div class="form-row">
         <div class="form-group col-6">
           <label for="collected">Collected: </label>
-          <input id="collected" type="number" class="form-control" v-model.trim="pickup.numCollected">
+          <input id="collected" type="number" class="form-control" v-model.trim="pickup.numCollected" min="0" :max="siteObject.numBins">
         </div>
       </div>
       <!-- This will be the Obstructed section-->
       <div class="form-row">
         <div class="form-group col-6">
           <label for="obstructed">Obstructed: </label>
-          <input id="obstructed" type="number" class="form-control" v-model.trim="pickup.numObstructed">
+          <input id="obstructed" type="number" class="form-control" v-model.trim="pickup.numObstructed" min="0" :max="siteObject.numBins">
 
         </div>
       </div>
@@ -47,7 +47,7 @@
       <div class="form-row">
         <div class="form-group col-6">
           <label for="contaminated">Contaminated: </label>
-          <input id="contaminated" type="number" class="form-control" v-model.trim="pickup.numContaminated">
+          <input id="contaminated" type="number" class="form-control" v-model.trim="pickup.numContaminated" min="0" :max="siteObject.numBins">
 
           <span></span>
         </div>
