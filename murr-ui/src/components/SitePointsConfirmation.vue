@@ -91,7 +91,7 @@ export default {
           } else if (err.response.status === 422) {
             this.respCode = err.response.status
             this.$bvToast.toast('There was a error sending the request', {
-              title: 'Error: Not Found',
+              title: 'Error: Pickup ID Not Found',
               variant: 'danger',
               toaster: 'b-toaster-top-center'
             })
