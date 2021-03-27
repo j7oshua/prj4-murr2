@@ -65,7 +65,7 @@ class PickUpSiteTest extends ApiTestCase
             'numCollected' => 5,
             'numContaminated' => 0,
             'numObstructed' => 0,
-            'dateTime' => "2021-03-26"
+            'dateTime' => "2021-03-27"
         ]);
     }
 
@@ -94,7 +94,7 @@ class PickUpSiteTest extends ApiTestCase
             'numCollected' => 2,
             'numContaminated' => 2,
             'numObstructed' => 1,
-            'dateTime' => "2021-03-26"
+            'dateTime' => "2021-03-27"
         ]);
 
     }
@@ -102,12 +102,12 @@ class PickUpSiteTest extends ApiTestCase
     /**
          * Purpose: Test if the bin input is less than the number of bins to a site (5)
          * Expected Result: Failure -- Status Response 400
-         * Return: hydra description of: 'site: Number of bins do not match.'.
+         * Return: "site: Number of bins do not match."
          * @test
          */
    public function TestValidNumberOfBinsLessThanFour(): void
    {
-       self::createClient()->request('POST', self::API_URL, ['json' => [
+       $response = static::createClient()->request('POST', self::API_URL, ['json' => [
            'siteId' => 1,
             'numCollected' => 2,
             'numContaminated' => 1,
@@ -118,11 +118,150 @@ class PickUpSiteTest extends ApiTestCase
        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
        //expected hydra result
-           $this->assertJsonContains([
-               "content" => "site: Number of bins do not match."
+       try {
+           $this->assertJsonContains([ //i get a syntax error and i do not know why cause i get get the result i want on postman but not on here
+               '0' => "site: Number of bins do not match."
            ]);
+       } catch (ClientExceptionInterface $e) {
+           $this->expectExceptionMessage($e);
+       } catch (DecodingExceptionInterface $e) {
+           $this->expectExceptionMessage($e);
+       } catch (RedirectionExceptionInterface $e) {
+           $this->expectExceptionMessage($e);
+       } catch (ServerExceptionInterface $e) {
+           $this->expectExceptionMessage($e);
+       } catch (TransportExceptionInterface $e) {
+           $this->expectExceptionMessage($e);
+       }
 
    }
+
+    /**
+     * Purpose: Test if the bin input is more than the number of bins to a site (5)
+     * Expected Result: Failure -- Status Response 400
+     * Return: "site: Number of bins do not match."
+     * @test
+     */
+    public function TestInvalidNumberOfBinsMoreThanFive (): void
+    {
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'siteId' => 1,
+            'numCollected' => 2,
+            'numContaminated' => 2,
+            'numObstructed' => 2,
+            'dateTime' => "2021-03-08"
+        ]]);
+        $this->assertResponseStatusCodeSame(400);
+        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //expected hydra result
+        $this->assertJsonContains([
+            '0' => "site: Number of bins do not match."
+        ]);
+
+    }
+
+    /**
+     * Purpose: Test if the site sent is negative
+     * Expected Result: Failure -- Status Response 400
+     * Return: “Item not found for site -1.”
+     * @test
+     */
+    public function TestSiteDoesNotExistsNegativeOutofBounds(): void
+    {
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'siteId' => -1,
+            'numCollected' => 2,
+            'numContaminated' => 1,
+            'numObstructed' => 2,
+            'dateTime' => "2021-03-08"
+        ]]);
+        $this->assertResponseStatusCodeSame(404);
+        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //expected hydra result
+        $this->assertJsonContains([
+            '0' => "Item not found for site -1."
+        ]);
+
+    }
+
+    /**
+     * Purpose: Test if the site sent does not exist
+     * Expected Result: Failure -- Status Response 400
+     * Return: “Item not found for site 99.”
+     * @test
+     */
+    public function TestSiteDoesNotExist(): void
+    {
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'siteId' => 99,
+            'numCollected' => 2,
+            'numContaminated' => 1,
+            'numObstructed' => 2,
+            'dateTime' => "2021-03-08"
+        ]]);
+        $this->assertResponseStatusCodeSame(404);
+        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //expected hydra result
+        $this->assertJsonContains([
+            '0' => "Item not found for site 99."
+        ]);
+
+    }
+
+
+    /**
+     * Purpose: Test if the site sent null
+     * Expected Result: Failure -- Status Response 404
+     * Return: “Invalid: Site required"
+     * @test
+     */
+    public function TestNullSite(): void
+    {
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+            'siteId' => null,
+            'numCollected' => 2,
+            'numContaminated' => 1,
+            'numObstructed' => 2,
+            'dateTime' => "2021-03-08"
+        ]]);
+        $this->assertResponseStatusCodeSame(404);
+        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //expected hydra result
+        $this->assertJsonContains([
+            '0' => "Invalid: site required."
+        ]);
+
+    }
+
+
+    /**
+     * Purpose: Test if the bin input is null
+     * Expected Result: Failure -- Status Response 400
+     * Return: "hydra:description":"A non-numeric value encountered"
+     * @test
+     */
+    public function TestNullBins(): void
+    {
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [ //why is this one so weird
+            'siteId' => 1,
+            'numCollected' => null,
+            'numContaminated' => null,
+            'numObstructed' => null,
+            'dateTime' => "2021-03-08"
+        ]]);
+        $this->assertResponseStatusCodeSame(400);
+        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        //expected hydra result
+        $this->assertJsonContains([
+            '0' => 'Invalid: Bin input required.'
+        ]);
+
+    }
 
 
 

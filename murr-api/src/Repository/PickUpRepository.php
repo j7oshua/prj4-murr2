@@ -62,13 +62,16 @@ class PickUpRepository extends ServiceEntityRepository
     /***
      * @param $entity
      * @return mixed
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
      */
     public function save($entity) : PickUp
     {
         $this->_em->persist($entity);
-        $this->_em->flush();
+        try {
+            $this->_em->flush();
+        } catch (OptimisticLockException | ORMException $e) {
+            $entity = null;
+        }
         return  $entity;
     }
 

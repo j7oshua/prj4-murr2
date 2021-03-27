@@ -12,7 +12,6 @@
             <p id="siteId">{{siteObject.id}}</p>
           </div>
         </div>
-      </div>
         <!-- This will show the site name-->
         <div class="form-group col-4">
           <label for="siteName">Site ID: </label>
@@ -22,6 +21,7 @@
           <div v-else>
             <p id="siteName">{{siteObject.siteName}}</p>
           </div>
+        </div>
         <!-- This will show the current date from the website-->
         <div class="form-group col-4">
           <label for="siteDate">Date: </label>
@@ -103,7 +103,7 @@ export default {
   },
 
   created () {
-    setInterval(this.getSeverDate, 1000)
+    setInterval(this.getServerDate, 1000)
   },
   methods: {
     postPickup: function () {
@@ -136,7 +136,7 @@ export default {
           this.$emit('finished')
         })
     },
-    getSeverDate: function () {
+    getServerDate: function () {
       const today = new Date()
       this.dateStamp = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     },

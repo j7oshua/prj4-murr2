@@ -37,22 +37,19 @@ class PickUpController extends AbstractController
         }catch (ORMException $e) //this catches the null site
         {
             $result = Null;
-            $result = $this->json($result);
-            $result->setContent('Invalid: site required.');
+            $result = $this->json(['Invalid: site required.']);
             return $result->setStatusCode(404);
         }catch (\ErrorException $e){ //this catches if its a string
             $result = Null;
-            $result = $this->json($result);
-            $result->setContent('Invalid: site required.');
+            $result = $this->json(['Invalid: site required.']);
             return $result->setStatusCode(400);
         }
 
         try {
             if ($site == NULL) { //this catches if it is not in the database
-                $result = Null;
-                $result = $this->json($result);
                 $stringID = (string)$pickUpArrayInfo['siteId'];
-                $result->setContent("Item not found for site " . $stringID);
+                $result = Null;
+                $result = $this->json(["Item not found for site " . $stringID . "."]);
                 return $result->setStatusCode(404);
             } else if ($pickUpArrayInfo['numCollected'] + $pickUpArrayInfo['numObstructed'] + $pickUpArrayInfo['numContaminated'] == $site->getNumBins()) {
 
@@ -68,12 +65,7 @@ class PickUpController extends AbstractController
                     $result[$violation->getPropertyPath()] = $violation->getMessage();
                 }
                 if (empty($result)) {
-                    try {
                         $pickupRepo->save($pickUpObject);
-                    } catch (OptimisticLockException | ORMException $e) {
-                        $pickUpObject = $this->json(null);
-                        return $pickUpObject->setStatusCode(404);
-                    }
                     return $this->json($pickUpObject);
                 }
             } else {
@@ -85,11 +77,11 @@ class PickUpController extends AbstractController
                     $pickUpObject2->setNumContaminated($pickUpArrayInfo['numContaminated']);
                     $pickUpObject2->setDateTime(date("Y-m-d")); //use the servers date time instead
                     $pickUpObject2->setSiteObject($site);
-                } catch (\TypeError $e) {
-                    $result = $this->json(null);
+                } catch (\TypeError $e) { //this is if a null is passed
+                    $result = $this->json(['Invalid: Bin input required.']);
                     $result->setStatusCode(400);
                     //return $result->setContent($e);
-                    return $result->setContent('Invalid: Bin input required.');
+                    return $result;
                 }
 
                 $result = [];
@@ -97,18 +89,18 @@ class PickUpController extends AbstractController
                     $result[$violation->getPropertyPath()] = $violation->getMessage();
                 }
                 if(empty($result)){ //this is usually for if the bins total is incorrect
-                    $result = "site: Number of bins do not match.";
+                    $result = ['site: Number of bins do not match.'];
                 }
                 $result2 = $this->json($result);
-                $result2->setStatusCode(400);
-                return $result2->setContent($result2);
+                //$result2->setContent($result);
+                return $result2->setStatusCode(400);
 
             }
         }catch (\ErrorException $e){ //this catches if a string is inputted as one or all of the bins
-            $result = $this->json(null);
+            $result = $this->json(['Invalid: Bin input error.']);
             $result->setStatusCode(400);
             //return $result->setContent($e);
-            return $result->setContent('Invalid: Bin input error.');
+            return $result;
         }
     }
 }
