@@ -21,6 +21,19 @@ export default {
       profilePic: File
     }
   },
+  validations: {
+    account: {
+      firstName: {
+
+      },
+      lastName: {
+
+      },
+      profilePic: {
+
+      }
+    }
+  },
   methods: {
     getAccountInfo() {
 

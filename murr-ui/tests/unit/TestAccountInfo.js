@@ -1,95 +1,38 @@
-const request = require('supertest')('http://127.0.0.1:8000/api')
-const expect = require('chai').expect
+import { mount } from '@vue/test-utils'
+import AccountInfo from '@/components/AccountInfo'
+import { expect } from 'chai'
 
-// npm install --save supertest mocha chai
+let wrapper
 
-//Will have to change tests to not interact with back end
-
-describe('AccountInfo', function () {
-
-  //Resident puts valid first name
-  it('Valid first name', async function () {
-    const account = {
-      firstName: "Tom"
-    }
-    const response = await request
-      .put(account.firstName)
-      .send(account)
-    expect(response.status).to.eql(200)
-    expect(response.text).to.eql('Account information has been updated')
+describe('AccountInfo', () => {
+  beforeEach(() => {
+    wrapper = mount(AccountInfo, {
+      propsData: {
+        account: {
+          residentID: 1,
+          firstName: '',
+          lastName: '',
+          profilePic: ''
+        }
+      }
+    })
   })
 
-  //Resident puts invalid first name
-  it('First name too long', async function () {
-    const first = 'f'
-    const account = {
-      firstName: first.repeat(21)
-    }
-    const response = await request
-      .put(account.firstName)
-      .send(account)
-    expect(response.status).to.eql(400)
-    expect(response.text).to.eql('Unable to update account information')
+  it('Should successfully updates first name', async () => {
+    const inputFirst = wrapper.find('#firstName')
+    await inputFirst.setValue('Tom')
+    expect(wrapper.find('#validInput').text()).to.equal('Account information has been updated')
+  });
+
+  it('Should unsuccessfully update with too long first name', async () => {
+    const inputFirst = wrapper.find('#firstName')
+    await inputFirst.setValue('f'.repeat(21))
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
   })
 
-  //Resident puts invalid first name
-  it('First name too short', async function () {
-    const account = {
-      firstName: "f"
-    }
-    const response = await request
-      .put(account.firstName)
-      .send(account)
-    expect(response.status).to.eql(400)
-    expect(response.text).to.eql('Unable to update account information')
-  })
-
-  //Resident puts valid last name
-  it('Valid last name', async function () {
-    const account = {
-      lastName: 'L.'
-    }
-    const response = await request
-      .put(account.lastName)
-      .send(account)
-    expect(response.status).to.eql(200)
-    expect(response.text).to.eql('Account information has been updated')
-  })
-
-  //Resident puts invalid last name
-  it('Last name too long', async function () {
-    const last = 'n'
-    const account = {
-      lastName: last.repeat(21)
-    }
-    const response = await request
-      .put(account.lastName)
-      .send(account)
-    expect(response.status).to.eql(400)
-    expect(response.text).to.eql('Unable to update account information')
-  })
-
-  //Resident puts valid profile picture
-  it('Valid profile picture', async function () {
-    const account = {
-      profilePic: 'C:/image.jpg'
-    }
-    const response = await request
-      .put(account.profilePic)
-      .send(account)
-    expect(response.status).to.eql(200)
-    expect(response.text).to.eql('Account information has been updated')
-  })
-
-  //Resident puts invalid profile picture
-  it('Profile picture not image', async function () {
-    const account = {
-      profilePic: 'C:/image.txt'
-    }
-    const response = await request
-      .put(account.profilePic)
-      .send(account)
-    expect(response.status).to.eql(400)
-    expect(response.text).to.eql('Unable to update account information')
+  it('Should unsuccessfully update with too short first name', async () => {
+    const inputFirst = wrapper.find('#firstName')
+    await inputFirst.setValue('f'.repeat(21))
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
   })
 })
