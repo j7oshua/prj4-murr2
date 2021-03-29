@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-      <h1>CollectionSite</h1>
+      <h1>Collection Site Form</h1>
     </div>
     <div v-if="!showForm">
       <!-- this is a hard-coded site, for route story this is where the list of sites would be displayed -->
        <h2>Site1 Wascana
         <!-- the button will redirect to the DriverPickUp.vue component -->
-        <b-button size="sm" class="mb-2" @click="reDirectToDriverPickup">
+        <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
               <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
         </b-button></h2>
     </div>

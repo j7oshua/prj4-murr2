@@ -1,10 +1,10 @@
-<<<<<<< HEAD
+
 <template>
   <div>
     <form id="form" v-if="showForm" @submit.prevent="postPickup">
       <div class="form-row">
         <!-- This will show the site id -->
-        <div class="form-group col-4">
+        <div class="form-group col-2">
           <label for="siteId">Site ID: </label>
           <div v-if="siteObject.id == 0 || siteObject.id.isEmpty">
             <span id="invalidSite">Error - No site exists.</span>
@@ -14,7 +14,7 @@
           </div>
         </div>
         <!-- This will show the site name-->
-        <div class="form-group col-4">
+        <div class="form-group col-2">
           <label for="siteName">Site ID: </label>
           <div v-if="siteObject.siteName.length === 0">
             <span id="invalidSiteName">Error - No site exists</span>
@@ -24,8 +24,8 @@
           </div>
         </div>
         <!-- This will show the current date from the website-->
-        <div class="form-group col-4">
-          <label for="siteDate">Date: </label>
+        <div class="form-group col-2">
+          <label for="siteDate"> Date: </label>
           <p id="siteDate">{{dateStamp}}</p>
         </div>
       </div>
@@ -53,22 +53,25 @@
           <span></span>
         </div>
       </div>
-      <div v-if="countedBins == siteObject.numBins" class="form-group col-6 border border-success">
+      <div v-if="countedBins == 0" class="form-group col-6 border border-success">
+        <span ></span>
+      </div>
+      <div v-else-if="countedBins == siteObject.numBins" class="form-group col-6 border border-success">
         <span id="properBins" class="text-success p-2">Valid bin amount</span>
       </div>
       <div v-else  class="form-group col-6 border border-danger">
         <span  id="improperBins" class="text-danger p-2">This Site is expecting {{siteObject.numBins}} bins.</span>
       </div>
       <div>
-        <button type="submit" class="btn btn-submit" >Submit</button>
+        <confirm :showModal="showModal" :siteName="siteName" :pickUp="pickup" @finished="confirmFinished"></confirm>
+        <button type="submit" class="btn btn-submit btn-primary" >Submit</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-// import { validationMixin } from 'vuelidate'
-// import { numeric, required } from 'vuelidate/lib/validators'
+import SitePointsConfirmation from '@/components/SitePointsConfirmation'
 import MurrMixin from '@/mixins/murr-mixin'
 
 export default {
@@ -89,6 +92,9 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  components: {
+    confirm: SitePointsConfirmation
   },
   data () {
     return {
@@ -135,14 +141,15 @@ export default {
         })
         .finally(() => { // this will emit to stop showing the form.
           this.$emit('finished')
+          this.showModal = true
         })
     },
     getServerDate: function () {
       const today = new Date()
       this.dateStamp = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     },
-    checkValidBins: function (value) {
-      return value === this.siteObject.numBins
+    confirmFinished () {
+      this.showModal = false
     }
   },
   computed: {
@@ -160,17 +167,8 @@ export default {
 
 </style>
 =======
-<template>
-  <div>
-    <!-- Confirmation component that confirms the site to get points. Used in Story05 -->
-    <confirm :showModal="showModal" :siteName="siteName" :pickUp="pickup" @finished="confirmFinished"></confirm>
-    <!-- **********This button can be merged into the button for story03 postPickup button ************** -->
-    <button @click="postPickup">Submit</button>
-  </div>
-</template>
-
 <script>
-import SitePointsConfirmation from '@/components/SitePointsConfirmation'
+
 export default {
   name: 'DriverPickUp',
   components: {
