@@ -76,6 +76,17 @@ class PickUp
 
     }
 
+    public function getSiteObject(): ?Site
+    {
+        return $this->siteObject;
+    }
+
+    public function setSiteObject(?Site $siteObject): void
+    {
+        $this->siteObject = $siteObject;
+
+    }
+
     public function getNumCollected(): ?int
     {
         return $this->numCollected;

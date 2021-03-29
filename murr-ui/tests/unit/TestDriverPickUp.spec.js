@@ -7,7 +7,7 @@ import { expect } from 'chai'
 // global wrapper
 let wrapper
 
-//Pre-sets the mount
+// Pre-sets the mount
 describe('DriverPickUp.vue', () => {
   beforeEach(() => {
     wrapper = shallowMount(DriverPickUp)
@@ -17,11 +17,11 @@ describe('DriverPickUp.vue', () => {
    * TestCollectedFour
    */
   it('Should display Valid bin amount when all four bins in Collect input', async () => {
-    //set wrapper to find collected
+    // set wrapper to find collected
     const Collected = wrapper.find('#collected')
-    //sets the value to 5
+    // sets the value to 5
     await Collected.setValue('5')
-    //checks to is if the value equals 5
+    // checks to is if the value equals 5
     expect(wrapper.find('#collected').element.value).to.equal('5')
     // if the bins are correct it will display this message
     expect(wrapper.find('.border-success span').text()).to.equal('Valid bin amount')
@@ -72,13 +72,6 @@ describe('DriverPickUp.vue', () => {
     const contaminatedBin = wrapper.find('#contaminated')
     await contaminatedBin.setValue('1')
     expect(wrapper.find('#contaminated').element.value).to.equal('1')
-    expect(wrapper.find('.border-danger span').text()).to.equal('This Site is expecting 5 bins.')
-  })
-
-  /**
-   * TestNullBinError
-   */
-  it('Should display error message when all input types are set to null and is expecting 4', async () => {
     expect(wrapper.find('.border-danger span').text()).to.equal('This Site is expecting 5 bins.')
   })
 
