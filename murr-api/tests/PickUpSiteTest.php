@@ -52,22 +52,6 @@ class PickUpSiteTest extends ApiTestCase
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
         //this status code means "OK"
         $this->assertResponseStatusCodeSame(200);
-        //this will check if the header has a content type of a json ld object
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        //this will will check if the url has the proper pattern and id
-//        try {
-//            $this->assertMatchesRegularExpression('/^\/pick_ups\/\d+$/', $response->toArray()['@id']); //this does not work.
-//        } catch (ClientExceptionInterface $e) {
-//            $this->expectExceptionMessage($e);
-//        } catch (DecodingExceptionInterface $e) {
-//            $this->expectExceptionMessage($e);
-//        } catch (RedirectionExceptionInterface $e) {
-//            $this->expectExceptionMessage($e);
-//        } catch (ServerExceptionInterface $e) {
-//            $this->expectExceptionMessage($e);
-//        } catch (TransportExceptionInterface $e) {
-//            $this->expectExceptionMessage($e);
-//        }
         //this will check if the item returned is a PickUp object class
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
         //JSONLD expected result should be this:
@@ -95,15 +79,13 @@ class PickUpSiteTest extends ApiTestCase
 
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
         //this status code means "OK"
-        $this->assertResponseStatusCodeSame(200); //I think this is suppose to be 201 as "created but i cannot get in it to change the status
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        //$this->assertMatchesRegularExpression('/^\/pick_ups\/\d+$/', $response->toArray()['@id']);
+        $this->assertResponseStatusCodeSame(200);
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
         //JSONLD expected result should be this:
         $this->assertJsonContains([ //why does the id not generate properly
             'siteObject' => "/api/sites/1",
-            'id' => 2,
+            'id' => 1,
             'numCollected' => 2,
             'numContaminated' => 2,
             'numObstructed' => 1,
@@ -131,7 +113,7 @@ class PickUpSiteTest extends ApiTestCase
        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
        //expected hydra result
-           $this->assertJsonContains([ //i get a syntax error and i do not know why cause i get get the result i want on postman but not on here
+           $this->assertJsonContains([ 
                '0' => "site: Number of bins do not match."
            ]);
 
