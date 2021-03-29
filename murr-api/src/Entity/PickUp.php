@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={"post", "get"},
  *     itemOperations={"get"}
  * )
- * @ORM\Entity(repositoryClass=PickUpRepository::class)point_resident
+ * @ORM\Entity(repositoryClass=PickUpRepository::class)
  */
 class PickUp
 {
@@ -58,22 +58,6 @@ class PickUp
      * @ORM\JoinColumn(nullable=false)
      */
     private $siteObject;
-
-    /**
-     * @return mixed
-     */
-    public function getSiteObject()
-    {
-        return $this->siteObject;
-    }
-
-    /**
-     * @param mixed $siteObject
-     */
-    public function setSiteObject($siteObject): void
-    {
-        $this->siteObject = $siteObject;
-    }
 
 
     public function getId(): ?int

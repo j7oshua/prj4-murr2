@@ -63,10 +63,10 @@
         <span  id="improperBins" class="text-danger p-2">This Site is expecting {{siteObject.numBins}} bins.</span>
       </div>
       <div>
-        <confirm :showModal="showModal" :siteName="siteName" :pickUp="pickup" @finished="confirmFinished"></confirm>
-        <button type="submit" class="btn btn-submit btn-primary" >Submit</button>
+        <button type="submit" class="btn btn-submit btn-primary">Submit</button>
       </div>
     </form>
+    <confirm :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickup" @finished="confirmFinished"></confirm>
   </div>
 </template>
 
@@ -129,10 +129,6 @@ export default {
       })
         .then(resp => {
           this.pickup = resp.data
-          if (resp === 201) {
-            // toast statement of submit
-            this.$toasted.show('Submitted')
-          }
         })
         .catch(err => {
           if (err.response === 404) {
