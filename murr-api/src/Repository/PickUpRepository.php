@@ -51,6 +51,10 @@ class PickUpRepository extends ServiceEntityRepository
     */
 
 
+    /**
+     * this is for if we need to setup the id manually in the conrtoller
+     * @return int|null
+     */
     public function getMaxId(): ?int
     {
         return $qb = $this->getEntityManager()->createQueryBuilder()
@@ -62,16 +66,13 @@ class PickUpRepository extends ServiceEntityRepository
     /***
      * @param $entity
      * @return mixed
-     * @throws ORMException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function save($entity) : PickUp
     {
         $this->_em->persist($entity);
-        try {
             $this->_em->flush();
-        } catch (OptimisticLockException | ORMException $e) {
-            $entity = null;
-        }
         return  $entity;
     }
 

@@ -65,8 +65,11 @@ class PickUpController extends AbstractController
                     $result[$violation->getPropertyPath()] = $violation->getMessage();
                 }
                 if (empty($result)) {
-                        $pickupRepo->save($pickUpObject);
-                    return $this->json($pickUpObject);
+                      $result = $pickupRepo->save($pickUpObject);
+                    return $this->json($result);
+
+                }else{
+                    return $this->json($result);
                 }
             } else {
 
