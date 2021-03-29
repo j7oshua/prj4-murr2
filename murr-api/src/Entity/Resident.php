@@ -15,8 +15,9 @@ use App\Validator as AcmeAssert;
  * @ApiResource(
  *     itemOperations={"get"={
  *             "path"="/api/residents/{id}",
+ *     "access_control"="is_granted('ROLE_USER')",
  *             "swagger_context"={
- *                 "tags"={"Resident"}
+ *                 "tags"={"Resident"},
  *             }
  *          }
  *     },

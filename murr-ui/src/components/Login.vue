@@ -2,7 +2,7 @@
   <div>
     <h1>Login</h1>
     <!-- The form input -->
-    <form @submit.prevent="getLoginInfo()">
+    <form @submit.prevent="login()">
       <div class="form-row">
         <!-- email input box -->
         <div class="form-group col-md-6">
@@ -40,37 +40,33 @@ export default {
     }
   },
   methods: {
-    getLoginInfo: function () {
+    login: function () {
       this.isBusy = true
       if (this.userName !== '' && this.password !== '') {
-        this.axios.get(this.RESIDENT_POINTS_URL, {
+        this.axios.post(this.RESIDENT_POINTS_URL, {
           params: {
             userName: this.userName,
             password: this.password
           }
+        }).then(function (response) {
+          alert('Successfully Logged in')
+        }).catch(function () {
+          alert('Invalid Login: Fields do not match')
+        }).finally(() => {
+          this.isBusy(false)
         })
-          .then(function (response) {
-            // localStorage.setItem('id', JSON.stringify(response.data[0]))
-            // localStorage.setItem('username', this.resident.userName)
-            alert('Successfully Logged in')
-          })
-          .catch(function () {
-            alert('User name and/or Password incorrect')
-          })
-          .finally(() => {
-            this.isBusy(false)
-          })
       } else {
-        alert('Please enter username & password')
+        alert('Invalid Login: Fields do not match')
         this.isBusy(false)
       }
     },
     isLoggedIn: function () {
-
+      // localStorage.setItem('id', JSON.stringify(response.data[0]))
+      // localStorage.setItem('username', this.resident.userName)
     }
   },
   mounted () {
-    this.getLoginInfo()
+    this.login()
   }
 }
 </script>
