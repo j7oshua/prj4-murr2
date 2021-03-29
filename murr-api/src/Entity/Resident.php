@@ -68,7 +68,7 @@ class Resident implements UserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=30, unique=true)
+     * @ORM\Column(type="string", length=30)
      * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to be at least {{ limit }} characters.", maxMessage = "Password has to be {{ limit }} characters or less.")
      * @Assert\NotBlank(message = "Password should not be left blank.")
      */

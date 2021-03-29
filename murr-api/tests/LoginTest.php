@@ -47,6 +47,7 @@ class LoginTest extends ApiTestCase
             'email' => 'hello@test.com',
             'phone' => '3065558888',
             'password' => 'password',
+            'apiToken' => '123456'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -72,6 +73,7 @@ class LoginTest extends ApiTestCase
             'email' => 'hello@test.com',
             'phone' => '3065558888',
             'password' => 'password',
+            'apiToken' => '123456'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -95,9 +97,10 @@ class LoginTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
-            'email' => 'hello@test.com',
-            'phone' => '3065558888',
+            'email' => '',
+            'phone' => '333',
             'password' => 'password',
+            'apiToken' => null
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -114,6 +117,7 @@ class LoginTest extends ApiTestCase
             'email' => 'hellotestcom',
             'phone' => '',
             'password' => 'password',
+
         ]]);
 
         $this->assertResponseStatusCodeSame(404);
@@ -121,9 +125,10 @@ class LoginTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
-            'email' => 'hello@test.com',
-            'phone' => '3065558888',
+            'email' => 'hellotestcom',
+            'phone' => '',
             'password' => 'password',
+            'apiToken' => null
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -148,7 +153,8 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hello@test.com',
             'phone' => '3065558888',
-            'password' => 'password',
+            'password' => 'pass',
+            'apiToken' => null
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -174,9 +180,10 @@ class LoginTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
-            'email' => 'hello@test.com',
-            'phone' => '3065558888',
-            'password' => 'password',
+            'email' => '',
+            'phone' => '',
+            'password' => '',
+            'apiToken' => null
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
