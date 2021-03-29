@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "AccountInfo",
+  name: 'AccountInfo',
   props: {
     account: {
       type: Object
