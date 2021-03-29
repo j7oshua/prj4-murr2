@@ -4,7 +4,6 @@ const expect = require('chai').expect
 // npm install --save supertest mocha chai
 
 describe('GET /articles', function () {
-
   /**
    * Title: Resident views all recycling articles on main page
    * Purpose: This test will test that ALL articles appear on the main education page
@@ -51,4 +50,3 @@ describe('GET /articles', function () {
     expect(response.status).to.eql(404)
   })
 })
-

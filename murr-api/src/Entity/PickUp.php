@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
+
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PickUpRepository;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator as AcmeAssert;
 
 
 /**
@@ -29,8 +29,6 @@ class PickUp
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotNull(message="Invalid: Bin input required.")
-     * @Assert\PositiveOrZero(message="number of bins must be a zero or positve integer")
      */
     private $numCollected;
 
@@ -53,14 +51,11 @@ class PickUp
      * @Assert\Date
      * @Assert\NotBlank(message="Invalid: date required.")
      */
-    private $dateTime;
-
-    //* @Assert\LessThan("today UTC", message="Invalid Date. This is a past Date")
-    //     * @Assert\GreaterThan("today UTC", message="Invalid Date. This is a future Date")
-    //* @var string A "Y-m-d" formatted value
+    private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=Site::class,inversedBy="pickupCollection")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $siteObject;
 
@@ -81,18 +76,20 @@ class PickUp
     }
 
 
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param Int $id
-     */
-    public function setId(int $id): void
+    public function getSite(): ?Site
     {
-        $this->id = $id;
+        return $this->siteObject;
+    }
+
+    public function setSite(?Site $siteObject): void
+    {
+        $this->siteObject = $siteObject;
+
     }
 
     public function getNumCollected(): ?int
@@ -131,16 +128,15 @@ class PickUp
         return $this;
     }
 
-    public function getDateTime(): ?string
+    public function getDate(): ?string
     {
-        return $this->dateTime;
+        return $this->date;
     }
 
-    public function setDateTime(string $dateTime): self
+    public function setDate(string $date): self
     {
-        $this->dateTime = $dateTime;
+        $this->date = $date;
 
         return $this;
     }
-
 }

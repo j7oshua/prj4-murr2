@@ -1,0 +1,22 @@
+# Story05 - Created two pickup fixtures to be used. One pickup with Site One and one pickup for Site Two.
+App\Entity\Pickup:
+  PickupOne:
+    site: '@SiteOne'
+    numCollected: 5
+    numObstructed: 0
+    numContaminated: 0
+    date: '2021-01-01'
+
+  PickupTwo:
+    site: '@SiteTwo'
+    numCollected: 0
+    numObstructed: 2
+    numContaminated: 4
+    date: '2021-01-01'
+
+  PickupThree:
+    site: '@SiteTwo'
+    numCollected: 3
+    numObstructed: 2
+    numContaminated: 1
+    date: '2021-01-01'

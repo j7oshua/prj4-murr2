@@ -6,6 +6,7 @@ use App\Entity\PickUp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,34 +22,16 @@ class PickUpRepository extends ServiceEntityRepository
         parent::__construct($registry, PickUp::class);
     }
 
-    // /**
-    //  * @return PickUp[] Returns an array of PickUp objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?PickUp
+    public function findPickupById($value): ?PickUp
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->andWhere('p.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 
 
     /**
@@ -75,6 +58,5 @@ class PickUpRepository extends ServiceEntityRepository
             $this->_em->flush();
         return  $entity;
     }
-
 
 }

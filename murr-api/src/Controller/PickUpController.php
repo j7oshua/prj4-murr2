@@ -57,7 +57,7 @@ class PickUpController extends AbstractController
                 $pickUpObject->setNumCollected($pickUpArrayInfo['numCollected']);
                 $pickUpObject->setNumObstructed($pickUpArrayInfo['numObstructed']);
                 $pickUpObject->setNumContaminated($pickUpArrayInfo['numContaminated']);
-                $pickUpObject->setDateTime(date("Y-m-d")); //use the servers date time instead
+                $pickUpObject->setDate(date("Y-m-d")); //use the servers date time instead
                 $pickUpObject->setSiteObject($site);
 
                 $result = [];
@@ -78,7 +78,7 @@ class PickUpController extends AbstractController
                     $pickUpObject2->setNumCollected($pickUpArrayInfo['numCollected']);
                     $pickUpObject2->setNumObstructed($pickUpArrayInfo['numObstructed']);
                     $pickUpObject2->setNumContaminated($pickUpArrayInfo['numContaminated']);
-                    $pickUpObject2->setDateTime(date("Y-m-d")); //use the servers date time instead
+                    $pickUpObject2->setDate(date("Y-m-d")); //use the servers date time instead
                     $pickUpObject2->setSiteObject($site);
                 } catch (\TypeError $e) { //this is if a null is passed
                     $result = $this->json(['Invalid: Bin input required.']);

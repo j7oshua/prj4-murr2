@@ -19,6 +19,14 @@ const routes = [
     component: () => import('../views/Points.vue')
   },
   {
+<<<<<<< HEAD
+=======
+    path: '/DriverCollection',
+    name: 'DriverCollection',
+    component: () => import('../views/DriverCollection.vue')
+  },
+  {
+>>>>>>> master
     path: '/edu',
     name: 'RecyclingArticles',
     component: () => import('../views/RecyclingArticles')
@@ -27,14 +35,16 @@ const routes = [
     path: '/edu/articles/:id',
     name: 'Article',
     component: () => import('../views/Article')
+<<<<<<< HEAD
   },
   {
     path: '/DriverCollection',
     name: 'Driver Collection',
     component: () => import('../views/DriverCollection')
+=======
+>>>>>>> master
   }
 ]
-
 const router = new VueRouter({
   routes
 })

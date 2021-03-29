@@ -14,15 +14,10 @@ class PickUpSiteTest extends ApiTestCase
     //refreshes the database for every test
     use RefreshDatabaseTrait;
 
-    //something is wrong cause i cannot see the pickup i created after the test.
-
     private $pickUp;
 
     //static URL
-    //const API_URL = '127.0.0.1:8000/api/pick_ups';
     const API_URL = 'localhost:8000/pickups';
-
-    //Sets up each test with the variable that will be inputted into the test
 
     /**
      * @before
@@ -35,7 +30,7 @@ class PickUpSiteTest extends ApiTestCase
             'numCollected' => 5,
             'numContaminated' => 0,
             'numObstructed' => 0,
-            'dateTime' => "2021-03-26"
+            'date' => "2021-03-26"
         ];
     }
 
@@ -57,11 +52,11 @@ class PickUpSiteTest extends ApiTestCase
         //JSONLD expected result should be this:
         $this->assertJsonContains([
             'siteObject' => "/api/sites/1",
-            'id' => 1,
+            'id' => 4,
             'numCollected' => 5,
             'numContaminated' => 0,
             'numObstructed' => 0,
-            'dateTime' => date("Y-m-d")
+            'date' => date("Y-m-d")
         ]);
     }
 
@@ -83,13 +78,13 @@ class PickUpSiteTest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
 
         //JSONLD expected result should be this:
-        $this->assertJsonContains([ //why does the id not generate properly
+        $this->assertJsonContains([
             'siteObject' => "/api/sites/1",
-            'id' => 1,
+            'id' => 4,
             'numCollected' => 2,
             'numContaminated' => 2,
             'numObstructed' => 1,
-            'dateTime' => date("Y-m-d")
+            'date' => date("Y-m-d")
         ]);
 
     }
@@ -102,17 +97,14 @@ class PickUpSiteTest extends ApiTestCase
      */
    public function TestValidNumberOfBinsLessThanFour(): void
    {
-       $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-           'siteId' => 1,
-            'numCollected' => 2,
-            'numContaminated' => 1,
-            'numObstructed' => 1,
-            'dateTime' => "2021-03-08"
-           ]]);
-       $this->assertResponseStatusCodeSame(400);
-       //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-       //expected hydra result
+       $this->pickUp['numCollected'] = 2;
+       $this->pickUp['numObstructed'] = 1;
+       $this->pickUp['numContaminated'] = 1;
+
+       $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+       $this->assertResponseStatusCodeSame(400);
+
            $this->assertJsonContains([ 
                '0' => "site: Number of bins do not match."
            ]);
@@ -127,17 +119,13 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestInvalidNumberOfBinsMoreThanFive (): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'siteId' => 1,
-            'numCollected' => 2,
-            'numContaminated' => 2,
-            'numObstructed' => 2,
-            'dateTime' => "2021-03-08"
-        ]]);
-        $this->assertResponseStatusCodeSame(400);
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-        //expected hydra result
+        $this->pickUp['numCollected'] = 2;
+        $this->pickUp['numObstructed'] = 2;
+        $this->pickUp['numContaminated'] = 2;
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        $this->assertResponseStatusCodeSame(400);
+
         $this->assertJsonContains([
             '0' => "site: Number of bins do not match."
         ]);
@@ -152,15 +140,10 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestSiteDoesNotExistsNegativeOutofBounds(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'siteId' => -1,
-            'numCollected' => 2,
-            'numContaminated' => 1,
-            'numObstructed' => 2,
-            'dateTime' => "2021-03-08"
-        ]]);
+        $this->pickUp['siteId'] = -1;
+
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(404);
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         //expected hydra result
         $this->assertJsonContains([
@@ -177,17 +160,11 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestSiteDoesNotExist(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'siteId' => 99,
-            'numCollected' => 2,
-            'numContaminated' => 1,
-            'numObstructed' => 2,
-            'dateTime' => "2021-03-08"
-        ]]);
-        $this->assertResponseStatusCodeSame(404);
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->pickUp['siteId'] = 99;
 
-        //expected hydra result
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        $this->assertResponseStatusCodeSame(404);
+
         $this->assertJsonContains([
             '0' => "Item not found for site 99."
         ]);
@@ -203,17 +180,11 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestNullSite(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'siteId' => null,
-            'numCollected' => 2,
-            'numContaminated' => 1,
-            'numObstructed' => 2,
-            'dateTime' => "2021-03-08"
-        ]]);
-        $this->assertResponseStatusCodeSame(404);
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        $this->pickUp['siteId'] = null;
 
-        //expected hydra result
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        $this->assertResponseStatusCodeSame(404);
+
         $this->assertJsonContains([
             '0' => "Invalid: site required."
         ]);
@@ -229,17 +200,12 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestNullBins(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
-            'siteId' => 1,
-            'numCollected' => null,
-            'numContaminated' => null,
-            'numObstructed' => null,
-            'dateTime' => "2021-03-08"
-        ]]);
+        $this->pickUp['numCollected'] = null;
+        $this->pickUp['numObstructed'] = null;
+        $this->pickUp['numContaminated'] = null;
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(400);
-        //$this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-        //expected hydra result
         $this->assertJsonContains([
             '0' => 'Invalid: Bin input required.'
         ]);

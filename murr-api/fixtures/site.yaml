@@ -1,8 +1,11 @@
+# Story05 - Created two site fixtures with three residents in the Wascana site and two residents in the Brighton site
 App\Entity\Site:
   SiteOne:
     siteName: 'Wascana'
     numBins: 5
+    residents: ['@residentOne', '@residentTwo', '@residentThree']
 
   SiteTwo:
     siteName: 'Brighton'
     numBins: 6
+    residents: ['@residentFour', '@residentFive']

@@ -1,6 +1,4 @@
-
-
-//story 32 below
+// story 32 below
 /*
 describe('User sees his points empty.', () => {
   it('HomeUI successfully gets points information zero', () => {
