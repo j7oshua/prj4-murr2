@@ -16,7 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class PickUpController extends AbstractController
+class
+PickUpController extends AbstractController
 {
     /**
      * @Route("/pickups", name="add_pickup", methods={"POST"})

@@ -6,6 +6,7 @@
         <!-- This will show the site id -->
         <div class="form-group col-2">
           <label for="siteId">Site ID: </label>
+<!--          check to see if there is an id greater then 0 or if it is empty-->
           <div v-if="siteObject.id == 0 || siteObject.id.isEmpty">
             <span id="invalidSite">Error - No site exists.</span>
           </div>
@@ -16,6 +17,7 @@
         <!-- This will show the site name-->
         <div class="form-group col-2">
           <label for="siteName">Site ID: </label>
+<!--          check to see if the siteName is nulll-->
           <div v-if="siteObject.siteName.length === 0">
             <span id="invalidSiteName">Error - No site exists</span>
           </div>
@@ -53,12 +55,15 @@
           <span></span>
         </div>
       </div>
-      <div v-if="countedBins == 0" class="form-group col-6 border border-success">
+<!--      Does the validating first is all bin equal 0-->
+      <div v-if="countedBins == 0" class="form-group col-6">
         <span ></span>
       </div>
+<!--      checks is the counted biun match the numbins of site bins-->
       <div v-else-if="countedBins == siteObject.numBins" class="form-group col-6 border border-success">
         <span id="properBins" class="text-success p-2">Valid bin amount</span>
       </div>
+<!--      if they do not match-->
       <div v-else  class="form-group col-6 border border-danger">
         <span  id="improperBins" class="text-danger p-2">This Site is expecting {{siteObject.numBins}} bins.</span>
       </div>
@@ -66,7 +71,8 @@
         <button type="submit" class="btn btn-submit btn-primary">Submit</button>
       </div>
     </form>
-    <confirm :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickup" @finished="confirmFinished"></confirm>
+<!--    shows the modal-->
+    <confirm :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickUp2" @finished="confirmFinished"></confirm>
   </div>
 </template>
 
@@ -105,7 +111,13 @@ export default {
         numContaminated: 0
       },
       error: {},
-      dateStamp: ''
+      dateStamp: '',
+      showModal: false,
+      pickUp2: {
+        pickupID: -1,
+        siteId: this.siteObject.id,
+        numCollected: 0
+      }
     }
   },
 
@@ -114,13 +126,17 @@ export default {
   },
   methods: {
     postPickup: function () {
+      // sets up the error array
       this.error = {}
+      // sets up the pickup object
       this.pickup = {
         numCollected: parseInt(this.pickup.numCollected),
         numContaminated: parseInt(this.pickup.numContaminated),
         numObstructed: parseInt(this.pickup.numObstructed),
         siteId: this.siteObject.id
       }
+      // story 05 need the numCollected
+      this.pickUp2.numCollected = parseInt(this.pickup.numCollected)
       // Direct axios call here
       this.axios({
         method: 'post',
@@ -128,7 +144,11 @@ export default {
         data: this.pickup
       })
         .then(resp => {
+          // returns the pickup object
           this.pickup = resp.data
+          // sets the returned the pickup id
+          this.pickUp2.pickupID = this.pickup.id
+          // this.pickUp2.numCollected = parseInt(this.pickup.numCollected)
         })
         .catch(err => {
           if (err.response === 404) {
@@ -136,11 +156,13 @@ export default {
           }
         })
         .finally(() => { // this will emit to stop showing the form.
-          this.$emit('finished')
+          // this.$emit('finished')
+          // turns the modal on
           this.showModal = true
         })
     },
     getServerDate: function () {
+      // sets the date
       const today = new Date()
       this.dateStamp = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     },
@@ -150,6 +172,7 @@ export default {
   },
   computed: {
     countedBins: function () {
+      // counts all the bin inputs
       const collected = this.pickup.numCollected === '' ? 0 : parseInt(this.pickup.numCollected)
       const contaminated = this.pickup.numContaminated === '' ? 0 : parseInt(this.pickup.numContaminated)
       const obstructed = this.pickup.numObstructed === '' ? 0 : parseInt(this.pickup.numObstructed)
@@ -162,47 +185,3 @@ export default {
 <style scoped>
 
 </style>
-=======
-<script>
-
-export default {
-  name: 'DriverPickUp',
-  components: {
-    confirm: SitePointsConfirmation
-  },
-  data () {
-    return {
-      // ***PickupObject needed for Story05 - pickup Object with pickupID and siteId is needed to be passed down to confirm component
-      pickup: {
-        pickupID: 1,
-        siteId: 1,
-        numCollected: 5,
-        numObstructed: 0,
-        numContaminated: 0,
-        dateTime: '2021-01-01'
-      },
-      // ********* Site name will be sent to SitePointsConfirmation component. Used to demonstrate story. Can be removed
-      // as long as the siteName from the props is sent to the confirm component. ***************************
-      siteName: 'Brighton',
-      showModal: false
-    }
-  },
-  methods: {
-    // Hides modal when the SitePointsConfirmation component is finished
-    confirmFinished () {
-      this.showModal = false
-    },
-    // ********* This is for the API call. ***this.showModal should be called in the .finally() of the call to the API
-    // After the $emit('finished') of Story3 **********************************
-    postPickup () {
-      this.showModal = true
-    }
-  }
-}
-
-</script>
-
-<style scoped>
-
-</style>
->>>>>>> master
