@@ -2,7 +2,7 @@
   <div>
     <h1>Login</h1>
     <!-- The form input -->
-    <form @submit.prevent="login()">
+    <form @submit.prevent="handleSubmit()">
       <div class="form-row">
         <!-- email input box -->
         <div class="form-group col-md-6">
@@ -40,10 +40,11 @@ export default {
     }
   },
   methods: {
+    // this method will handle the submit of login information and make the axios request to the api
     handleSubmit () {
       this.isBusy = true
       this.error = ''
-      axios.post('/login', {
+      axios.post('127.0.0.1:8000/login', {
         username: this.username,
         password: this.password
       })

@@ -16,7 +16,6 @@ describe('GET /login', function () {
 
     expect(response.body['hydra:member'][0]).to.contain({ phone: '' })
     expect(response.body['hydra:member'][0]).to.contain({ email: 'email8@email.com' })
-    expect(response.body['hydra:member'][0]).to.contain({ apiToken: '123456' })
   })
 
   /**
@@ -31,7 +30,6 @@ describe('GET /login', function () {
 
     expect(response.body['hydra:member'][0]).to.contain({ phone: '3065558888' })
     expect(response.body['hydra:member'][0]).to.contain({ email: '' })
-    expect(response.body['hydra:member'][0]).to.contain({ apiToken: '123456' })
   })
 
   /**
@@ -43,7 +41,6 @@ describe('GET /login', function () {
   it('Resident unsuccessfully logs in ', async function () {
     const response = await request.get('/resident/1')
     expect(response.status).to.eql(404)
-    expect(response.body['hydra:member'][0]).to.contain({ apiToken: null })
     expect(response.body['hydra:description']).to.contain({ error: 'Invalid Login: Fields do not match' })
   })
   /**
@@ -56,7 +53,6 @@ describe('GET /login', function () {
   it('Resident enters valid url without logging in ', async function () {
     const response = await request.get('/points/1')
     expect(response.status).to.eql(404)
-    expect(response.body['hydra:member'][0]).to.contain({ apiToken: null })
     expect(response.body['hydra:description']).to.contain({ error: 'Request Denied, must be logged in.' })
   })
 })

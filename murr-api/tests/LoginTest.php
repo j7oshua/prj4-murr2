@@ -29,6 +29,7 @@ class LoginTest extends ApiTestCase
 
     /**
      * @test
+     * Testing login with a valid email and password
      */
     public function TestLoginWithEmail(): void
     {
@@ -46,8 +47,7 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hello@test.com',
             'phone' => '3065558888',
-            'password' => 'password',
-            'apiToken' => '123456'
+            'password' => 'password'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -55,6 +55,7 @@ class LoginTest extends ApiTestCase
 
     /**
      * @test
+     * Testing login with a valid phone and password
      */
     public function TestLoginWithPhone(): void
     {
@@ -72,8 +73,7 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hello@test.com',
             'phone' => '3065558888',
-            'password' => 'password',
-            'apiToken' => '123456'
+            'password' => 'password'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -81,6 +81,7 @@ class LoginTest extends ApiTestCase
 
     /**
      * @test
+     * Testing login with an invalid phone and password
      */
     public function TestInvalidPhone(): void
     {
@@ -99,8 +100,7 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => '',
             'phone' => '333',
-            'password' => 'password',
-            'apiToken' => null
+            'password' => 'password'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -108,6 +108,7 @@ class LoginTest extends ApiTestCase
 
     /**
      * @test
+     * Testing login with an invalid email and password
      */
     public function TestInvalidEmail(): void
     {
@@ -117,7 +118,6 @@ class LoginTest extends ApiTestCase
             'email' => 'hellotestcom',
             'phone' => '',
             'password' => 'password',
-
         ]]);
 
         $this->assertResponseStatusCodeSame(404);
@@ -127,8 +127,7 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hellotestcom',
             'phone' => '',
-            'password' => 'password',
-            'apiToken' => null
+            'password' => 'password'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -136,6 +135,7 @@ class LoginTest extends ApiTestCase
 
     /**
      * @test
+     * Testing login with an invalid password
      */
     public function TestInvalidPassword(): void
     {
@@ -153,8 +153,7 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hello@test.com',
             'phone' => '3065558888',
-            'password' => 'pass',
-            'apiToken' => null
+            'password' => 'pass'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -162,6 +161,7 @@ class LoginTest extends ApiTestCase
 
     /**
      * @test
+     * Testing login with no information entered in
      */
     public function TestInvalidLoginNoInfo(): void
     {
@@ -182,8 +182,7 @@ class LoginTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => '',
             'phone' => '',
-            'password' => '',
-            'apiToken' => null
+            'password' => ''
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
