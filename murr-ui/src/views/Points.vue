@@ -1,6 +1,8 @@
 <template>
   <div class="Points">
     <div>
+      <AccountInfo></AccountInfo>
+      <b-navbar></b-navbar>
       <PointsComponent></PointsComponent>
     </div>
   </div>
@@ -8,11 +10,18 @@
 
 <script>
 import PointsComponent from '../components/ResidentPoints'
-
+import AccountInfo from '@/components/AccountInfo';
 export default {
   name: 'Points',
   components: {
-    PointsComponent
+    PointsComponent,
+    AccountInfo
+  },
+  methods: {
+    // Hides modal when the SitePointsConfirmation component is finished
+    confirmFinished () {
+      this.showModal = false
+    }
   }
 }
 </script>
