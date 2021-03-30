@@ -16,7 +16,7 @@
         </div>
         <!-- This will show the site name-->
         <div class="form-group col-2">
-          <label for="siteName">Site ID: </label>
+          <label for="siteName">Site Name: </label>
 <!--          check to see if the siteName is nulll-->
           <div v-if="siteObject.siteName.length === 0">
             <span id="invalidSiteName">Error - No site exists</span>
@@ -67,8 +67,9 @@
       <div v-else  class="form-group col-6 border border-danger">
         <span  id="improperBins" class="text-danger p-2">This Site is expecting {{siteObject.numBins}} bins.</span>
       </div>
+      <span v-if="error.length" class="text-danger p-2"> {{error}} </span>
       <div>
-        <button type="submit" class="btn btn-submit btn-primary">Submit</button>
+        <button type="submit" class="btn btn-submit btn-primary" :disabled="countedBins != siteObject.numBins">Submit</button>
       </div>
     </form>
 <!--    shows the modal-->
@@ -110,7 +111,7 @@ export default {
         numObstructed: 0,
         numContaminated: 0
       },
-      error: {},
+      error: '',
       dateStamp: '',
       showModal: false,
       pickUp2: {
@@ -127,19 +128,19 @@ export default {
   methods: {
     postPickup: function () {
       // sets up the error array
-      this.error = {}
+      this.error = ''
       // sets up the pickup object
       this.pickup = {
-        numCollected: parseInt(this.pickup.numCollected),
-        numContaminated: parseInt(this.pickup.numContaminated),
-        numObstructed: parseInt(this.pickup.numObstructed),
+        numCollected: this.pickup.numCollected === '' ? 0 : parseInt(this.pickup.numCollected),
+        numContaminated: this.pickup.numContaminated === '' ? 0 : parseInt(this.pickup.numContaminated),
+        numObstructed: this.pickup.numObstructed === '' ? 0 : parseInt(this.pickup.numObstructed),
         siteId: this.siteObject.id
       }
       // story 05 need the numCollected
       this.pickUp2.numCollected = parseInt(this.pickup.numCollected)
       // Direct axios call here
       this.axios({
-        method: 'post',
+        method: 'POST',
         url: this.PICKUP_API_URL,
         data: this.pickup
       })
@@ -149,16 +150,17 @@ export default {
           // sets the returned the pickup id
           this.pickUp2.pickupID = this.pickup.id
           // this.pickUp2.numCollected = parseInt(this.pickup.numCollected)
+          this.showModal = true
         })
         .catch(err => {
-          if (err.response === 404) {
-            this.error = err && err.response ? err.response.data : {}
+          if (err.response.status === 404 || err.response.status === 400) {
+            this.error = err.response.data[0]
           }
-        })
-        .finally(() => { // this will emit to stop showing the form.
-          // this.$emit('finished')
-          // turns the modal on
-          this.showModal = true
+          if (err.response.status === 422) {
+            for (var mesg in err.response.data) {
+              this.error += mesg + '\n'
+            }
+          }
         })
     },
     getServerDate: function () {
@@ -168,6 +170,12 @@ export default {
     },
     confirmFinished () {
       this.showModal = false
+      this.$emit('finished', this.pickup)
+      this.pickup = {
+        numCollected: 0,
+        numContaminated: 0,
+        numObstructed: 0
+      }
     }
   },
   computed: {

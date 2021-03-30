@@ -33,25 +33,18 @@ PickUpController extends AbstractController
 
         //brings an array
         $pickUpArrayInfo = json_decode($request->getContent(), true);
-        try {
-            $site = $siteRepo->find($pickUpArrayInfo['siteId']);
-        }catch (ORMException $e) //this catches the null site
-        {
-            $result = Null;
-            $result = $this->json(['Invalid: site required.']);
-            return $result->setStatusCode(404);
-        }catch (\ErrorException $e){ //this catches if its a string
-            $result = Null;
-            $result = $this->json(['Invalid: site required.']);
-            return $result->setStatusCode(400);
+        if(!is_numeric($pickUpArrayInfo['siteId'])){
+            return $this->json(['Invalid: site required.'])->setStatusCode(404);
         }
+        if (!is_numeric($pickUpArrayInfo['numCollected']) || !is_numeric($pickUpArrayInfo['numObstructed']) || !is_numeric($pickUpArrayInfo['numContaminated']) )
+        {
+            return $this->json(["Invalid: Bin input required."])->setStatusCode(400);
+        }
+        $site = $siteRepo->find($pickUpArrayInfo['siteId']);
 
         try {
             if ($site == NULL) { //this catches if it is not in the database
-                $stringID = (string)$pickUpArrayInfo['siteId'];
-                $result = Null;
-                $result = $this->json(["Item not found for site " . $stringID . "."]);
-                return $result->setStatusCode(404);
+                return $this->json(["Item not found for site " . $pickUpArrayInfo['siteId'] . "."])->setStatusCode(404);
             } else if ($pickUpArrayInfo['numCollected'] + $pickUpArrayInfo['numObstructed'] + $pickUpArrayInfo['numContaminated'] == $site->getNumBins()) {
 
                 $pickUpObject = new PickUp();
@@ -61,50 +54,23 @@ PickUpController extends AbstractController
                 $pickUpObject->setDate(date("Y-m-d")); //use the servers date time instead
                 $pickUpObject->setSiteObject($site);
 
-                $result = [];
+                $violations = [];
                 foreach ($validator->validate($pickUpObject) as $violation) {
-                    $result[$violation->getPropertyPath()] = $violation->getMessage();
+                    $violations[] = $violation->getMessage();
                 }
-                if (empty($result)) {
-                      $result = $pickupRepo->save($pickUpObject);
-                    return $this->json($result);
+                if (empty($violations)) {
+                      $pickup = $pickupRepo->save($pickUpObject);
+                    return $this->json($pickup);
 
                 }else{
-                    return $this->json($result);
+                    return $this->json($violations)->setStatusCode(422);
                 }
             } else {
-
-                $pickUpObject2 = new PickUp();
-                try {
-                    $pickUpObject2->setNumCollected($pickUpArrayInfo['numCollected']);
-                    $pickUpObject2->setNumObstructed($pickUpArrayInfo['numObstructed']);
-                    $pickUpObject2->setNumContaminated($pickUpArrayInfo['numContaminated']);
-                    $pickUpObject2->setDate(date("Y-m-d")); //use the servers date time instead
-                    $pickUpObject2->setSiteObject($site);
-                } catch (\TypeError $e) { //this is if a null is passed
-                    $result = $this->json(['Invalid: Bin input required.']);
-                    $result->setStatusCode(400);
-                    //return $result->setContent($e);
-                    return $result;
-                }
-
-                $result = [];
-                foreach ($validator->validate($pickUpObject2) as $violation) {
-                    $result[$violation->getPropertyPath()] = $violation->getMessage();
-                }
-                if(empty($result)){ //this is usually for if the bins total is incorrect
-                    $result = ['site: Number of bins do not match.'];
-                }
-                $result2 = $this->json($result);
-                //$result2->setContent($result);
-                return $result2->setStatusCode(400);
+                return $this->json(['site: Number of bins do not match.'])->setStatusCode(400);
 
             }
         }catch (\ErrorException $e){ //this catches if a string is inputted as one or all of the bins
-            $result = $this->json(['Invalid: Bin input error.']);
-            $result->setStatusCode(400);
-            //return $result->setContent($e);
-            return $result;
+            return $this->json(['Invalid: Bin input error.'])->setStatusCode(400);
         }
     }
 }
