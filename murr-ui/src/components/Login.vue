@@ -25,6 +25,7 @@
 
 <script>
 import ResidentMixin from '../mixins/resident-mixin'
+import axios from 'axios'
 export default {
   name: 'Login',
   mixins: [ResidentMixin],
@@ -32,41 +33,36 @@ export default {
     return {
       resident: {
         username: '',
-        password: '',
-        apiToken: ''
+        password: ''
       },
-      url: '/points/',
+      url: '/login',
       isBusy: false
     }
   },
   methods: {
-    login: function () {
+    handleSubmit () {
       this.isBusy = true
-      if (this.userName !== '' && this.password !== '') {
-        this.axios.post(this.RESIDENT_POINTS_URL, {
-          params: {
-            userName: this.userName,
-            password: this.password
+      this.error = ''
+      axios.post('/login', {
+        username: this.username,
+        password: this.password
+      })
+        .then(response => {
+          this.username = ''
+          this.password = ''
+        }).catch(error => {
+          if (error.response.data.error) {
+            this.error = error.response.data.error
+          } else {
+            this.error = 'Unknown error'
           }
-        }).then(function (response) {
-          alert('Successfully Logged in')
-        }).catch(function () {
-          alert('Invalid Login: Fields do not match')
         }).finally(() => {
-          this.isBusy(false)
+          this.isBusy = false
         })
-      } else {
-        alert('Invalid Login: Fields do not match')
-        this.isBusy(false)
-      }
     },
-    isLoggedIn: function () {
-      // localStorage.setItem('id', JSON.stringify(response.data[0]))
-      // localStorage.setItem('username', this.resident.userName)
+    mounted () {
+      this.handleSubmit()
     }
-  },
-  mounted () {
-    this.login()
   }
 }
 </script>

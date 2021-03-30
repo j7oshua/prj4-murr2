@@ -12,6 +12,7 @@
 // import the component
 import CreateLogin from '@/components/CreateLogin'
 import Login from '@/components/Login'
+import axios from 'axios'
 
 export default {
   // crates a names space for the component
@@ -20,6 +21,17 @@ export default {
     // creates a variable that references the component name space
     CreateLoginForm: CreateLogin,
     Login: Login
+  },
+  data () {
+    return {
+      user: null
+    }
+  },
+  methods: {
+    onUserAuthenticated (userUri) {
+      axios.get(userUri)
+        .then(response => (this.user = response.data))
+    }
   }
 }
 </script>

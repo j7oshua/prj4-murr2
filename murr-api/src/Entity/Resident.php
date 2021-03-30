@@ -8,40 +8,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
- *     itemOperations={"get"={
- *             "path"="/api/residents/{id}",
- *     "access_control"="is_granted('ROLE_USER')",
- *             "swagger_context"={
- *                 "tags"={"Resident"},
- *             }
- *          }
- *     },
+ *     accessControl="is_granted('ROLE_USER')",
  *     collectionOperations={
- *         "post"={
- *             "path"="/api/residents",
- *             "method"="POST",
- *             "swagger_context"={
- *                 "tags"={"Authentication"},
- *                 "summary"={"User registration"}
- *             }
- *         },
- *         "get"={
- *             "path"="/api/residents",
- *             "method"="GET",
- *             "swagger_context"={
- *                 "tags"={"Resident"}
- *             }
- *          }
+ *          "get",
+ *          "post"={"access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"},
  *     },
+ *     itemOperations={
+ *          "get",
+ *          "put"={"access_control"="is_granted('ROLE_USER') and object == user"},
+ *          "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     normalizationContext={"groups"={"Resident:read"}},
+ *     denormalizationContext={"groups"={"Resident:write"}},
  * )
- * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
  */
 class Resident implements UserInterface
@@ -86,9 +72,9 @@ class Resident implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", unique=true, nullable=true)
+     * @Groups("resident:write")
      */
-    private $apiToken;
+    private $plainPassword;
 
     public function __construct()
     {
@@ -180,27 +166,17 @@ class Resident implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
-    public function getApiToken(): ?string
+    public function getPlainPassword(): ?string
     {
-        return $this->apiToken;
+        return $this->plainPassword;
     }
-
-    public function setApiToken(?string $apiToken): void
+    public function setPlainPassword(string $plainPassword): self
     {
-        $this->apiToken = $apiToken ?? md5(uniqid(rand(), true));
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function createToken(): void
-    {
-        if(!$this->apiToken) {
-            $this->apiToken = md5(uniqid(rand(), true));
-        }
+        $this->plainPassword = $plainPassword;
+        return $this;
     }
 
     public function getSalt()
