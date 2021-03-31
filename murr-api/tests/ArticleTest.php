@@ -71,6 +71,7 @@ class ArticleTest extends ApiTestCase
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
+
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -89,7 +90,6 @@ class ArticleTest extends ApiTestCase
     {
         $this->dataArray['title'] = str_repeat('a', 201);
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
-
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
@@ -129,6 +129,7 @@ class ArticleTest extends ApiTestCase
     {
         $this->dataArray['info'] = str_repeat('a', 19);
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');

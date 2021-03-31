@@ -100,7 +100,7 @@ describe('SitePointsConfirmation', () => {
       it('Display the previous page', () => {
         wrapper = mount(DriverCollection)
         wrapper.find('#btncancel').trigger('click')
-        expect(wrapper.find('h1').text()).to.equal('CollectionSite')
+        expect(wrapper.find('h1').text()).to.equal('Collection Site Form')
       })
     })
   })

@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Entity\PickUp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +22,7 @@ class PickUpRepository extends ServiceEntityRepository
         parent::__construct($registry, PickUp::class);
     }
 
+
     public function findPickupById($value): ?PickUp
     {
         return $this->createQueryBuilder('p')
@@ -27,6 +31,32 @@ class PickUpRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+
+    /**
+     * this is for if we need to setup the id manually in the conrtoller
+     * @return int|null
+     */
+    public function getMaxId(): ?int
+    {
+        return $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('s.id')
+            ->from('App\Entity\Site', 's')
+            ->getMaxResults();
+    }
+
+    /***
+     * @param $entity
+     * @return mixed
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save($entity) : PickUp
+    {
+        $this->_em->persist($entity);
+            $this->_em->flush();
+        return  $entity;
     }
 
 }

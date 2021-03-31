@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Controller\SitePointController;
 
 // Using API platform for just 'get' operation at this time.
@@ -127,7 +128,7 @@ class Site
     {
         if (!$this->pickupCollection->contains($numCollected)) {
             $this->pickupCollection[] = $numCollected;
-            $numCollected->setSiteObject($this);
+            $numCollected->setSite($this);
         }
 
         return $this;
@@ -137,8 +138,8 @@ class Site
     {
         if ($this->pickupCollection->removeElement($numCollected)) {
             // set the owning side to null (unless already changed)
-            if ($numCollected->getSiteObject() === $this) {
-                $numCollected->setSiteObject(null);
+            if ($numCollected->getSite() === $this) {
+                $numCollected->setSite(null);
             }
         }
 

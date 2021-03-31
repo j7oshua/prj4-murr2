@@ -2,26 +2,30 @@
 
 namespace App\Entity;
 
+
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PickUpRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
+ * @ApiResource(
+ *     collectionOperations={"post", "get"},
+ *     itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass=PickUpRepository::class)
  */
 class PickUp
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     * @Assert\PositiveOrZero(message="ID must be a positive number")
      */
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="pickupCollection")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $siteObject;
 
     /**
      * @ORM\Column(type="integer")
@@ -30,18 +34,31 @@ class PickUp
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull(message="Invalid: Bin input required.")
+     * @Assert\PositiveOrZero(message="number of bins must be a zero or positve integer")
      */
     private $numObstructed;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull(message="Invalid: Bin input required.")
+     * @Assert\PositiveOrZero (message="number of bins must be a zero or positve integer")
      */
     private $numContaminated;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=30)
+     * @Assert\Date
+     * @Assert\NotBlank(message="Invalid: date required.")
      */
-    private $dateTime;
+    private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class,inversedBy="pickupCollection")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $siteObject;
+
 
     public function getId(): ?int
     {
@@ -54,6 +71,17 @@ class PickUp
     }
 
     public function setSite(?Site $siteObject): void
+    {
+        $this->siteObject = $siteObject;
+
+    }
+
+    public function getSiteObject(): ?Site
+    {
+        return $this->siteObject;
+    }
+
+    public function setSiteObject(?Site $siteObject): void
     {
         $this->siteObject = $siteObject;
 
@@ -97,12 +125,12 @@ class PickUp
 
     public function getDate(): ?string
     {
-        return $this->dateTime;
+        return $this->date;
     }
 
-    public function setDate(string $dateTime): self
+    public function setDate(string $date): self
     {
-        $this->dateTime = $dateTime;
+        $this->date = $date;
 
         return $this;
     }

@@ -145,7 +145,7 @@ class SitePointsTest extends ApiTestCase
         //Check response to be equal to 422
         $this->assertResponseStatusCodeSame(422);
         //Check the response if it contains the error message
-        $this->assertContains("error: PickUp ID not found", $response->getInfo());
+        $this->assertSame("error: PickUp ID not found", $response->getInfo()['response_headers'][2]);
 
     }
 

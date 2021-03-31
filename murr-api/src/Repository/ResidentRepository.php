@@ -18,6 +18,4 @@ class ResidentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Resident::class);
     }
-
-
 }
