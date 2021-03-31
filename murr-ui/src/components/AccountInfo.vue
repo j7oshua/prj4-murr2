@@ -3,17 +3,13 @@
 
     <b-modal v-model="showModal"  @hidden="handleHidden" :header-bg-variant="headerBgVariant"
              :header-text-variant="headerTextVariant" hide-backdrop content-class="shadow" hide-footer>
-<!--      <div v-if="editMode">-->
-<!--        <div slot="modal-title">-->
-<!--          <h4>Account Information</h4>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <span>{{account.firstName}}</span>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div v-else>-->
       <div slot="modal-title">
-        <h4>Edit Account Information</h4>
+        <div v-if="editMode">
+          <h4>Edit Account Information</h4>
+        </div>
+        <div v-else>
+          <h4>Account Information</h4>
+        </div>
       </div>
       <div v-if="editMode">
         <div>
@@ -35,22 +31,24 @@
       </div>
       <div v-else>
         <div>
-          <h4>{{account.firstName}}</h4>
+          <span>{{tempAccount.firstName}}</span>
+          <span>{{tempAccount.lastName}}</span>
         </div>
       </div>
-<!--      </div>-->
+      <b-button @click="switchMode">
+        <span v-if="editMode">Cancel</span>
+        <span v-else>Edit</span>
+      </b-button>
     </b-modal>
   </div>
 </template>
 
 <script>
-// import ResidentMixin from "../mixins/resident-mixin";
+import ResidentMixin from '../mixins/resident-mixin'
 export default {
   name: 'AccountInfo',
+  mixins: [ResidentMixin],
   props: {
-    account: {
-      type: Object
-    },
     showModal: {
       type: Boolean
     }
@@ -59,7 +57,7 @@ export default {
     return {
       tempAccount: {},
       residentID: Number,
-      editMode: true
+      editMode: false
     }
   },
   validations: {
@@ -74,7 +72,7 @@ export default {
       this.axios.get(this.RESIDENT_POINTS_URL + this.residentID, {})
         .then(resp => {
           // set tempPoints to be the points returned by the API
-          this.Article = resp.data
+          this.tempAccount = resp.data
         })
         .catch(err => {
           if (err.response.status === 404) { // not found
@@ -95,13 +93,16 @@ export default {
         .then(resp => {
           this.tempAccount = resp.data
         })
+    },
+    handleHidden () {
+      this.$emit('closed')
+    },
+    switchMode () {
+      this.editMode = !this.editMode
     }
   },
-  editAccount () {
-
-  },
-  handleHidden () {
-    this.$emit('closed')
+  mounted () {
+    this.getAccountInfo()
   }
 }
 </script>
