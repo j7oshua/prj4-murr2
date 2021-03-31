@@ -6,7 +6,7 @@
           <b-button @click="openModal">Account</b-button>
         </b-nav-item>
       </b-navbar-nav>
-      <AccountInfo :show-modal="showModal" @closed="confirmFinished"></AccountInfo>
+      <AccountInfo :account="account" :show-modal="showModal" @closed="confirmFinished"></AccountInfo>
       <PointsComponent></PointsComponent>
     </div>
   </div>
@@ -23,7 +23,11 @@ export default {
   },
   data: function () {
     return {
-      showModal: false
+      showModal: false,
+      account: {
+        firstName: 'John',
+        lastName: 'Doe'
+      }
     }
   },
   methods: {

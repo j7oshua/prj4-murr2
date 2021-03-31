@@ -1,32 +1,50 @@
 <template>
   <div>
+
     <b-modal v-model="showModal"  @hidden="handleHidden" :header-bg-variant="headerBgVariant"
              :header-text-variant="headerTextVariant" hide-backdrop content-class="shadow" hide-footer>
+<!--      <div v-if="editMode">-->
+<!--        <div slot="modal-title">-->
+<!--          <h4>Account Information</h4>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <span>{{account.firstName}}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div v-else>-->
       <div slot="modal-title">
         <h4>Edit Account Information</h4>
       </div>
-      <div>
-        <b-input-group>
-          <div>
-            <b-form-input placeholder="First Name" v-model="tempAccount.firstName"></b-form-input>
-          </div>
-          <div>
-            <b-form-input placeholder="Last Name" v-model="tempAccount.lastName"></b-form-input>
-          </div>
-          <div>
-            <b-form-file placeholder="Profile Picture" accept="image/*" v-model="tempAccount.profilePic"></b-form-file>
-          </div>
-        </b-input-group>
+      <div v-if="editMode">
         <div>
-          <b-button @click="saveAccount">Save Information</b-button>
+          <b-input-group>
+            <div>
+              <b-form-input placeholder="First Name" v-model="tempAccount.firstName"></b-form-input>
+            </div>
+            <div>
+              <b-form-input placeholder="Last Name" v-model="tempAccount.lastName"></b-form-input>
+            </div>
+            <div>
+              <b-form-file placeholder="Profile Picture" accept="image/*" v-model="tempAccount.profilePic"></b-form-file>
+            </div>
+          </b-input-group>
+          <div>
+            <b-button @click="saveAccount">Save Information</b-button>
+          </div>
         </div>
       </div>
+      <div v-else>
+        <div>
+          <h4>{{account.firstName}}</h4>
+        </div>
+      </div>
+<!--      </div>-->
     </b-modal>
   </div>
 </template>
 
 <script>
-  import ResidentMixin from "../mixins/resident-mixin";
+// import ResidentMixin from "../mixins/resident-mixin";
 export default {
   name: 'AccountInfo',
   props: {
@@ -40,26 +58,20 @@ export default {
   data: function () {
     return {
       tempAccount: {},
-      residentID: Number
+      residentID: Number,
+      editMode: true
     }
   },
   validations: {
     account: {
-      firstName: {
-
-      },
-      lastName: {
-
-      },
-      profilePic: {
-
-      }
+      firstName: {},
+      lastName: {},
+      profilePic: {}
     }
   },
   methods: {
     getAccountInfo () {
-      this.axios.get(this.RESIDENT_POINTS_URL + this.residentID, {
-      })
+      this.axios.get(this.RESIDENT_POINTS_URL + this.residentID, {})
         .then(resp => {
           // set tempPoints to be the points returned by the API
           this.Article = resp.data
@@ -77,22 +89,21 @@ export default {
         lastName: this.resident.phone,
         password: this.resident.password
       }
-      this.axios.put(this.RESIDENT_POINTS_URL + this.residentID, { tempAccount: this.tempAccount
+      this.axios.put(this.RESIDENT_POINTS_URL + this.residentID, {
+        tempAccount: this.tempAccount
       })
         .then(resp => {
-          this.tempAccount = resp.data;
+          this.tempAccount = resp.data
         })
-      }
-    },
-    editAccount () {
-
-    },
-    handleHidden () {
-      this.$emit('closed')
     }
+  },
+  editAccount () {
+
+  },
+  handleHidden () {
+    this.$emit('closed')
   }
 }
-
 </script>
 
 <style scoped>
