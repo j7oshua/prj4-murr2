@@ -1,9 +1,10 @@
-const request = require('supertest')('http://127.0.0.1:8000/api')
+const request = require('supertest')('http://127.0.0.1:8000')
 const expect = require('chai').expect
 
 // npm install --save supertest mocha chai
+// json-server --watch db.json
 
-describe('GET /login', function () {
+describe('POST /login', function () {
   /**
    * Title: Resident successfully logs in with email
    * Purpose: This test will test that a resident can login with their email
@@ -11,11 +12,9 @@ describe('GET /login', function () {
    * Return: Status Code: 200
    **/
   it('Resident successfully logs in with their valid email and password.', async function () {
-    const response = await request.get('/resident/1')
+    const response = await request.post('/login')
     expect(response.status).to.eql(200)
-
-    expect(response.body['hydra:member'][0]).to.contain({ phone: '' })
-    expect(response.body['hydra:member'][0]).to.contain({ email: 'email8@email.com' })
+    expect(response.body).to.contain({ location: '/api/residents/8' })
   })
 
   /**
@@ -25,13 +24,10 @@ describe('GET /login', function () {
    * Return: Status Code: 200
    **/
   it('Resident successfully logs in with valid phone and password.', async function () {
-    const response = await request.get('/resident/1')
+    const response = await request.post('/login')
     expect(response.status).to.eql(200)
-
-    expect(response.body['hydra:member'][0]).to.contain({ phone: '3065558888' })
-    expect(response.body['hydra:member'][0]).to.contain({ email: '' })
+    expect(response.body).to.contain({ location: '/api/residents/8' })
   })
-
   /**
    * Title: Resident unsuccessfully logs in
    * Purpose: This test will test that if a Resident unsuccessfully logs in, they will see an error message
@@ -39,7 +35,7 @@ describe('GET /login', function () {
    * Return: Status Code: 404
    **/
   it('Resident unsuccessfully logs in ', async function () {
-    const response = await request.get('/resident/1')
+    const response = await request.post('/login')
     expect(response.status).to.eql(404)
     expect(response.body['hydra:description']).to.contain({ error: 'Invalid Login: Fields do not match' })
   })
@@ -51,8 +47,8 @@ describe('GET /login', function () {
  * Return: Status Code: 404
  **/
   it('Resident enters valid url without logging in ', async function () {
-    const response = await request.get('/points/1')
+    const response = await request.post('/login')
     expect(response.status).to.eql(404)
-    expect(response.body['hydra:description']).to.contain({ error: 'Request Denied, must be logged in.' })
+    expect(response.body['hydra:description']).to.contain({ error: 'Invalid Credentials' })
   })
 })
