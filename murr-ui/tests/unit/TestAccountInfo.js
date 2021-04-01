@@ -3,6 +3,7 @@ import AccountInfo from '@/components/AccountInfo'
 import { expect } from 'chai'
 
 let wrapper
+//Gotta go over tests
 
 describe('AccountInfo', () => {
   beforeEach(() => {
