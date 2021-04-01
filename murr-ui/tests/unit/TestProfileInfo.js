@@ -1,15 +1,15 @@
 import { mount } from '@vue/test-utils'
-import AccountInfo from '@/components/AccountInfo'
+import ProfileInfo from '@/components/ProfileInfo'
 import { expect } from 'chai'
 
 let wrapper
 //Gotta go over tests today
 
-describe('AccountInfo', () => {
+describe('ProfileInfo', () => {
   beforeEach(() => {
-    wrapper = mount(AccountInfo, {
+    wrapper = mount(ProfileInfo, {
       propsData: {
-        account: {
+        profile: {
           residentID: 1,
           firstName: '',
           lastName: '',
@@ -22,43 +22,43 @@ describe('AccountInfo', () => {
   it('Should successfully updates first name', async () => {
     const inputFirst = wrapper.find('#firstName')
     await inputFirst.setValue('Tom')
-    expect(wrapper.find('#validInput').text()).to.equal('Account information has been updated')
+    expect(wrapper.find('#validInput').text()).to.equal('Profile information has been updated')
   });
 
   it('Should unsuccessfully update with too long first name', async () => {
     const inputFirst = wrapper.find('#firstName')
     await inputFirst.setValue('f'.repeat(21))
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
   })
 
   it('Should unsuccessfully update with too short first name', async () => {
     const inputFirst = wrapper.find('#firstName')
     await inputFirst.setValue('f')
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
   })
 
   it('Should successfully update with short last name', async () => {
     const inputLast = wrapper.find('#lastName')
     await inputLast.setValue('l')
-    expect(wrapper.find('#validInput').text()).to.equal('Account information has been updated')
+    expect(wrapper.find('#validInput').text()).to.equal('Profile information has been updated')
   })
 
   it('Should unsuccessfully update with too long last name', async () => {
     const inputLast = wrapper.find('#lastName')
     await inputLast.setValue('l'.repeat(21))
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
   })
 
   it('Should successfully update with valid image file for profile picture', async () => {
     const inputPicture = wrapper.find('#picture')
     await inputPicture.setValue('C:/image.jpg')
-    expect(wrapper.find('#validInput').text()).to.equal('Account information has been updated')
+    expect(wrapper.find('#validInput').text()).to.equal('Profile information has been updated')
   })
 
   it('Should unsuccessfully update with invalid image file for profile picture', async () => {
     const inputPicture = wrapper.find('#picture')
     await inputPicture.setValue('C:/image.jpg')
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
   })
 
   it('Should unsuccessfully update with all the inputs empty', async () => {
@@ -69,6 +69,6 @@ describe('AccountInfo', () => {
     await inputFirst.setValue('')
     await inputLast.setValue('')
     await inputPicture.setValue('')
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update account information')
+    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
   })
 })

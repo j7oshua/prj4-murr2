@@ -1,5 +1,5 @@
-App\Entity\Account:
-  account1:
+App\Entity\Profile:
+  profile1:
     residentID: 1
     firstName: "Bill"
     lastName: "Jones"

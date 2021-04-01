@@ -13,10 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={"get", "put"},
  *     itemOperations={"get", "put"}
  * )
- * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
- * @ORM\Entity(repositoryClass=AccountRepository::class)
+ * @ORM\Entity(repositoryClass="ProfileRepository")
+ * @ORM\Entity(repositoryClass=ProfileRepository::class)
  */
-class Account
+class Profile
 {
     /**
      * @ORM\Id

@@ -4,10 +4,10 @@
 namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use App\Entity\Account;
+use App\Entity\Profile;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
-class AccountTest extends ApiTestCase
+class ProfileTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
 
@@ -26,7 +26,7 @@ class AccountTest extends ApiTestCase
      */
     public function Setup(): void
     {
-        //Setup an array that contains information to create a resident account.
+        //Setup an array that contains information to create a resident profile.
         $this->dataArray = [
             'residentID' => '',
             'firstName' => '',
@@ -53,7 +53,7 @@ class AccountTest extends ApiTestCase
             'profilePic' => '',
         ]);
         $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Account::class);
+        $this->assertMatchesResourceItemJsonSchema(Profile::class);
     }
 
     /**
@@ -93,7 +93,7 @@ class AccountTest extends ApiTestCase
             'profilePic' => '',
         ]);
         $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
-        $this->assertMatchesResourceItemJsonSchema(Account::class);
+        $this->assertMatchesResourceItemJsonSchema(Profile::class);
     }
 
     /**
