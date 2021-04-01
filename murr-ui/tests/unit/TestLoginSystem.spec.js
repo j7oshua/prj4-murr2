@@ -1,54 +1,63 @@
-const request = require('supertest')('http://127.0.0.1:8000')
-const expect = require('chai').expect
+// import statement needed for tests
+import { shallowMount } from '@vue/test-utils'
+import Login from '@/components/Login'
+import { expect } from 'chai'
 
-// npm install --save supertest mocha chai
-// json-server --watch db.json
+// global variable for wrapper container
+let wrapper
 
-describe('POST /login', function () {
-  /**
-   * Title: Resident successfully logs in with email
-   * Purpose: This test will test that a resident can login with their email
-   * Expected Result: Success
-   * Return: Status Code: 200
-   **/
-  it('Resident successfully logs in with their valid email and password.', async function () {
-    const response = await request.post('/login')
-    expect(response.status).to.eql(200)
-    expect(response.body).to.contain({ location: '/api/residents/8' })
+describe('Login.vue Component', () => {
+  beforeEach(() => {
+    wrapper = shallowMount(Login)
   })
 
-  /**
-   * Title: Resident successfully logs in with phone number
-   * Purpose: This test will test that a resident can login with their phone number
-   * Expected Result: Success
-   * Return: Status Code: 200
-   **/
-  it('Resident successfully logs in with valid phone and password.', async function () {
-    const response = await request.post('/login')
-    expect(response.status).to.eql(200)
-    expect(response.body).to.contain({ location: '/api/residents/8' })
-  })
-  /**
-   * Title: Resident unsuccessfully logs in
-   * Purpose: This test will test that if a Resident unsuccessfully logs in, they will see an error message
-   * Expected Result: Success
-   * Return: Status Code: 404
-   **/
-  it('Resident unsuccessfully logs in ', async function () {
-    const response = await request.post('/login')
-    expect(response.status).to.eql(404)
-    expect(response.body['hydra:description']).to.contain({ error: 'Invalid Login: Fields do not match' })
-  })
-  /**
- * Title: Resident enters valid url without logging in
- * Purpose: This test will test that if a Resident types in a valid URL but has not logged in, they will
- *          be blocked from certain pages
- * Expected Result: Success
- * Return: Status Code: 404
- **/
-  it('Resident enters valid url without logging in ', async function () {
-    const response = await request.post('/login')
-    expect(response.status).to.eql(404)
-    expect(response.body['hydra:description']).to.contain({ error: 'Invalid Credentials' })
+  // Group of tests that will be testing the proper input of a phone number or email address
+  describe('Testing the input of invalid email or phone format', () => {
+    it('Displays error that an invalid username or password was entered with invalid email', async () => {
+      // Find the username and password input fields
+      const inputUsername = wrapper.find('#username')
+      const inputPassword = wrapper.find('#password')
+
+      // Input the fields with data (username is in improper email format)
+      await inputUsername.setValue('helloemailcom')
+      await inputPassword.setValue('password')
+      // Find and click the submit button
+      await wrapper.find('button').trigger
+      // Expect a error message of Invalid username/password to be displayed to user
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+    })
+
+    it('Displays error that an invalid username or password was entered with invalid phone less 10 chars', async () => {
+      const inputUsername = wrapper.find('#username')
+      const inputPassword = wrapper.find('#password')
+
+      await inputUsername.setValue('333')
+      await inputPassword.setValue('password')
+      await wrapper.find('button').trigger
+
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+    })
+
+    it('Displays error that an invalid username or password was entered with invalid phone more 10 chars', async () => {
+      const inputUsername = wrapper.find('#username')
+      const inputPassword = wrapper.find('#password')
+
+      await inputUsername.setValue('3'.repeat(11))
+      await inputPassword.setValue('password')
+      await wrapper.find('button').trigger
+
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+    })
+
+    it('Displays error that an invalid password left blank', async () => {
+      const inputUsername = wrapper.find('#username')
+      const inputPassword = wrapper.find('#password')
+
+      await inputUsername.setValue('3'.repeat(10))
+      await inputPassword.setValue('')
+      await wrapper.find('button').trigger
+
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+    })
   })
 })
