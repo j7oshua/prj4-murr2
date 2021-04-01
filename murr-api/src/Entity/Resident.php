@@ -8,24 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
- *     accessControl="is_granted('ROLE_USER')",
- *     collectionOperations={
- *          "get",
- *          "post"={"access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"},
- *     },
- *     itemOperations={
- *          "get",
- *          "put"={"access_control"="is_granted('ROLE_USER') and object == user"},
- *          "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
- *     },
- *     normalizationContext={"groups"={"Resident:read"}},
- *     denormalizationContext={"groups"={"Resident:write"}},
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
@@ -55,9 +42,7 @@ class Resident implements UserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=30)
-     * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to be at least {{ limit }} characters.", maxMessage = "Password has to be {{ limit }} characters or less.")
-     * @Assert\NotBlank(message = "Password should not be left blank.")
+     * @ORM\Column(type="string", length=256)
      */
     private $password;
 
@@ -72,9 +57,10 @@ class Resident implements UserInterface
     private $roles = [];
 
     /**
-     * @Groups("resident:write")
+     * @Assert\NotBlank(message = "Password should not be left blank.")
      */
     private $plainPassword;
+
 
     public function __construct()
     {
@@ -147,11 +133,15 @@ class Resident implements UserInterface
         return $this;
     }
 
+    /*
+     * Needed For interface
+     * */
+
     public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
 
         return array_unique($roles);
     }
@@ -173,7 +163,7 @@ class Resident implements UserInterface
     {
         return $this->plainPassword;
     }
-    public function setPlainPassword(string $plainPassword): self
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         return $this;
@@ -184,8 +174,9 @@ class Resident implements UserInterface
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
+
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        //not needed, method in resident repo being used instead
     }
 }

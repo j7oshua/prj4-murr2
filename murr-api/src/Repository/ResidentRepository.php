@@ -20,10 +20,18 @@ class ResidentRepository extends ServiceEntityRepository implements UserLoaderIn
         parent::__construct($registry, Resident::class);
     }
 
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username) : ?Resident
     {
-        //todo query the database based on phone or email
-    }
+        $entityManager = $this->getEntityManager();
 
+        return $entityManager->createQuery(
+            'SELECT r
+                FROM App\Entity\Resident r
+                WHERE r.phone = :query
+                OR r.email = :query'
+        )
+            ->setParameter('query', $username)
+            ->getOneOrNullResult();
+    }
 }
 

@@ -20,17 +20,25 @@ class ResidentDataPersister implements DataPersisterInterface
     }
     public function supports($data): bool
     {
-        //todo an instance of a resident
+        return $data instanceof Resident;
     }
     /**
      * @param Resident $data
      */
     public function persist($data)
     {
-        //todo encoding the password and persisting that resident to the database
+        if ($data->getPlainPassword()) {
+            $data->setPassword(
+                $this->userPasswordEncoder->encodePassword($data, $data->getPlainPassword())
+            );
+            $data->eraseCredentials();
+        }
+        $this->entityManager->persist($data);
+        $this->entityManager->flush();
     }
     public function remove($data)
     {
-        //todo remove the resident from the database
+        $this->entityManager->remove($data);
+        $this->entityManager->flush();
     }
 }
