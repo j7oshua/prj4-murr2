@@ -23,26 +23,4 @@ class ProfileRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Profile::class);
     }
-
-    /**
-     * @param int $residentID
-     * @return int|mixed|string|null
-     * This function will grab the num_points property based on the resID
-     */
-    public function GetProfileByResidentID(int $residentID)
-    {
-        $result = null;
-
-        if($residentID)
-        {
-            $qb = $this->getEntityManager()->createQueryBuilder()
-                ->from('Profile', 'a')
-                ->innerJoin(Resident::class, 'r', Join::WITH, 'r.id = a.residentID')
-                ->setParameter('a.residentID', $residentID);
-
-            $result = $qb->getQuery()->getResult();
-        }
-
-        return $result;
-    }
 }

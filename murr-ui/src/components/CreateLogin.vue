@@ -83,12 +83,13 @@
 </template>
 
 <script>
+import MurrMixin from '@/mixins/murr-mixin'
 import ResidentMixin from '@/mixins/resident-mixin'
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
 export default {
   name: 'CreateLogin',
-  mixins: [ResidentMixin, validationMixin],
+  mixins: [ResidentMixin, validationMixin, MurrMixin],
   data () {
     return {
       // variables
@@ -100,7 +101,8 @@ export default {
         password: '',
         repeatPassword: ''
       },
-      url: '/points/'
+      url: '/points/',
+      tempProfile: {}
     }
   },
 
@@ -151,8 +153,21 @@ export default {
         // data information is from tempResident
         this.callAPI('post', this.tempNewResident)
           .then(resp => {
+            //
             // if response status equals 201
             if (resp.status === 201) {
+              // Create profile entity
+              this.callAPI_URL('post', resp.data.id, this.PROFILE_API_URL)
+                .then(resp => {
+                  this.tempProfile = resp.data
+                })
+                .catch(err => {
+                  if (err.response.status === 404) {
+                    // send error message
+                    this.error = err && err.response ? err.response.data : {}
+                  }
+                })
+              //
               // this is the redirect to point page if the login is successful
               // add onto url response data.id to string (this would be the resident id added on to url)
               this.url += resp.data.id.toString()
