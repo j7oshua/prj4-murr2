@@ -13,9 +13,6 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
- *     collectionOperations={
- *          "post"={"security"="is_granted('ROLE_USER')"}
- *     },
  *     itemOperations={
  *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
  *     }

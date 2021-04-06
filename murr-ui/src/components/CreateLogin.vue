@@ -143,7 +143,7 @@ export default {
         this.tempNewResident = {
           email: this.resident.email,
           phone: this.resident.phone,
-          password: this.resident.password
+          plainPassword: this.resident.password
         }
         this.error = {}
         // call the function from the resident mixin
