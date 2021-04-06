@@ -13,6 +13,12 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
+ *     collectionOperations={
+ *          "post"={"security"="is_granted('ROLE_USER')"}
+ *     },
+ *     itemOperations={
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
+ *     }
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
@@ -141,7 +147,7 @@ class Resident implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_ADMIN';
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }

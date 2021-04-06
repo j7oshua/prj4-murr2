@@ -35,7 +35,6 @@ export default {
         username: '',
         password: ''
       },
-      url: '/login',
       isBusy: false
     }
   },
@@ -44,9 +43,10 @@ export default {
     handleSubmit () {
       this.isBusy = true
       this.error = ''
+      console.log(this.resident.username)
       axios.post('http://127.0.0.1:8000/login', {
-        username: this.username,
-        password: this.password
+        username: this.resident.username,
+        password: this.resident.password
       })
         .then(response => {
           this.username = ''
