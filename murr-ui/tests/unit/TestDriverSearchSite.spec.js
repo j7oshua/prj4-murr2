@@ -24,6 +24,7 @@ describe('DriverCollection.vue', () => {
    * TestFullList
    */
   it('Should display a full table list of all sites', async () => {
+    // Excepts to find all site in the list
     expect(wrapper.find('#SiteTable').element.value).to.equal('Brighton')
     expect(wrapper.find('#SiteTable').element.value).to.equal('Briteny Manor')
     expect(wrapper.find('#SiteTable').element.value).to.equal('Rosa Towers')
@@ -48,6 +49,9 @@ describe('DriverCollection.vue', () => {
    * TestPartialName
    */
   it('Should display two sites', async () => {
+    const Search = wrapper.find('#search')
+    await Search.setValue('Bri')
+    wrapper.find('#searchButton').at(0).simulate('click')
     expect(wrapper.find('#SiteTable').element.value).to.equal('Brighton')
     expect(wrapper.find('#SiteTable').element.value).to.equal('Britney Manor')
   })
@@ -56,6 +60,9 @@ describe('DriverCollection.vue', () => {
    * TestFullNameBrighton
    */
   it('Should display one site with the input Brighton', async () => {
+    const Search = wrapper.find('#search')
+    await Search.setValue('Brighton')
+    wrapper.find('#searchButton').at(0).simulate('click')
     expect(wrapper.find('#SiteTable').element.value).to.equal('Brighton')
   })
 })

@@ -5,7 +5,7 @@
     </div>
     <div v-if="!showForm">
       <!-- this is a hard-coded site, for route story this is where the list of sites would be displayed -->
-       <h2>Site1 Wascana
+       <h2> <!-- here is where code would go fot the site list -->
         <!-- the button will redirect to the DriverPickUp.vue component -->
         <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
               <b-icon icon="plus-circle-fill" variant="primary"></b-icon>

@@ -1,11 +1,63 @@
 # Story05 - Created two site fixtures with three residents in the Wascana site and two residents in the Brighton site
 App\Entity\Site:
   SiteOne:
+    id: 1
     siteName: 'Wascana'
     numBins: 5
     residents: ['@residentOne', '@residentTwo', '@residentThree']
 
   SiteTwo:
+    id: 2
     siteName: 'Brighton'
     numBins: 6
     residents: ['@residentFour', '@residentFive']
+
+  SiteThree:
+    id: 3
+    siteName: 'Britney Manor'
+    numBins: 3
+
+  SiteFour:
+    id: 4
+    siteName: 'Rosa Towers'
+    numBins: 1
+
+  SiteFive:
+    id: 5
+    siteName: 'Vendetta Suites'
+    numBins: 5
+
+  SiteSix:
+    id: 6
+    siteName: 'Roswell Evergreen'
+    numBins: 1
+
+  SiteSeven:
+    id: 7
+    siteName: 'Willowgrove Towers'
+    numBins: 2
+
+  SiteEight:
+    id: 8
+    siteName: 'Hudson Bay Apartments'
+    numBins: 7
+
+  SiteNine:
+    id: 9
+    siteName: 'Censullo Gate'
+    numBins: 3
+
+  SiteTen:
+    id: 10
+    siteName: 'Applewood Gate'
+    numBins: 4
+
+  SiteEleven:
+    id: 11
+    siteName: 'Vermont Crossing'
+    numBins: 4
+
+  SiteTwelve:
+    id: 12
+    siteName: 'Lucas Caswell Manor'
+    numBins: 2
