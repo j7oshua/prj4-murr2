@@ -102,7 +102,8 @@ export default {
         repeatPassword: ''
       },
       url: '/points/',
-      tempProfile: {}
+      tempProfile: {},
+      residentID: 0
     }
   },
 
@@ -153,21 +154,10 @@ export default {
         // data information is from tempResident
         this.callAPI('post', this.tempNewResident)
           .then(resp => {
-            //
+            this.tempProfile.residentID = resp.data.id
             // if response status equals 201
             if (resp.status === 201) {
-              // Create profile entity
-              this.callAPI_URL('post', resp.data.id, this.PROFILE_API_URL)
-                .then(resp => {
-                  this.tempProfile = resp.data
-                })
-                .catch(err => {
-                  if (err.response.status === 404) {
-                    // send error message
-                    this.error = err && err.response ? err.response.data : {}
-                  }
-                })
-              //
+              this.createProfile()
               // this is the redirect to point page if the login is successful
               // add onto url response data.id to string (this would be the resident id added on to url)
               this.url += resp.data.id.toString()
@@ -183,6 +173,19 @@ export default {
             }
           })
       }
+    },
+    createProfile: function () {
+      this.callAPI_URL('post', this.tempProfile.residentID, this.PROFILE_API_URL)
+        .then(resp => {
+          this.tempProfile = resp.data
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            // send error message
+            // this.error = err && err.response ? err.response.data : {}
+            console.log(err)
+          }
+        })
     }
   }
 }
