@@ -102,8 +102,9 @@ export default {
         repeatPassword: ''
       },
       url: '/points/',
-      tempProfile: {},
-      residentID: 0
+      tempProfile: {
+        residentID: 0
+      }
     }
   },
 
@@ -160,9 +161,9 @@ export default {
               this.createProfile()
               // this is the redirect to point page if the login is successful
               // add onto url response data.id to string (this would be the resident id added on to url)
-              this.url += resp.data.id.toString()
+              // this.url += resp.data.id.toString()
               // have the router push the points page
-              this.$router.push(this.url)
+              // this.$router.push(this.url)
             }
           })
           .catch(err => {
