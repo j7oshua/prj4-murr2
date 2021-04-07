@@ -13,8 +13,9 @@ describe('POST /login', function () {
    **/
   it('Resident successfully logs in with their valid email and password.', async function () {
     const response = await request.post('/login')
-    expect(response.status).to.eql(200)
+    expect(response.status).to.eql(204)
     expect(response.body).to.contain({ location: '/api/residents/8' })
+    expect(response.body).to.contain({ sessionCookie: '' })
   })
 
   /**
@@ -25,8 +26,9 @@ describe('POST /login', function () {
    **/
   it('Resident successfully logs in with valid phone and password.', async function () {
     const response = await request.post('/login')
-    expect(response.status).to.eql(200)
+    expect(response.status).to.eql(204)
     expect(response.body).to.contain({ location: '/api/residents/8' })
+    expect(response.body).to.contain({ sessionCookie: '' })
   })
   /**
    * Title: Resident unsuccessfully logs in
@@ -36,7 +38,7 @@ describe('POST /login', function () {
    **/
   it('Resident unsuccessfully logs in ', async function () {
     const response = await request.post('/login')
-    expect(response.status).to.eql(404)
+    expect(response.status).to.eql(400)
     expect(response.body['hydra:description']).to.contain({ error: 'Invalid Login: Fields do not match' })
   })
   /**
@@ -48,7 +50,7 @@ describe('POST /login', function () {
    **/
   it('Resident enters valid url without logging in ', async function () {
     const response = await request.post('/login')
-    expect(response.status).to.eql(404)
+    expect(response.status).to.eql(400)
     expect(response.body['hydra:description']).to.contain({ error: 'Invalid Credentials' })
   })
 })

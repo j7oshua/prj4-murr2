@@ -13,9 +13,6 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
- *     itemOperations={
- *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
- *     }
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)

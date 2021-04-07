@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- this is for the initial sign-in page -->
-    <Login></Login>
+    <Login v-on:user-authenticated="onUserAuthenticated"></Login>
 
     <!-- this is the redirected page to create a new resident user -->
     <CreateLoginForm></CreateLoginForm>

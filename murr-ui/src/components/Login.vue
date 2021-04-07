@@ -49,6 +49,7 @@ export default {
         password: this.resident.password
       })
         .then(response => {
+          this.$emit('user-authenticated', response.headers.location)
           this.username = ''
           this.password = ''
         }).catch(error => {

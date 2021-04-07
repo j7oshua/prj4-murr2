@@ -14,7 +14,8 @@ class LoginTest extends ApiTestCase
     {
         $loginCredentials = ['username' => 'email8@email.com', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseHasHeader('Set-Cookie', 'PHPSESSID');
         $this->assertJsonContains(['Location' => '/api/residents/8']);
     }
 
@@ -26,7 +27,8 @@ class LoginTest extends ApiTestCase
     {
         $loginCredentials = ['username' => '3065558888', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseHasHeader('Set-Cookie', 'PHPSESSID');
         $this->assertJsonContains(['Location' => '/api/residents/8']);
     }
 
@@ -38,7 +40,7 @@ class LoginTest extends ApiTestCase
     {
         $loginCredentials = ['username' => '333', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(400);
     }
 
     /**
@@ -49,7 +51,7 @@ class LoginTest extends ApiTestCase
     {
         $loginCredentials = ['username' => 'hellotestcom', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(400);
     }
 
     /**
@@ -60,7 +62,7 @@ class LoginTest extends ApiTestCase
     {
         $loginCredentials = ['username' => 'email8@email.com', 'password' => 'pass'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(400);
     }
 
     /**
@@ -71,6 +73,6 @@ class LoginTest extends ApiTestCase
     {
         $loginCredentials = ['username' => '', 'password' => ''];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(400);
     }
 }
