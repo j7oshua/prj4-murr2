@@ -53,8 +53,7 @@ class Profile
 
     /**
      * @ORM\OneToOne(targetEntity=Resident::class, inversedBy="profile", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="resident_id", referencedColumnName="id")
-     * @Groups("resident:profile")
+     * @Groups("profile")
      * @Assert\NotNull
      */
     private $resident;

@@ -19,7 +19,6 @@ use App\Validator as AcmeAssert;
  *     normalizationContext={"groups"={"resident", "resident:profile", "profile"}},
  *     denormalizationContext={"groups"={"resident", "resident:profile", "profile"}}
  * )
- * @ORM\Entity(repositoryClass="App\Repository\ResidentRepository")
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
  */
