@@ -39,7 +39,7 @@ App\Entity\Site:
 
   SiteEight:
     id: 8
-    siteName: 'Hudson Bay Apartments'
+    siteName: 'Applewood Bridge'
     numBins: 7
 
   SiteNine:

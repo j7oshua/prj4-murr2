@@ -48,12 +48,7 @@ class DriverSearchesSitesTest extends ApiTestCase
      */
     public function TestNullSite() : void
     {
-        $response = static::createClient()->request('GET', self::API_URL_SITE_NULL);
 
-        $this->assertResponseStatusCodeSame(404);
-        $this->assertJsonContains([
-            'hydra:description'=> 'Item not found for ‘/api/sites?siteName=’'
-        ]);
     }
 
     /**
@@ -67,7 +62,15 @@ class DriverSearchesSitesTest extends ApiTestCase
     {
         $response = static::createClient()->request('GET', self::API_URL_SITE_PART);
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([[
+        $this->assertJsonContains([
+            [
+                '@context'=> '/api/contexts/Site',
+                '@id'=> '/api/sites/8',
+                '@type'=> 'Site',
+                'id'=> 8,
+                'siteName'=> 'Applewood Bridge',
+                'numBins'=> 7,
+            ],[
             '@context'=> '/api/contexts/Site',
             '@id'=> '/api/sites/2',
             '@type'=> 'Site',
