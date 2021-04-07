@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import ResidentMixin from '../mixins/resident-mixin'
+import MurrMixin from '@/mixins/murr-mixin';
 export default {
   name: 'ProfileInfo',
-  mixins: [ResidentMixin],
+  mixins: [MurrMixin],
   props: {
     showModal: {
       type: Boolean
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     getProfileInfo () {
-      this.axios.get(this.RESIDENT_POINTS_URL + this.residentID, {})
+      this.axios.get(this.PROFILE_API_URL + this.residentID, {})
         .then(resp => {
           // set tempPoints to be the points returned by the API
           this.tempProfile = resp.data
@@ -87,7 +87,7 @@ export default {
         lastName: this.resident.phone,
         password: this.resident.password
       }
-      this.axios.put(this.RESIDENT_POINTS_URL + this.residentID, {
+      this.axios.put(this.PROFILE_API_URL + this.residentID, {
         tempProfile: this.tempProfile
       })
         .then(resp => {

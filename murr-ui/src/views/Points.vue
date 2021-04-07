@@ -15,12 +15,14 @@
 <script>
 import PointsComponent from '../components/ResidentPoints'
 import ProfileInfo from '../components/ProfileInfo'
+import MurrMixin from '@/mixins/murr-mixin'
 export default {
   name: 'Points',
   components: {
     PointsComponent,
     ProfileInfo
   },
+  mixins: [MurrMixin],
   data: function () {
     return {
       showModal: false,
@@ -37,6 +39,7 @@ export default {
     openModal () {
       this.showModal = true
     }
+
   }
 }
 </script>
