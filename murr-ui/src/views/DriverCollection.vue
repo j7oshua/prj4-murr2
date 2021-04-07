@@ -40,10 +40,7 @@ export default {
     confirmFinish: function (event) {
       this.showForm = false
     },
-    searchSiteByName: function (promiseObject) {
-      throw new Error('Not Implemented')
-    },
-    getSites: function () {
+    searchSites: function (ctx) {
       throw new Error('Not Implemented')
     }
   }
