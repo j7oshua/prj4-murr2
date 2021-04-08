@@ -16,7 +16,7 @@ use App\Validator as AcmeAssert;
  * @ApiResource(
  *     collectionOperations={"post"},
  *     itemOperations={"get"},
- *     normalizationContext={"groups"={"resident", "resident:profile", "profile"}},
+ *     normalizationContext={"groups"={"resident"}},
  *     denormalizationContext={"groups"={"resident", "resident:profile", "profile"}}
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
@@ -26,7 +26,7 @@ class Resident
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
      * @Groups("resident")

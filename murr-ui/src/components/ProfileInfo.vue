@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import MurrMixin from '@/mixins/murr-mixin';
+import MurrMixin from '@/mixins/murr-mixin'
 export default {
   name: 'ProfileInfo',
   mixins: [MurrMixin],

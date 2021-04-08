@@ -21,7 +21,7 @@ class Profile
 
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero
      * @Groups("profile")
@@ -61,7 +61,7 @@ class Profile
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
