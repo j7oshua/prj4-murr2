@@ -4,6 +4,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { expect } from 'chai'
 import DriverCollection from '@/views/DriverCollection'
 
+// run npm install chai-sorted
+
 // global wrapper
 let wrapper
 
@@ -21,22 +23,27 @@ describe('DriverCollection.vue', () => {
   })
 
   /**
-   * TestNullName
+   * TestSiteNameNotExists
    */
-  it('Should show a message when search was clicked but nothing is entered', async () => {
-    expect(wrapper.element.value).to.equal('Enter a site name')
+  it('Should display error message and site list with the input Wellington', async () => {
+    const Search = wrapper.find('#search')
+    await Search.setValue('Wellington')
+    expect(wrapper.find('#search').element.value).to.equal('Wellington')
+    wrapper.find('#searchButton').trigger('click')
+    expect(wrapper.find('#span').text()).to.equal('Site does not exist')
   })
-
   /**
    * TestPartialName
    */
-  it('Should display two sites', async () => {
+  it('AShould display 3 sites in aplphabetical order acsending sortedBy name', async () => {
     const Search = wrapper.find('#search')
     await Search.setValue('Bri')
-    wrapper.find('#searchButton').at(0).simulate('click')
-    expect(wrapper.status).to.eql(200)
-    expect(wrapper.find('#SiteTable').element.value).to.equal('Brighton')
-    expect(wrapper.find('#SiteTable').element.value).to.equal('Britney Manor')
+    expect(wrapper.find('#search').element.value).to.equal('Bri')
+    wrapper.find('#searchButton').trigger('click')
+    expect(wrapper.find('#SiteTable').text()).to.equal('Applewood Bridge')
+    expect(wrapper.find('#SiteTable').text()).to.equal('Brighton')
+    expect(wrapper.find('#SiteTable').text()).to.equal('Britney Manor')
+    expect([{ id: 8, name: 'Applewood Bridge' }, { id: 2, name: 'Brighton' }, { id: 3, name: 'Britney Manor' }]).to.be.sortedBy('name')
   })
 
   /**
@@ -45,8 +52,9 @@ describe('DriverCollection.vue', () => {
   it('Should display one site with the input Brighton', async () => {
     const Search = wrapper.find('#search')
     await Search.setValue('Brighton')
-    wrapper.find('#searchButton').at(0).simulate('click')
-    expect(wrapper.status).to.eql(200)
-    expect(wrapper.find('#SiteTable').element.value).to.equal('Brighton')
+    expect(wrapper.find('#search').element.value).to.equal('Brighton')
+    wrapper.find('#searchButton').at(0).trigger('click')
+    expect(wrapper.find('#SiteTable').text()).to.equal('Brighton')
   })
+
 })
