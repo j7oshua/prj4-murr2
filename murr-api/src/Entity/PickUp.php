@@ -12,6 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"security"="is_granted('ROLE_USER')"},
+ *          "post"={"security"="is_granted('ROLE_USER')"}
+ *     }
  * )
  * @ORM\Entity(repositoryClass=PickUpRepository::class)
  */

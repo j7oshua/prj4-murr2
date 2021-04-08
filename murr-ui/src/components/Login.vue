@@ -49,14 +49,15 @@ export default {
         password: this.resident.password
       })
         .then(response => {
-          this.$emit('user-authenticated', response.headers.location)
-          this.username = ''
-          this.password = ''
+          console.log(response.headers)
+          // this.$emit('user-authenticated', response.headers.location)
+          // this.username = ''
+          // this.password = ''
         }).catch(error => {
           if (error.response.data.error) {
-            this.error = error.response.data.error
+            // this.error = error.response.data.error
           } else {
-            this.error = 'Unknown error'
+            // this.error = 'Unknown error'
           }
         }).finally(() => {
           this.isBusy = false
