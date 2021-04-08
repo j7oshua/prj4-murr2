@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Controller;
+header('Access-Control-Expose-Headers: Location, Set-Cookie');
+header("Access-Control-Allow-Credentials: true");
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use PHPUnit\TextUI\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class SecurityController extends AbstractController
@@ -17,13 +21,14 @@ class SecurityController extends AbstractController
      */
     public function login(IriConverterInterface $iriConverter)
     {
+
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json([
                 'error' => 'Invalid login request: check that the Content-Type header is "application/json".'
             ], 400);
         }
         return new Response(null, 204, [
-        'Location' => $iriConverter->getIriFromItem($this->getUser())
+            'Location' => $iriConverter->getIriFromItem($this->getUser())
         ]);
     }
 

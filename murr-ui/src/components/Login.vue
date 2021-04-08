@@ -43,19 +43,18 @@ export default {
     handleSubmit () {
       this.isBusy = true
       this.error = ''
-      console.log(this.resident.username)
       axios.post('http://127.0.0.1:8000/login', {
         username: this.resident.username,
         password: this.resident.password
       })
         .then(response => {
-          console.log(response.headers)
-          // this.$emit('user-authenticated', response.headers.location)
-          // this.username = ''
-          // this.password = ''
+          console.log(document.cookie)
+          this.$emit('user-authenticated', response.headers.location)
+          this.username = ''
+          this.password = ''
         }).catch(error => {
-          if (error.response.data.error) {
-            // this.error = error.response.data.error
+          if (error.response) {
+            // this.error = error.response
           } else {
             // this.error = 'Unknown error'
           }
