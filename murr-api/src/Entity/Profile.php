@@ -24,7 +24,6 @@ class Profile
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero
-     * @Groups("profile")
      */
     private $id;
 
@@ -33,30 +32,43 @@ class Profile
     /**
      * @ORM\Column (type="string", length=20, nullable=true)
      * @Assert\Length(max="20", min="2", maxMessage="First Name cannot be longer than {{ limit }} characters.", minMessage="First Name must be more than 1 character")
-     * @Groups("profile")
+     * @Groups("resident:write", "profile:write")
      */
     private $firstName;
 
     /**
      * @ORM\Column (type="string", length=20, nullable=true)
      * @Assert\Length(max="20", maxMessage="Last Name cannot be longer than {{ limit }} characters.")
-     * @Groups("profile")
+     * @Groups("resident:write", "profile:write")
      */
     private $lastName;
 
     /**
      * @ORM\Column (type="string", nullable=true)
      * @Assert\Image(mimeTypes="image/*", mimeTypesMessage="This file is not a valid image.")
-     * @Groups("profile")
+     * @Groups("resident:write", "profile:write", "resident:read")
      */
     private $profilePic;
 
     /**
      * @ORM\OneToOne(targetEntity=Resident::class, inversedBy="profile", cascade={"persist", "remove"})
-     * @Groups("profile")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull
      */
     private $resident;
+
+    /**
+     * Profile constructor.
+     * @param $firstName
+     * @param $lastName
+     * @param $profilePic
+     */
+    public function __construct($firstName = "", $lastName = "", $profilePic = "")
+    {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->profilePic = $profilePic;
+    }
 
     /**
      * @return int

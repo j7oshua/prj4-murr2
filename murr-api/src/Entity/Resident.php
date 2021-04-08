@@ -16,8 +16,8 @@ use App\Validator as AcmeAssert;
  * @ApiResource(
  *     collectionOperations={"post"},
  *     itemOperations={"get"},
- *     normalizationContext={"groups"={"resident"}},
- *     denormalizationContext={"groups"={"resident", "resident:profile", "profile"}}
+ *     normalizationContext={"groups"={"resident:read"}},
+ *     denormalizationContext={"groups"={"resident:write"}}
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
@@ -29,7 +29,7 @@ class Resident
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Assert\PositiveOrZero(message = "The ID has to be zero or a positive number")
-     * @Groups("resident")
+     * @Groups("resident:read")
      */
     private $id;
 
@@ -37,7 +37,7 @@ class Resident
      * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\Email(message = "The email is not a valid email.")
      * @Assert\Length(allowEmptyString="true", max = 150, maxMessage = "Email has more than {{ limit }} characters.")
-     * @Groups("resident")
+     * @Groups("resident:read", "resident:write")
      */
     private $email;
 
@@ -45,7 +45,7 @@ class Resident
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Assert\Length(allowEmptyString="true", min=10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.", normalizer="trim")
      * @Assert\Regex(pattern="/^[0-9]/", message="Phone number must only contain numbers.")
-     * @Groups("resident")
+     * @Groups("resident:read", "resident:write")
      */
     private $phone;
 
@@ -53,19 +53,18 @@ class Resident
      * @ORM\Column(type="string", length=30)
      * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to be at least {{ limit }} characters.", maxMessage = "Password has to be {{ limit }} characters or less.")
      * @Assert\NotBlank(message = "Password should not be left blank.")
-     * @Groups("resident")
+     * @Groups("resident:write")
      */
     private $password;
 
     /**
      * @ORM\ManyToMany(targetEntity=Point::class, mappedBy="resident")
-     * @Groups("resident:points")
      */
     private $points;
 
     /**
      * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="resident", cascade={"persist", "remove"})
-     * @Groups("resident:profile")
+     * @Groups("resident:write", "resident:read")
     */
     private $profile;
 
@@ -87,14 +86,8 @@ class Resident
      */
     public function setProfile(?Profile $profile): void
     {
-        if(is_null($profile))
-        {
-            $this->profile = new Profile();
-            $this->profile->setResident($this);
-        }else{
-            $this->profile = $profile;
-        }
-
+        $this->profile = is_null($profile) ? new Profile() : $profile;
+        $this->profile->setResident($this);
 
     }
 
