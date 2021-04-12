@@ -5,17 +5,10 @@ namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
-class DriverSearchesSitesTest extends ApiTestCase
+class SiteTest extends ApiTestCase
 {
     //This refreshes the database for every test
     use RefreshDatabaseTrait;
-
-    // The URLs need to test
-    const API_URL_SITE_TWO = 'http://localhost:8000/api/sites?order[siteName=Brighton]=asc&page=1';
-    const API_URL_SITE_FULL = 'http://localhost:8000/api/sites?order[siteName=]=asc&page=1';
-    const API_URL_SITE_FULL2 = 'http://localhost:8000/api/sites?order[siteName=]=asc&page=2';
-    const API_URL_SITE_PART = 'http://localhost:8000/api/sites?order[siteName=Bri]=asc&page=1';
-    const API_URL_SITE_NOT_EXIST = 'http://localhost:8000/api/sites?order[siteName=Wellington]=asc&page=1';
 
     /**
      * Title: TestFullSiteList
@@ -26,7 +19,7 @@ class DriverSearchesSitesTest extends ApiTestCase
      */
     public function TestFullSiteListAPI() : void
     {
-        $response = static::createClient()->request('GET', self::API_URL_SITE_FULL);
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&page=1');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -135,7 +128,7 @@ class DriverSearchesSitesTest extends ApiTestCase
      */
     public function TestFullSiteListAPI2() : void
     {
-        $response = static::createClient()->request('GET', self::API_URL_SITE_FULL2);
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&page=2');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -177,7 +170,7 @@ class DriverSearchesSitesTest extends ApiTestCase
      */
     public function TestFullSiteName() : void
     {
-        $response = static::createClient()->request('GET', self::API_URL_SITE_TWO);
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Brighton&page=1');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -212,7 +205,7 @@ class DriverSearchesSitesTest extends ApiTestCase
     */
     public function TestPartialName() : void
     {
-        $response = static::createClient()->request('GET', self::API_URL_SITE_PART);
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Bri&page=1');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '@context' => '/contexts/Site',
@@ -262,7 +255,7 @@ class DriverSearchesSitesTest extends ApiTestCase
      */
     public function TestSiteNameDoesNotExist() : void
     {
-        $response = static::createClient()->request('GET', self::API_URL_SITE_NOT_EXIST);
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Wellington&page=1');
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([

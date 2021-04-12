@@ -46,5 +46,4 @@ describe('DriverCollection.vue', () => {
     expect(wrapper.find('#SiteTable').text()).to.equal('Britney Manor')
     expect([{ id: 8, name: 'Applewood Bridge' }, { id: 2, name: 'Brighton' }, { id: 3, name: 'Britney Manor' }]).to.be.sortedBy('name')
   })
-
 })
