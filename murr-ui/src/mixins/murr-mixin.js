@@ -1,8 +1,8 @@
 // This will be used by everyone so we will move everything to this global mixin file
 const PICKUP_API_URL = 'http://127.0.0.1:8000/pickups'
 const SITE_POINT_API_URL = 'http://127.0.0.1:8000/site/'
-const PROFILE_API_URL = 'http://127.0.0.1:8000/api/profiles'
-const RESIDENT_POINTS_URL = 'http://127.0.0.1:8000/point/resident/'
+const PROFILE_API_URL = 'http://127.0.0.1:8000/api/profiles/'
+const RESIDENT_POINTS_URL = 'http://127.0.0.1:8000/api/residents/'
 const MurrMixin = ({
   data: function () {
     return {
