@@ -48,7 +48,8 @@ export default {
         password: this.resident.password
       })
         .then(response => {
-          console.log(document.cookie)
+          document.cookie = response.headers
+          console.log(response)
           this.$emit('user-authenticated', response.headers.location)
           this.username = ''
           this.password = ''

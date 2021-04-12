@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Controller;
-//header('Access-Control-Allow-Origin: http://localhost:8080');
-
+//header('Access-Control-Allow-Origin: https://localhost:8080');
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use PHPUnit\TextUI\Exception;
