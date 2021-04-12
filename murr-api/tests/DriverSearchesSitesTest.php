@@ -34,93 +34,94 @@ class DriverSearchesSitesTest extends ApiTestCase
             '@id' => '/Site',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
-     {
+     [
          '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/8',
-   '@type' => 'Site',
-   'id' => 8,
-   'siteName' => 'Applewood Bridge',
-   'numBins' => 7
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/10',
-   '@type' => 'Site',
-   'id' => 10,
-   'siteName' => 'Applewood Gate',
-   'numBins' => 4
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/2',
-   '@type' => 'Site',
-   'id' => 2,
-   'siteName' => 'Brighton',
-   'numBins' => 5
-},
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/3',
-   '@type' => 'Site',
-   'id' => 3,
-   'siteName' => 'Britney Manor',
-   'numBins' => 5
-},
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/9',
-   '@type' => 'Site',
-   'id' => 9,
-   'siteName' => 'Cellsullo Gate',
-   'numBins' => 3
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/12',
-   '@type' => 'Site',
-   'id' => 12,
-   'siteName' => 'Lucas Caswell Manor',
-   'numBins' => 2
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/4',
-   '@type' => 'Site',
-   'id' => 4,
-   'siteName' => 'Rosa Towers',
-   'numBins' => 1
- }, {
-            '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/6',
-   '@type' => 'Site',
-   'id' => 6,
-   'siteName' => 'Roswell Evergreen',
-   'numBins' => 1
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/5',
-   '@type' => 'Site',
-   'id' => 5,
-   'siteName' => 'Vendetta Suites',
-   'numBins' => 5
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/11',
-   '@type' => 'Site',
-   'id' => 11,
-   'siteName' => 'Vermont Crossing',
-   'numBins' => 4
- }],
-'hydra:totalItems' => 12,
-        'hydra:view' => {
-        '@id' => '/sites?page=1',
-    '@type' => 'hydra:PartialCollectionView',
-    'hydra:first' => '/sites?page=1',
-        'hydra:last' => '/sites?page=2',
-        'hydra:next' => '/sites?page=2'
-  }
+         '@id' => '/api/sites/8',
+         '@type' => 'Site',
+         'id' => 8,
+         'siteName' => 'Applewood Bridge',
+         'numBins' => 7
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/10',
+        '@type' => 'Site',
+        'id' => 10,
+        'siteName' => 'Applewood Gate',
+        'numBins' => 4
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/2',
+        '@type' => 'Site',
+        'id' => 2,
+        'siteName' => 'Brighton',
+        'numBins' => 5
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/3',
+        '@type' => 'Site',
+        'id' => 3,
+        'siteName' => 'Britney Manor',
+        'numBins' => 5
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/9',
+        '@type' => 'Site',
+        'id' => 9,
+        'siteName' => 'Cellsullo Gate',
+        'numBins' => 3
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/12',
+        '@type' => 'Site',
+        'id' => 12,
+        'siteName' => 'Lucas Caswell Manor',
+        'numBins' => 2
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/4',
+        '@type' => 'Site',
+        'id' => 4,
+        'siteName' => 'Rosa Towers',
+        'numBins' => 1
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/6',
+        '@type' => 'Site',
+        'id' => 6,
+        'siteName' => 'Roswell Evergreen',
+        'numBins' => 1
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/5',
+        '@type' => 'Site',
+        'id' => 5,
+        'siteName' => 'Vendetta Suites',
+        'numBins' => 5
+    ],
+    [
+        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/11',
+        '@type' => 'Site',
+        'id' => 11,
+        'siteName' => 'Vermont Crossing',
+        'numBins' => 4
+    ]],
+        'hydra:totalItems' => 12,
+        'hydra:view' => [
+            '@id' => '/sites?page=1',
+            '@type' => 'hydra:PartialCollectionView',
+            'hydra:first' => '/sites?page=1',
+            'hydra:last' => '/sites?page=2',
+            'hydra:next' => '/sites?page=2'
+        ]
         ]);
 
     }
@@ -142,30 +143,30 @@ class DriverSearchesSitesTest extends ApiTestCase
             '@id' => '/Site',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
-     {
-         '@context' => '/api/contexts/Site',
-         '@id' => '/api/sites/1',
-   '@type' => 'Site',
-   'id' => 1,
-   'siteName' => 'Wascana',
-   'numBins' => 5
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/7',
-   '@type' => 'Site',
-   'id' => 7,
-   'siteName' => 'Willowgrove Tower',
-   'numBins' => 2
-            }],
-    'hydra:totalItems' => 12,
-    'hydra:view' => {
-    '@id' => '/sites?page=2',
-    '@type' => 'hydra:PartialCollectionView',
-    'hydra:first' => '/sites?page=1',
-    'hydra:last' => '/sites?page=2',
-    'hydra:next' => '/sites?page=2'
-        }]);
+        [
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites/1',
+            '@type' => 'Site',
+            'id' => 1,
+            'siteName' => 'Wascana',
+            'numBins' => 5
+        ],
+        [
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites/7',
+            '@type' => 'Site',
+            'id' => 7,
+            'siteName' => 'Willowgrove Tower',
+            'numBins' => 2
+            ]],
+        'hydra:totalItems' => 12,
+        'hydra:view' => [
+            '@id' => '/sites?page=2',
+            '@type' => 'hydra:PartialCollectionView',
+            'hydra:first' => '/sites?page=1',
+            'hydra:last' => '/sites?page=2',
+            'hydra:next' => '/sites?page=2'
+        ]]);
     }
 
     /**
@@ -184,23 +185,22 @@ class DriverSearchesSitesTest extends ApiTestCase
             '@id' => '/Site',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
-     {
+        [
          '@context' => '/api/contexts/Site',
          '@id' => '/api/sites/2',
          '@type' => 'Site',
          'id' => 2,
          'siteName' => 'Brighton',
          'numBins' => 5
-     }],
-    'hydra:totalItems' => 1,
-    'hydra:view' => {
-        '@id' => '/sites?page=1',
-    '@type' => 'hydra:PartialCollectionView',
-    'hydra:first' => '/sites?page=1',
-    'hydra:last' => '/sites?page=1',
-    'hydra:next' => '/sites?page=1'
-        }]);
-
+        ]],
+        'hydra:totalItems' => 1,
+        'hydra:view' => [
+            '@id' => '/sites?page=1',
+            '@type' => 'hydra:PartialCollectionView',
+            'hydra:first' => '/sites?page=1',
+            'hydra:last' => '/sites?page=1',
+            'hydra:next' => '/sites?page=1'
+        ]]);
     }
 
     /**
@@ -219,38 +219,38 @@ class DriverSearchesSitesTest extends ApiTestCase
             '@id' => '/Site',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
-     {
-         '@context' => '/api/contexts/Site',
-         '@id' => '/api/sites/8',
-   '@type' => 'Site',
-   'id' => 8,
-   'siteName' => 'Applewood Bridge',
-   'numBins' => 7
- },
-{
-    '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/2',
-   '@type' => 'Site',
-   'id' => 2,
-   'siteName' => 'Brighton',
-   'numBins' => 5
-            },
-        {
+        [
             '@context' => '/api/contexts/Site',
-   '@id' => '/api/sites/3',
-   '@type' => 'Site',
-   'id' => 3,
-   'siteName' => 'Britney Manor',
-   'numBins' => 5
-        }],
-    'hydra:totalItems' => 3,
-    'hydra:view' => {
-        '@id' => '/sites?page=1',
-    '@type' => 'hydra:PartialCollectionView',
-    'hydra:first' => '/sites?page=1',
-    'hydra:last' => '/sites?page=1',
-    'hydra:next' => '/sites?page=1'
-        }]);
+            '@id' => '/api/sites/8',
+            '@type' => 'Site',
+            'id' => 8,
+            'siteName' => 'Applewood Bridge',
+            'numBins' => 7
+        ],
+        [
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites/2',
+            '@type' => 'Site',
+            'id' => 2,
+            'siteName' => 'Brighton',
+            'numBins' => 5
+        ],
+        [
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites/3',
+            '@type' => 'Site',
+            'id' => 3,
+            'siteName' => 'Britney Manor',
+            'numBins' => 5
+        ]],
+        'hydra:totalItems' => 3,
+        'hydra:view' => [
+            '@id' => '/sites?page=1',
+            '@type' => 'hydra:PartialCollectionView',
+            'hydra:first' => '/sites?page=1',
+            'hydra:last' => '/sites?page=1',
+            'hydra:next' => '/sites?page=1'
+        ]]);
     }
 
     /**
