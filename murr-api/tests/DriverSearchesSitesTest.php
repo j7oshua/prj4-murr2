@@ -11,11 +11,11 @@ class DriverSearchesSitesTest extends ApiTestCase
     use RefreshDatabaseTrait;
 
     // The URLs need to test
-    const API_URL_SITE_TWO = 'http://localhost:8000/api/sites?order[siteName=Brighton]=desc&page=1';
-    const API_URL_SITE_FULL = 'http://localhost:8000/api/sites?order[siteName=]=desc&page=1';
-    const API_URL_SITE_FULL2 = 'http://localhost:8000/api/sites?order[siteName=]=desc&page=2';
-    const API_URL_SITE_PART = 'http://localhost:8000/api/sites?order[siteName=Bri]=desc&page=1';
-    const API_URL_SITE_NOT_EXIST = 'http://localhost:8000/api/sites?order[siteName=Wellington]=desc&page=1';
+    const API_URL_SITE_TWO = 'http://localhost:8000/api/sites?order[siteName=Brighton]=asc&page=1';
+    const API_URL_SITE_FULL = 'http://localhost:8000/api/sites?order[siteName=]=asc&page=1';
+    const API_URL_SITE_FULL2 = 'http://localhost:8000/api/sites?order[siteName=]=asc&page=2';
+    const API_URL_SITE_PART = 'http://localhost:8000/api/sites?order[siteName=Bri]=asc&page=1';
+    const API_URL_SITE_NOT_EXIST = 'http://localhost:8000/api/sites?order[siteName=Wellington]=asc&page=1';
 
     /**
      * Title: TestFullSiteList

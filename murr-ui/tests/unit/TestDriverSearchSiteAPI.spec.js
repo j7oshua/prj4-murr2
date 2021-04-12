@@ -3,11 +3,14 @@ const expect = require('chai').expect
 
 describe('GET /sites', function () {
   /**
-   *
+   * TestFullFirstPage
    */
   it('Display all site when first arriving to the page', async function () {
-    const response = await request.get('/sites/?order[site.siteName=]=desc&page=1')
+    // set a custom url that gets the order of all Site names in asc for page one
+    const response = await request.get('/sites/?order[site.siteName=]=asc&page=1')
+    // excepting status code to equal 200 -- ok
     expect(response.status).to.eql(200)
+    // show all the expected hydra member objects for page one for page one (id and siteName)
     expect(response.body['hydra:member'][0]).to.contain({ id: 8 })
     expect(response.body['hydra:member'][1]).to.contain({ id: 10 })
     expect(response.body['hydra:member'][2]).to.contain({ id: 2 })
@@ -31,10 +34,11 @@ describe('GET /sites', function () {
   })
 
   /**
-   *
+   * TestFullSecondPage
    */
   it('Display all sites on page 2', async function () {
-    const response = await request.get('/sites/?order[site.siteName=]=desc&page=2')
+    // set a custom url that gets the order of all Site names in asc for page two
+    const response = await request.get('/sites/?order[site.siteName=]=dasc&page=2')
     expect(response.status).to.eql(200)
     expect(response.body['hydra:member'][10]).to.contain({ id: 1 })
     expect(response.body['hydra:member'][11]).to.contain({ id: 7 })
@@ -43,20 +47,22 @@ describe('GET /sites', function () {
   })
 
   /**
-   *
+   * TestFullNameBrighton
    */
   it('Display one site when searching with "Brighton"', async function () {
-    const response = await request.get('/sites/?order[site.siteName=Brighton]=desc&page=1')
+    // set a custom url that gets the order of all Site names that have "Brighton" in asc for page one
+    const response = await request.get('/sites/?order[site.siteName=Brighton]=asc&page=1')
     expect(response.status).to.eql(200)
     expect(response.body['hydra:member'][0]).to.contain({ id: 2 })
     expect(response.body['hydra:member'][0]).to.contain({ siteName: 'Brighton' })
   })
 
   /**
-   *
+   * TestPartialNameBri
    */
   it('Display three sites when searching with "Bri"', async function () {
-    const response = await request.get('/sites/?order[site.siteName=Bri]=desc&page=1')
+    // set a custom url that gets the order of all Site names that have "Bri" in asc for page one
+    const response = await request.get('/sites/?order[site.siteName=Bri]=asc&page=1')
     expect(response.status).to.eql(200)
     expect(response.body['hydra:member'][1]).to.contain({ id: 8 })
     expect(response.body['hydra:member'][1]).to.contain({ siteName: 'Applewood Bridge' })
@@ -67,11 +73,14 @@ describe('GET /sites', function () {
   })
 
   /**
-   *
+   * TestSiteNameDoesNotExist
    */
   it('Display an error for searching a site that does not exist', async function () {
-    const response = await request.get('/sites/?order[site.siteName=Wellington]=desc&page=1')
+    // set a custom url that gets the order of all Site names that have "Wellington" in asc for page one
+    const response = await request.get('/sites/?order[site.siteName=Wellington]=asc&page=1')
+    // excepting status code to equal 404 -- Not Found
     expect(response.status).to.eql(404)
-    expect(response.body['hydra:description']).to.contain('Item not found for ‘/api/sites?siteName=Wellington')
+    // excepting a error msg with the hydra decription : 'Item not found for "/api/sites?siteName=Wellington" '
+    expect(response.body['hydra:description']).to.contain('Item not found for "/api/sites?siteName=Wellington"')
   })
 })

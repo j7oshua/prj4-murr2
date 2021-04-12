@@ -17,6 +17,7 @@ describe('DriverCollection.vue', () => {
 
   /**
    * TestEmptyList
+   * table is empty
    */
   it('Should display an empty table list of sites', async () => {
     expect(wrapper.element.value).to.equal('Failed Connection')
@@ -44,17 +45,6 @@ describe('DriverCollection.vue', () => {
     expect(wrapper.find('#SiteTable').text()).to.equal('Brighton')
     expect(wrapper.find('#SiteTable').text()).to.equal('Britney Manor')
     expect([{ id: 8, name: 'Applewood Bridge' }, { id: 2, name: 'Brighton' }, { id: 3, name: 'Britney Manor' }]).to.be.sortedBy('name')
-  })
-
-  /**
-   * TestFullNameBrighton
-   */
-  it('Should display one site with the input Brighton', async () => {
-    const Search = wrapper.find('#search')
-    await Search.setValue('Brighton')
-    expect(wrapper.find('#search').element.value).to.equal('Brighton')
-    wrapper.find('#searchButton').at(0).trigger('click')
-    expect(wrapper.find('#SiteTable').text()).to.equal('Brighton')
   })
 
 })
