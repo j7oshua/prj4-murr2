@@ -69,10 +69,9 @@ export default {
   },
   methods: {
     getProfileInfo () {
-      this.axios.get(this.PROFILE_API_URL + this.residentID, {})
+      this.axios.get(this.RESIDENT_POINTS_URL + this.residentID, {})
         .then(resp => {
-          // set tempPoints to be the points returned by the API
-          this.tempProfile = resp.data
+          this.tempProfile = resp.data.profile
         })
         .catch(err => {
           if (err.response.status === 404) { // not found

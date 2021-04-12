@@ -32,14 +32,14 @@ class Profile
     /**
      * @ORM\Column (type="string", length=20, nullable=true)
      * @Assert\Length(max="20", min="2", maxMessage="First Name cannot be longer than {{ limit }} characters.", minMessage="First Name must be more than 1 character")
-     * @Groups("resident:write", "profile:write")
+     * @Groups("resident:write", "profile:write", "resident:read")
      */
     private $firstName;
 
     /**
      * @ORM\Column (type="string", length=20, nullable=true)
      * @Assert\Length(max="20", maxMessage="Last Name cannot be longer than {{ limit }} characters.")
-     * @Groups("resident:write", "profile:write")
+     * @Groups("resident:write", "profile:write", "resident:read")
      */
     private $lastName;
 
