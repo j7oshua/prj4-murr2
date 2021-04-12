@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Controller;
-header('Access-Control-Expose-Headers: Location, Set-Cookie');
-header("Access-Control-Allow-Credentials: true");
+//header('Access-Control-Allow-Origin: http://localhost:8080');
+
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use PHPUnit\TextUI\Exception;
@@ -21,6 +21,8 @@ class SecurityController extends AbstractController
      */
     public function login(IriConverterInterface $iriConverter)
     {
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Expose-Headers: Location, Set-Cookie');
 
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json([

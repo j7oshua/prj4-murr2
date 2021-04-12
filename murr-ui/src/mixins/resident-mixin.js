@@ -9,7 +9,7 @@ const ResidentMixin = ({
         // change everything to lowercase
         method: method.toLowerCase(),
         // const url
-        url: 'http://localhost:8000/api/residents',
+        url: 'https://localhost:8000/api/residents',
         // set empty params
         params: {}
       }

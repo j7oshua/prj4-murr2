@@ -30,7 +30,7 @@ export default {
   methods: {
     // this method is getting the logged in users information
     onUserAuthenticated (userUri) {
-      axios.get('http://127.0.0.1:8000' + userUri)
+      axios.get('https://127.0.0.1:8000' + userUri)
         .then(response => {
           (this.user = response)
           console.log(response.data)

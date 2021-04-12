@@ -43,7 +43,7 @@ export default {
     handleSubmit () {
       this.isBusy = true
       this.error = ''
-      axios.post('http://127.0.0.1:8000/login', {
+      axios.post('https://127.0.0.1:8000/login', {
         username: this.resident.username,
         password: this.resident.password
       })
