@@ -147,7 +147,8 @@ export default {
         this.tempNewResident = {
           email: this.resident.email,
           phone: this.resident.phone,
-          password: this.resident.password
+          password: this.resident.password,
+          profile: {}
         }
         this.error = {}
         // call the function from the resident mixin
@@ -155,15 +156,13 @@ export default {
         // data information is from tempResident
         this.callAPI('post', this.tempNewResident)
           .then(resp => {
-            this.tempProfile.residentID = resp.data.id
             // if response status equals 201
             if (resp.status === 201) {
-              this.createProfile()
               // this is the redirect to point page if the login is successful
               // add onto url response data.id to string (this would be the resident id added on to url)
-              // this.url += resp.data.id.toString()
+              this.url += resp.data.id.toString()
               // have the router push the points page
-              // this.$router.push(this.url)
+              this.$router.push(this.url)
             }
           })
           .catch(err => {
@@ -174,19 +173,6 @@ export default {
             }
           })
       }
-    },
-    createProfile: function () {
-      this.callAPI_URL('post', this.tempProfile.residentID, this.PROFILE_API_URL)
-        .then(resp => {
-          this.tempProfile = resp.data
-        })
-        .catch(err => {
-          if (err.response.status === 404) {
-            // send error message
-            // this.error = err && err.response ? err.response.data : {}
-            console.log(err)
-          }
-        })
     }
   }
 }
