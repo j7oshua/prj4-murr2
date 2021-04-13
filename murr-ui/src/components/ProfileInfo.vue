@@ -17,14 +17,16 @@
               <b-form-invalid-feedback id="fName">First Name cannot be longer than 20 characters</b-form-invalid-feedback>
             </div>
             <div>
-              <b-form-input placeholder="Last Name" v-model="tempProfile.lastName"></b-form-input>
+              <b-form-input placeholder="Last Name" v-model="tempProfile.lastName" :state="lNameError" aria-describedby="lName"></b-form-input>
+              <b-form-invalid-feedback id="lName">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>
             </div>
-<!--            <div>-->
-<!--              <b-form-file placeholder="Profile Picture" accept="image/*" v-model="tempProfile.profilePic"></b-form-file>-->
-<!--            </div>-->
+            <div>
+              <b-form-file placeholder="Profile Picture" accept="image/*" v-model="tempProfile.profilePic" :state="imgSizeError" aria-describedby="imgSize"></b-form-file>
+              <b-form-invalid-feedback id="imgSize">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>
+            </div>
           </b-input-group>
           <div>
-            <b-button @click="saveProfile">Save Information</b-button>
+            <b-button @click="saveProfile" :disabled="disableSaveBtn">Save Information</b-button>
           </div>
         </div>
       </div>
@@ -108,6 +110,16 @@ export default {
   computed: {
     fNameError () {
       return this.tempProfile.firstName.length <= 20
+    },
+    lNameError () {
+      return this.tempProfile.lastName.length <= 20
+    },
+    disableSaveBtn () {
+      return !this.fNameError || !this.lNameError || !this.imgSizeError
+    },
+    imgSizeError () {
+      console.log(this.tempProfile.profilePic)
+      return this.tempProfile.profilePic.size <= 2000000 || this.tempProfile.profilePic.isEmpty
     }
   }
 }

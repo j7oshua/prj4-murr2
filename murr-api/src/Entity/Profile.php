@@ -45,7 +45,6 @@ class Profile
 
     /**
      * @ORM\Column (type="string", nullable=true)
-     * @Assert\Image(mimeTypes="image/*", mimeTypesMessage="This file is not a valid image.")
      * @Groups("resident:write", "profile:write", "resident:read")
      */
     private $profilePic;
