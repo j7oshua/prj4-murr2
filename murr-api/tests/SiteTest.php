@@ -27,13 +27,15 @@ class SiteTest extends ApiTestCase
             '@id' => '/Site',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
-     [
+        [
          '@context' => '/api/contexts/Site',
          '@id' => '/api/sites/8',
          '@type' => 'Site',
          'id' => 8,
          'siteName' => 'Applewood Bridge',
-         'numBins' => 7
+         'numBins' => 7,
+         'residents' => [],
+         'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -41,7 +43,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 10,
         'siteName' => 'Applewood Gate',
-        'numBins' => 4
+        'numBins' => 4,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -49,7 +53,31 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 2,
         'siteName' => 'Brighton',
-        'numBins' => 5
+        'numBins' => 6,
+        'residents' => [
+            [
+                '@id' => 'api/residents/4',
+                '@type' => 'Resident',
+                'id' => 4,
+                'email' => null,
+                'phone' => null,
+                'points' => [],
+                'password' => 'Password'
+            ],
+           [
+               '@id' => 'api/residents/5',
+               '@type' => 'Resident',
+               'id' => 5,
+               'email' => null,
+               'phone' => null,
+               'points' => [],
+               'password' => 'Password'
+          ]
+       ],
+        'pickupCollection' => [
+            'api/pick_ups/2',
+            'api/pick_ups/3'
+        ]
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -57,7 +85,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 3,
         'siteName' => 'Britney Manor',
-        'numBins' => 5
+        'numBins' => 5,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -65,7 +95,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 9,
         'siteName' => 'Cellsullo Gate',
-        'numBins' => 3
+        'numBins' => 3,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -73,7 +105,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 12,
         'siteName' => 'Lucas Caswell Manor',
-        'numBins' => 2
+        'numBins' => 2,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -81,7 +115,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 4,
         'siteName' => 'Rosa Towers',
-        'numBins' => 1
+        'numBins' => 1,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -89,7 +125,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 6,
         'siteName' => 'Roswell Evergreen',
-        'numBins' => 1
+        'numBins' => 1,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -97,7 +135,9 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 5,
         'siteName' => 'Vendetta Suites',
-        'numBins' => 5
+        'numBins' => 5,
+        'residents' => [],
+        'pickupCollection' => []
     ],
     [
         '@context' => '/api/contexts/Site',
@@ -105,18 +145,34 @@ class SiteTest extends ApiTestCase
         '@type' => 'Site',
         'id' => 11,
         'siteName' => 'Vermont Crossing',
-        'numBins' => 4
+        'numBins' => 4,
+        'residents' => [],
+        'pickupCollection' => []
     ]],
-        'hydra:totalItems' => 12,
         'hydra:view' => [
-            '@id' => '/sites?page=1',
-            '@type' => 'hydra:PartialCollectionView',
-            'hydra:first' => '/sites?page=1',
-            'hydra:last' => '/sites?page=2',
-            'hydra:next' => '/sites?page=2'
-        ]
+            '@id' => '/api/sites?order%5BsiteName%5D=&siteName=&page=1',
+            '@type' => 'hydra:PartialCollectionView'
+        ],
+       'hydra:search' => [
+        '@type' => 'hydra:IriTemplate',
+        'hydra:template' => '/api/sites{?order[siteName],siteName}',
+        'hydra:variableRepresentation'=> 'BasicRepresentation',
+        'hydra:mapping'=> [
+            [
+                '@type' => 'IriTemplateMapping',
+                'variable'=> 'order[siteName]',
+                'property'=> 'siteName',
+                'required' => false
+            ],
+            [
+                '@type' => 'IriTemplateMapping',
+                'variable' => 'siteName',
+                'property' => 'siteName',
+                'required'=> false
+            ]
+          ]
+       ]
         ]);
-
     }
 
     /**
@@ -142,7 +198,39 @@ class SiteTest extends ApiTestCase
             '@type' => 'Site',
             'id' => 1,
             'siteName' => 'Wascana',
-            'numBins' => 5
+            'numBins' => 5,
+            'residents' => [
+                [
+                    '@id' => 'api/residents/1',
+                    '@type' => 'Resident',
+                    'id' => 1,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ],
+                [
+                    '@id' => 'api/residents/2',
+                    '@type' => 'Resident',
+                    'id' => 2,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ],
+                [
+                    '@id' => 'api/residents/3',
+                    '@type' => 'Resident',
+                    'id' => 3,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ]
+            ],
+            'pickupCollection' => [
+                'api/pick_ups/1'
+            ]
         ],
         [
             '@context' => '/api/contexts/Site',
@@ -150,16 +238,36 @@ class SiteTest extends ApiTestCase
             '@type' => 'Site',
             'id' => 7,
             'siteName' => 'Willowgrove Tower',
-            'numBins' => 2
-            ]],
-        'hydra:totalItems' => 12,
-        'hydra:view' => [
-            '@id' => '/sites?page=2',
-            '@type' => 'hydra:PartialCollectionView',
-            'hydra:first' => '/sites?page=1',
-            'hydra:last' => '/sites?page=2',
-            'hydra:next' => '/sites?page=2'
-        ]]);
+            'numBins' => 2,
+            'residents' => [],
+            'pickupCollection' => []
+            ]
+          ],
+            'hydra:view' => [
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=&page=2',
+                '@type' => 'hydra:PartialCollectionView',
+                'hydra:previous' => '/api/sites?order%5BsiteName%5D=&siteName=&page=1'
+            ],
+            'hydra:search' => [
+                '@type' => 'hydra:IriTemplate',
+                'hydra:template' => '/api/sites{?order[siteName],siteName}',
+                'hydra:variableRepresentation'=> 'BasicRepresentation',
+                'hydra:mapping'=> [
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable'=> 'order[siteName]',
+                        'property'=> 'siteName',
+                        'required' => false
+                    ],
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable' => 'siteName',
+                        'property' => 'siteName',
+                        'required'=> false
+                    ]
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -184,16 +292,56 @@ class SiteTest extends ApiTestCase
          '@type' => 'Site',
          'id' => 2,
          'siteName' => 'Brighton',
-         'numBins' => 5
+         'numBins' => 5,
+         'residents' => [
+                [
+                    '@id' => 'api/residents/4',
+                    '@type' => 'Resident',
+                    'id' => 4,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ],
+                [
+                    '@id' => 'api/residents/5',
+                    '@type' => 'Resident',
+                    'id' => 5,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ]
+            ],
+            'pickupCollection' => [
+                'api/pick_ups/2',
+                'api/pick_ups/3'
+            ]
         ]],
-        'hydra:totalItems' => 1,
-        'hydra:view' => [
-            '@id' => '/sites?page=1',
-            '@type' => 'hydra:PartialCollectionView',
-            'hydra:first' => '/sites?page=1',
-            'hydra:last' => '/sites?page=1',
-            'hydra:next' => '/sites?page=1'
-        ]]);
+            'hydra:view' => [
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Brighton&page=1',
+                '@type' => 'hydra:PartialCollectionView'
+            ],
+            'hydra:search' => [
+                '@type' => 'hydra:IriTemplate',
+                'hydra:template' => '/api/sites{?order[siteName],siteName}',
+                'hydra:variableRepresentation'=> 'BasicRepresentation',
+                'hydra:mapping'=> [
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable'=> 'order[siteName]',
+                        'property'=> 'siteName',
+                        'required' => false
+                    ],
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable' => 'siteName',
+                        'property' => 'siteName',
+                        'required'=> false
+                    ]
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -218,7 +366,9 @@ class SiteTest extends ApiTestCase
             '@type' => 'Site',
             'id' => 8,
             'siteName' => 'Applewood Bridge',
-            'numBins' => 7
+            'numBins' => 7,
+            'residents' => [],
+            'pickupCollection' => []
         ],
         [
             '@context' => '/api/contexts/Site',
@@ -226,7 +376,31 @@ class SiteTest extends ApiTestCase
             '@type' => 'Site',
             'id' => 2,
             'siteName' => 'Brighton',
-            'numBins' => 5
+            'numBins' => 5,
+            'residents' => [
+                [
+                    '@id' => 'api/residents/4',
+                    '@type' => 'Resident',
+                    'id' => 4,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ],
+                [
+                    '@id' => 'api/residents/5',
+                    '@type' => 'Resident',
+                    'id' => 5,
+                    'email' => null,
+                    'phone' => null,
+                    'points' => [],
+                    'password' => 'Password'
+                ]
+            ],
+            'pickupCollection' => [
+                'api/pick_ups/2',
+                'api/pick_ups/3'
+            ]
         ],
         [
             '@context' => '/api/contexts/Site',
@@ -234,16 +408,34 @@ class SiteTest extends ApiTestCase
             '@type' => 'Site',
             'id' => 3,
             'siteName' => 'Britney Manor',
-            'numBins' => 5
+            'numBins' => 5,
+            'residents' => [],
+            'pickupCollection' => []
         ]],
-        'hydra:totalItems' => 3,
-        'hydra:view' => [
-            '@id' => '/sites?page=1',
-            '@type' => 'hydra:PartialCollectionView',
-            'hydra:first' => '/sites?page=1',
-            'hydra:last' => '/sites?page=1',
-            'hydra:next' => '/sites?page=1'
-        ]]);
+            'hydra:view' => [
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Bri&page=2',
+                '@type' => 'hydra:PartialCollectionView'
+            ],
+            'hydra:search' => [
+                '@type' => 'hydra:IriTemplate',
+                'hydra:template' => '/api/sites{?order[siteName],siteName}',
+                'hydra:variableRepresentation'=> 'BasicRepresentation',
+                'hydra:mapping'=> [
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable'=> 'order[siteName]',
+                        'property'=> 'siteName',
+                        'required' => false
+                    ],
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable' => 'siteName',
+                        'property' => 'siteName',
+                        'required'=> false
+                    ]
+                ]
+            ]
+        ]);
     }
 
     /**
