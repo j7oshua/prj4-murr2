@@ -149,7 +149,7 @@ export default {
         this.tempNewResident = {
           email: this.resident.email,
           phone: this.resident.phone,
-          password: this.resident.password
+          plainPassword: this.resident.password
         }
         this.error = {}
         // call the function from the resident mixin
@@ -175,11 +175,13 @@ export default {
           }).finally(() => {
             // ************* Trying out to login resident after creation, may have to delete **************************
             if (this.tempNewResident.email != null) {
-
+              this.loginResident.username = this.tempNewResident.email
+            } else {
+              this.loginResident.username = this.tempNewResident.phone
             }
             axios.post('http://127.0.0.1:8000/login', {
-              username: this.resident.username,
-              password: this.resident.password
+              username: this.loginResident.username,
+              password: this.loginResident.password
             })
               .then(response => {
                 sessionStorage.setItem('token', response.data.token)
