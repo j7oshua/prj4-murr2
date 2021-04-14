@@ -23,7 +23,7 @@ const MurrMixin = ({
         // set empty params
         params: {}
       }
-      // if method type equal post
+      // if method type equal post or put
       if (['post', 'put'].includes(config.method)) {
         // config data equal data
         config.data = data
