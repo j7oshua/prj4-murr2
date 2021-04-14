@@ -86,6 +86,7 @@
 import ResidentMixin from '@/mixins/resident-mixin'
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
+import axios from 'axios'
 export default {
   name: 'CreateLogin',
   mixins: [ResidentMixin, validationMixin],
@@ -93,6 +94,11 @@ export default {
     return {
       // variables
       tempNewResident: {},
+      // ******** Used for login after creation ************
+      loginResident: {
+        username: '',
+        password: ''
+      },
       error: {},
       resident: {
         email: '',
@@ -166,6 +172,28 @@ export default {
               // send error message
               this.error = err && err.response ? err.response.data : {}
             }
+          }).finally(() => {
+            // ************* Trying out to login resident after creation, may have to delete **************************
+            if (this.tempNewResident.email != null) {
+
+            }
+            axios.post('http://127.0.0.1:8000/login', {
+              username: this.resident.username,
+              password: this.resident.password
+            })
+              .then(response => {
+                sessionStorage.setItem('token', response.data.token)
+                this.username = ''
+                this.password = ''
+              }).catch(error => {
+                if (error.response) {
+                  // this.error = error.response
+                } else {
+                  // this.error = 'Unknown error'
+                }
+              }).finally(() => {
+                this.isBusy = false
+              })
           })
       }
     }

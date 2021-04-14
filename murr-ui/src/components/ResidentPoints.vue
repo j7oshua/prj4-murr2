@@ -3,6 +3,7 @@
 <!--    adds a loading animation when the page is busy-->
     <b-overlay :show="isDisabled">
       <h2 v-if="statusCode === 200">Points: {{ tempPoints }}</h2>
+      <h2 v-else-if="statusCode === 401">You are not logged in</h2>
       <h2 v-else>Failed Connection</h2>
     </b-overlay>
   </div>
@@ -43,6 +44,8 @@ export default {
             this.statusCode = 404
             const message = err.status
             console.log(message)
+          } else {
+            this.statusCode = err.response.status
           }
         }).finally(() => {
           // re-enable overlay

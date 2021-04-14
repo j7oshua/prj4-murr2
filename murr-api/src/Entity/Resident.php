@@ -13,6 +13,13 @@ use App\Validator as AcmeAssert;
 
 /**
  * @ApiResource(
+ *     collectionOperations={
+ *     "post",
+ *     "get"={"security"="is_granted('ROLE_USER')"}
+ *    },
+ *     itemOperations={
+ *     "get"={"security"="is_granted('ROLE_USER')"}
+ *    }
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)

@@ -18,7 +18,9 @@ use App\Controller\SitePointController;
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  * @ApiResource(
- *     itemOperations={"get"}
+ *     itemOperations={
+ *     "get"={"security"="is_granted('ROLE_USER')"}
+ *     }
  * )
  */
 class Site

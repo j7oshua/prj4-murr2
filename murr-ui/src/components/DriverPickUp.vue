@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <form id="form" v-if="showForm" @submit.prevent="postPickup">
