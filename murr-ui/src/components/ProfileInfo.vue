@@ -25,6 +25,7 @@
               <b-row>
                 <b-form-file @change="uploadImage" id="profPicInput" :placeholder="profPicName" accept="image/*" v-model="tempProfile.profilePic" :state="imgSizeError" aria-describedby="imgSize"></b-form-file>
                 <b-form-invalid-feedback id="imgSize">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>
+<!--                <b-button @click="removeImage">Remove</b-button>-->
               </b-row>
             </b-container>
           </b-input-group>
@@ -76,7 +77,11 @@ export default {
   },
   data: function () {
     return {
-      tempProfile: {},
+      tempProfile: {
+        firstName: '',
+        lastName: '',
+        profilePic: []
+      },
       editMode: false,
       profPicName: ''
     }
@@ -93,7 +98,7 @@ export default {
       this.tempProfile = {
         firstName: this.tempProfile.firstName,
         lastName: this.tempProfile.lastName,
-        profilePic: this.tempProfile.profilePic === null ? '' : this.tempProfile.profilePicBase64,
+        profilePic: this.tempProfile.profilePicBase64,
         profPicName: this.profPicName
       }
       this.callAPI_URL('put', this.tempProfile, this.PROFILE_API_URL + this.residentID)
@@ -123,22 +128,28 @@ export default {
     },
     uploadImage: function () {
       const vm = this
-      const file = document
-        .getElementById('profPicInput')
-        .files[0]
-      const fileName = document
-        .getElementById('profPicInput')
-        .files[0].name
-      vm.profPicName = fileName
-      const reader = new FileReader()
-      reader.onload = function (e) {
-        vm.tempProfile.profilePicBase64 = e.target.result
+      if (vm.tempProfile.profilePic !== null) {
+        const file = document
+          .getElementById('profPicInput')
+          .files[0]
+        // const fileName = document
+        //   .getElementById('profPicInput')
+        //   .files[0].name
+        // vm.profPicName = fileName
+        const reader = new FileReader()
+        reader.onload = function (e) {
+          vm.tempProfile.profilePicBase64 = e.target.result
+        }
+        reader.onerror = function (error) {
+          alert(error)
+        }
+        reader.readAsDataURL(file)
       }
-      reader.onerror = function (error) {
-        alert(error)
-      }
-      reader.readAsDataURL(file)
     }
+    // removeImage () {
+    //   this.tempProfile.profilePic = ''
+    //   return this.tempProfile.profilePic
+    // }
   },
   computed: {
     fNameError () {

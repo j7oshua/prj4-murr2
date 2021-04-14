@@ -32,7 +32,7 @@ export default {
     }
   },
   created () {
-    this.residentID = this.$route.params.id
+    this.residentID = parseInt(this.$route.params.id)
   },
   methods: {
     confirmFinished () {
