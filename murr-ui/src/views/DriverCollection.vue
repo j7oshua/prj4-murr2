@@ -8,29 +8,29 @@
     </div>
     <div>
       <!-- this is th filter input box -->
-        <b-col lg="6" class="my-1">
-          <b-form-group
-            label="Filter"
-            label-for="filter-input"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label-size="sm"
-            class="mb-0"
-          >
-            <b-input-group size="sm">
-              <b-form-input
-                id="filter-input"
-                v-model="filter"
-                type="search"
-                placeholder="Type to Search"
-              ></b-form-input>
+      <b-col lg="6" class="my-1">
+        <b-form-group
+          label="Filter"
+          label-for="filter-input"
+          label-cols-sm="3"
+          label-align-sm="right"
+          label-size="sm"
+          class="mb-0"
+        >
+          <b-input-group size="sm">
+            <b-form-input
+              id="filter-input"
+              v-model="filter"
+              type="search"
+              placeholder="Type to Search"
+            ></b-form-input>
             <!-- clear button at the end of the search input -->
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
       <b-table
         id="my-table"
         :busy.sync="isBusy"
@@ -55,9 +55,9 @@
         </template>
         <template #cell(actions)="row">
           <p>PickUp</p>
-            <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
-              <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
-            </b-button>
+          <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
+            <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
+          </b-button>
         </template>
         <template #row-details="row">
           <b-card>
@@ -92,13 +92,13 @@ export default {
       },
       item: {},
       fields: {
-        { key: 'siteName', label: 'Site Name' },
+    { key: 'siteName', label: 'Site Name' },
 
 
-      },
-      showForm: false,
+  },
+    showForm: false,
       isBusy: false
-    }
+  }
   },
   methods: {
     reDirectToDriverPickup: function () {
