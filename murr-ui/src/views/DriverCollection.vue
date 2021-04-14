@@ -50,19 +50,19 @@
           </b-tr>
         </b-thead>
 
-        <template #cell(name)="row">
+        <template #cell(siteObject)="row">
           {{ row.value.siteName }} {{ row.value.siteId }} {{row.value.numBins}}
         </template>
-        <template #cell(actions)="row">
+        <template #cell(actions)="row"> <!-- seems this need to have a used row for select and it seems this is suck on action for some reason -->
           <p>PickUp</p>
-          <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
+          <b-button size="sm" class="mb-2 p-2" @click="row.reDirectToDriverPickup">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
         </template>
-        <template #row-details="row">
+        <template #row-details="row"> <!-- seems like it is missing something in order to appear on the table. -->
           <b-card>
             <ul>
-              <li v-for="(value, key) in row.item" :key ="key">{{key}}: {{value}}</li>
+              <li v-for="(key, value) in row.item" :key="key">{{key}}: {{value}}</li>
             </ul>
           </b-card>
         </template>
@@ -90,15 +90,17 @@ export default {
         siteName: 'Wascana',
         numBins: 5
       },
-      item: {},
-      fields: {
-    { key: 'siteName', label: 'Site Name' },
-
-
-  },
-    showForm: false,
+      item: [{
+        siteObject: {
+          siteName: 'Wascana',
+          id: 1,
+          numBins: 5
+        }
+      }],
+      fields: [{ key: 'siteName', label: 'Site Name' }, { key: 'id', label: 'Site ID' }, { key: 'numBins', label: 'Bins' }, { key: 'Pick Up', Label: 'Pick Up' }],
+      showForm: false,
       isBusy: false
-  }
+    }
   },
   methods: {
     reDirectToDriverPickup: function () {
