@@ -20,7 +20,7 @@ class
 PickUpController extends AbstractController
 {
     /**
-     * @Route("/pickups", name="add_pickup", methods={"POST"})
+     * @Route("/cusapi/pickups", name="add_pickup", methods={"POST"})
      * @param Request $request
      * @param PickUpRepository $pickupRepo
      * @param SiteRepository $siteRepo

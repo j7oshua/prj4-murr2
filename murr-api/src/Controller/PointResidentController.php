@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PointResidentController extends AbstractController
 {
     /**
-     * @Route("/point/resident/{id}", name="point_resident")
+     * @Route("/cusapi/points/{id}", name="point_resident")
      * @param int $id
      * @param PointRepository $pr
      * @param ResidentRepository $rr

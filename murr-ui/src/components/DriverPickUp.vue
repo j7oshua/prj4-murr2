@@ -142,7 +142,10 @@ export default {
       this.axios({
         method: 'POST',
         url: this.PICKUP_API_URL,
-        data: this.pickup
+        data: this.pickup, // ********************** BELOW IS TESTING TOKEN BASED AUTH CAN DELETE *******************
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
       })
         .then(resp => {
           // returns the pickup object
