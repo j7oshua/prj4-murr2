@@ -19,16 +19,15 @@ class SiteTest extends ApiTestCase
      */
     public function TestFullSiteListAPI() : void
     {
-        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&page=1');
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=&page=1');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            '@context' => '/contexts/Site',
-            '@id' => '/Site',
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
         [
-         '@context' => '/api/contexts/Site',
          '@id' => '/api/sites/8',
          '@type' => 'Site',
          'id' => 8,
@@ -38,7 +37,6 @@ class SiteTest extends ApiTestCase
          'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/10',
         '@type' => 'Site',
         'id' => 10,
@@ -48,7 +46,6 @@ class SiteTest extends ApiTestCase
         'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/2',
         '@type' => 'Site',
         'id' => 2,
@@ -56,7 +53,7 @@ class SiteTest extends ApiTestCase
         'numBins' => 6,
         'residents' => [
             [
-                '@id' => 'api/residents/4',
+                '@id' => '/api/residents/4',
                 '@type' => 'Resident',
                 'id' => 4,
                 'email' => null,
@@ -65,7 +62,7 @@ class SiteTest extends ApiTestCase
                 'password' => 'Password'
             ],
            [
-               '@id' => 'api/residents/5',
+               '@id' => '/api/residents/5',
                '@type' => 'Resident',
                'id' => 5,
                'email' => null,
@@ -75,32 +72,28 @@ class SiteTest extends ApiTestCase
           ]
        ],
         'pickupCollection' => [
-            'api/pick_ups/2',
-            'api/pick_ups/3'
         ]
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/3',
         '@type' => 'Site',
         'id' => 3,
         'siteName' => 'Britney Manor',
-        'numBins' => 5,
-        'residents' => [],
-        'pickupCollection' => []
-    ],
-    [
-        '@context' => '/api/contexts/Site',
-        '@id' => '/api/sites/9',
-        '@type' => 'Site',
-        'id' => 9,
-        'siteName' => 'Cellsullo Gate',
         'numBins' => 3,
         'residents' => [],
         'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
+        '@id' => '/api/sites/9',
+        '@type' => 'Site',
+        'id' => 9,
+        'siteName' => 'Censullo Gate',
+        'numBins' => 3,
+        'residents' => [],
+        'pickupCollection' => []
+    ],
+    [
+
         '@id' => '/api/sites/12',
         '@type' => 'Site',
         'id' => 12,
@@ -110,7 +103,6 @@ class SiteTest extends ApiTestCase
         'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/4',
         '@type' => 'Site',
         'id' => 4,
@@ -120,7 +112,6 @@ class SiteTest extends ApiTestCase
         'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/6',
         '@type' => 'Site',
         'id' => 6,
@@ -130,7 +121,6 @@ class SiteTest extends ApiTestCase
         'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/5',
         '@type' => 'Site',
         'id' => 5,
@@ -140,7 +130,6 @@ class SiteTest extends ApiTestCase
         'pickupCollection' => []
     ],
     [
-        '@context' => '/api/contexts/Site',
         '@id' => '/api/sites/11',
         '@type' => 'Site',
         'id' => 11,
@@ -184,16 +173,15 @@ class SiteTest extends ApiTestCase
      */
     public function TestFullSiteListAPI2() : void
     {
-        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&page=2');
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=&page=2');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            '@context' => '/contexts/Site',
-            '@id' => '/Site',
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
         [
-            '@context' => '/api/contexts/Site',
             '@id' => '/api/sites/1',
             '@type' => 'Site',
             'id' => 1,
@@ -201,7 +189,7 @@ class SiteTest extends ApiTestCase
             'numBins' => 5,
             'residents' => [
                 [
-                    '@id' => 'api/residents/1',
+                    '@id' => '/api/residents/1',
                     '@type' => 'Resident',
                     'id' => 1,
                     'email' => null,
@@ -210,7 +198,7 @@ class SiteTest extends ApiTestCase
                     'password' => 'Password'
                 ],
                 [
-                    '@id' => 'api/residents/2',
+                    '@id' => '/api/residents/2',
                     '@type' => 'Resident',
                     'id' => 2,
                     'email' => null,
@@ -219,7 +207,7 @@ class SiteTest extends ApiTestCase
                     'password' => 'Password'
                 ],
                 [
-                    '@id' => 'api/residents/3',
+                    '@id' => '/api/residents/3',
                     '@type' => 'Resident',
                     'id' => 3,
                     'email' => null,
@@ -229,15 +217,14 @@ class SiteTest extends ApiTestCase
                 ]
             ],
             'pickupCollection' => [
-                'api/pick_ups/1'
+                '/api/pick_ups/1'
             ]
         ],
         [
-            '@context' => '/api/contexts/Site',
             '@id' => '/api/sites/7',
             '@type' => 'Site',
             'id' => 7,
-            'siteName' => 'Willowgrove Tower',
+            'siteName' => 'Willowgrove Towers',
             'numBins' => 2,
             'residents' => [],
             'pickupCollection' => []
@@ -282,20 +269,19 @@ class SiteTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            '@context' => '/contexts/Site',
-            '@id' => '/Site',
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
         [
-         '@context' => '/api/contexts/Site',
          '@id' => '/api/sites/2',
          '@type' => 'Site',
          'id' => 2,
          'siteName' => 'Brighton',
-         'numBins' => 5,
+         'numBins' => 6,
          'residents' => [
                 [
-                    '@id' => 'api/residents/4',
+                    '@id' => '/api/residents/4',
                     '@type' => 'Resident',
                     'id' => 4,
                     'email' => null,
@@ -304,7 +290,7 @@ class SiteTest extends ApiTestCase
                     'password' => 'Password'
                 ],
                 [
-                    '@id' => 'api/residents/5',
+                    '@id' => '/api/residents/5',
                     '@type' => 'Resident',
                     'id' => 5,
                     'email' => null,
@@ -314,8 +300,8 @@ class SiteTest extends ApiTestCase
                 ]
             ],
             'pickupCollection' => [
-                'api/pick_ups/2',
-                'api/pick_ups/3'
+                '/api/pick_ups/2',
+                '/api/pick_ups/3'
             ]
         ]],
             'hydra:view' => [
@@ -356,12 +342,11 @@ class SiteTest extends ApiTestCase
         $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Bri&page=1');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            '@context' => '/contexts/Site',
-            '@id' => '/Site',
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
         [
-            '@context' => '/api/contexts/Site',
             '@id' => '/api/sites/8',
             '@type' => 'Site',
             'id' => 8,
@@ -371,15 +356,14 @@ class SiteTest extends ApiTestCase
             'pickupCollection' => []
         ],
         [
-            '@context' => '/api/contexts/Site',
             '@id' => '/api/sites/2',
             '@type' => 'Site',
             'id' => 2,
             'siteName' => 'Brighton',
-            'numBins' => 5,
+            'numBins' => 6,
             'residents' => [
                 [
-                    '@id' => 'api/residents/4',
+                    '@id' => '/api/residents/4',
                     '@type' => 'Resident',
                     'id' => 4,
                     'email' => null,
@@ -388,7 +372,7 @@ class SiteTest extends ApiTestCase
                     'password' => 'Password'
                 ],
                 [
-                    '@id' => 'api/residents/5',
+                    '@id' => '/api/residents/5',
                     '@type' => 'Resident',
                     'id' => 5,
                     'email' => null,
@@ -398,22 +382,21 @@ class SiteTest extends ApiTestCase
                 ]
             ],
             'pickupCollection' => [
-                'api/pick_ups/2',
-                'api/pick_ups/3'
+                '/api/pick_ups/2',
+                '/api/pick_ups/3'
             ]
         ],
         [
-            '@context' => '/api/contexts/Site',
             '@id' => '/api/sites/3',
             '@type' => 'Site',
             'id' => 3,
             'siteName' => 'Britney Manor',
-            'numBins' => 5,
+            'numBins' => 3,
             'residents' => [],
             'pickupCollection' => []
         ]],
             'hydra:view' => [
-                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Bri&page=2',
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Bri&page=1',
                 '@type' => 'hydra:PartialCollectionView'
             ],
             'hydra:search' => [
@@ -447,12 +430,13 @@ class SiteTest extends ApiTestCase
      */
     public function TestSiteNameDoesNotExist() : void
     {
-        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Wellington&page=1');
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Wellington');
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
             'hydra:description'=> 'Item not found for ‘/api/sites?siteName=Wellington’'
         ]);
+        // {"@context":"\/api\/contexts\/Site","@id":"\/api\/sites","@type":"hydra:Collection","hydra:member":[],"hydra:view":{"@id":"\/api\/sites?order%5BsiteName%5D=\u0026siteName=Wellington\u0026page=1","@type":"hydra:PartialCollectionView"},"hydra:search":{"@type":"hydra:IriTemplate","hydra:template":"\/api\/sites{?order[siteName],siteName}","hydra:variableRepresentation":"BasicRepresentation","hydra:mapping":[{"@type":"IriTemplateMapping","variable":"order[siteName]","property":"siteName","required":false},{"@type":"IriTemplateMapping","variable":"siteName","property":"siteName","required":false}]}}
     }
 
 }
