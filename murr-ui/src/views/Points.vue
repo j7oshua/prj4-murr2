@@ -8,7 +8,7 @@
           </b-button>
         </b-nav-item>
       </b-navbar-nav>
-      <ProfileInfo :profile="profile" :show-modal="showModal" :resident-id="residentID" @closed="confirmFinished"></ProfileInfo>
+      <ProfileInfo :profile="profile" :show-modal="showModal" :residentID="residentID" @closed="confirmFinished"></ProfileInfo>
       <PointsComponent></PointsComponent>
     </div>
   </div>
@@ -28,8 +28,11 @@ export default {
     return {
       showModal: false,
       profile: {},
-      residentID: 1
+      residentID: 0
     }
+  },
+  created () {
+    this.residentID = this.$route.params.id
   },
   methods: {
     confirmFinished () {
@@ -43,6 +46,7 @@ export default {
       this.axios.get(this.RESIDENT_POINTS_URL + this.residentID)
         .then(resp => {
           this.profile = resp.data.profile
+          this.residentID = resp.data.id
         })
         .catch(err => {
           if (err.response.status === 404) { // not found
