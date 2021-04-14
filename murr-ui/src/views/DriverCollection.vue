@@ -5,13 +5,9 @@
     </div>
     <div v-if="!showForm">
       <!-- this is a hard-coded site, for route story this is where the list of sites would be displayed -->
-       <h2> <!-- here is where code would go fot the site list -->
-        <!-- the button will redirect to the DriverPickUp.vue component -->
-        <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
-              <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
-        </b-button></h2>
     </div>
     <div>
+      <!-- this is th filter input box -->
         <b-col lg="6" class="my-1">
           <b-form-group
             label="Filter"
@@ -28,7 +24,7 @@
                 type="search"
                 placeholder="Type to Search"
               ></b-form-input>
-
+            <!-- clear button at the end of the search input -->
               <b-input-group-append>
                 <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
               </b-input-group-append>
@@ -38,7 +34,7 @@
       <b-table
         id="my-table"
         :busy.sync="isBusy"
-        :items="myProvider"
+        :items="getSites"
         :fields="fields"
         :filter="filter"
         :filter-included-fields="filterOn"
@@ -47,27 +43,31 @@
       >
         <b-thead head-variant="dark">
           <b-tr>
-            <b-th colspan="1">SiteID</b-th>
             <b-th colspan="4">Site Name</b-th>
+            <b-th colspan="1">SiteID</b-th>
+            <b-th colspan="2">Bins</b-th>
             <b-th colspan="2">Pickup</b-th>
           </b-tr>
         </b-thead>
-<!--        <b-tbody>-->
-<!--          <b-tr>-->
-<!--            <b-th rowspan="1">Site 1</b-th>-->
-<!--            <b-th rowspan="4">Site Name</b-th>-->
-<!--            <b-th rowspan="1">Pick Up</b-th>-->
-<!--            <b-th rowspan="1">Button</b-th>-->
-<!--          </b-tr>-->
-<!--        </b-tbody>-->
+
         <template #cell(name)="row">
-          {{ row.value.first }} {{ row.value.last }}
+          {{ row.value.siteName }} {{ row.value.siteId }} {{row.value.numBins}}
         </template>
         <template #cell(actions)="row">
-          PickUp
-          <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-            +
-          </b-button>
+          <p>PickUp</p>
+            <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup">
+              <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
+            </b-button>
+        </template>
+        <template #row-details="row">
+          <b-card>
+            <ul>
+              <li v-for="(value, key) in row.item" :key ="key">{{key}}: {{value}}</li>
+            </ul>
+          </b-card>
+        </template>
+        <template v-slot:emptyfiltered>
+          <p class="border border-danger ">No site found with that criteria</p>
         </template>
       </b-table>
     </div>
@@ -90,6 +90,12 @@ export default {
         siteName: 'Wascana',
         numBins: 5
       },
+      item: {},
+      fields: {
+        { key: 'siteName', label: 'Site Name' },
+
+
+      },
       showForm: false,
       isBusy: false
     }
@@ -102,12 +108,12 @@ export default {
       this.showForm = false
     },
     getSites: function (ctx) {
-      const promise = this.axios.get(this.SITE_API_URL + ctx)
+      const promise = this.axios.get(this.SITE_API_URL + ctx.siteName)
 
       // Must return a promise that resolves to an array of items
-      return promise.then(data => {
+      return promise.then(resp => {
         // Pluck the array of items off our axios response
-        const items = data.items
+        const items = resp.data.items
         // Must return an array of items or an empty array if an error occurred
         return items || []
       })
