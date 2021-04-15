@@ -2,14 +2,18 @@
 const PICKUP_API_URL = 'http://127.0.0.1:8000/pickups'
 const SITE_POINT_API_URL = 'http://127.0.0.1:8000/site/'
 const PROFILE_API_URL = 'http://127.0.0.1:8000/api/profiles/'
-const RESIDENT_POINTS_URL = 'http://127.0.0.1:8000/api/residents/'
+const RESIDENT_URL = 'http://127.0.0.1:8000/api/residents'
+const RESIDENT_POINTS_URL = 'http://127.0.0.1:8000/point/resident/'
+const ARTICLES_URL = 'http://127.0.0.1:8000/api/articles'
 const MurrMixin = ({
   data: function () {
     return {
       PICKUP_API_URL,
       SITE_POINT_API_URL,
       PROFILE_API_URL,
-      RESIDENT_POINTS_URL
+      RESIDENT_POINTS_URL,
+      RESIDENT_URL,
+      ARTICLES_URL
     }
   },
   methods: {

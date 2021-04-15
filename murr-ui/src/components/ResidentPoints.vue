@@ -9,10 +9,8 @@
 </template>
 
 <script>
-import ResidentPointMixin from '@/mixins/resident-point-mixin'
 export default {
   name: 'ProgressPoints',
-  mixins: [ResidentPointMixin],
   data () {
     return {
       // store the resident's points in this variable

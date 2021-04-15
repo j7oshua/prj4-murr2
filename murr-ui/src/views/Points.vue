@@ -16,19 +16,18 @@
 <script>
 import PointsComponent from '../components/ResidentPoints'
 import ProfileInfo from '../components/ProfileInfo'
-import MurrMixin from '@/mixins/murr-mixin'
+
 export default {
   name: 'Points',
   components: {
     PointsComponent,
     ProfileInfo
   },
-  mixins: [MurrMixin],
   data: function () {
     return {
       showModal: false,
       profile: {},
-      residentID: 0
+      residentID: 1
       // sessionStorage.getItem('id')
     }
   },
@@ -44,7 +43,7 @@ export default {
       this.showModal = true
     },
     getProfileInfo () {
-      this.axios.get(this.RESIDENT_POINTS_URL + this.residentID)
+      this.axios.get(this.RESIDENT_URL + '/' + this.residentID)
         .then(resp => {
           this.profile = resp.data.profile
           this.residentID = resp.data.id

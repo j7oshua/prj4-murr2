@@ -30,13 +30,8 @@
 </template>
 
 <script>
-// import required mixins
-import MurrMixin from '@/mixins/murr-mixin'
-import SitePointMixin from '@/mixins/site-point-mixin'
-
 export default {
   name: 'DriverConfirms',
-  mixins: [MurrMixin, SitePointMixin],
   // Prop pickupID is sent from the parent. Used in the API call.
   props: {
     pickUp: {
@@ -71,7 +66,7 @@ export default {
       this.isBusy = true
       this.currentPickup.pickupID = this.pickUp.pickupID
       // call the API to add points to site
-      this.callAPI('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.siteId)
+      this.callAPI_URL('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.siteId)
         .then(resp => {
           this.handleHidden()
           this.respCode = resp.status

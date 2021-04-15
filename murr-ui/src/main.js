@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootswatch/dist/sketchy/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuelidate from 'vuelidate'
+import MurrMixin from '@/mixins/murr-mixin'
 
 // add libraries to vue context
 Vue.use(BootstrapVue)
@@ -22,6 +23,7 @@ Vue.use(Vuelidate)
 Vue.use(VueEllipseProgress)
 
 Vue.config.productionTip = false
+Vue.mixin(MurrMixin)
 
 new Vue({
   router,

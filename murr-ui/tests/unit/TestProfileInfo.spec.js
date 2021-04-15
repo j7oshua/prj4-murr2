@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
-// import ProfileInfo from '@/components/ProfileInfo'
+import ProfileInfo from '@/components/ProfileInfo'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Points from '../../src/views/Points'
 import { expect } from 'chai'
 

@@ -79,11 +79,9 @@
 
 <script>
 import SitePointsConfirmation from '@/components/SitePointsConfirmation'
-import MurrMixin from '@/mixins/murr-mixin'
 
 export default {
   name: 'DriverPickUp',
-  mixins: [MurrMixin],
   props: {
     siteObject: {
       type: Object,

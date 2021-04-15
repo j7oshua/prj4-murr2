@@ -83,13 +83,11 @@
 </template>
 
 <script>
-import MurrMixin from '@/mixins/murr-mixin'
-import ResidentMixin from '@/mixins/resident-mixin'
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
 export default {
   name: 'CreateLogin',
-  mixins: [ResidentMixin, validationMixin, MurrMixin],
+  mixins: [validationMixin],
   data () {
     return {
       // variables
@@ -154,7 +152,7 @@ export default {
         // call the function from the resident mixin
         // method type is a post
         // data information is from tempResident
-        this.callAPI('post', this.tempNewResident)
+        this.callAPI_URL('post', this.tempNewResident, this.RESIDENT_URL)
           .then(resp => {
             // if response status equals 201
             if (resp.status === 201) {

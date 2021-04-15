@@ -23,7 +23,7 @@
                 <b-form-invalid-feedback id="lName">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>
               </b-row>
               <b-row>
-                <b-form-file @change="uploadImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="tempProfile.profilePic" :state="imgSizeError" aria-describedby="imgSize"></b-form-file>
+                <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file" :state="imgSizeError" aria-describedby="imgSize"></b-form-file>
                 <b-form-invalid-feedback id="imgSize">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>
               </b-row>
             </b-container>
@@ -59,10 +59,8 @@
   </div>
 </template>
 <script>
-import MurrMixin from '@/mixins/murr-mixin'
 export default {
   name: 'ProfileInfo',
-  mixins: [MurrMixin],
   props: {
     residentID: {
       type: Number
@@ -81,7 +79,8 @@ export default {
         lastName: '',
         profilePic: null
       },
-      editMode: false
+      editMode: false,
+      file: null
     }
   },
   validations: {
@@ -96,7 +95,7 @@ export default {
       this.tempProfile = {
         firstName: this.tempProfile.firstName,
         lastName: this.tempProfile.lastName,
-        profilePic: this.tempProfile.profilePic === null ? '' : this.tempProfile.profilePicBase64
+        profilePic: this.tempProfile.profilePic === null ? this.profile.profilePic : this.tempProfile.profilePic
       }
       this.callAPI_URL('put', this.tempProfile, this.PROFILE_API_URL + this.residentID)
         .then(resp => {
@@ -123,14 +122,14 @@ export default {
       this.tempProfile.lastName = this.profile.lastName
       this.tempProfile.profilePic = null
     },
-    uploadImage: function () {
+    encodeImage: function () {
       const vm = this
       const file = document
         .getElementById('profPicInput')
         .files[0]
       const reader = new FileReader()
       reader.onload = function (e) {
-        vm.tempProfile.profilePicBase64 = e.target.result
+        vm.tempProfile.profilePic = e.target.result
       }
       reader.onerror = function (error) {
         alert(error)
@@ -149,7 +148,7 @@ export default {
       return !this.fNameError || !this.lNameError || !this.imgSizeError
     },
     imgSizeError () {
-      return this.tempProfile.profilePic === null || this.tempProfile.profilePic.size <= 2000000 || !this.tempProfile.profilePic.size > 0
+      return this.file === null || this.file.size <= 2000000 || !this.file.size > 0
     },
     // Getter and Setter for the showModal prop. Don't want to mutate the prop so the setter will just emit back that
     // component is finished and will not change the prop in any way.
