@@ -15,7 +15,7 @@
           <b-input-group>
             <b-container>
               <b-row>
-                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameError" aria-describedby="fName"></b-form-input>
+                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameError" aria-describedby="fName" id="firstName"></b-form-input>
                 <b-form-invalid-feedback id="fName">First Name cannot be longer than 20 characters</b-form-invalid-feedback>
               </b-row>
               <b-row>

@@ -1,29 +1,21 @@
-import { mount } from '@vue/test-utils'
-import ProfileInfo from '@/components/ProfileInfo'
+import { shallowMount } from '@vue/test-utils'
+// import ProfileInfo from '@/components/ProfileInfo'
+import Points from '../../src/views/Points'
 import { expect } from 'chai'
 
 let wrapper
-//Gotta go over tests today
+// Gotta go over tests today
 
-describe('ProfileInfo', () => {
+describe('Points', () => {
   beforeEach(() => {
-    wrapper = mount(ProfileInfo, {
-      propsData: {
-        profile: {
-          residentID: 1,
-          firstName: '',
-          lastName: '',
-          profilePic: ''
-        }
-      }
-    })
+    wrapper = shallowMount(Points)
   })
 
   it('Should successfully updates first name', async () => {
     const inputFirst = wrapper.find('#firstName')
     await inputFirst.setValue('Tom')
-    expect(wrapper.find('#validInput').text()).to.equal('Profile information has been updated')
-  });
+    expect(wrapper.find('#firstName').text()).to.equal('Tom')
+  })
 
   it('Should unsuccessfully update with too long first name', async () => {
     const inputFirst = wrapper.find('#firstName')

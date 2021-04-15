@@ -29,6 +29,7 @@ export default {
       showModal: false,
       profile: {},
       residentID: 0
+      // sessionStorage.getItem('id')
     }
   },
   created () {
@@ -57,6 +58,7 @@ export default {
     }
   },
   mounted () {
+    // this.residentId = sessionStorage.getItem('id')
     this.getProfileInfo()
   }
 }
