@@ -49,6 +49,7 @@ export default {
       })
         .then(response => {
           sessionStorage.setItem('token', response.data.token)
+          sessionStorage.setItem('id', response.data.data.id)
           this.username = ''
           this.password = ''
         }).catch(error => {

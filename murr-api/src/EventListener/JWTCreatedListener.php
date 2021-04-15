@@ -2,8 +2,11 @@
 
 namespace App\EventListener;
 
+use App\Entity\Resident;
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class JWTCreatedListener
 {
@@ -35,4 +38,24 @@ class JWTCreatedListener
         $event->setData($payload);
 
     }
+
+    /**
+     * @param AuthenticationSuccessEvent $event
+     */
+    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
+    {
+        $data = $event->getData();
+        $user = $event->getUser();
+
+        if (!$user instanceof Resident) {
+            return;
+        }
+
+        $data['data'] = array(
+            'id' => $user->getId()
+        );
+        
+        $event->setData($data);
+    }
+
 }

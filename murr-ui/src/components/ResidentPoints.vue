@@ -20,18 +20,22 @@ export default {
       tempPoints: 0,
       isBusy: false,
       statusCode: null,
-      residentId: 0
+      residentId: sessionStorage.getItem('id'),
+      token: ''
     }
   },
-  created () {
-    this.residentId = this.$route.params.id
-  },
+  // created () {
+  //   this.residentId = this.$route.params.id
+  // },
   methods: {
     getPoints: function () {
       // disable overlay
       this.isBusy = true
       // make the call to the API
       this.axios.get(this.RESIDENT_POINTS_URL + this.residentId, {
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
       })
         .then(resp => {
           this.statusCode = resp.status
@@ -55,6 +59,7 @@ export default {
   },
   mounted () {
     // make call to the database when the page is ready
+    this.residentId = sessionStorage.getItem('id')
     this.getPoints()
   },
   computed: {
