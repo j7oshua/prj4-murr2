@@ -32,39 +32,18 @@
         </b-form-group>
       </b-col>
       <b-table
-        id="my-table"
-        :busy.sync="isBusy"
         :items="getSites"
         :fields="fields"
+        id="my-table"
+        :busy.sync="isBusy"
         :filter="filter"
         :filter-included-fields="filterOn"
-        :current-page="currentPage"
-
+        :per-page="PerPage"
       >
-        <b-thead head-variant="dark">
-          <b-tr>
-            <b-th colspan="4">Site Name</b-th>
-            <b-th colspan="1">SiteID</b-th>
-            <b-th colspan="2">Bins</b-th>
-            <b-th colspan="2">Pickup</b-th>
-          </b-tr>
-        </b-thead>
-
-        <template #cell(siteObject)="row">
-          {{ row.value.siteName }} {{ row.value.siteId }} {{row.value.numBins}}
-        </template>
-        <template #cell(actions)="row"> <!-- seems this need to have a used row for select and it seems this is suck on action for some reason -->
-          <p>PickUp</p>
+        <template #cell(PickUp)="row">
           <b-button size="sm" class="mb-2 p-2" @click="row.reDirectToDriverPickup">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
-        </template>
-        <template #row-details="row"> <!-- seems like it is missing something in order to appear on the table. -->
-          <b-card>
-            <ul>
-              <li v-for="(key, value) in row.item" :key="key">{{key}}: {{value}}</li>
-            </ul>
-          </b-card>
         </template>
         <template v-slot:emptyfiltered>
           <p class="border border-danger ">No site found with that criteria</p>
@@ -73,6 +52,7 @@
     </div>
     <div>
       <DriverPickUp @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUp>
+      <b-alert :show="true"><pre>{{$data}}</pre></b-alert>
     </div>
   </div>
 </template>
@@ -91,13 +71,18 @@ export default {
         numBins: 5
       },
       item: [{
-        siteObject: {
-          siteName: 'Wascana',
-          id: 1,
-          numBins: 5
-        }
+      //   siteName: 'Wascana',
+      //   id: 1,
+      //   numBins: 5
+      // }, {
+      //   siteName: 'Wascana2',
+      //   id: 1,
+      //   numBins: 5
       }],
-      fields: [{ key: 'siteName', label: 'Site Name' }, { key: 'id', label: 'Site ID' }, { key: 'numBins', label: 'Bins' }, { key: 'Pick Up', Label: 'Pick Up' }],
+      fields: [{ key: 'siteName', label: 'Site Name' }, { key: 'id', label: 'Site ID' }, { key: 'numBins', label: 'Bins' }, { key: 'PickUp', Label: 'PickUp' }],
+      filter: '',
+      filterOn: [],
+      PerPage: 10,
       showForm: false,
       isBusy: false
     }
@@ -110,12 +95,14 @@ export default {
       this.showForm = false
     },
     getSites: function (ctx) {
-      const promise = this.axios.get(this.SITE_API_URL + ctx.siteName)
+      // const filter = ctx.filter ? ctx.filter : ''
+      const promise = this.axios.get(this.SITE_API_URL + '&siteName=' + ctx.filter)
 
       // Must return a promise that resolves to an array of items
       return promise.then(resp => {
         // Pluck the array of items off our axios response
-        const items = resp.data.items
+        const items = resp.data['hydra:member']
+        this.item = resp.data
         // Must return an array of items or an empty array if an error occurred
         return items || []
       })
