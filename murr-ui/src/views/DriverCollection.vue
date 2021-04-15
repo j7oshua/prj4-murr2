@@ -2,12 +2,13 @@
   <div>
     <div>
       <h1>Collection Site Form</h1>
-    </div>
-    <div v-if="!showForm">
-      <!-- this is a hard-coded site, for route story this is where the list of sites would be displayed -->
-    </div>
-    <div>
+<!--    </div>-->
+<!--    <div v-if="!showForm">-->
+<!--      &lt;!&ndash; this is a hard-coded site, for route story this is where the list of sites would be displayed &ndash;&gt;-->
+<!--    </div>-->
+<!--    <div>-->
       <!-- this is th filter input box -->
+      <div v-if="!showForm">
       <b-col lg="6" class="my-1">
         <b-form-group
           label="Filter"
@@ -40,8 +41,8 @@
         :filter-included-fields="filterOn"
         :per-page="PerPage"
       >
-        <template #cell(PickUp)="row">
-          <b-button size="sm" class="mb-2 p-2" @click="row.reDirectToDriverPickup">
+        <template #cell(PickUp)="row" :row-hovered="isHovered">
+          <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
         </template>
@@ -50,9 +51,11 @@
         </template>
       </b-table>
     </div>
+    </div>
     <div>
       <DriverPickUp @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUp>
-      <b-alert :show="true"><pre>{{$data}}</pre></b-alert>
+<!--      <b-alert :show="true"><pre>{{$data}}</pre></b-alert>-->
+      <b-alert :show="true"><pre>{{siteObject.id}}</pre></b-alert>
     </div>
   </div>
 </template>
@@ -66,9 +69,7 @@ export default {
   data () {
     return {
       siteObject: {
-        id: 1,
-        siteName: 'Wascana',
-        numBins: 5
+        type: Object
       },
       item: [{
       //   siteName: 'Wascana',
@@ -84,11 +85,16 @@ export default {
       filterOn: [],
       PerPage: 10,
       showForm: false,
-      isBusy: false
+      isBusy: false,
+      hoveredRow: {}
     }
   },
   methods: {
-    reDirectToDriverPickup: function () {
+    reDirectToDriverPickup: function (item) {
+      this.siteObject.id = this.item.id
+      this.siteObject.numBins = this.item.numBins
+      this.siteObject.siteName = this.item.siteName
+
       this.showForm = true
     },
     confirmFinish: function (event) {
@@ -102,11 +108,22 @@ export default {
       return promise.then(resp => {
         // Pluck the array of items off our axios response
         const items = resp.data['hydra:member']
-        this.item = resp.data
+
         // Must return an array of items or an empty array if an error occurred
         return items || []
       })
+    },
+    isHovered: function (item) {
+      return item === this.hoveredRow
+    },
+    rowHovered: function (item) {
+      this.hoveredRow = item
     }
+  },
+  created () {
+    this.siteObject.id = row.item.id
+    this.siteObject.siteName = row.item.siteName
+    this.siteObject.numBins = row.item.numBins
   }
 }
 </script>
