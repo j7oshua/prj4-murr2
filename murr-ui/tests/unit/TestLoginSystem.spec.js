@@ -24,7 +24,7 @@ describe('Login.vue Component', () => {
       // Find and click the submit button
       await wrapper.find('button').trigger
       // Expect a error message of Invalid username/password to be displayed to user
-      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid credentials')
     })
 
     it('Displays error that an invalid username or password was entered with invalid phone less 10 chars', async () => {
@@ -35,7 +35,7 @@ describe('Login.vue Component', () => {
       await inputPassword.setValue('password')
       await wrapper.find('button').trigger
 
-      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid credentials')
     })
 
     it('Displays error that an invalid username or password was entered with invalid phone more 10 chars', async () => {
@@ -46,7 +46,7 @@ describe('Login.vue Component', () => {
       await inputPassword.setValue('password')
       await wrapper.find('button').trigger
 
-      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid credentials')
     })
 
     it('Displays error that an invalid password left blank', async () => {
@@ -57,7 +57,7 @@ describe('Login.vue Component', () => {
       await inputPassword.setValue('')
       await wrapper.find('button').trigger
 
-      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid username/password')
+      expect(wrapper.find('#errorMessage').text()).to.equal('Invalid credentials')
     })
   })
 })

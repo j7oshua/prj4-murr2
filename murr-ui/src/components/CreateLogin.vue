@@ -106,7 +106,7 @@ export default {
         password: '',
         repeatPassword: ''
       },
-      url: '/points/'
+      url: '/points'
     }
   },
 
@@ -144,6 +144,7 @@ export default {
     submitForm: function () { // submits the form to the database and creates the login
       this.$v.$touch()
       // if all fields that have input in them are valid
+
       if (!this.$v.$invalid) {
         // temp place holder that holds all the inputted information
         this.tempNewResident = {
@@ -161,9 +162,9 @@ export default {
             if (resp.status === 201) {
               // this is the redirect to point page if the login is successful
               // add onto url response data.id to string (this would be the resident id added on to url)
-              this.url += resp.data.id.toString()
+              // this.url += resp.data.id.toString()
               // have the router push the points page
-              this.$router.push(this.url)
+              // this.$router.push(this.url)
             }
           })
           .catch(err => {
@@ -179,12 +180,19 @@ export default {
             } else {
               this.loginResident.username = this.tempNewResident.phone
             }
+            this.loginResident.password = this.tempNewResident.plainPassword
+            console.log(this.loginResident)
             axios.post('http://127.0.0.1:8000/login', {
               username: this.loginResident.username,
               password: this.loginResident.password
+            }, {
+              headers: {
+                Authorization: 'Bearer ' + sessionStorage.getItem('token')
+              }
             })
               .then(response => {
                 sessionStorage.setItem('token', response.data.token)
+                sessionStorage.setItem('id', response.data.data.id)
                 this.username = ''
                 this.password = ''
               }).catch(error => {
@@ -195,6 +203,7 @@ export default {
                 }
               }).finally(() => {
                 this.isBusy = false
+                this.$router.push(this.url)
               })
           })
       }

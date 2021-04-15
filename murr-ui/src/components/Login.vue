@@ -15,7 +15,10 @@
               <label for="password">Password</label>
               <input id="password" type="password" class="form-control" v-model="resident.password"/>
             </div>
+            <div class="invalid-feedback" id="errorMessage">
+              <span v-if="this.responseCode = 401">Invalid credentials</span>
           </div>
+        </div>
         </div>
       </div>
       <button type="submit" class="btn btn-success">Submit</button>
@@ -35,7 +38,10 @@ export default {
         username: '',
         password: ''
       },
-      isBusy: false
+      isBusy: false,
+      url: '/points',
+      error: {},
+      responseCode: 0
     }
   },
   methods: {
@@ -46,20 +52,26 @@ export default {
       axios.post('http://127.0.0.1:8000/login', {
         username: this.resident.username,
         password: this.resident.password
+      }, {
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
       })
         .then(response => {
           sessionStorage.setItem('token', response.data.token)
           sessionStorage.setItem('id', response.data.data.id)
           this.username = ''
           this.password = ''
-        }).catch(error => {
-          if (error.response) {
-          // this.error = error.response
+        }).catch(err => {
+          if (err.response) {
+            this.responseCode = 401
+            this.error = err && err.response ? err.response.data : {}
           } else {
-          // this.error = 'Unknown error'
+            this.error = 'Unknown error'
           }
         }).finally(() => {
           this.isBusy = false
+          this.$router.push(this.url)
         })
     },
     mounted () {

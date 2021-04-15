@@ -12,10 +12,10 @@ class LoginTest extends ApiTestCase
      */
     public function TestLoginWithEmail(): void
     {
-        $loginCredentials = ['username' => 'email8@email.com', 'password' => 'password'];
+        $loginCredentials = ['username' => 'email@email.com', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
         $this->assertResponseStatusCodeSame(200);
-        $this->assertResponseHasHeader('Token');
+        $this->arrayHasKey('token');
     }
 
     /**
@@ -27,7 +27,7 @@ class LoginTest extends ApiTestCase
         $loginCredentials = ['username' => '3065558888', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
         $this->assertResponseStatusCodeSame(200);
-        $this->assertResponseHasHeader('Token');
+        $this->arrayHasKey('token');
     }
 
     /**
