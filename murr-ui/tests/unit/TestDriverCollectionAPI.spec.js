@@ -28,7 +28,7 @@ describe('GET /sites', function () {
     expect(response.body['hydra:member'][4]).to.contain({ siteName: 'Censullo Gate' })
     expect(response.body['hydra:member'][5]).to.contain({ siteName: 'Lucas Caswell Manor' })
     expect(response.body['hydra:member'][6]).to.contain({ siteName: 'Rosa Towers' })
-    expect(response.body['hydra:member'][7]).to.contain({ siteName: 'Rosewell Evergreen' })
+    expect(response.body['hydra:member'][7]).to.contain({ siteName: 'Roswell Evergreen' })
     expect(response.body['hydra:member'][8]).to.contain({ siteName: 'Vendetta Suites' })
     expect(response.body['hydra:member'][9]).to.contain({ siteName: 'Vermont Crossing' })
   })
@@ -38,12 +38,12 @@ describe('GET /sites', function () {
    */
   it('Display all sites on page 2', async function () {
     // set a custom url that gets the order of all Site names in asc for page two
-    const response = await request.get('sites?order[siteName]&page=2')
+    const response = await request.get('sites?order[siteName]siteName=&page=2')
     expect(response.status).to.eql(200)
-    expect(response.body['hydra:member'][10]).to.contain({ id: 1 })
-    expect(response.body['hydra:member'][11]).to.contain({ id: 7 })
-    expect(response.body['hydra:member'][10]).to.contain({ siteName: 'Wascana' })
-    expect(response.body['hydra:member'][11]).to.contain({ siteName: 'Willowgrove Towers' })
+    expect(response.body['hydra:member'][0]).to.contain({ id: 1 })
+    expect(response.body['hydra:member'][1]).to.contain({ id: 7 })
+    expect(response.body['hydra:member'][0]).to.contain({ siteName: 'Wascana' })
+    expect(response.body['hydra:member'][1]).to.contain({ siteName: 'Willowgrove Towers' })
   })
 
   /**
@@ -64,12 +64,12 @@ describe('GET /sites', function () {
     // set a custom url that gets the order of all Site names that have "Bri" in asc for page one
     const response = await request.get('sites?order[siteName]&siteName=Bri&page=1')
     expect(response.status).to.eql(200)
-    expect(response.body['hydra:member'][1]).to.contain({ id: 8 })
-    expect(response.body['hydra:member'][1]).to.contain({ siteName: 'Applewood Bridge' })
+    expect(response.body['hydra:member'][0]).to.contain({ id: 8 })
+    expect(response.body['hydra:member'][0]).to.contain({ siteName: 'Applewood Bridge' })
     expect(response.body['hydra:member'][1]).to.contain({ id: 2 })
     expect(response.body['hydra:member'][1]).to.contain({ siteName: 'Brighton' })
-    expect(response.body['hydra:member'][1]).to.contain({ id: 3 })
-    expect(response.body['hydra:member'][1]).to.contain({ siteName: 'Britney Manor' })
+    expect(response.body['hydra:member'][2]).to.contain({ id: 3 })
+    expect(response.body['hydra:member'][2]).to.contain({ siteName: 'Britney Manor' })
   })
 
   /**

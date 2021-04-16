@@ -33,6 +33,7 @@
         </b-form-group>
       </b-col>
       <b-table
+        head-variant="dark"
         :items="getSites"
         :fields="fields"
         id="my-table"
@@ -40,9 +41,10 @@
         :filter="filter"
         :filter-included-fields="filterOn"
         :per-page="PerPage"
+        :current-page="currentPage"
       >
-        <template #cell(PickUp)="row" :row-hovered="isHovered">
-          <b-button size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)">
+        <template #cell(PickUp)="row" >
+          <b-button variant="outline-primary" size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
         </template>
@@ -50,12 +52,20 @@
           <p class="border border-danger ">No site found with that criteria</p>
         </template>
       </b-table>
+        <b-col>
+          <b-pagination
+            v-model="currentPage"
+            :per-page="PerPage"
+            align="center"
+            small
+            ></b-pagination>
+        </b-col>
     </div>
     </div>
     <div>
       <DriverPickUp @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUp>
 <!--      <b-alert :show="true"><pre>{{$data}}</pre></b-alert>-->
-      <b-alert :show="true"><pre>{{siteObject.id}}</pre></b-alert>
+<!--      <b-alert :show="true"><pre>{{siteObject.id}}</pre></b-alert>-->
     </div>
   </div>
 </template>
@@ -71,29 +81,21 @@ export default {
       siteObject: {
         type: Object
       },
-      item: [{
-      //   siteName: 'Wascana',
-      //   id: 1,
-      //   numBins: 5
-      // }, {
-      //   siteName: 'Wascana2',
-      //   id: 1,
-      //   numBins: 5
-      }],
+      item: [{}],
       fields: [{ key: 'siteName', label: 'Site Name' }, { key: 'id', label: 'Site ID' }, { key: 'numBins', label: 'Bins' }, { key: 'PickUp', Label: 'PickUp' }],
       filter: '',
       filterOn: [],
       PerPage: 10,
       showForm: false,
       isBusy: false,
-      hoveredRow: {}
+      currentPage: 1
     }
   },
   methods: {
     reDirectToDriverPickup: function (item) {
-      this.siteObject.id = this.item.id
-      this.siteObject.numBins = this.item.numBins
-      this.siteObject.siteName = this.item.siteName
+      this.siteObject.id = item.id
+      this.siteObject.numBins = item.numBins
+      this.siteObject.siteName = item.siteName
 
       this.showForm = true
     },
@@ -102,7 +104,7 @@ export default {
     },
     getSites: function (ctx) {
       // const filter = ctx.filter ? ctx.filter : ''
-      const promise = this.axios.get(this.SITE_API_URL + '&siteName=' + ctx.filter)
+      const promise = this.axios.get(this.SITE_API_URL + '&siteName=' + ctx.filter + '&page=' + ctx.currentPage)
 
       // Must return a promise that resolves to an array of items
       return promise.then(resp => {
@@ -112,18 +114,7 @@ export default {
         // Must return an array of items or an empty array if an error occurred
         return items || []
       })
-    },
-    isHovered: function (item) {
-      return item === this.hoveredRow
-    },
-    rowHovered: function (item) {
-      this.hoveredRow = item
     }
-  },
-  created () {
-    this.siteObject.id = row.item.id
-    this.siteObject.siteName = row.item.siteName
-    this.siteObject.numBins = row.item.numBins
   }
 }
 </script>
