@@ -12,9 +12,12 @@ describe('POST /login', function () {
    * Return: Status Code: 200
    **/
   it('Resident successfully logs in with their valid email and password.', async function () {
-    const response = await request.post('/login')
-    //expect(response.status).to.eql(200)
-    expect(response.body).to.eql({ Token: '' })
+    const response = await request
+      .post('/login')
+      .send({username: 'email@email.com', password: 'password'})
+    expect(response.status).to.eql(200)
+    expect(response.body.data).to.contains( {'id' : 9} )
+    expect(response.body).to.contains({'token': response.body.token})
   })
 
   /**
@@ -25,30 +28,35 @@ describe('POST /login', function () {
    **/
   it('Resident successfully logs in with valid phone and password.', async function () {
     const response = await request.post('/login')
+      .send({username: '3065558888', password: 'password'})
     expect(response.status).to.eql(200)
-    expect(response.body).to.contain({ Token: '' })
+    expect(response.body.data).to.contains( {'id' : 12} )
+    expect(response.body).to.contains({'token': response.body.token})
   })
   /**
    * Title: Resident unsuccessfully logs in
    * Purpose: This test will test that if a Resident unsuccessfully logs in, they will see an error message
    * Expected Result: Success
-   * Return: Status Code: 404
+   * Return: Status Code: 401
    **/
   it('Resident unsuccessfully logs in ', async function () {
     const response = await request.post('/login')
+      .send({username: 'email', password: 'password'})
     expect(response.status).to.eql(401)
-    expect(response.body['hydra:description']).to.contain({ error: 'Invalid Login: Fields do not match' })
+    expect(response.body).to.contain({ message: "Invalid credentials." })
   })
   /**
    * Title: Resident enters valid url without logging in
    * Purpose: This test will test that if a Resident types in a valid URL but has not logged in, they will
    *          be blocked from certain pages
    * Expected Result: Success
-   * Return: Status Code: 404
+   * Return: Status Code: 401
    **/
   it('Resident enters valid url without logging in ', async function () {
     const response = await request.post('/login')
+      .send({username: '', password: ''})
+      .set("Authorization", 'Bearer token=null')
     expect(response.status).to.eql(401)
-    expect(response.body['hydra:description']).to.contain({ error: 'Invalid Credentials' })
+    expect(response.body).to.contain({ message: "Invalid credentials." })
   })
 })

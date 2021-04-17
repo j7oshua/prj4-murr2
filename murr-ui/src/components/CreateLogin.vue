@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Create Login</h1>
+    <b-overlay :show="isDisabled">
     <!-- The form input -->
     <form @submit.prevent="submitForm">
       <div class="form-row">
@@ -79,6 +80,7 @@
       </div>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
+    </b-overlay>
   </div>
 </template>
 
@@ -93,7 +95,11 @@ export default {
   data () {
     return {
       // variables
-      tempNewResident: {},
+      tempNewResident: {
+        phone: '',
+        email: '',
+        plainPassword: ''
+      },
       // ******** Used for login after creation ************
       loginResident: {
         username: '',
@@ -106,7 +112,8 @@ export default {
         password: '',
         repeatPassword: ''
       },
-      url: '/points'
+      url: '/points',
+      isBusy: false
     }
   },
 
@@ -153,19 +160,20 @@ export default {
           plainPassword: this.resident.password
         }
         this.error = {}
+        this.isBusy = true
         // call the function from the resident mixin
         // method type is a post
         // data information is from tempResident
         this.callAPI('post', this.tempNewResident)
           .then(resp => {
-            // if response status equals 201
-            if (resp.status === 201) {
-              // this is the redirect to point page if the login is successful
-              // add onto url response data.id to string (this would be the resident id added on to url)
-              // this.url += resp.data.id.toString()
-              // have the router push the points page
-              // this.$router.push(this.url)
+            // ************* Trying out to login resident after creation, may have to delete **************************
+            if (this.tempNewResident.email === '') {
+              this.loginResident.username = this.tempNewResident.phone
+            } else if (this.tempNewResident.phone === '') {
+              this.loginResident.username = this.tempNewResident.email
             }
+            this.loginResident.password = this.tempNewResident.plainPassword
+            console.log(this.tempNewResident)
           })
           .catch(err => {
             // if response code equals 404
@@ -174,14 +182,7 @@ export default {
               this.error = err && err.response ? err.response.data : {}
             }
           }).finally(() => {
-            // ************* Trying out to login resident after creation, may have to delete **************************
-            if (this.tempNewResident.email != null) {
-              this.loginResident.username = this.tempNewResident.email
-            } else {
-              this.loginResident.username = this.tempNewResident.phone
-            }
-            this.loginResident.password = this.tempNewResident.plainPassword
-            console.log(this.loginResident)
+            this.isBusy = false
             axios.post('http://127.0.0.1:8000/login', {
               username: this.loginResident.username,
               password: this.loginResident.password
@@ -195,6 +196,7 @@ export default {
                 sessionStorage.setItem('id', response.data.data.id)
                 this.username = ''
                 this.password = ''
+                this.$router.push(this.url)
               }).catch(error => {
                 if (error.response) {
                   // this.error = error.response
@@ -203,10 +205,14 @@ export default {
                 }
               }).finally(() => {
                 this.isBusy = false
-                this.$router.push(this.url)
               })
           })
       }
+    }
+  },
+  computed: {
+    isDisabled: function () {
+      return this.isBusy || this.disabled
     }
   }
 }

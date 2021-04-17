@@ -3,6 +3,7 @@ namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\PickUp;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use http\Header;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -12,12 +13,13 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class PickUpSiteTest extends ApiTestCase
 {
     //refreshes the database for every test
-    use RefreshDatabaseTrait;
+    //use RefreshDatabaseTrait;
 
     private $pickUp;
 
     //static URL
-    const API_URL = 'localhost:8000/pickups';
+    const API_URL = 'localhost:8000/cusapi/pickups';
+    const API_URL_LOGIN = '127.0.0.1:8000/login';
 
     /**
      * @before
@@ -43,6 +45,9 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestBinsCollected(): void
     {
+        $loginCredentials = ['username' => 'email@email.com', 'password' => 'password'];
+        static::createClient()->request('POST', self::API_URL_LOGIN, ['json' => $loginCredentials]);
+
         //this will index for site one
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
         //this status code means "OK"

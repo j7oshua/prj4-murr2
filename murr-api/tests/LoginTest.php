@@ -24,7 +24,7 @@ class LoginTest extends ApiTestCase
      */
     public function TestLoginWithPhone(): void
     {
-        $loginCredentials = ['username' => '3065558888', 'password' => 'password'];
+        $loginCredentials = ['username' => '3064448888', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
         $this->assertResponseStatusCodeSame(200);
         $this->arrayHasKey('token');

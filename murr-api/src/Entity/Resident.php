@@ -35,7 +35,7 @@ class Resident implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=true, unique=true)
+     * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\Email(message = "The email is not a valid email.")
      * @Assert\Length(allowEmptyString="true", max = 150, maxMessage = "Email has more than {{ limit }} characters.")
      *
