@@ -19,7 +19,7 @@ class ProfileTest extends ApiTestCase
         'hydra:title' => 'An error occurred'
     ];
 
-    const API_URL = '127.0.0.1:8000/api/residents';
+    const API_URL = '127.0.0.1:8000/api/profiles';
 
     /**
      * @before
@@ -28,7 +28,7 @@ class ProfileTest extends ApiTestCase
     {
         //Setup an array that contains information to create a resident profile.
         $this->dataArray = [
-            'residentID' => '',
+            'resident' => 'api/residents/1',
             'firstName' => '',
             'lastName' => '',
             'profilePic' => ''
@@ -40,38 +40,41 @@ class ProfileTest extends ApiTestCase
      */
     public function TestValidFirstName(): void
     {
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => [
-            'firstName' => 'Tom',
-        ]]);
+        $this->dataArray['firstName'] = 'Tom';
+        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
-            'residentID' => '1',
+            '@context' => '/api/contexts/Profile',
+            '@id' => '/api/profiles/1',
+            '@type' => 'Profile',
+            'id' => 1,
+            'resident' => '/api/residents/1',
             'firstName' => 'Tom',
             'lastName' => '',
             'profilePic' => '',
         ]);
-        $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/profiles/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Profile::class);
     }
 
     /**
      * @test
      */
-    public function TestInvalidFirstName(): void
+    public function TestInvalidFirstNameLength(): void
     {
-        $this->dataArray['firstName'] = 'T';
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => $this->dataArray ]);
+        $this->dataArray['firstName'] = str_repeat('f', 21);
+        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'firstName: First Name must be more than 1 character.'
+            'hydra:description' => 'firstName: First Name cannot be longer than 20 characters.'
         ]);
     }
 
@@ -80,31 +83,34 @@ class ProfileTest extends ApiTestCase
      */
     public function TestValidLastName(): void
     {
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => [
-            'lastName' => 'Andrews',
-        ]]);
+        $this->dataArray['lastName'] = 'Andrews';
+        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
-            'residentID' => '1',
+            '@context' => '/api/contexts/Profile',
+            '@id' => '/api/profiles/1',
+            '@type' => 'Profile',
+            'id' => 1,
+            'resident' => '/api/residents/1',
             'firstName' => '',
             'lastName' => 'Andrews',
             'profilePic' => '',
         ]);
-        $this->assertMatchesRegularExpression('~^/api/resident/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/profiles/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Profile::class);
     }
 
     /**
      * @test
      */
-    public function TestInvalidLastName(): void
+    public function TestInvalidLastNameLength(): void
     {
         $this->dataArray['lastName'] = str_repeat('n', 21);
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => $this->dataArray ]);
+        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         $this->assertJsonContains([
@@ -112,86 +118,6 @@ class ProfileTest extends ApiTestCase
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
             'hydra:description' => 'lastName: Last Name cannot be longer than 20 characters.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestValidPicture(): void
-    {
-        $this->dataArray['profilePic'] = 'C:\image.txt';
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'profilePic: This file is not a valid image.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestInvalidPicture(): void
-    {
-        $this->dataArray['profilePic'] = 'C:\image.txt';
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'profilePic: This file is not a valid image.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestValidFirstLastAndPicture(): void
-    {
-        $this->dataArray['firstName'] = 'Tom';
-        $this->dataArray['lastName'] = 'Andrews';
-        $this->dataArray['profilePic'] = 'C:\image.jpg';
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'profilePic: This file is not a valid image.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function TestInvalidFirstButValidLastAndPicture(): void
-    {
-        $this->dataArray['firstName'] = 'T';
-        $this->dataArray['lastName'] = 'Andrews';
-        $this->dataArray['profilePic'] = 'C:\image.jpg';
-        $response = $response = static::createClient()->request('PUT', self::API_URL, ['json' => $this->dataArray ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/ConstraintViolationList',
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'profilePic: This file is not a valid image.'
         ]);
     }
 }

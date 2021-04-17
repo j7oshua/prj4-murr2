@@ -26,7 +26,8 @@ class ResidentTest extends ApiTestCase
         $this->dataArray = [
             'email' => 'hello@test.com',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'profile' => [],
+            'password' => '#4hs&3j2h'
         ];
     }
 
@@ -35,9 +36,10 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccount(): void
     {
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => 'hello@test.com',
             'phone' => '3333333333',
+            'profile' => [],
             'password' => '#4hs&3j2h',
         ]]);
 
@@ -48,7 +50,7 @@ class ResidentTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hello@test.com',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'profile' => []
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -60,10 +62,11 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountSuccessNoEmail(): void
     {
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => '',
             'phone' => '3333333333',
             'password' => '#4hs&3j2h',
+            'profile' => []
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -73,7 +76,7 @@ class ResidentTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => '',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'profile' => []
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
 
@@ -88,6 +91,7 @@ class ResidentTest extends ApiTestCase
             'email' => 'hello@test.com',
             'phone' => '',
             'password' => '#4hs&3j2h',
+            'profile' => []
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -97,7 +101,7 @@ class ResidentTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => 'hello@test.com',
             'phone' => '',
-            'password' => '#4hs&3j2h',
+            'profile' => []
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
     }
@@ -108,7 +112,7 @@ class ResidentTest extends ApiTestCase
     public function TestCreateResidentAccountInvalidEmailFormat(): void
     {
         $this->dataArray['email'] = 'hellotestcom';
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -127,7 +131,7 @@ class ResidentTest extends ApiTestCase
     public function TestCreateResidentAccountInvalidEmailOver150Characters(): void
     {
         $this->dataArray['email'] = str_repeat('a', 142) . '@test.com';
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -148,7 +152,7 @@ class ResidentTest extends ApiTestCase
     public function TestCreateResidentAccountValidEmail150Characters(): void
     {
         $this->dataArray['email'] = str_repeat('a', 141) . '@test.com';
-        $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
+        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -158,7 +162,7 @@ class ResidentTest extends ApiTestCase
             '@type' => 'Resident',
             'email' => str_repeat('a', 141).'@test.com',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'profile' => []
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
 

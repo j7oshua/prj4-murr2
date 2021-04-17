@@ -1,6 +1,33 @@
-#App\Entity\Profile:
-#  profile1:
-#    residentID: 1
-#    firstName: "Bill"
-#    lastName: "Jones"
-#    profilePic: ""
+App\Entity\Profile:
+  profile1:
+    firstName: "Bill"
+    lastName: "Jones"
+    profilePic: ""
+  profile2:
+    firstName: "Martha"
+    lastName: "Stewart"
+    profilePic: ""
+  profile3:
+    firstName: "Mark"
+    lastName: "Owens"
+    profilePic: ""
+  profile4:
+    firstName: "Terrence"
+    lastName: "Hill"
+    profilePic: ""
+  profile5:
+    firstName: "Snoop"
+    lastName: "Dogg"
+    profilePic: ""
+  profile6:
+    firstName: "Patrick"
+    lastName: "Kane"
+    profilePic: ""
+  profile7:
+    firstName: "Old Bill"
+    lastName: "Jones"
+    profilePic: ""
+  profile8:
+    firstName: "Hannah"
+    lastName: "Montana"
+    profilePic: ""

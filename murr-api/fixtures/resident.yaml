@@ -1,22 +1,30 @@
 App\Entity\Resident:
     residentOne:
         password: "Password"
+        profile: '@profile1'
     residentTwo:
         password: "Password"
+        profile: '@profile2'
     residentThree:
         password: "Password"
+        profile: '@profile3'
     residentFour:
         password: "Password"
+        profile: '@profile4'
     residentFive:
         password: "Password"
+        profile: '@profile5'
 
     resident6:
         email: "email6@email.com"
         password: "password"
+        profile: '@profile6'
     resident7:
         phone: "3065557777"
         password: "password"
+        profile: '@profile7'
     resident8:
         email: "email8@email.com"
         phone: "3065558888"
         password: "password"
+        profile: '@profile8'
