@@ -42,14 +42,16 @@
         :filter-included-fields="filterOn"
         :per-page="PerPage"
         :current-page="currentPage"
+        show-empty
+        empty-text="Failure to connect"
       >
         <template #cell(PickUp)="row" >
           <b-button variant="outline-primary" size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
         </template>
-        <template v-slot:emptyfiltered>
-          <p class="border border-danger ">No site found with that criteria</p>
+        <template #emptyfiltered>
+          <p class="border border-danger text-danger">No site found with that criteria</p>
         </template>
       </b-table>
         <b-col>
@@ -58,6 +60,7 @@
             :per-page="PerPage"
             align="center"
             small
+            :total-rows="totalItems"
             ></b-pagination>
         </b-col>
     </div>
@@ -88,7 +91,8 @@ export default {
       PerPage: 10,
       showForm: false,
       isBusy: false,
-      currentPage: 1
+      currentPage: 1,
+      totalItems: 0
     }
   },
   methods: {
@@ -110,7 +114,8 @@ export default {
       return promise.then(resp => {
         // Pluck the array of items off our axios response
         const items = resp.data['hydra:member']
-
+        this.totalItems = resp.data['hydra:totalItems']
+        console.log(resp.data)
         // Must return an array of items or an empty array if an error occurred
         return items || []
       })

@@ -3,11 +3,13 @@ const expect = require('chai').expect
 
 describe('GET /sites', function () {
   /**
-   * TestFullFirstPage
+   * Title: TestFullFirstPage
+   * Purpose:
+   * Return:
    */
   it('Display all site when first arriving to the page', async function () {
     // set a custom url that gets the order of all Site names in asc for page one
-    const response = await request.get('sites?order[siteName]&page=1')
+    const response = await request.get(sites?order[siteName]&siteName=&page=1')
     // excepting status code to equal 200 -- ok
     expect(response.status).to.eql(200)
     // show all the expected hydra member objects for page one for page one (id and siteName)
@@ -34,7 +36,9 @@ describe('GET /sites', function () {
   })
 
   /**
-   * TestFullSecondPage
+   * Title: TestFullSecondPage
+   * Purpose:
+   * Return:
    */
   it('Display all sites on page 2', async function () {
     // set a custom url that gets the order of all Site names in asc for page two
@@ -47,7 +51,9 @@ describe('GET /sites', function () {
   })
 
   /**
-   * TestFullNameBrighton
+   * Title: TestFullNameBrighton
+   * Purpose:
+   * Return:
    */
   it('Display one site when searching with "Brighton"', async function () {
     // set a custom url that gets the order of all Site names that have "Brighton" in asc for page one
@@ -58,7 +64,9 @@ describe('GET /sites', function () {
   })
 
   /**
-   * TestPartialNameBri
+   * Title: TestPartialNameBri
+   * Purpose:
+   * Return:
    */
   it('Display three sites when searching with "Bri"', async function () {
     // set a custom url that gets the order of all Site names that have "Bri" in asc for page one
@@ -73,14 +81,14 @@ describe('GET /sites', function () {
   })
 
   /**
-   * TestSiteNameDoesNotExist
+   * Title: TestSiteNameDoesNotExist
+   * Purpose:
+   * Return:
    */
   it('Display an error for searching a site that does not exist', async function () {
     // set a custom url that gets the order of all Site names that have "Wellington" in asc for page one
     const response = await request.get('/sites?order[siteName]&siteName=Wellington&page=1')
     // excepting status code to equal 404 -- Not Found
     expect(response.status).to.eql(404)
-    // excepting a error msg with the hydra decription : 'Item not found for "/api/sites?siteName=Wellington" '
-    expect(response.body['hydra:description']).to.contain('Item not found for "/api/sites?siteName=Wellington"')
   })
 })

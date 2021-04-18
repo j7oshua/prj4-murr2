@@ -73,7 +73,7 @@
       </div>
     </form>
 <!--    shows the modal-->
-    <confirm :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickUp2" @finished="confirmFinished"></confirm>
+    <confirm v-if="siteObject.siteName !== undefined" :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickUp2" @finished="confirmFinished"></confirm>
   </div>
 </template>
 
@@ -138,6 +138,7 @@ export default {
       }
       // story 05 need the numCollected
       this.pickUp2.numCollected = parseInt(this.pickup.numCollected)
+      this.pickUp2.siteId = this.siteObject.id
       // Direct axios call here
       this.axios({
         method: 'POST',

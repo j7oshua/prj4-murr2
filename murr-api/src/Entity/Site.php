@@ -22,7 +22,7 @@ use App\Controller\SitePointController;
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  * @ApiResource(
  *     itemOperations={"get"},
- *     attributes={"pagination_items_per_page"=10, "maximum_items_per_page"=10, "pagination_partial"=true}
+ *     attributes={"pagination_items_per_page"=10, "maximum_items_per_page"=10, "pagination_partial"=false}
  *
  * )
  * @ApiFilter(OrderFilter::class, properties={"siteName": "ASC"})

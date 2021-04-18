@@ -265,7 +265,7 @@ class SiteTest extends ApiTestCase
      */
     public function TestFullSiteName() : void
     {
-        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Brighton&page=1');
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Brighton');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -305,7 +305,7 @@ class SiteTest extends ApiTestCase
             ]
         ]],
             'hydra:view' => [
-                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Brighton&page=1',
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Brighton',
                 '@type' => 'hydra:PartialCollectionView'
             ],
             'hydra:search' => [
@@ -339,7 +339,7 @@ class SiteTest extends ApiTestCase
     */
     public function TestPartialName() : void
     {
-        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Bri&page=1');
+        $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Bri');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '@context' => '/api/contexts/Site',
@@ -396,7 +396,7 @@ class SiteTest extends ApiTestCase
             'pickupCollection' => []
         ]],
             'hydra:view' => [
-                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Bri&page=1',
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Bri',
                 '@type' => 'hydra:PartialCollectionView'
             ],
             'hydra:search' => [
