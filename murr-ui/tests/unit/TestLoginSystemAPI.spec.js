@@ -14,10 +14,10 @@ describe('POST /login', function () {
   it('Resident successfully logs in with their valid email and password.', async function () {
     const response = await request
       .post('/login')
-      .send({username: 'email@email.com', password: 'password'})
+      .send({ username: 'email@email.com', password: 'password' })
     expect(response.status).to.eql(200)
-    expect(response.body.data).to.contains( {'id' : 9} )
-    expect(response.body).to.contains({'token': response.body.token})
+    expect(response.body.data).to.contains({ id: 9 })
+    expect(response.body).to.contains({ token: response.body.token })
   })
 
   /**
@@ -28,10 +28,10 @@ describe('POST /login', function () {
    **/
   it('Resident successfully logs in with valid phone and password.', async function () {
     const response = await request.post('/login')
-      .send({username: '3065558888', password: 'password'})
+      .send({ username: '3065558888', password: 'password' })
     expect(response.status).to.eql(200)
-    expect(response.body.data).to.contains( {'id' : 12} )
-    expect(response.body).to.contains({'token': response.body.token})
+    expect(response.body.data).to.contains({ id: 12 })
+    expect(response.body).to.contains({ token: response.body.token })
   })
   /**
    * Title: Resident unsuccessfully logs in
@@ -41,9 +41,9 @@ describe('POST /login', function () {
    **/
   it('Resident unsuccessfully logs in ', async function () {
     const response = await request.post('/login')
-      .send({username: 'email', password: 'password'})
+      .send({ username: 'email', password: 'password' })
     expect(response.status).to.eql(401)
-    expect(response.body).to.contain({ message: "Invalid credentials." })
+    expect(response.body).to.contain({ message: 'Invalid credentials.' })
   })
   /**
    * Title: Resident enters valid url without logging in
@@ -54,9 +54,9 @@ describe('POST /login', function () {
    **/
   it('Resident enters valid url without logging in ', async function () {
     const response = await request.post('/login')
-      .send({username: '', password: ''})
-      .set("Authorization", 'Bearer token=null')
+      .send({ username: '', password: '' })
+      .set('Authorization', 'Bearer token=null')
     expect(response.status).to.eql(401)
-    expect(response.body).to.contain({ message: "Invalid credentials." })
+    expect(response.body).to.contain({ message: 'Invalid credentials.' })
   })
 })

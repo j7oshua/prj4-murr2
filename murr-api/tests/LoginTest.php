@@ -5,6 +5,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 class LoginTest extends ApiTestCase
 {
     const API_URL = '127.0.0.1:8000/login';
+    const RESIDENT_API_URL = '127.0.0.1:8000/api/residents';
 
     /**
      * @test
@@ -12,8 +13,13 @@ class LoginTest extends ApiTestCase
      */
     public function TestLoginWithEmail(): void
     {
+        $resident = ['email' => 'email@email.com', 'plainPassword' => 'password'];
+        static::createClient()->request('POST', self::RESIDENT_API_URL, ['json' => $resident]);
+
+
         $loginCredentials = ['username' => 'email@email.com', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
+
         $this->assertResponseStatusCodeSame(200);
         $this->arrayHasKey('token');
     }
@@ -24,8 +30,12 @@ class LoginTest extends ApiTestCase
      */
     public function TestLoginWithPhone(): void
     {
+        $resident = ['phone' => '3064448888', 'plainPassword' => 'password'];
+        static::createClient()->request('POST', self::RESIDENT_API_URL, ['json' => $resident]);
+
         $loginCredentials = ['username' => '3064448888', 'password' => 'password'];
         static::createClient()->request('POST', self::API_URL, ['json' => $loginCredentials]);
+
         $this->assertResponseStatusCodeSame(200);
         $this->arrayHasKey('token');
     }
