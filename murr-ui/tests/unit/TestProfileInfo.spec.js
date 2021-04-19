@@ -7,6 +7,7 @@ import { expect } from 'chai'
 
 Vue.use(BootstrapVue)
 let wrapper
+// let wrapperInvalid
 // Gotta go over tests today
 
 describe('Points', () => {
@@ -14,7 +15,7 @@ describe('Points', () => {
     wrapper = shallowMount(ProfileInfo, {
       propsData: {
         profile: {
-          firstName: 'John',
+          firstName: '',
           lastName: '',
           profilePic: 'profile_default.jpg'
         },
@@ -35,16 +36,29 @@ describe('Points', () => {
   })
 
   it('Should unsuccessfully update with too long first name', async () => {
+    // wrapper = shallowMount(ProfileInfo, {
+    //   propsData: {
+    //     profile: {
+    //       firstName: '',
+    //       lastName: '',
+    //       profilePic: 'profile_default.jpg'
+    //     },
+    //     residentID: 1
+    //   },
+    //   computed: {
+    //     fNameError () {
+    //       return true
+    //     }
+    //   }
+    // })
     wrapper.find('#editProfileTitle')
     wrapper.find('#btnEditOrSave').trigger('click')
-    await wrapper.setComputed({
-      editMode: 'true'
+    await wrapper.setData({
+      editMode: 'true',
+      fNameState: 'false'
     })
     const inputFirst = wrapper.find('#firstNameInput')
     inputFirst.element.value = 'l'.repeat(21)
-    await wrapper.setComputed({
-      fNameError: inputFirst.length <= 20
-    })
     expect(wrapper.find('#firstNameInput').element.value).to.equal('l'.repeat(21))
     expect(wrapper.find('#fNameInvalid').element.value).to.equal('First Name cannot be longer than 20 characters')
   })

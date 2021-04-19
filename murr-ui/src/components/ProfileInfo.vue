@@ -15,7 +15,7 @@
           <b-input-group>
             <b-container>
               <b-row>
-                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameError" aria-describedby="fNameInvalid" id="firstNameInput"></b-form-input>
+                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameState" aria-describedby="fNameInvalid" id="firstNameInput"></b-form-input>
                 <b-form-invalid-feedback id="fNameInvalid">First Name cannot be longer than 20 characters</b-form-invalid-feedback>
               </b-row>
               <b-row>
@@ -80,7 +80,8 @@ export default {
         profilePic: null
       },
       editMode: false,
-      file: null
+      file: null,
+      fNameState: true
     }
   },
   validations: {
@@ -139,7 +140,8 @@ export default {
   },
   computed: {
     fNameError () {
-      return this.tempProfile.firstName.length <= 20
+      this.fNameState = this.tempProfile.firstName.length <= 20
+      return this.fNameState
     },
     lNameError () {
       return this.tempProfile.lastName.length <= 20
