@@ -26,7 +26,7 @@ class ResidentTest extends ApiTestCase
         $this->dataArray = [
             'email' => 'hello@test.com',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'plainPassword' => '#4hs&3j2h',
         ];
     }
 
@@ -38,7 +38,7 @@ class ResidentTest extends ApiTestCase
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => 'hello@test.com',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'plainPassword' => '#4hs&3j2h',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -47,8 +47,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
             'email' => 'hello@test.com',
-            'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'phone' => '3333333333'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Resident::class);
@@ -63,7 +62,7 @@ class ResidentTest extends ApiTestCase
         $response = $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => '',
             'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'plainPassword' => '#4hs&3j2h',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -72,8 +71,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
             'email' => '',
-            'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'phone' => '3333333333'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
 
@@ -87,7 +85,7 @@ class ResidentTest extends ApiTestCase
         $response = static::createClient()->request('POST', self::API_URL, ['json' => [
             'email' => 'hello@test.com',
             'phone' => '',
-            'password' => '#4hs&3j2h',
+            'plainPassword' => '#4hs&3j2h',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -96,8 +94,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
             'email' => 'hello@test.com',
-            'phone' => '',
-            'password' => '#4hs&3j2h',
+            'phone' => ''
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
     }
@@ -157,8 +154,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/Resident',
             '@type' => 'Resident',
             'email' => str_repeat('a', 141).'@test.com',
-            'phone' => '3333333333',
-            'password' => '#4hs&3j2h',
+            'phone' => '3333333333'
         ]);
         $this->assertMatchesRegularExpression('~^/api/residents/\d+$~', $response->toArray()['@id']);
 
@@ -214,7 +210,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountInvalidPasswordOver30Characters(): void
     {
-        $this->dataArray['password'] = str_repeat('a', 31);
+        $this->dataArray['plainPassword'] = str_repeat('a', 31);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -224,7 +220,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'password: Password has to be 30 characters or less.'
+            'hydra:description' => 'plainPassword: This value is too long. It should have 30 characters or less.'
         ]);
 
     }
@@ -234,7 +230,7 @@ class ResidentTest extends ApiTestCase
      */
     public function TestCreateResidentAccountInvalidPasswordLessThan7Characters(): void
     {
-        $this->dataArray['password'] = str_repeat('a', 6);
+        $this->dataArray['plainPassword'] = str_repeat('a', 6);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -244,7 +240,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'password: Password has to be at least 7 characters.'
+            'hydra:description' => 'plainPassword: This value is too short. It should have 7 characters or more.'
         ]);
 
     }
@@ -284,7 +280,7 @@ class ResidentTest extends ApiTestCase
     public function TestCreateResidentAccountInvalidPasswordEmpty(): void
     {
 
-        unset($this->dataArray['password']);
+        unset($this->dataArray['plainPassword']);
         $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -294,7 +290,7 @@ class ResidentTest extends ApiTestCase
             '@context' => '/api/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',
-            'hydra:description' => 'password: Password should not be left blank.',
+            'hydra:description' => 'plainPassword: Password should not be left blank.',
         ]);
     }
 

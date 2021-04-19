@@ -25,6 +25,7 @@ class PointTest extends ApiTestCase
 
     //static URL
     const API_URL = '127.0.0.1:8000/api/points';
+    const API_URL_LOGIN = '127.0.0.1:8000/login';
 
     /**
      * This sets up the Resident and Point objects for the fixtures and test to use while running
@@ -68,9 +69,25 @@ class PointTest extends ApiTestCase
      */
     public function TestAddOnePointResidentWithThreePoints(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         //creates a client
         //Request a HTTP POST Request to the static API URL using Resident One
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
+        $response = static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->residentOne]);
 
         //Return a status code 201("created")
         $this->assertResponseStatusCodeSame(201);
@@ -102,7 +119,23 @@ class PointTest extends ApiTestCase
      */
     public function TestAddOnePointResidentWithNoPoints(): void
     {
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->residentTwo]);
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        $response = static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->residentTwo]);
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertMatchesRegularExpression('/^\/api\/points\/\d+$/', $response->toArray()['@id']);
@@ -125,9 +158,25 @@ class PointTest extends ApiTestCase
      */
     public function TestAddOnePointResidentWithNoID(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         //creates a client
         //Request a HTTP POST Request to the static API URL using noResidentID
-        static::createClient()->request('POST', self::API_URL, ['json' => $this->noResidentID]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->noResidentID]);
 
         //Returns a status code of 422 ("Bad Request")
         $this->assertResponseStatusCodeSame(422);
@@ -151,10 +200,26 @@ class PointTest extends ApiTestCase
     public
     function TestAddZeroPointsToResidentWithPoints(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
            //reset numPoint to equal 0
             $this->residentOne['num_points'] = 0;
 
-            self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
+            self::createClient()->request('POST', self::API_URL, [
+                'headers' => ['Authorization' => 'Bearer ' . $token],
+                'json' => $this->residentOne]);
 
             $this->assertResponseStatusCodeSame(422);
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -174,7 +239,23 @@ class PointTest extends ApiTestCase
     public
     function TestAddZeroPointsToResidentWithNoPoints(): void
     {
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->residentThree]);
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        self::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->residentThree]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -195,8 +276,23 @@ class PointTest extends ApiTestCase
     public
     function TestAddOnePointToResidentIDNinetyNineDoesNotExist(): void
     {
+        $client = self::createClient();
 
-            self::createClient()->request('POST', self::API_URL, ['json' => $this->residentNinetyNine]);
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+            self::createClient()->request('POST', self::API_URL, [
+                'headers' => ['Authorization' => 'Bearer ' . $token],
+                'json' => $this->residentNinetyNine]);
 
             $this->assertResponseStatusCodeSame(400);
             $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -218,10 +314,26 @@ class PointTest extends ApiTestCase
     public
     function testLeavePointsBlank(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         //set num_points as Null
         unset($this->residentOne['num_points']);
 
-        self::createClient()->request('POST', self::API_URL, ['json' => $this->residentOne]);
+        self::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->residentOne]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');

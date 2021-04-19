@@ -2,6 +2,7 @@
 namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\PickUp;
+use App\Entity\Resident;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use http\Header;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -13,9 +14,10 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class PickUpSiteTest extends ApiTestCase
 {
     //refreshes the database for every test
-    //use RefreshDatabaseTrait;
+    use RefreshDatabaseTrait;
 
     private $pickUp;
+    private $client;
 
     //static URL
     const API_URL = 'localhost:8000/cusapi/pickups';
@@ -34,6 +36,7 @@ class PickUpSiteTest extends ApiTestCase
             'numObstructed' => 0,
             'date' => "2021-03-26"
         ];
+
     }
 
 
@@ -45,12 +48,25 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestBinsCollected(): void
     {
-        $loginCredentials = ['username' => 'email@email.com', 'password' => 'password'];
-        static::createClient()->request('POST', self::API_URL_LOGIN, ['json' => $loginCredentials]);
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
 
         //this will index for site one
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
-        //this status code means "OK"
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
+//        //this status code means "OK"
         $this->assertResponseStatusCodeSame(200);
         //this will check if the item returned is a PickUp object class
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
@@ -73,11 +89,27 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestTestBinsCollectedObstructedContaminated(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->pickUp['numCollected'] = 2;
         $this->pickUp['numObstructed'] = 1;
         $this->pickUp['numContaminated'] = 2;
 
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
         //this status code means "OK"
         $this->assertResponseStatusCodeSame(200);
         $this->assertMatchesResourceItemJsonSchema(PickUp::class);
@@ -102,15 +134,30 @@ class PickUpSiteTest extends ApiTestCase
      */
    public function TestValidNumberOfBinsLessThanFour(): void
    {
+       $client = self::createClient();
+
+       $response = $client->request('POST', self::API_URL_LOGIN, [
+           'headers' => ['Content-Type' => 'application/json'],
+           'json' => [
+               'username' => 'email8@email.com',
+               'password' => 'password'
+           ],
+       ]);
+
+       $content = $response->getContent();
+       $getToken = json_decode($content);
+       $token = $getToken->{'token'};
 
        $this->pickUp['numCollected'] = 2;
        $this->pickUp['numObstructed'] = 1;
        $this->pickUp['numContaminated'] = 1;
 
-       $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+       static::createClient()->request('POST', self::API_URL, [
+           'headers' => ['Authorization' => 'Bearer ' . $token],
+           'json' => $this->pickUp]);
        $this->assertResponseStatusCodeSame(400);
 
-           $this->assertJsonContains([ 
+           $this->assertJsonContains([
                '0' => "site: Number of bins do not match."
            ]);
 
@@ -124,11 +171,26 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestInvalidNumberOfBinsMoreThanFive (): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
 
         $this->pickUp['numCollected'] = 2;
         $this->pickUp['numObstructed'] = 2;
         $this->pickUp['numContaminated'] = 2;
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(400);
 
         $this->assertJsonContains([
@@ -145,9 +207,25 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestSiteDoesNotExistsNegativeOutofBounds(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->pickUp['siteId'] = -1;
 
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(404);
 
         //expected hydra result
@@ -165,9 +243,25 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestSiteDoesNotExist(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->pickUp['siteId'] = 99;
 
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(404);
 
         $this->assertJsonContains([
@@ -185,9 +279,25 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestNullSite(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->pickUp['siteId'] = null;
 
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(404);
 
         $this->assertJsonContains([
@@ -205,10 +315,26 @@ class PickUpSiteTest extends ApiTestCase
      */
     public function TestNullBins(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->pickUp['numCollected'] = null;
         $this->pickUp['numObstructed'] = null;
         $this->pickUp['numContaminated'] = null;
-        $response = static::createClient()->request('POST', self::API_URL, ['json' => $this->pickUp]);
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
         $this->assertResponseStatusCodeSame(400);
 
         $this->assertJsonContains([

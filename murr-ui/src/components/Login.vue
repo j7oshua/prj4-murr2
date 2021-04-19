@@ -91,10 +91,6 @@ export default {
         axios.post('http://127.0.0.1:8000/login', {
           username: this.resident.username,
           password: this.resident.password
-        }, {
-          headers: {
-            Authorization: 'Bearer ' + sessionStorage.getItem('token')
-          }
         })
           .then(response => {
             sessionStorage.setItem('token', response.data.token)

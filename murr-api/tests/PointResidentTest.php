@@ -6,10 +6,11 @@ class PointResidentTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
 
-    const API_URL_6 = '127.0.0.1:8000/point/resident/6';
-    const API_URL_7 = '127.0.0.1:8000/point/resident/7';
-    const API_URL_8 = '127.0.0.1:8000/point/resident/8';
-    const API_URL_NO_ID = '127.0.0.1:8000/point/resident/-1';
+    const API_URL_6 = '127.0.0.1:8000/cusapi/points/6';
+    const API_URL_7 = '127.0.0.1:8000/cusapi/points/7';
+    const API_URL_8 = '127.0.0.1:8000/cusapi/points/8';
+    const API_URL_NO_ID = '127.0.0.1:8000/cusapi/points/-1';
+    const API_URL_LOGIN = '127.0.0.1:8000/login';
 
     /**
      * Purpose: This test will check if API gets 1000 points for resident with an id of 6
@@ -18,7 +19,21 @@ class PointResidentTest extends ApiTestCase
      */
     public function testResidentWithOneThousandPoints()
     {
-        static::createClient()->request('GET', self::API_URL_6);
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email6@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        static::createClient()->request('GET', self::API_URL_6, ['headers' => ['Authorization' => 'Bearer ' . $token]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'content' => '1000'
@@ -33,7 +48,21 @@ class PointResidentTest extends ApiTestCase
      */
     public function testResidentWithSumPointsOfEighty()
     {
-        static::createClient()->request('GET', self::API_URL_7);
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => '3065557777',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        static::createClient()->request('GET', self::API_URL_7, ['headers' => ['Authorization' => 'Bearer ' . $token]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'content' => '80'
@@ -47,7 +76,21 @@ class PointResidentTest extends ApiTestCase
      */
     public function testResidentWithZeroPoints(): void
     {
-        static::createClient()->request('GET', self::API_URL_8);
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        static::createClient()->request('GET', self::API_URL_8, ['headers' => ['Authorization' => 'Bearer ' . $token]]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'content' => '0'
@@ -62,7 +105,7 @@ class PointResidentTest extends ApiTestCase
     public function testResidentWithNoResidentID(): void
     {
         static::createClient()->request('GET', self::API_URL_NO_ID);
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(401);
     }
 }
 

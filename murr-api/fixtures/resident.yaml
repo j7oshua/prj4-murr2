@@ -12,11 +12,12 @@ App\Entity\Resident:
 
     resident6:
         email: "email6@email.com"
-        password: "password"
+        password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$WUZ0NkVGZlN5OFZFR3p3YQ\$Vz9yVVMIVSPc0hZ+Wx70HaYDbN6H5Hi6jeC+qVpnQaQ'
     resident7:
         phone: "3065557777"
-        password: "password"
+        password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$WUZ0NkVGZlN5OFZFR3p3YQ\$Vz9yVVMIVSPc0hZ+Wx70HaYDbN6H5Hi6jeC+qVpnQaQ'
     resident8:
         email: "email8@email.com"
         phone: "3065558888"
-        password: "password"
+        password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$WUZ0NkVGZlN5OFZFR3p3YQ\$Vz9yVVMIVSPc0hZ+Wx70HaYDbN6H5Hi6jeC+qVpnQaQ'
+

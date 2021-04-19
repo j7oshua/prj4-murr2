@@ -65,6 +65,7 @@ class Resident implements UserInterface
 
     /**
      * @Assert\NotBlank(message = "Password should not be left blank.")
+     * @Assert\Length(min=7, max = 30, exactMessage = "Password needs to be {{ limit }} digits.")
      */
     private $plainPassword;
 
