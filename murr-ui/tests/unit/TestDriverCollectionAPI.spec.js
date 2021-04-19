@@ -9,7 +9,7 @@ describe('GET /sites', function () {
    */
   it('Display all site when first arriving to the page', async function () {
     // set a custom url that gets the order of all Site names in asc for page one
-    const response = await request.get(sites?order[siteName]&siteName=&page=1')
+    const response = await request.get('sites?order[siteName]&siteName=&page=1')
     // excepting status code to equal 200 -- ok
     expect(response.status).to.eql(200)
     // show all the expected hydra member objects for page one for page one (id and siteName)
@@ -70,7 +70,7 @@ describe('GET /sites', function () {
    */
   it('Display three sites when searching with "Bri"', async function () {
     // set a custom url that gets the order of all Site names that have "Bri" in asc for page one
-    const response = await request.get('sites?order[siteName]&siteName=Bri&page=1')
+    const response = await request.get('sites?order[siteName]&siteName=Bri')
     expect(response.status).to.eql(200)
     expect(response.body['hydra:member'][0]).to.contain({ id: 8 })
     expect(response.body['hydra:member'][0]).to.contain({ siteName: 'Applewood Bridge' })
@@ -87,7 +87,7 @@ describe('GET /sites', function () {
    */
   it('Display an error for searching a site that does not exist', async function () {
     // set a custom url that gets the order of all Site names that have "Wellington" in asc for page one
-    const response = await request.get('/sites?order[siteName]&siteName=Wellington&page=1')
+    const response = await request.get('/sites?order[siteName]&siteName=Wellington')
     // excepting status code to equal 404 -- Not Found
     expect(response.status).to.eql(404)
   })

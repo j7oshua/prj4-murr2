@@ -2,11 +2,6 @@
   <div>
     <div>
       <h1>Collection Site Form</h1>
-<!--    </div>-->
-<!--    <div v-if="!showForm">-->
-<!--      &lt;!&ndash; this is a hard-coded site, for route story this is where the list of sites would be displayed &ndash;&gt;-->
-<!--    </div>-->
-<!--    <div>-->
       <!-- this is th filter input box -->
       <div v-if="!showForm">
       <b-col lg="6" class="my-1">
@@ -45,16 +40,30 @@
         show-empty
         empty-text="Failure to connect"
       >
+        <!-- this is the pickup button -->
         <template #cell(PickUp)="row" >
-          <b-button variant="outline-primary" size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)">
+          <div>
+          <b-overlay
+            :show="busy"
+            rounded
+            opacity="0.6"
+            spinner-small
+            spinner-variant="secondary"
+            class="d-inline-block"
+            @hidden="onHidden"
+          >
+          <b-button variant="outline-primary" size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)" :disabled="busy">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
+          </b-overlay>
+          </div>
         </template>
         <template #emptyfiltered>
           <p class="border border-danger text-danger">No site found with that criteria</p>
         </template>
       </b-table>
         <b-col>
+          <!-- Page selection bar -->
           <b-pagination
             v-model="currentPage"
             :per-page="PerPage"
@@ -67,8 +76,6 @@
     </div>
     <div>
       <DriverPickUp @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUp>
-<!--      <b-alert :show="true"><pre>{{$data}}</pre></b-alert>-->
-<!--      <b-alert :show="true"><pre>{{siteObject.id}}</pre></b-alert>-->
     </div>
   </div>
 </template>
@@ -90,24 +97,48 @@ export default {
       filterOn: [],
       PerPage: 10,
       showForm: false,
+      busy: false,
       isBusy: false,
       currentPage: 1,
-      totalItems: 0
+      totalItems: 0,
+      timeout: null
     }
   },
+  beforeRemove () {
+    this.clearTimeout()
+  },
   methods: {
+    clearTimeout () {
+      if (this.timeout) {
+        clearTimeout(this.timeout)
+        this.timeout = null
+      }
+    },
+    setTimeout (callback) {
+      this.clearTimeout()
+      this.timeout = setTimeout(() => {
+        this.clearTimeout()
+        callback()
+      }, 2000)
+    },
+    onHidden () {
+      // Return focus to the button once hidden
+      this.focus()
+    },
     reDirectToDriverPickup: function (item) {
       this.siteObject.id = item.id
       this.siteObject.numBins = item.numBins
       this.siteObject.siteName = item.siteName
-
-      this.showForm = true
+      this.busy = true
+      this.setTimeout(() => {
+        this.busy = false
+        this.showForm = true
+      })
     },
     confirmFinish: function (event) {
       this.showForm = false
     },
     getSites: function (ctx) {
-      // const filter = ctx.filter ? ctx.filter : ''
       const promise = this.axios.get(this.SITE_API_URL + '&siteName=' + ctx.filter + '&page=' + ctx.currentPage)
 
       // Must return a promise that resolves to an array of items

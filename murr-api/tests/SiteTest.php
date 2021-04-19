@@ -432,11 +432,36 @@ class SiteTest extends ApiTestCase
     {
         $response = static::createClient()->request('GET', 'http://localhost:8000/api/sites?order[siteName]&siteName=Wellington');
 
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'hydra:description'=> 'Item not found for ‘/api/sites?siteName=Wellington’'
+            '@context' => '/api/contexts/Site',
+            '@id' => '/api/sites',
+            '@type' => 'hydra:Collection',
+            'hydra:member' => [],
+            'hydra:view' => [
+                '@id' => '/api/sites?order%5BsiteName%5D=&siteName=Wellington',
+                '@type' => 'hydra:PartialCollectionView'
+            ],
+            'hydra:search' => [
+                '@type' => 'hydra:IriTemplate',
+                'hydra:template' => '/api/sites{?order[siteName],siteName}',
+                'hydra:variableRepresentation'=> 'BasicRepresentation',
+                'hydra:mapping'=> [
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable'=> 'order[siteName]',
+                        'property'=> 'siteName',
+                        'required' => false
+                    ],
+                    [
+                        '@type' => 'IriTemplateMapping',
+                        'variable' => 'siteName',
+                        'property' => 'siteName',
+                        'required'=> false
+                    ]
+                ]
+            ]
         ]);
-        // {"@context":"\/api\/contexts\/Site","@id":"\/api\/sites","@type":"hydra:Collection","hydra:member":[],"hydra:view":{"@id":"\/api\/sites?order%5BsiteName%5D=\u0026siteName=Wellington\u0026page=1","@type":"hydra:PartialCollectionView"},"hydra:search":{"@type":"hydra:IriTemplate","hydra:template":"\/api\/sites{?order[siteName],siteName}","hydra:variableRepresentation":"BasicRepresentation","hydra:mapping":[{"@type":"IriTemplateMapping","variable":"order[siteName]","property":"siteName","required":false},{"@type":"IriTemplateMapping","variable":"siteName","property":"siteName","required":false}]}}
     }
 
 }

@@ -10,7 +10,7 @@ Vue.use(BootstrapVue)
 let wrapper
 
 // Pre-sets the mount
-describe('DriverCollection', () => {
+describe('DriverCollection.vue', () => {
   beforeEach(() => {
     wrapper = shallowMount(DriverCollection)
   })
