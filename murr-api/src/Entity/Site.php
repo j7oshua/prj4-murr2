@@ -17,7 +17,8 @@ use App\Controller\SitePointController;
 // Using API platform for just 'get' operation at this time.
 // Sites will be hardcoded into the database at this point in time.
 
-
+// for the pagination we had set the max amount of items on the page to 10
+// and ordered then alphabetical as well as filtered partial if sent something to filter.
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  * @ApiResource(

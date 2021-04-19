@@ -1,5 +1,13 @@
 <template>
   <div>
+      <b-overlay
+        :show="busy"
+        rounded
+        opacity="0.6"
+        spinner-small
+        spinner-variant="secondary"
+        @hidden="onHidden"
+      >
     <div>
       <h1>Collection Site Form</h1>
       <!-- this is th filter input box -->
@@ -42,21 +50,9 @@
       >
         <!-- this is the pickup button -->
         <template #cell(PickUp)="row" >
-          <div>
-          <b-overlay
-            :show="busy"
-            rounded
-            opacity="0.6"
-            spinner-small
-            spinner-variant="secondary"
-            class="d-inline-block"
-            @hidden="onHidden"
-          >
           <b-button variant="outline-primary" size="sm" class="mb-2 p-2" @click="reDirectToDriverPickup(row.item)" :disabled="busy">
             <b-icon icon="plus-circle-fill" variant="primary"></b-icon>
           </b-button>
-          </b-overlay>
-          </div>
         </template>
         <template #emptyfiltered>
           <p class="border border-danger text-danger">No site found with that criteria</p>
@@ -73,10 +69,11 @@
             ></b-pagination>
         </b-col>
     </div>
-    </div>
     <div>
       <DriverPickUp @finished="confirmFinish" :site-object="siteObject" :show-form="showForm"></DriverPickUp>
     </div>
+  </div>
+      </b-overlay>
   </div>
 </template>
 
