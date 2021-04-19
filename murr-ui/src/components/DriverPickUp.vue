@@ -72,7 +72,7 @@
         <button type="submit" class="btn btn-submit btn-primary" :disabled="countedBins != siteObject.numBins">Submit</button>
       </div>
     </form>
-<!--    shows the modal-->
+<!--    shows the modal needed a vif statement to set undefined -->
     <confirm v-if="siteObject.siteName !== undefined" :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickUp2" @finished="confirmFinished"></confirm>
   </div>
 </template>

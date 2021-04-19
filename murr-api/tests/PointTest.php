@@ -54,6 +54,7 @@ class PointTest extends ApiTestCase
 
         $this->residentNinetyNine = [
             'num_points' => 1,
+
             'resident' => ["/api/residents/99"]
         ];
 

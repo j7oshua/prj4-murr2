@@ -4,8 +4,7 @@ const expect = require('chai').expect
 describe('GET /sites', function () {
   /**
    * Title: TestFullFirstPage
-   * Purpose:
-   * Return:
+   * Purpose: Sends The objects back of the list in order for the first page
    */
   it('Display all site when first arriving to the page', async function () {
     // set a custom url that gets the order of all Site names in asc for page one
@@ -37,8 +36,7 @@ describe('GET /sites', function () {
 
   /**
    * Title: TestFullSecondPage
-   * Purpose:
-   * Return:
+   * Purpose: Sends The objects back of the list in order for the second page
    */
   it('Display all sites on page 2', async function () {
     // set a custom url that gets the order of all Site names in asc for page two
@@ -52,8 +50,7 @@ describe('GET /sites', function () {
 
   /**
    * Title: TestFullNameBrighton
-   * Purpose:
-   * Return:
+   * Purpose: Sends the object back of the full name 'Brighton'
    */
   it('Display one site when searching with "Brighton"', async function () {
     // set a custom url that gets the order of all Site names that have "Brighton" in asc for page one
@@ -65,8 +62,7 @@ describe('GET /sites', function () {
 
   /**
    * Title: TestPartialNameBri
-   * Purpose:
-   * Return:
+   * Purpose: Sends three objects back of the partial name 'Bri'
    */
   it('Display three sites when searching with "Bri"', async function () {
     // set a custom url that gets the order of all Site names that have "Bri" in asc for page one
@@ -82,13 +78,13 @@ describe('GET /sites', function () {
 
   /**
    * Title: TestSiteNameDoesNotExist
-   * Purpose:
-   * Return:
+   * Purpose: Sends an empty object back of the full name 'Wellington' with a 404 error response
    */
   it('Display an error for searching a site that does not exist', async function () {
     // set a custom url that gets the order of all Site names that have "Wellington" in asc for page one
     const response = await request.get('/sites?order[siteName]&siteName=Wellington')
     // excepting status code to equal 404 -- Not Found
+    // frontend recognizes the empty list as being a 404 error
     expect(response.status).to.eql(404)
   })
 })
