@@ -102,8 +102,18 @@ describe('SitePointsConfirmation', () => {
       })
     })
     describe('Clicking the cancel button', () => {
-      it('Display the previous page', () => {
+      it('Display the previous page', async () => {
         wrapper = mount(DriverCollection)
+        await wrapper.setData(
+          {
+            siteObject: {
+              id: 1,
+              siteName: 'Wascana',
+              numBins: 5
+            },
+            showForm: false
+          }
+        )
         wrapper.find('#btncancel').trigger('click')
         expect(wrapper.find('h1').text()).to.equal('Collection Site Form')
       })
