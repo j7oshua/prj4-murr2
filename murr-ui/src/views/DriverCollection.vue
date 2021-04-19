@@ -28,6 +28,7 @@
                   v-model="filter"
                   type="search"
                   placeholder="Type to Search"
+                  debounce="500"
                 ></b-form-input>
                 <!-- clear button at the end of the search input -->
                 <b-input-group-append>
@@ -48,7 +49,6 @@
             :per-page="PerPage"
             :current-page="currentPage"
             show-empty
-            empty-html="No sites to display"
           >
             <!-- this is the pickup button, switches to the DriverPickUp component -->
             <template #cell(PickUp)="row" >
@@ -58,7 +58,10 @@
             </template>
 <!--            slot for if no site exists within the database, variant are set to red to match the theme -->
             <template #emptyfiltered>
-              <p class="border border-danger text-danger">No site found with those criteria</p>
+              <p id="test2" class="border border-danger text-danger">No site found with those criteria</p>
+            </template>
+            <template #empty>
+              <p id="test" class="border border-danger text-danger">No sites to display</p>
             </template>
           </b-table>
           <b-col>
