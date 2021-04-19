@@ -4,7 +4,7 @@
              header-text-variant="light" hide-backdrop content-class="shadow" hide-footer>
       <div slot="modal-title">
         <div v-if="editMode">
-          <h4>Edit Profile Information</h4>
+          <h4 id="editProfileTitle">Edit Profile Information</h4>
         </div>
         <div v-else>
           <h4>Profile Information</h4>
@@ -15,16 +15,16 @@
           <b-input-group>
             <b-container>
               <b-row>
-                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameError" aria-describedby="fName" id="firstName"></b-form-input>
-                <b-form-invalid-feedback id="fName">First Name cannot be longer than 20 characters</b-form-invalid-feedback>
+                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameError" aria-describedby="fNameInvalid" id="firstNameInput"></b-form-input>
+                <b-form-invalid-feedback id="fNameInvalid">First Name cannot be longer than 20 characters</b-form-invalid-feedback>
               </b-row>
               <b-row>
-                <b-form-input placeholder="Last Name" v-model.trim="tempProfile.lastName" :state="lNameError" aria-describedby="lName"></b-form-input>
-                <b-form-invalid-feedback id="lName">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>
+                <b-form-input placeholder="Last Name" v-model.trim="tempProfile.lastName" :state="lNameError" aria-describedby="lNameInvalid" id="lastNameInput"></b-form-input>
+                <b-form-invalid-feedback id="lNameInvalid">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>
               </b-row>
               <b-row>
-                <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file" :state="imgSizeError" aria-describedby="imgSize"></b-form-file>
-                <b-form-invalid-feedback id="imgSize">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>
+                <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file" :state="imgSizeError" aria-describedby="imgSizeInvalid"></b-form-file>
+                <b-form-invalid-feedback id="imgSizeInvalid">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>
               </b-row>
             </b-container>
           </b-input-group>
@@ -48,7 +48,7 @@
             <b-button v-if="editMode" @click="saveProfile" :disabled="disableSaveBtn">Save</b-button>
           </b-col>
           <b-col cols="2">
-            <b-button @click="switchMode">
+            <b-button id="btnEditOrSave" @click="switchMode">
               <span v-if="editMode">Cancel</span>
               <span v-else>Edit</span>
             </b-button>

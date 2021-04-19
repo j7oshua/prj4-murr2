@@ -1,39 +1,63 @@
 import { shallowMount } from '@vue/test-utils'
 import ProfileInfo from '@/components/ProfileInfo'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import Points from '../../src/views/Points'
+import { BootstrapVue } from 'bootstrap-vue'
+import Vue from 'vue'
+// import Points from '../../src/views/Points'
 import { expect } from 'chai'
 
+Vue.use(BootstrapVue)
 let wrapper
 // Gotta go over tests today
 
 describe('Points', () => {
   beforeEach(() => {
-    wrapper = shallowMount(Points)
+    wrapper = shallowMount(ProfileInfo, {
+      propsData: {
+        profile: {
+          firstName: 'John',
+          lastName: '',
+          profilePic: 'profile_default.jpg'
+        },
+        residentID: 1
+      }
+    })
   })
 
-  it('Should successfully updates first name', async () => {
-    const inputFirst = wrapper.find('#firstName')
-    await inputFirst.setValue('Tom')
-    expect(wrapper.find('#firstName').text()).to.equal('Tom')
+  it('Should successfully render first name on the first name input', async () => {
+    wrapper.find('#editProfileTitle')
+    wrapper.find('#btnEditOrSave').trigger('click')
+    await wrapper.setData({
+      editMode: true
+    })
+    const inputFirst = wrapper.find('#firstNameInput')
+    inputFirst.element.value = 'Tom'
+    expect(wrapper.find('#firstNameInput').element.value).to.equal('Tom')
   })
 
   it('Should unsuccessfully update with too long first name', async () => {
-    const inputFirst = wrapper.find('#firstName')
-    await inputFirst.setValue('f'.repeat(21))
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
+    wrapper.find('#editProfileTitle')
+    wrapper.find('#btnEditOrSave').trigger('click')
+    await wrapper.setComputed({
+      editMode: 'true'
+    })
+    const inputFirst = wrapper.find('#firstNameInput')
+    inputFirst.element.value = 'l'.repeat(21)
+    await wrapper.setComputed({
+      fNameError: inputFirst.length <= 20
+    })
+    expect(wrapper.find('#firstNameInput').element.value).to.equal('l'.repeat(21))
+    expect(wrapper.find('#fNameInvalid').element.value).to.equal('First Name cannot be longer than 20 characters')
   })
 
-  it('Should unsuccessfully update with too short first name', async () => {
-    const inputFirst = wrapper.find('#firstName')
-    await inputFirst.setValue('f')
-    expect(wrapper.find('#validInput').text()).to.equal('Unable to update profile information')
-  })
-
-  it('Should successfully update with short last name', async () => {
-    const inputLast = wrapper.find('#lastName')
-    await inputLast.setValue('l')
-    expect(wrapper.find('#validInput').text()).to.equal('Profile information has been updated')
+  it('Should successfully render last name on the last name input', async () => {
+    wrapper.find('#editProfileTitle')
+    wrapper.find('#btnEditOrSave').trigger('click')
+    await wrapper.setData({
+      editMode: true
+    })
+    const inputFirst = wrapper.find('#lastNameInput')
+    inputFirst.element.value = 'Andrews'
+    expect(wrapper.find('#lastNameInput').element.value).to.equal('Andrews')
   })
 
   it('Should unsuccessfully update with too long last name', async () => {
@@ -43,8 +67,8 @@ describe('Points', () => {
   })
 
   it('Should successfully update with valid image file for profile picture', async () => {
-    const inputPicture = wrapper.find('#picture')
-    await inputPicture.setValue('C:/image.jpg')
+    const inputPicture = wrapper.find('#profPicInput')
+    inputPicture.element.value = 'profile_default.jpg'
     expect(wrapper.find('#validInput').text()).to.equal('Profile information has been updated')
   })
 
