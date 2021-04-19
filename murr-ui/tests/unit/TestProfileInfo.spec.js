@@ -36,30 +36,15 @@ describe('Points', () => {
   })
 
   it('Should unsuccessfully update with too long first name', async () => {
-    // wrapper = shallowMount(ProfileInfo, {
-    //   propsData: {
-    //     profile: {
-    //       firstName: '',
-    //       lastName: '',
-    //       profilePic: 'profile_default.jpg'
-    //     },
-    //     residentID: 1
-    //   },
-    //   computed: {
-    //     fNameError () {
-    //       return true
-    //     }
-    //   }
-    // })
     wrapper.find('#editProfileTitle')
     wrapper.find('#btnEditOrSave').trigger('click')
     await wrapper.setData({
-      editMode: 'true',
-      fNameState: 'false'
+      editMode: true
     })
     const inputFirst = wrapper.find('#firstNameInput')
     inputFirst.element.value = 'l'.repeat(21)
     expect(wrapper.find('#firstNameInput').element.value).to.equal('l'.repeat(21))
+    inputFirst.element = false
     expect(wrapper.find('#fNameInvalid').element.value).to.equal('First Name cannot be longer than 20 characters')
   })
 

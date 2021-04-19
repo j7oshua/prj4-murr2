@@ -140,8 +140,7 @@ export default {
   },
   computed: {
     fNameError () {
-      this.fNameState = this.tempProfile.firstName.length <= 20
-      return this.fNameState
+      return this.tempProfile.firstName.length <= 20
     },
     lNameError () {
       return this.tempProfile.lastName.length <= 20
