@@ -60,7 +60,7 @@
       <b-container>
         <b-row align-h="end">
           <b-col cols="2">
-            <b-button v-if="editMode" @click="saveProfile" :disabled="disableSaveBtn">Save</b-button>
+            <b-button v-if="editMode" @click="saveProfile">Save</b-button>
           </b-col>
           <b-col cols="2">
             <b-button id="btnEditOrSave" @click="switchMode">

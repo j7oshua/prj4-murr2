@@ -20,9 +20,9 @@ export default {
       residentId: 0
     }
   },
-  created () {
-    this.residentId = this.$route.params.id
-  },
+  // created () {
+  //   this.residentId = this.$route.params.id
+  // },
   methods: {
     getPoints: function () {
       // disable overlay

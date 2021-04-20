@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils'
 import ProfileInfo from '@/components/ProfileInfo'
 import { BootstrapVue } from 'bootstrap-vue'
 import Vue from 'vue'
-// import Points from '../../src/views/Points'
 import { expect } from 'chai'
 
 Vue.use(BootstrapVue)
@@ -15,33 +14,27 @@ describe('Points', () => {
     wrapper = shallowMount(ProfileInfo, {
       propsData: {
         profile: {
-          firstName: '',
-          lastName: '',
-          profilePic: 'profile_default.jpg'
+          firstName: 'John',
+          lastName: 'Doe',
+          profilePic: null
         },
-        residentID: 1
+        residentID: 1,
+        showModal: true
       }
     })
   })
 
   it('Should display profile information from the modal', async () => {
-    wrapper.setProps({
-      profile: {
-        firstName: 'John',
-        lastName: 'Doe'
-      }
-    })
-    const fullName = wrapper.find('#viewProfileName')
-    fullName.element.innerHTML = wrapper.vm.profile.firstName + ' ' + wrapper.vm.profile.lastName
     expect(wrapper.find('#profileTitle').text()).to.equal('Profile Information')
     expect(wrapper.find('#viewProfileName').text()).to.equal('John Doe')
   })
 
   it('Should successfully render first name on the first name input', async () => {
-    wrapper.find('#btnEditOrSave').trigger('click')
     await wrapper.setData({
       editMode: true
     })
+    // await wrapper.find('#btnEditOrSave').trigger('click')
+    // console.log(wrapper.find('#btnEditOrSave').html())
     const inputFirst = wrapper.find('#firstNameInput')
     inputFirst.element.value = 'Tom'
     expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
@@ -96,7 +89,7 @@ describe('Points', () => {
   })
 
   it('Should successfully update with valid image file for profile picture', async () => {
-    await wrapper.setProps ({
+    await wrapper.setProps({
       residentID: 1,
       showModal: true,
       profile: {
@@ -105,11 +98,11 @@ describe('Points', () => {
         profilePic: null
       }
     })
-    wrapper.find('#btnEditOrSave').trigger('click')
-    expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
     await wrapper.setData({
       editMode: true
     })
+    wrapper.find('#btnEditOrSave').trigger('click')
+    expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
     await wrapper.setData({
       file: {
         name: 'test.jpg',
@@ -121,7 +114,10 @@ describe('Points', () => {
   })
 
   it('Should unsuccessfully update with invalid too large image for profile picture', async () => {
-    wrapper.find('#btnEditOrSave').trigger('click')
+    // wrapper.find('#btnEditOrSave').trigger('click')
+    await wrapper.setData({
+      editMode: true
+    })
     expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
     await wrapper.setData({
       file: {

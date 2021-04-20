@@ -32,7 +32,9 @@ export default {
     }
   },
   created () {
-    this.residentID = parseInt(this.$route.params.id)
+    // if (this.$route.params && this.$route.params.id) {
+    //   this.residentID = parseInt(this.$route.params.id)
+    // }
   },
   methods: {
     confirmFinished () {
