@@ -43,5 +43,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/cusapi/site, roles: ROLE_ADMIN }
+        - { path: /cusapi/pickups,roles: ROLE_ADMIN }
+        - { path: ^/cusapi/points, roles: ROLE_USER }
         - { path: ^/cusapi/*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -23,8 +23,6 @@ class PickUpSiteTest extends ApiTestCase
     const API_URL = 'localhost:8000/cusapi/pickups';
     const API_URL_LOGIN = '127.0.0.1:8000/login';
 
-
-
     /**
      * @before
      */
