@@ -15,16 +15,34 @@
           <b-input-group>
             <b-container>
               <b-row>
-                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" :state="fNameState" aria-describedby="fNameInvalid" id="firstNameInput"></b-form-input>
-                <b-form-invalid-feedback id="fNameInvalid">First Name cannot be longer than 20 characters</b-form-invalid-feedback>
+                <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" id="firstNameInput"></b-form-input>
+<!--                <b-form-invalid-feedback id="fNameInvalid">First Name cannot be longer than 20 characters</b-form-invalid-feedback>-->
+                <div v-if="tempProfile.firstName.length > 20">
+                  <p id="invalidFirstName" class="text-danger p-2">First Name cannot be longer than 20 characters</p>
+                </div>
+                <div v-else>
+                  <p id="validFirstName" class="text-success p-2">The first name is valid</p>
+                </div>
               </b-row>
               <b-row>
-                <b-form-input placeholder="Last Name" v-model.trim="tempProfile.lastName" :state="lNameError" aria-describedby="lNameInvalid" id="lastNameInput"></b-form-input>
-                <b-form-invalid-feedback id="lNameInvalid">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>
+                <b-form-input placeholder="Last Name" v-model.trim="tempProfile.lastName" id="lastNameInput"></b-form-input>
+<!--                <b-form-invalid-feedback id="lNameInvalid">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>-->
+                <div v-if="tempProfile.lastName.length > 20">
+                  <p id="invalidLastName" class="text-danger p-2">Last Name cannot be longer than 20 characters</p>
+                </div>
+                <div v-else>
+                  <p id="validLastName" class="text-success p-2">The last name is valid</p>
+                </div>
               </b-row>
               <b-row>
-                <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file" :state="imgSizeError" aria-describedby="imgSizeInvalid"></b-form-file>
-                <b-form-invalid-feedback id="imgSizeInvalid">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>
+                <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file"></b-form-file>
+<!--                <b-form-invalid-feedback id="imgSizeInvalid">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>-->
+                <div v-if="file.size > 2000000">
+                  <p id="invalidProfPicSize" class="text-danger p-2">Profile pic cannot be larger than 2MB</p>
+                </div>
+                <div v-else>
+                  <p id="validProfPicSize" class="text-success p-2">Profile pic is valid</p>
+                </div>
               </b-row>
             </b-container>
           </b-input-group>
@@ -80,7 +98,7 @@ export default {
         profilePic: null
       },
       editMode: false,
-      file: null,
+      file: [],
       fNameState: true
     }
   },
@@ -119,9 +137,17 @@ export default {
     },
     switchMode () {
       this.editMode = !this.editMode
-      this.tempProfile.firstName = this.profile.firstName
-      this.tempProfile.lastName = this.profile.lastName
-      this.tempProfile.profilePic = null
+      if (this.editMode === true) {
+        this.tempProfile.firstName = this.profile.firstName
+        this.tempProfile.lastName = this.profile.lastName
+        this.tempProfile.profilePic = this.profile.profilePic
+        this.file = []
+      } else {
+        this.tempProfile.firstName = ''
+        this.tempProfile.lastName = ''
+        this.tempProfile.profilePic = null
+        this.file = []
+      }
     },
     encodeImage: function () {
       const vm = this
