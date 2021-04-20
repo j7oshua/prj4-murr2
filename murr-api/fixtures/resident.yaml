@@ -20,4 +20,4 @@ App\Entity\Resident:
         email: "email8@email.com"
         phone: "3065558888"
         password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$WUZ0NkVGZlN5OFZFR3p3YQ\$Vz9yVVMIVSPc0hZ+Wx70HaYDbN6H5Hi6jeC+qVpnQaQ'
-
+        roles: ['ROLE_ADMIN']
