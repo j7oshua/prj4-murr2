@@ -19,6 +19,7 @@ class PickUpSiteTest extends ApiTestCase
     //static URL
     const API_URL = 'localhost:8000/pickups';
 
+
     /**
      * @before
      */

@@ -69,6 +69,7 @@ export default {
       this.callAPI_URL('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.siteId)
         .then(resp => {
           this.handleHidden()
+          console.log(resp)
           this.respCode = resp.status
           this.message = resp.data
         })

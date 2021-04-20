@@ -44,6 +44,7 @@ describe('SitePointsConfirmation', () => {
     describe('clicking the yes button', () => {
       it('displays success message that points were added', async () => {
         wrapper.find('#btnyes').trigger('click')
+        // TODO: Remove html().includes false positve test returns true regardless
         expect(wrapper.html().includes('Points Added to Wascana!'))
         expect(wrapper.html().includes('Successfully added 100 points to Wascana!'))
       })
@@ -67,6 +68,7 @@ describe('SitePointsConfirmation', () => {
           respCode: 200
         })
         wrapper.find('#btnyes').trigger('click')
+        // TODO: Remove html().includes false positve test returns true regardless
         expect(wrapper.html().includes('Brighton - No Points Added'))
         expect(wrapper.html().includes('No points were added to Brighton'))
       })
@@ -81,24 +83,37 @@ describe('SitePointsConfirmation', () => {
           respCode: 400
         })
         wrapper.find('#btnyes').trigger('click')
+        // TODO: Remove html().includes false positve test returns true regardless
         expect(wrapper.html().includes('There was a error sending the request'))
         expect(wrapper.html().includes('Error: Bad Request'))
       })
       /**
        * This test block should find a toast that says Error: Not Found when the status code is 500
+       *
        * */
       it('displays message that a error occured when a server connection error occurs', async () => {
         await wrapper.setData({
           respCode: 500
         })
         wrapper.find('#btnyes').trigger('click')
+        // TODO: Remove html().includes false positve test returns true regardless
         expect(wrapper.html().includes('There was a error sending the request'))
         expect(wrapper.html().includes('Error: Not Found'))
       })
     })
     describe('Clicking the cancel button', () => {
-      it('Display the previous page', () => {
+      it('Display the previous page', async () => {
         wrapper = mount(DriverCollection)
+        await wrapper.setData(
+          {
+            siteObject: {
+              id: 1,
+              siteName: 'Wascana',
+              numBins: 5
+            },
+            showForm: false
+          }
+        )
         wrapper.find('#btncancel').trigger('click')
         expect(wrapper.find('h1').text()).to.equal('Collection Site Form')
       })
