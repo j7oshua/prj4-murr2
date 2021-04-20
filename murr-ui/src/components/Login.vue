@@ -38,13 +38,12 @@
 </template>
 
 <script>
-import ResidentMixin from '../mixins/resident-mixin'
 import { validationMixin } from 'vuelidate'
 import axios from 'axios'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   name: 'Login',
-  mixins: [ResidentMixin, validationMixin],
+  mixins: [validationMixin],
   data () {
     return {
       resident: {

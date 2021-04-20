@@ -10,11 +10,8 @@
 </template>
 
 <script>
-import ArticlesMixin from '../mixins/articles-mixin'
-
 export default {
   name: 'ArticleInfo',
-  mixins: [ArticlesMixin],
   data () {
     return {
       Article: {

@@ -71,18 +71,15 @@
         <button type="submit" class="btn btn-submit btn-primary" :disabled="countedBins != siteObject.numBins">Submit</button>
       </div>
     </form>
-<!--    shows the modal-->
-    <confirm :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickUp2" @finished="confirmFinished"></confirm>
+<!--    shows the modal needed a vif statement to set undefined -->
+    <confirm v-if="siteObject.siteName !== undefined" :showModal="showModal" :siteName="siteObject.siteName" :pickUp="pickUp2" @finished="confirmFinished"></confirm>
   </div>
 </template>
 
 <script>
 import SitePointsConfirmation from '@/components/SitePointsConfirmation'
-import MurrMixin from '@/mixins/murr-mixin'
-
 export default {
   name: 'DriverPickUp',
-  mixins: [MurrMixin],
   props: {
     siteObject: {
       type: Object,
@@ -137,11 +134,12 @@ export default {
       }
       // story 05 need the numCollected
       this.pickUp2.numCollected = parseInt(this.pickup.numCollected)
+      this.pickUp2.siteId = this.siteObject.id
       // Direct axios call here
       this.axios({
         method: 'POST',
         url: this.PICKUP_API_URL,
-        data: this.pickup, // ********************** BELOW IS TESTING TOKEN BASED AUTH CAN DELETE *******************
+        data: this.pickup,
         headers: {
           Authorization: 'Bearer ' + sessionStorage.getItem('token')
         }

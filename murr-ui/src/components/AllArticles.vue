@@ -14,10 +14,8 @@
 </template>
 
 <script>
-import ArticlesMixin from '@/mixins/articles-mixin'
 export default {
   name: 'AllArticles',
-  mixins: [ArticlesMixin],
   data: function () {
     return {
       Article: {

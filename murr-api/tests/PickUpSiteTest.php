@@ -23,6 +23,7 @@ class PickUpSiteTest extends ApiTestCase
     const API_URL = 'localhost:8000/cusapi/pickups';
     const API_URL_LOGIN = '127.0.0.1:8000/login';
 
+
     /**
      * @before
      */
@@ -340,6 +341,33 @@ class PickUpSiteTest extends ApiTestCase
         $this->assertJsonContains([
             '0' => 'Invalid: Bin input required.'
         ]);
+
+    }
+
+    public function TestUnauthorizedUser(): void
+    {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email6@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        $this->pickUp['numCollected'] = 2;
+        $this->pickUp['numObstructed'] = 1;
+        $this->pickUp['numContaminated'] = 1;
+
+        static::createClient()->request('POST', self::API_URL, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickUp]);
+        $this->assertResponseStatusCodeSame(401);
 
     }
 

@@ -14,9 +14,9 @@ describe('POST /login', function () {
   it('Resident successfully logs in with their valid email and password.', async function () {
     const response = await request
       .post('/login')
-      .send({ username: 'email@email.com', password: 'password' })
+      .send({ username: 'email8@email.com', password: 'password' })
     expect(response.status).to.eql(200)
-    expect(response.body.data).to.contains({ id: 9 })
+    expect(response.body.data).to.contains({ id: 8 })
     expect(response.body).to.contains({ token: response.body.token })
   })
 
@@ -28,9 +28,9 @@ describe('POST /login', function () {
    **/
   it('Resident successfully logs in with valid phone and password.', async function () {
     const response = await request.post('/login')
-      .send({ username: '3065558888', password: 'password' })
+      .send({ username: '3065557777', password: 'password' })
     expect(response.status).to.eql(200)
-    expect(response.body.data).to.contains({ id: 12 })
+    expect(response.body.data).to.contains({ id: 7 })
     expect(response.body).to.contains({ token: response.body.token })
   })
   /**

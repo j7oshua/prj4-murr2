@@ -228,5 +228,32 @@ class SitePointsTest extends ApiTestCase
 
     }
 
+    public function TestUnauthorizedUser(): void
+    {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email6@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        //Request a HTTP POST Request to the static API URL using Site One
+        $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickupTwo]);
+
+        //Return a status code 200("success")
+        $this->assertResponseStatusCodeSame(401);
+
+
+    }
+
 
 }

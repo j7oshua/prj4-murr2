@@ -9,8 +9,7 @@
           <b-icon-person-fill></b-icon-person-fill>
         </template>
         <b-dropdown-item href="#">Profile</b-dropdown-item>
-        <b-dropdown-item to="/login" v-if="checkSession === undefined">Login</b-dropdown-item>
-        <b-dropdown-item to="/login" @click="logout()" v-else>Sign Out</b-dropdown-item>
+        <b-dropdown-item to="/login" @click="logout()">Sign Out</b-dropdown-item>
       </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-navbar>
@@ -28,9 +27,6 @@ export default {
     logout () {
       sessionStorage.removeItem('id')
       sessionStorage.removeItem('token')
-    },
-    checkSession () {
-      sessionStorage.getItem('id')
     }
   }
 }

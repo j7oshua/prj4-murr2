@@ -3,25 +3,34 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Repository\SiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use App\Controller\SitePointController;
 
 // Using API platform for just 'get' operation at this time.
 // Sites will be hardcoded into the database at this point in time.
 
-
+// for the pagination we had set the max amount of items on the page to 10
+// and ordered then alphabetical as well as filtered partial if sent something to filter.
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  * @ApiResource(
  *     itemOperations={
+ *     "post",
  *     "get"={"security"="is_granted('ROLE_USER')"}
- *     }
+ *     },
+ *     attributes={"pagination_items_per_page"=10, "maximum_items_per_page"=10, "pagination_partial"=false}
  * )
+ * @ApiFilter(OrderFilter::class, properties={"siteName": "ASC"})
+ * @ApiFilter(SearchFilter::class, properties={"siteName": "partial"})
+ *
  */
 class Site
 {

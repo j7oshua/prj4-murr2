@@ -85,13 +85,12 @@
 </template>
 
 <script>
-import ResidentMixin from '@/mixins/resident-mixin'
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, maxLength, numeric, sameAs } from 'vuelidate/lib/validators'
 import axios from 'axios'
 export default {
   name: 'CreateLogin',
-  mixins: [ResidentMixin, validationMixin],
+  mixins: [validationMixin],
   data () {
     return {
       // variables
@@ -164,7 +163,7 @@ export default {
         // call the function from the resident mixin
         // method type is a post
         // data information is from tempResident
-        this.callAPI('post', this.tempNewResident)
+        this.callAPI('post', this.tempNewResident, this.RESIDENT_API_URL)
           .then(resp => {
             // ************* Trying out to login resident after creation, may have to delete **************************
             if (this.tempNewResident.email === '') {
