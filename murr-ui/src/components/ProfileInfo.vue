@@ -95,8 +95,7 @@ export default {
         profilePic: null
       },
       editMode: false,
-      file: [],
-      fNameState: true
+      file: []
     }
   },
   methods: {
@@ -165,7 +164,7 @@ export default {
       return !this.fNameError || !this.lNameError || !this.imgSizeError
     },
     imgSizeError () {
-      return this.file === null || this.file.size <= 2000000 || !this.file.size > 0
+      return this.file.size > (1024 * 1024 * 2)
     },
     // Getter and Setter for the showModal prop. Don't want to mutate the prop so the setter will just emit back that
     // component is finished and will not change the prop in any way.

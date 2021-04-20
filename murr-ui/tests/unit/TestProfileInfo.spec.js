@@ -96,42 +96,40 @@ describe('Points', () => {
   })
 
   it('Should successfully update with valid image file for profile picture', async () => {
+    await wrapper.setProps ({
+      residentID: 1,
+      showModal: true,
+      profile: {
+        firstName: 'Mark',
+        lastName: 'Jacobs',
+        profilePic: null
+      }
+    })
     wrapper.find('#btnEditOrSave').trigger('click')
+    expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
     await wrapper.setData({
       editMode: true
     })
-    const image = [{
-      name: 'test.jpg',
-      size: 50000,
-      type: 'image/jpg'
-    }]
-    const inputProfilePic = wrapper.find('#profPicInput')
-    inputProfilePic.element.value = image
     await wrapper.setData({
-      file: image
+      file: {
+        name: 'test.jpg',
+        size: 50000,
+        type: 'image/jpg'
+      }
     })
-    expect(wrapper.find('#profPicInput').element.value).to.equal(image)
-    expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
     expect(wrapper.find('#validProfPicSize').text()).to.equal('Profile pic is valid')
   })
 
   it('Should unsuccessfully update with invalid too large image for profile picture', async () => {
     wrapper.find('#btnEditOrSave').trigger('click')
-    const image2 = [{
-      name: 'test2.jpg',
-      type: 'image/jpg'
-    }]
-    await wrapper.setData({
-      editMode: true
-    })
-    const inputProfilePic = wrapper.find('#profPicInput')
-    inputProfilePic.element.value = image2
-    await wrapper.setProps({
-      file: [image2]
-    })
-    expect(wrapper.find('#profPicInput').element.value).to.equal(image2)
-    console.log(image2)
     expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
+    await wrapper.setData({
+      file: {
+        name: 'test2.jpg',
+        size: 5000000000,
+        type: 'image/jpg'
+      }
+    })
     expect(wrapper.find('#invalidProfPicSize').text()).to.equal('Profile pic cannot be larger than 2MB')
   })
 
