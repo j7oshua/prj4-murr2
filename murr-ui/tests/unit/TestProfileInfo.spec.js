@@ -4,6 +4,7 @@ import { BootstrapVue } from 'bootstrap-vue'
 import Vue from 'vue'
 // import Points from '../../src/views/Points'
 import { expect } from 'chai'
+import Points from '../../src/views/Points'
 
 Vue.use(BootstrapVue)
 let wrapper
@@ -22,6 +23,23 @@ describe('Points', () => {
         residentID: 1
       }
     })
+  })
+
+  it('Should display profile information from the modal', async () => {
+    wrapper = shallowMount(Points, {
+      propsData: {
+        profile: {
+          firstName: 'Tom',
+          lastName: 'Andrews',
+          profilePic: 'profile_default.jpg'
+        },
+        residentID: 1
+      },
+      created: {
+
+      }
+    })
+    expect(wrapper.find('#viewProfileName').text()).to.equal('Tom Andrews')
   })
 
   it('Should successfully render first name on the first name input', async () => {
@@ -102,7 +120,7 @@ describe('Points', () => {
     expect(wrapper.find('#validProfPicSize').text()).to.equal('Profile pic is valid')
   })
 
-  it('Should unsuccessfully update with invalid image file for profile picture', async () => {
+  it('Should unsuccessfully update with invalid too large image for profile picture', async () => {
     wrapper.find('#btnEditOrSave').trigger('click')
     await wrapper.setData({
       editMode: true

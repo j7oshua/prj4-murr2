@@ -16,7 +16,6 @@
             <b-container>
               <b-row>
                 <b-form-input placeholder="First Name" v-model.trim="tempProfile.firstName" id="firstNameInput"></b-form-input>
-<!--                <b-form-invalid-feedback id="fNameInvalid">First Name cannot be longer than 20 characters</b-form-invalid-feedback>-->
                 <div v-if="tempProfile.firstName.length > 20">
                   <p id="invalidFirstName" class="text-danger p-2">First Name cannot be longer than 20 characters</p>
                 </div>
@@ -26,7 +25,6 @@
               </b-row>
               <b-row>
                 <b-form-input placeholder="Last Name" v-model.trim="tempProfile.lastName" id="lastNameInput"></b-form-input>
-<!--                <b-form-invalid-feedback id="lNameInvalid">Last Name cannot be longer than 20 characters</b-form-invalid-feedback>-->
                 <div v-if="tempProfile.lastName.length > 20">
                   <p id="invalidLastName" class="text-danger p-2">Last Name cannot be longer than 20 characters</p>
                 </div>
@@ -36,7 +34,6 @@
               </b-row>
               <b-row>
                 <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file"></b-form-file>
-<!--                <b-form-invalid-feedback id="imgSizeInvalid">Profile pic cannot be larger than 2MB</b-form-invalid-feedback>-->
                 <div v-if="file.size > 2000000">
                   <p id="invalidProfPicSize" class="text-danger p-2">Profile pic cannot be larger than 2MB</p>
                 </div>
@@ -52,10 +49,10 @@
         <b-container>
           <b-row>
             <b-col cols="4">
-              <b-img :src="profile.profilePic" rounded="circle" width="100" height="100" alt="Profile Pic"></b-img>
+              <b-img :src="profile.profilePic" rounded="circle" width="100" height="100" alt="Profile Pic" id="viewProfilePicture"></b-img>
             </b-col>
             <b-col cols="4">
-              <h2>{{profile.firstName}} {{profile.lastName}}</h2>
+              <h2 id="viewProfileName">{{profile.firstName}} {{profile.lastName}}</h2>
             </b-col>
           </b-row>
         </b-container>
@@ -93,20 +90,13 @@ export default {
   data: function () {
     return {
       tempProfile: {
-        firstName: '',
-        lastName: '',
+        firstName: 'First Name',
+        lastName: 'Last Name',
         profilePic: null
       },
       editMode: false,
       file: [],
       fNameState: true
-    }
-  },
-  validations: {
-    profile: {
-      firstName: {},
-      lastName: {},
-      profilePic: {}
     }
   },
   methods: {
