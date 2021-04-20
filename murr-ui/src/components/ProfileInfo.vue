@@ -7,7 +7,7 @@
           <h4 id="editProfileTitle">Edit Profile Information</h4>
         </div>
         <div v-else>
-          <h4>Profile Information</h4>
+          <h4 id="profileTitle">Profile Information</h4>
         </div>
       </div>
       <div v-if="editMode">
@@ -34,7 +34,7 @@
               </b-row>
               <b-row>
                 <b-form-file @change="encodeImage" id="profPicInput" placeholder="Profile Picture" accept="image/*" v-model="file"></b-form-file>
-                <div v-if="file.size > 2000000">
+                <div v-if="imgSizeError">
                   <p id="invalidProfPicSize" class="text-danger p-2">Profile pic cannot be larger than 2MB</p>
                 </div>
                 <div v-else>

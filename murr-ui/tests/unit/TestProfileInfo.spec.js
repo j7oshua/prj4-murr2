@@ -4,7 +4,6 @@ import { BootstrapVue } from 'bootstrap-vue'
 import Vue from 'vue'
 // import Points from '../../src/views/Points'
 import { expect } from 'chai'
-import Points from '../../src/views/Points'
 
 Vue.use(BootstrapVue)
 let wrapper
@@ -26,20 +25,16 @@ describe('Points', () => {
   })
 
   it('Should display profile information from the modal', async () => {
-    wrapper = shallowMount(Points, {
-      propsData: {
-        profile: {
-          firstName: 'Tom',
-          lastName: 'Andrews',
-          profilePic: 'profile_default.jpg'
-        },
-        residentID: 1
-      },
-      created: {
-
+    wrapper.setProps({
+      profile: {
+        firstName: 'John',
+        lastName: 'Doe'
       }
     })
-    expect(wrapper.find('#viewProfileName').text()).to.equal('Tom Andrews')
+    const fullName = wrapper.find('#viewProfileName')
+    fullName.element.innerHTML = wrapper.vm.profile.firstName + ' ' + wrapper.vm.profile.lastName
+    expect(wrapper.find('#profileTitle').text()).to.equal('Profile Information')
+    expect(wrapper.find('#viewProfileName').text()).to.equal('John Doe')
   })
 
   it('Should successfully render first name on the first name input', async () => {
@@ -122,25 +117,25 @@ describe('Points', () => {
 
   it('Should unsuccessfully update with invalid too large image for profile picture', async () => {
     wrapper.find('#btnEditOrSave').trigger('click')
+    const image2 = [{
+      name: 'test2.jpg',
+      type: 'image/jpg'
+    }]
     await wrapper.setData({
       editMode: true
     })
-    const image2 = [{
-      name: 'test2.jpg',
-      size: 4000001,
-      type: 'image/jpg'
-    }]
     const inputProfilePic = wrapper.find('#profPicInput')
     inputProfilePic.element.value = image2
-    await wrapper.setData({
-      file: image2
+    await wrapper.setProps({
+      file: [image2]
     })
     expect(wrapper.find('#profPicInput').element.value).to.equal(image2)
+    console.log(image2)
     expect(wrapper.find('#editProfileTitle').text()).to.equal('Edit Profile Information')
     expect(wrapper.find('#invalidProfPicSize').text()).to.equal('Profile pic cannot be larger than 2MB')
   })
 
-  it('Should unsuccessfully update with all the inputs empty', async () => {
+  it('Should unsuccessfully render with all the inputs empty', async () => {
     wrapper.find('#btnEditOrSave').trigger('click')
     await wrapper.setData({
       editMode: true

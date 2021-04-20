@@ -6,7 +6,6 @@ const RESIDENT_URL = 'http://127.0.0.1:8000/api/residents'
 const RESIDENT_POINTS_URL = 'http://127.0.0.1:8000/point/resident/'
 const ARTICLES_URL = 'http://127.0.0.1:8000/api/articles'
 const SITE_API_URL = 'http://localhost:8000/api/sites?order[siteName]'
-
 const MurrMixin = ({
   data: function () {
     return {
