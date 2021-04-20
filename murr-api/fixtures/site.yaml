@@ -9,3 +9,43 @@ App\Entity\Site:
     siteName: 'Brighton'
     numBins: 6
     residents: ['@residentFour', '@residentFive']
+
+  SiteThree:
+    siteName: 'Britney Manor'
+    numBins: 3
+
+  SiteFour:
+    siteName: 'Rosa Towers'
+    numBins: 1
+
+  SiteFive:
+    siteName: 'Vendetta Suites'
+    numBins: 5
+
+  SiteSix:
+    siteName: 'Roswell Evergreen'
+    numBins: 1
+
+  SiteSeven:
+    siteName: 'Willowgrove Towers'
+    numBins: 2
+
+  SiteEight:
+    siteName: 'Applewood Bridge'
+    numBins: 7
+
+  SiteNine:
+    siteName: 'Censullo Gate'
+    numBins: 3
+
+  SiteTen:
+    siteName: 'Applewood Gate'
+    numBins: 4
+
+  SiteEleven:
+    siteName: 'Vermont Crossing'
+    numBins: 4
+
+  SiteTwelve:
+    siteName: 'Lucas Caswell Manor'
+    numBins: 2

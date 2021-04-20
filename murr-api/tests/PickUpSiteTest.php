@@ -24,6 +24,7 @@ class PickUpSiteTest extends ApiTestCase
     const API_URL_LOGIN = '127.0.0.1:8000/login';
 
 
+
     /**
      * @before
      */
