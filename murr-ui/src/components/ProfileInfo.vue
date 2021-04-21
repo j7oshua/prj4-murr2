@@ -60,7 +60,7 @@
       <b-container>
         <b-row align-h="end">
           <b-col cols="2">
-            <b-button v-if="editMode" @click="saveProfile">Save</b-button>
+            <b-button v-if="editMode" :disabled="disableSaveBtn" @click="saveProfile">Save</b-button>
           </b-col>
           <b-col cols="2">
             <b-button id="btnEditOrSave" @click="switchMode">
@@ -76,6 +76,7 @@
 <script>
 export default {
   name: 'ProfileInfo',
+  // Set residentID, showModal, and profile as props
   props: {
     residentID: {
       type: Number
@@ -89,27 +90,34 @@ export default {
   },
   data: function () {
     return {
+      // Temporary profile to be overwritten when edited
       tempProfile: {
         firstName: 'First Name',
         lastName: 'Last Name',
         profilePic: null
       },
+      // Determine which mode the modal is in, false for view profile, true for edit profile
       editMode: false,
       file: []
     }
   },
   methods: {
+    // Called when the resident selects to save their profile information
     saveProfile () {
+      // Set the temporary profile to be sent to the api
       this.tempProfile = {
         firstName: this.tempProfile.firstName,
         lastName: this.tempProfile.lastName,
+        // Checks if there is no profile picture, sets the current picture if so
         profilePic: this.tempProfile.profilePic === null ? this.profile.profilePic : this.tempProfile.profilePic
       }
+      // Call to the api sending the temporary profile information and the url
       this.callAPI('put', this.tempProfile, this.PROFILE_API_URL + this.residentID)
         .then(resp => {
           this.tempProfile = resp.data
           this.handleHidden()
           this.editMode = false
+          // Create a message to indicate that the profile information was successfully updated
           this.$bvToast.toast('Profile information has been updated', {
             id: 'profileUpdated',
             title: 'Profile Successfully Updated',
@@ -121,9 +129,13 @@ export default {
           console.log(err)
         })
     },
+    // Emit a message hidden once the modal is closed
     handleHidden () {
       this.$emit('closed')
     },
+    // Sets the modal view to the opposite one it is currently
+    // If in edit mode the temporary profile information is set to the profile information
+    // Otherwise it is reset if it is set to view mode
     switchMode () {
       this.editMode = !this.editMode
       if (this.editMode === true) {
@@ -138,6 +150,7 @@ export default {
         this.file = []
       }
     },
+    // Takes an image file and converts it to a base64 string
     encodeImage: function () {
       const vm = this
       const file = document
@@ -154,17 +167,21 @@ export default {
     }
   },
   computed: {
+    // Determines if there is an error with the first name input field
     fNameError () {
       return this.tempProfile.firstName.length <= 20
     },
+    // Determines if there is an error with the last name input field
     lNameError () {
       return this.tempProfile.lastName.length <= 20
     },
-    disableSaveBtn () {
-      return !this.fNameError || !this.lNameError || !this.imgSizeError
-    },
+    // Determines if there is an error with the image input field
     imgSizeError () {
       return this.file.size > (1024 * 1024 * 2)
+    },
+    // Determines if there is an error with any of the inputs and sets the button to be disabled
+    disableSaveBtn () {
+      return !this.fNameError || !this.lNameError || this.imgSizeError
     },
     // Getter and Setter for the showModal prop. Don't want to mutate the prop so the setter will just emit back that
     // component is finished and will not change the prop in any way.

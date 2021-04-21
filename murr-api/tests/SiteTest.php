@@ -57,18 +57,14 @@ class SiteTest extends ApiTestCase
                 '@type' => 'Resident',
                 'id' => 4,
                 'email' => null,
-                'phone' => null,
-                'points' => [],
-                'password' => 'Password'
+                'phone' => null
             ],
            [
                '@id' => '/api/residents/5',
                '@type' => 'Resident',
                'id' => 5,
                'email' => null,
-               'phone' => null,
-               'points' => [],
-               'password' => 'Password'
+               'phone' => null
           ]
        ],
         'pickupCollection' => [
@@ -193,27 +189,21 @@ class SiteTest extends ApiTestCase
                     '@type' => 'Resident',
                     'id' => 1,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ],
                 [
                     '@id' => '/api/residents/2',
                     '@type' => 'Resident',
                     'id' => 2,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ],
                 [
                     '@id' => '/api/residents/3',
                     '@type' => 'Resident',
                     'id' => 3,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ]
             ],
             'pickupCollection' => [
@@ -285,18 +275,14 @@ class SiteTest extends ApiTestCase
                     '@type' => 'Resident',
                     'id' => 4,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ],
                 [
                     '@id' => '/api/residents/5',
                     '@type' => 'Resident',
                     'id' => 5,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ]
             ],
             'pickupCollection' => [
@@ -367,18 +353,14 @@ class SiteTest extends ApiTestCase
                     '@type' => 'Resident',
                     'id' => 4,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ],
                 [
                     '@id' => '/api/residents/5',
                     '@type' => 'Resident',
                     'id' => 5,
                     'email' => null,
-                    'phone' => null,
-                    'points' => [],
-                    'password' => 'Password'
+                    'phone' => null
                 ]
             ],
             'pickupCollection' => [

@@ -25,6 +25,7 @@ export default {
   },
   data: function () {
     return {
+      // The modal will not appear until selected to
       showModal: false,
       profile: {},
       residentID: parseInt(sessionStorage.getItem('id'))
@@ -38,6 +39,7 @@ export default {
     openModal () {
       this.showModal = true
     },
+    // Call a get to the backend with the resident url and id, and a header granting authentication
     getProfileInfo () {
       this.axios({
         method: 'GET',
@@ -46,6 +48,7 @@ export default {
           Authorization: 'Bearer ' + sessionStorage.getItem('token')
         }
       })
+        // Receive and set the profile information
         .then(resp => {
           this.profile = resp.data.profile
           this.residentID = resp.data.id
@@ -59,7 +62,6 @@ export default {
     }
   },
   mounted () {
-    // this.residentId = sessionStorage.getItem('id')
     this.getProfileInfo()
   }
 }
