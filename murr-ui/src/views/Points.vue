@@ -27,14 +27,8 @@ export default {
     return {
       showModal: false,
       profile: {},
-      residentID: 1
-      // sessionStorage.getItem('id')
+      residentID: parseInt(sessionStorage.getItem('id'))
     }
-  },
-  created () {
-    // if (this.$route.params && this.$route.params.id) {
-    //   this.residentID = parseInt(this.$route.params.id)
-    // }
   },
   methods: {
     confirmFinished () {
@@ -45,7 +39,13 @@ export default {
       this.showModal = true
     },
     getProfileInfo () {
-      this.axios.get(this.RESIDENT_URL + '/' + this.residentID)
+      this.axios({
+        method: 'GET',
+        url: this.RESIDENT_API_URL + '/' + this.residentID,
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      })
         .then(resp => {
           this.profile = resp.data.profile
           this.residentID = resp.data.id

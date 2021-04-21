@@ -1,4 +1,4 @@
-const request = require('supertest')('http://127.0.0.1:8000/site/')
+const request = require('supertest')('http://127.0.0.1:8000')
 const expect = require('chai').expect
 
 /**
@@ -15,8 +15,9 @@ describe('POST to the database', () => {
       pickupID: 1
     }
     const response = await request
-      .post('1')
+      .post('/cusapi/site/1')
       .send(pickup)
+    // expect(response.error).to.eql('help')
     expect(response.status).to.eql(201)
     expect(response.text).to.eql('100 Points successfully added to Wascana')
   })
@@ -30,7 +31,7 @@ describe('POST to the database', () => {
       pickupID: 2
     }
     const response = await request
-      .post('2')
+      .post('/cusapi/site/2')
       .send(pickup)
     expect(response.status).to.eql(200)
     expect(response.text).to.eql('No points were added to Brighton')
@@ -45,7 +46,7 @@ describe('POST to the database', () => {
       pickupID: 99
     }
     const response = await request
-      .post('2')
+      .post('/cusapi/site/2')
       .send(pickup)
     expect(response.status).to.eql(422)
     expect(response.header.error).to.eql('PickUp ID not found')
@@ -57,7 +58,7 @@ describe('POST to the database', () => {
   it('receive status code 500 while sending no pickupID', async function () {
     const newPickup = {}
     const response = await request
-      .post('1')
+      .post('/cusapi/site/1')
       .send(newPickup)
     expect(response.status).to.eql(500)
   })

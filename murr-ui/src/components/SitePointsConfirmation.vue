@@ -51,7 +51,7 @@ export default {
     return {
       respCode: 0,
       isBusy: false,
-      currentPickup: {
+      pickupID: {
         pickupID: -1
       },
       message: '',
@@ -64,9 +64,16 @@ export default {
     confirmPoints () {
       // set isBusy to true for the overlay
       this.isBusy = true
-      this.currentPickup.pickupID = this.pickUp.pickupID
+      this.pickupID.pickupID = this.pickUp.pickupID
       // call the API to add points to site
-      this.callAPI_URL('post', this.currentPickup, this.SITE_POINT_API_URL + this.pickUp.siteId)
+      this.axios({
+        method: 'POST',
+        url: this.SITE_POINT_API_URL + this.pickUp.siteId,
+        data: this.pickupID,
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      })
         .then(resp => {
           this.handleHidden()
           console.log(resp)

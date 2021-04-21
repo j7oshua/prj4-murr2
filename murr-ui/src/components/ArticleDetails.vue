@@ -10,7 +10,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'ArticleInfo',
   data () {
@@ -29,7 +28,7 @@ export default {
     getArticleDetails () {
       this.isBusy = true
       // make the call to the API
-      this.axios.get(this.ARTICLES_URL + '/' + this.Article.id, {
+      this.axios.get(this.ARTICLES_API_URL + '/' + this.Article.id, {
       })
         .then(resp => {
           // set tempPoints to be the points returned by the API

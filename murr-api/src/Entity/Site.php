@@ -22,9 +22,11 @@ use App\Controller\SitePointController;
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
  * @ApiResource(
- *     itemOperations={"get"},
+ *     itemOperations={
+ *     "post",
+ *     "get"={"security"="is_granted('ROLE_USER')"}
+ *     },
  *     attributes={"pagination_items_per_page"=10, "maximum_items_per_page"=10, "pagination_partial"=false}
- *
  * )
  * @ApiFilter(OrderFilter::class, properties={"siteName": "ASC"})
  * @ApiFilter(SearchFilter::class, properties={"siteName": "partial"})

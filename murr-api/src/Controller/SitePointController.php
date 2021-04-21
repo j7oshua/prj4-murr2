@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Serializer;
 class SitePointController extends AbstractController
 {
     /**
-     * @Route("/site/{id}", name="site_point")
+     * @Route("/cusapi/site/{id}", name="site_point")
      * @param int $id
      * @param Request $request
      * @param SiteRepository $ss

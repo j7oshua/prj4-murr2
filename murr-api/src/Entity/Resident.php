@@ -7,6 +7,7 @@ use App\Repository\ResidentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AcmeAssert;
@@ -14,15 +15,20 @@ use App\Validator as AcmeAssert;
 // Strongly considered getting rid of the get for itemOperations
 /**
  * @ApiResource(
- *     collectionOperations={"post"},
- *     itemOperations={"get"},
+ *     collectionOperations={
+ *     "post",
+ *     "get"={"security"="is_granted('ROLE_USER')"}
+ *    },
+ *     itemOperations={
+ *     "get"={"security"="is_granted('ROLE_USER')"}
+ *    },
  *     normalizationContext={"groups"={"resident:read"}},
  *     denormalizationContext={"groups"={"resident:write"}}
  * )
  * @AcmeAssert\PhoneAndEmailBothLeftBlank
  * @ORM\Entity(repositoryClass=ResidentRepository::class)
  */
-class Resident
+class Resident implements UserInterface
 {
     /**
      * @ORM\Id
@@ -43,17 +49,14 @@ class Resident
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\Length(allowEmptyString="true", min=10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.", normalizer="trim")
+     * @Assert\Length(allowEmptyString="true", min=10, max = 10, exactMessage = "Phone needs to be {{ limit }} digits.")
      * @Assert\Regex(pattern="/^[0-9]/", message="Phone number must only contain numbers.")
      * @Groups("resident:read", "resident:write")
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=30)
-     * @Assert\Length(allowEmptyString="false", min=7, max = 30, minMessage="Password has to be at least {{ limit }} characters.", maxMessage = "Password has to be {{ limit }} characters or less.")
-     * @Assert\NotBlank(message = "Password should not be left blank.")
-     * @Groups("resident:write")
+     * @ORM\Column(type="string", length=256)
      */
     private $password;
 
@@ -91,7 +94,17 @@ class Resident
 
     }
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
+    /**
+     * @Assert\NotBlank(message = "Password should not be left blank.")
+     * @Assert\Length(min=7, max = 30, exactMessage = "Password needs to be {{ limit }} digits.")
+     * @Groups("resident:write")
+     */
+    private $plainPassword;
 
     public function __construct()
     {
@@ -162,5 +175,52 @@ class Resident
             $point->removeResident($this);
         }
         return $this;
+    }
+
+    /*
+     * Needed For interface
+     * */
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        $this->plainPassword = null;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+
+    public function getUsername()
+    {
+        //not needed, method in resident repo being used instead
     }
 }

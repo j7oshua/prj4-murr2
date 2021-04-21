@@ -105,7 +105,7 @@ export default {
         lastName: this.tempProfile.lastName,
         profilePic: this.tempProfile.profilePic === null ? this.profile.profilePic : this.tempProfile.profilePic
       }
-      this.callAPI_URL('put', this.tempProfile, this.PROFILE_API_URL + this.residentID)
+      this.callAPI('put', this.tempProfile, this.PROFILE_API_URL + this.residentID)
         .then(resp => {
           this.tempProfile = resp.data
           this.handleHidden()

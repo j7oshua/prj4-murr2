@@ -57,7 +57,7 @@ class ProfileTest extends ApiTestCase
 
         $this->dataArray['firstName'] = 'Tom';
 
-        $response = static::createClient()->request('PUT', self::API_URL . '/1', [
+        $response = static::createClient()->request('PUT', self::API_URL . '/8', [
             'headers' => ['Authorization' => 'Bearer ' . $token],
             'json' => $this->dataArray ]);
 
@@ -65,10 +65,10 @@ class ProfileTest extends ApiTestCase
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             '@context' => '/api/contexts/Profile',
-            '@id' => '/api/profiles/1',
+            '@id' => '/api/profiles/8',
             '@type' => 'Profile',
-            'id' => 1,
-            'resident' => '/api/residents/1',
+            'id' => 8,
+            'resident' => '/api/residents/8',
             'firstName' => 'Tom',
             'lastName' => '',
             'profilePic' => '',
@@ -82,8 +82,24 @@ class ProfileTest extends ApiTestCase
      */
     public function TestInvalidFirstNameLength(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->dataArray['firstName'] = str_repeat('f', 21);
-        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
+        $response = static::createClient()->request('PUT', self::API_URL . '/8', [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -101,17 +117,33 @@ class ProfileTest extends ApiTestCase
      */
     public function TestValidLastName(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->dataArray['lastName'] = 'Andrews';
-        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
+        $response = static::createClient()->request('PUT', self::API_URL . '/8', [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
             '@context' => '/api/contexts/Profile',
-            '@id' => '/api/profiles/1',
+            '@id' => '/api/profiles/8',
             '@type' => 'Profile',
-            'id' => 1,
-            'resident' => '/api/residents/1',
+            'id' => 8,
+            'resident' => '/api/residents/8',
             'firstName' => '',
             'lastName' => 'Andrews',
             'profilePic' => '',

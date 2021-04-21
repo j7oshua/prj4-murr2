@@ -18,12 +18,14 @@ class SitePointsTest extends ApiTestCase
     private $invalidPickupID;
 
     //API URLS used in the tests.
-    const API_URL_SITE_ONE = '127.0.0.1:8000/site/1';
-    const API_URL_SITE_TWO = '127.0.0.1:8000/site/2';
+    const API_URL_SITE_ONE = '127.0.0.1:8000/cusapi/site/1';
+    const API_URL_SITE_TWO = '127.0.0.1:8000/cusapi/site/2';
     // The below URLs will return the sum of the points for the resident
-    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/point/resident/1';
-    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/point/resident/2';
-    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/point/resident/4';
+    const API_URL_RESIDENT_ONE = '127.0.0.1:8000/cusapi/points/1';
+    const API_URL_RESIDENT_TWO = '127.0.0.1:8000/cusapi/points/2';
+    const API_URL_RESIDENT_FOUR = '127.0.0.1:8000/cusapi/points/4';
+
+    const API_URL_LOGIN = '127.0.0.1:8000/login';
 
     //Does the beginning setup before the tests are run. Initializes the json to be sent to API
     /**
@@ -67,8 +69,24 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddPointsToSiteOneWith100PercentContainerPickup(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         //Request a HTTP POST Request to the static API URL using Site One
-        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->pickupOne]);
+        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickupOne]);
 
         //Return a status code 201("created")
         $this->assertResponseStatusCodeSame(201);
@@ -86,8 +104,24 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddPointsToSiteTwoWith50PercentContainerPickup(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         //Request a HTTP POST Request to the static API URL using Site Two
-        $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, ['json' => $this->pickupThree]);
+        $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickupThree]);
 
         //Return a status code 201("created")
         $this->assertResponseStatusCodeSame(201);
@@ -105,9 +139,24 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddNoPointsToSiteOneWithZeroContainerPickup(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
 
         //Request a HTTP POST Request to the static API URL using Site One
-        $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, ['json' => $this->pickupTwo]);
+        $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickupTwo]);
 
         //Return a status code 200("success")
         $this->assertResponseStatusCodeSame(200);
@@ -125,9 +174,24 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddPointsToSiteWithNoPickupId(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
         //Request a HTTP POST Request to the static API URL using Resident One
         //Return a status code 500("Internal Server Error") causes API Platform to error out
-        $this->assertResponseStatusCodeSame(500, static::createClient()->request('POST', self::API_URL_SITE_ONE,['json' => $this->noPickupID])->getStatusCode());
+        $this->assertResponseStatusCodeSame(500, static::createClient()->request('POST', self::API_URL_SITE_ONE,[
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->noPickupID])->getStatusCode());
     }
 
     /**
@@ -139,13 +203,55 @@ class SitePointsTest extends ApiTestCase
      */
     public function TestAddPointToSiteWithInvalidPickupId(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
         //Request an HTTP POST request to the static API URL using resident One
-        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, ['json' => $this->invalidPickupID]);
+        $response = static::createClient()->request('POST', self::API_URL_SITE_ONE, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->invalidPickupID]);
 
         //Check response to be equal to 422
         $this->assertResponseStatusCodeSame(422);
         //Check the response if it contains the error message
         $this->assertSame("error: PickUp ID not found", $response->getInfo()['response_headers'][2]);
+
+    }
+
+    public function TestUnauthorizedUser(): void
+    {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email6@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
+        //Request a HTTP POST Request to the static API URL using Site One
+        $response = static::createClient()->request('POST', self::API_URL_SITE_TWO, [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->pickupTwo]);
+
+        //Return a status code 200("success")
+        $this->assertResponseStatusCodeSame(401);
+
 
     }
 

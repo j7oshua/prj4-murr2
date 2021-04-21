@@ -28,7 +28,7 @@ describe('DriverPickUp.vue', () => {
   })
 
   /**
-   * TestCollectedObstructComtaminatedFour
+   * TestCollectedObstructContaminatedFour
    */
   it('should display Valid bin amount when all four bins in all input types', async () => {
     const collect = wrapper.find('#collected')

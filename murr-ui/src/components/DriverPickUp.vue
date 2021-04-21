@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <form id="form" v-if="showForm" @submit.prevent="postPickup">
@@ -79,7 +78,6 @@
 
 <script>
 import SitePointsConfirmation from '@/components/SitePointsConfirmation'
-
 export default {
   name: 'DriverPickUp',
   props: {
@@ -141,7 +139,10 @@ export default {
       this.axios({
         method: 'POST',
         url: this.PICKUP_API_URL,
-        data: this.pickup
+        data: this.pickup,
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
       })
         .then(resp => {
           // returns the pickup object
