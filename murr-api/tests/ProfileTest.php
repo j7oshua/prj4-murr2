@@ -20,6 +20,7 @@ class ProfileTest extends ApiTestCase
     ];
 
     const API_URL = '127.0.0.1:8000/api/profiles';
+    const API_URL_LOGIN = '127.0.0.1:8000/login';
 
     /**
      * @before
@@ -28,7 +29,7 @@ class ProfileTest extends ApiTestCase
     {
         //Setup an array that contains information to create a resident profile.
         $this->dataArray = [
-            'resident' => 'api/residents/1',
+            'resident' => 'api/residents/8',
             'firstName' => '',
             'lastName' => '',
             'profilePic' => ''
@@ -40,8 +41,25 @@ class ProfileTest extends ApiTestCase
      */
     public function TestValidFirstName(): void
     {
+        $client = self::createClient();
+
+        $response = $client->request('POST', self::API_URL_LOGIN, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'username' => 'email8@email.com',
+                'password' => 'password'
+            ],
+        ]);
+
+        $content = $response->getContent();
+        $getToken = json_decode($content);
+        $token = $getToken->{'token'};
+
         $this->dataArray['firstName'] = 'Tom';
-        $response = static::createClient()->request('PUT', self::API_URL . '/1', ['json' => $this->dataArray ]);
+
+        $response = static::createClient()->request('PUT', self::API_URL . '/1', [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+            'json' => $this->dataArray ]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
